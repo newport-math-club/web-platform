@@ -4,7 +4,6 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-        "build": "docker-compose build",
         "start": "pm2 start server.js --name nmc-backend"
     },
     "author": "Terrance Li & Sriram Thothatri",
