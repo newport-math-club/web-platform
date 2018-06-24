@@ -21,8 +21,8 @@ exports.authenticateMember = (req, res, next) => {
 
   Members.findOne({
     email: email
-  }, (member) => {
-    if (!member) return res.status(404).end();
+  }, (err, member) => {
+    if (err || !member) return res.status(404).end();
     console.log('found member');
     auth.check(password, member.passHashed, (valid) => {
       console.log('authentication results: ' + valid);
@@ -42,8 +42,8 @@ exports.authenticateCoach = (req, res, next) => {
 
   Schools.findOne({
     coachEmail: email
-  }, (school) => {
-    if (!school) return res.status(404).end();
+  }, (err, school) => {
+    if (err || !school) return res.status(404).end();
 
     auth.check(password, school.passHashed, (valid) => {
       if (valid) {
@@ -61,8 +61,8 @@ exports.verifyAdminSession = (req, res, next) => {
 
   Members.findOne({
     _id: id
-  }, (member) => {
-    if (!member) return res.status(401).end();
+  }, (err, member) => {
+    if (err || !member) return res.status(401).end();
     if (!member.admin) return res.status(403).end();
     res.locals.user = user;
     next();
@@ -76,8 +76,8 @@ exports.verifySession = (req, res, next) => {
 
   Members.findOne({
     _id: id
-  }, (member) => {
-    if (!member) return res.status(401).end();
+  }, (err, member) => {
+    if (err || !member) return res.status(401).end();
     res.locals.user = user;
     next();
   });
@@ -90,8 +90,8 @@ exports.verifyCoachSession = (req, res, next) => {
 
   Schools.findOne({
     _id: id
-  }, (school) => {
-    if (!school) return res.status(401).end();
+  }, (err, school) => {
+    if (err || !school) return res.status(401).end();
     res.locals.user = user;
     next();
   });
