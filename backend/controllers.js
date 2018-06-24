@@ -15,15 +15,16 @@ exports.login = (req, res) => {
   var user = res.locals.user;
   req.session._id = user._id;
 
-  res.status(200);
+  console.log('added user session; done');
+  res.status(200).end();
 }
 
 exports.logout = (req, res) => {
   var user = res.locals.user;
 
   req.session.destroy((err) => {
-    if (err) res.status(500);
-    else res.status(200);
+    if (err) res.status(500).end();
+    else res.status(200).end();
   });
 }
 
