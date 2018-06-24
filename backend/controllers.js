@@ -56,15 +56,17 @@ exports.newMeeting = (req, res) => {
 }
 
 exports.fetchMeetings = (req, res) => {
-  Meetings.find({}).sort({'date': -1}).exec((meetings) => {
-    res.status(200).json(meetings);
+  Meetings.find({}).sort({'date': -1}).exec((err, meetings) => {
+    if (err) res.status(500).end();
+    else res.status(200).json(meetings);
   });
 }
 
 exports.fetchMembers = (req, res) => {
-  Members.find({}).sort({'admin': -1}).exec((members) => {
+  Members.find({}).sort({'admin': -1}).exec((err, members) => {
     console.log(members);
-    res.status(200).json(members);
+    if (err) res.status(500).end();
+    else res.status(200).json(members);
   });
 }
 
