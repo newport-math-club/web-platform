@@ -24,6 +24,8 @@ module.exports = (app) => {
     app.route('/api/members/update/').post(nmcMiddleware.verifyAdminSession).post(nmcController.editMember);
     app.route('/api/members/promote/').post(nmcMiddleware.verifyAdminSession).post(nmcController.promoteMember);
     app.route('/api/members/demote/').post(nmcMiddleware.verifyAdminSession).post(nmcController.demoteMember);
+    app.route('/api/export/').post(nmcMiddleware.verifyAdminSession).post(nmcController.exportMathClub);
+    app.route('/api/clear/').post(nmcMiddleware.verifyAdminSession).post(nmcController.clearMathClub);
 
     // kpmt school/coach routes
     app.route('/api/kpmt/login/').post(nmcMiddleware.authenticateCoach).post(nmcController.login);

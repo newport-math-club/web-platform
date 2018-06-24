@@ -223,8 +223,36 @@ exports.demoteMember = (req, res) => {
   });
 }
 
-exports.fetchSchoolProfile = (req, res) => {
+exports.exportMathClub = (req, res) => {
+  var master = {};
+  Members.find({}, (err, members) => {
+    if (err) return res.status(500).end();
 
+    master.members = members;
+
+    Meetings.find({}, (err, meetings) => {
+      if (err) return res.status(500).end();
+
+      master.meetings = meetings;
+      res.status(200).json(master);
+    });
+  });
+}
+
+exports.clearMathClub = (req, res) => {
+  Members.remove({name: {$ne: 'rootAdmin'}}, (err) => {
+    if (err) return res.status(500).end();
+
+    Meetings.remove({}, (err) => {
+      if (err) return res.status(500).end();
+
+      res.status(200).json(master);
+    });
+  });
+}
+
+exports.fetchSchoolProfile = (req, res) => {
+  res.status(200).json(res.locals.user);
 }
 
 exports.addTeam = (req, res) => {
@@ -252,7 +280,7 @@ exports.removeIndiv = (req, res) => {
 }
 
 exports.exportKPMT = (req, res) => {
-
+  
 }
 
 exports.clearKPMT = (req, res) => {
