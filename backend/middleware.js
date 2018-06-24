@@ -13,7 +13,6 @@ const Competitors = schemas.Competitor;
 const Teams = schemas.Team;
 
 exports.authenticateMember = (req, res, next) => {
-  console.log('authenticating member');
   var email = req.body.email;
   var password = req.body.password;
 
@@ -23,9 +22,7 @@ exports.authenticateMember = (req, res, next) => {
     email: email
   }, (err, member) => {
     if (err || !member) return res.status(404).end();
-    console.log('found member');
     auth.check(password, member.passHashed, (valid) => {
-      console.log('authentication results: ' + valid);
       if (valid) {
         res.locals.user = member;
         req.session.authenticated = true;
@@ -73,6 +70,7 @@ exports.verifyAdminSession = (req, res, next) => {
 
 exports.verifySession = (req, res, next) => {
   var id = req.session._id;
+  console.log('verifying session: ' + id);
 
   if (!id || !req.session.authenticated) return res.status(401).end();
 
@@ -80,6 +78,8 @@ exports.verifySession = (req, res, next) => {
     _id: id
   }, (err, member) => {
     if (err || !member) return res.status(401).end();
+    console.log('session id matched member...');
+    console.log(member);
     res.locals.user = user;
     next();
   });
