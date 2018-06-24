@@ -2,6 +2,7 @@
 
 // dependencies
 const request = require('request-promise');
+const async = require('async');
 const schemas = require('./schemas');
 const auth = require('./auth');
 const defaultPassword = 'newportmathclub';
@@ -258,6 +259,48 @@ exports.fetchSchoolProfile = (req, res) => {
 exports.addTeam = (req, res) => {
   var school = res.locals.user;
   var team = req.body.team;
+
+  if (team.length > 4 || team.length < 3) return res.status(400).end();
+
+  var calls = [];
+  for (var i = 0; i < team.length; i++) {
+    var competitor = team[i];
+    if (!competitor.name || !competitor.grade) return res.status(400);
+
+    calls.push((callback) => {
+      var competitorObject = new Competitors({
+        name: competitor.name,
+        grade: competitor.grade,
+        school: school,
+        scores: []
+      });
+      competitorObject.save((err, savedCompetitor) => {
+        if (err) callback(err);
+        else callback(null, savedCompetitor);
+      });
+    });
+  }
+
+  async.parallel(calls, (err, competitors) => {
+    if (err) return res.status(500).end();
+
+    var maxGrade = 0;
+    competitors.forEach((competitor) => {
+      if (competitor.grade > maxGrade) maxGrade = competitor.grade;
+    });
+
+    var teamObject = new Team({
+      members: competitors,
+      grade: maxGrade,
+      school: school,
+      scores: []
+    });
+
+    teamObject.save((err) => {
+      if (err) res.status(500).end();
+      else res.status(200).end();
+    });
+  })
 }
 
 exports.editTeam = (req, res) => {
@@ -265,7 +308,7 @@ exports.editTeam = (req, res) => {
 }
 
 exports.removeTeam = (req, res) => {
-
+  
 }
 
 exports.addIndiv = (req, res) => {

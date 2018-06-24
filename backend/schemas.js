@@ -24,6 +24,7 @@ var MeetingSchema = new Schema({
 
 var SchoolSchema = new Schema();
 SchoolSchema.set('collection', 'schools');
+
 var CompetitorSchema = new Schema({
   name: String,
   grade: Number,
