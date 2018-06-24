@@ -3,7 +3,7 @@
 // dependencies
 const request = require('request-promise');
 const schemas = require('./schemas');
-const bcrypt = require('bcrypt');
+const auth = require('./auth');
 
 // mongoose models
 const Meetings = schemas.Meeting;
@@ -11,12 +11,6 @@ const Members = schemas.Member;
 const Schools = schemas.School;
 const Competitors = schemas.Competitor;
 const Teams = schemas.Team;
-
-const bcryptCompare = (inputPassword, storedPassword, callback) => {
-  bcrypt.compare(inputPassword, storedPassword, (err, res) => {
-    callback(res);
-  });
-}
 
 exports.authenticateMember = (req, res, next) => {
   var email = req.body.email;
@@ -29,7 +23,7 @@ exports.authenticateMember = (req, res, next) => {
   }, (member) => {
     if (!member) return res.status(404);
 
-    bcryptCompare(password, member.passHashed, (valid) => {
+    auth.check(password, member.passHashed, (valid) => {
       if (valid) {
         res.locals.user = member;
         next();
@@ -49,7 +43,7 @@ exports.authenticateCoach = (req, res, next) => {
   }, (school) => {
     if (!school) return res.status(404);
 
-    bcryptCompare(password, school.passHashed, (valid) => {
+    auth.check(password, school.passHashed, (valid) => {
       if (valid) {
         res.locals.user = school;
         next();
