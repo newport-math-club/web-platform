@@ -28,6 +28,7 @@ exports.authenticateMember = (req, res, next) => {
       console.log('authentication results: ' + valid);
       if (valid) {
         res.locals.user = member;
+        req.session.authenticated = true;
         next();
       } else res.status(401).end();
     });
@@ -48,6 +49,7 @@ exports.authenticateCoach = (req, res, next) => {
     auth.check(password, school.passHashed, (valid) => {
       if (valid) {
         res.locals.user = school;
+        req.session.authenticated = true;
         next();
       } else res.status(401).end();
     });
@@ -57,7 +59,7 @@ exports.authenticateCoach = (req, res, next) => {
 exports.verifyAdminSession = (req, res, next) => {
   var id = req.session._id;
 
-  if (!id) return res.status(401).end();
+  if (!id || !req.session.authenticated) return res.status(401).end();
 
   Members.findOne({
     _id: id
@@ -72,7 +74,7 @@ exports.verifyAdminSession = (req, res, next) => {
 exports.verifySession = (req, res, next) => {
   var id = req.session._id;
 
-  if (!id) return res.status(401).end();
+  if (!id || !req.session.authenticated) return res.status(401).end();
 
   Members.findOne({
     _id: id
