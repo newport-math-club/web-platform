@@ -85,7 +85,6 @@ exports.fetchMembers = (req, res) => {
   Members.find({}).sort({
     'admin': -1
   }).exec((err, members) => {
-    console.log(members);
     if (err) res.status(500).end();
     else res.status(200).json(members);
   });
