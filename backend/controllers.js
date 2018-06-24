@@ -60,7 +60,9 @@ exports.fetchMeetings = (req, res) => {
 }
 
 exports.fetchMembers = (req, res) => {
-
+  Members.find({}).sort({'admin': -1}).exec((members) => {
+    res.status(200).json(members);
+  });
 }
 
 exports.newMember = (req, res) => {
