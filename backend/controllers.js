@@ -3,6 +3,8 @@
 // dependencies
 const request = require('request-promise');
 const schemas = require('./schemas');
+const auth = require('./auth');
+const defaultPassword = 'newportmathclub';
 
 // mongoose models
 const Meetings = schemas.Meeting;
@@ -66,7 +68,28 @@ exports.fetchMembers = (req, res) => {
 }
 
 exports.newMember = (req, res) => {
+  var name = req.body.name;
+  var yearOfGraduation = req.body.yearOfGraduation;
+  var email = req.body.email;
+  var admin = req.body.admin;
 
+  if (!name || !yearOfGraduation || !email || !admin) return res.status(400).end();
+
+  auth.hash(defaultPassword, (hash) => {
+    var newMember = new Members({
+      name: name,
+      yearOfGraduation: yearOfGraduation,
+      piPoints: 0,
+      email: email,
+      passHashed: hash,
+      admin: admin
+    });
+
+    newMember.save((err) => {
+      if (err) res.status(500).end();
+      else res.status(200).end();
+    });
+  });
 }
 
 exports.removeMember = (req, res) => {
