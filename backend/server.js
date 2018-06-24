@@ -11,6 +11,7 @@ const app = express();
 const schemas = require('./schemas');
 const routes = require('./routes');
 const auth = require('./auth');
+const Members = schemas.Member;
 const port = 3000;
 
 const rootAdminPass = 'kpmtnostradamus';
