@@ -14,7 +14,7 @@ const port = 3000;
 
 // mongodb
 mongoose.Promise = global.Promise;
-var mathclubDBConnection = mongoose.connect('mongodb://localhost/mathclubDB');
+var mathclubDBConnection = mongoose.connect('mongodb://localhost/mathclubDB', { useMongoClient: true });
 var db = mongoose.connection;
 
 db.once('open', () => {
@@ -37,7 +37,7 @@ const sessionMiddleware = session({
         secure: false
     },
     rolling: true,
-    unset: 'destory'
+    unset: 'destroy'
 });
 
 app.use(sessionMiddleware);
