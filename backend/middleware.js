@@ -70,7 +70,6 @@ exports.verifyAdminSession = (req, res, next) => {
 
 exports.verifySession = (req, res, next) => {
   var id = req.session._id;
-  console.log('verifying session: ' + id);
 
   if (!id || !req.session.authenticated) return res.status(401).end();
 
@@ -78,8 +77,6 @@ exports.verifySession = (req, res, next) => {
     _id: id
   }, (err, member) => {
     if (err || !member) return res.status(401).end();
-    console.log('session id matched member...');
-    console.log(member);
     res.locals.user = member;
     next();
   });
