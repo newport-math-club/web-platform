@@ -63,7 +63,7 @@ exports.verifyAdminSession = (req, res, next) => {
   }, (err, member) => {
     if (err || !member) return res.status(401).end();
     if (!member.admin) return res.status(403).end();
-    res.locals.user = user;
+    res.locals.user = member;
     next();
   });
 }
@@ -80,7 +80,7 @@ exports.verifySession = (req, res, next) => {
     if (err || !member) return res.status(401).end();
     console.log('session id matched member...');
     console.log(member);
-    res.locals.user = user;
+    res.locals.user = member;
     next();
   });
 }
@@ -94,7 +94,7 @@ exports.verifyCoachSession = (req, res, next) => {
     _id: id
   }, (err, school) => {
     if (err || !school) return res.status(401).end();
-    res.locals.user = user;
+    res.locals.user = school;
     next();
   });
 }
