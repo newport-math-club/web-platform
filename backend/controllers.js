@@ -15,7 +15,6 @@ exports.login = (req, res) => {
   var user = res.locals.user;
   req.session._id = user._id;
 
-  console.log('added user session; done');
   res.status(200).end();
 }
 
