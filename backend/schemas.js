@@ -15,7 +15,7 @@ var MemberSchema = new Schema({
 });
 
 var MeetingSchema = new Schema({
-  date: Number,
+  date: Date,
   members: [MemberSchema],
   piPoints: Number
 }, {

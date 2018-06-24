@@ -28,15 +28,29 @@ exports.logout = (req, res) => {
 }
 
 exports.fetchProfile = (req, res) => {
-
+  res.status(200).json(res.locals.user);
 }
 
 exports.changePassword = (req, res) => {
-    
+
 }
 
 exports.newMeeting = (req, res) => {
+  if (!req.body.members) return res.status(400).end();
 
+  var piPoints = req.body.piPoints ? req.body.piPoints : 1;
+  var date = req.body.date ? req.body.date : Date.now();
+  var members = req.body.members;
+  var newMeeting = new Meetings({
+    date: date,
+    members: members,
+    piPoints: piPoints
+  });
+
+  newMeeting.save((err) => {
+    if (err) res.status(500).end();
+    else res.status(200).end();
+  })
 }
 
 exports.fetchMeetings = (req, res) => {
