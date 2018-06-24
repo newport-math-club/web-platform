@@ -13,6 +13,7 @@ module.exports = (app) => {
     app.route('/members/login/').post(nmcMiddleware.authenticateMember).post(nmcController.login);
     app.route('/members/logout/').get(nmcMiddleware.verifySession).post(nmcController.logout);
     app.route('/members/profile/').get(nmcMiddleware.verifySession).get(nmcController.fetchProfile);
+    app.route('/member/change-password/').get(nmcMiddleware.verifySession).post(nmcMiddleware.authenticateMember).post(nmcController.changePassword);
 
     // admin math club routes
     app.route('/meetings/add/').get(nmcMiddleware.verifyAdminSession).post(nmcController.newMeeting);

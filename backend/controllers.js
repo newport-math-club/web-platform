@@ -23,6 +23,10 @@ exports.fetchProfile = (req, res) => {
 
 }
 
+exports.changePassword = (req, res) => {
+    
+}
+
 exports.newMeeting = (req, res) => {
 
 }
