@@ -117,19 +117,111 @@ exports.newMember = (req, res) => {
 }
 
 exports.removeMember = (req, res) => {
+  var id = req.body.id;
 
+  if (!id) return res.status(400).end();
+
+  Members.remove({
+    _id: id
+  }, (err) => {
+    if (err) res.status(500).end();
+    else res.status(200).end();
+  });
 }
 
 exports.editMember = (req, res) => {
+  var id = req.body.id;
+  var type = req.body.type;
+  var payload = req.body.payload;
 
+  if (!id || !type || !payload) return res.status(400).end();
+
+  switch (type) {
+    case 'name':
+      Members.updateOne({
+        _id: id
+      }, {
+        $set: {
+          name: payload
+        }
+      }, (err) => {
+        if (err) res.status(500).end();
+        else res.status(200).end();
+      });
+      break;
+    case 'yearOfGraduation':
+      Members.updateOne({
+        _id: id
+      }, {
+        $set: {
+          yearOfGraduation: payload
+        }
+      }, (err) => {
+        if (err) res.status(500).end();
+        else res.status(200).end();
+      });
+      break;
+    case 'piPoints':
+      Members.updateOne({
+        _id: id
+      }, {
+        $set: {
+          piPoints: payload
+        }
+      }, (err) => {
+        if (err) res.status(500).end();
+        else res.status(200).end();
+      });
+      break;
+    case 'email':
+      Members.updateOne({
+        _id: id
+      }, {
+        $set: {
+          email: payload
+        }
+      }, (err) => {
+        if (err) res.status(500).end();
+        else res.status(200).end();
+      });
+      break;
+    default:
+      res.status(400).end();
+  }
 }
 
 exports.promoteMember = (req, res) => {
+  var id = req.body.id;
 
+  if (!id) return res.status(400).end();
+
+  Members.updateOne({
+    _id: id
+  }, {
+    $set: {
+      admin: true
+    }
+  }, (err) => {
+    if (err) res.status(500).end();
+    else res.status(200).end();
+  });
 }
 
 exports.demoteMember = (req, res) => {
+  var id = req.body.id;
 
+  if (!id) return res.status(400).end();
+
+  Members.updateOne({
+    _id: id
+  }, {
+    $set: {
+      admin: false
+    }
+  }, (err) => {
+    if (err) res.status(500).end();
+    else res.status(200).end();
+  });
 }
 
 exports.fetchSchoolProfile = (req, res) => {
