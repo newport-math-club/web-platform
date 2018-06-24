@@ -54,7 +54,9 @@ exports.newMeeting = (req, res) => {
 }
 
 exports.fetchMeetings = (req, res) => {
-
+  Meetings.find({}).sort({'date': -1}).exec((meetings) => {
+    res.status(200).json(meetings);
+  });
 }
 
 exports.fetchMembers = (req, res) => {
