@@ -256,7 +256,8 @@ exports.fetchSchoolProfile = (req, res) => {
 }
 
 exports.addTeam = (req, res) => {
-
+  var school = res.locals.user;
+  var team = req.body.team;
 }
 
 exports.editTeam = (req, res) => {
