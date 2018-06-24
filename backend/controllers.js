@@ -43,7 +43,12 @@ exports.changePassword = (req, res) => {
     Members.updateOne({
       _id: user._id
     }, {
-      passHashed: hash
+      $set: {
+        passHashed: hash
+      }
+    }, (err, newMember) => {
+      if (err) res.status(500).end();
+      else res.status(200).end();
     });
   });
 
