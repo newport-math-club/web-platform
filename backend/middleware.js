@@ -30,8 +30,10 @@ exports.authenticateMember = (req, res, next) => {
     if (!member) return res.status(404);
 
     bcryptCompare(password, member.passHashed, (valid) => {
-      if (valid) res.status(200);
-      else res.status(401);
+      if (valid) {
+        res.locals.user = member;
+        next();
+      } else res.status(401);
     });
   });
 }
@@ -48,8 +50,10 @@ exports.authenticateCoach = (req, res, next) => {
     if (!school) return res.status(404);
 
     bcryptCompare(password, school.passHashed, (valid) => {
-      if (valid) res.status(200);
-      else res.status(401);
+      if (valid) {
+        res.locals.user = school;
+        next();
+      } else res.status(401);
     });
   });
 }
@@ -74,7 +78,9 @@ exports.verifySession = (req, res, next) => {
 
   if (!id) return res.status(401);
 
-  Members.findOne({_id: id}, (member) => {
+  Members.findOne({
+    _id: id
+  }, (member) => {
     if (!member) return res.status(401);
     res.locals.user = user;
     next();

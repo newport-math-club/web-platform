@@ -12,11 +12,19 @@ const Competitors = schemas.Competitor;
 const Teams = schemas.Team;
 
 exports.login = (req, res) => {
+  var user = res.locals.user;
+  req.session._id = user._id;
 
+  res.status(200);
 }
 
 exports.logout = (req, res) => {
+  var user = res.locals.user;
 
+  req.session.destroy((err) => {
+    if (err) res.status(500);
+    else res.status(200);
+  });
 }
 
 exports.fetchProfile = (req, res) => {
