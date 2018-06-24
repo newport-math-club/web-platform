@@ -246,7 +246,7 @@ exports.clearMathClub = (req, res) => {
     Meetings.remove({}, (err) => {
       if (err) return res.status(500).end();
 
-      res.status(200).json(master);
+      res.status(200).end();
     });
   });
 }
