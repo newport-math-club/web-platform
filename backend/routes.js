@@ -51,7 +51,5 @@ module.exports = (app) => {
     app.route('/kpmt/score/indiv/').get(nmcMiddleware.verifyAdminSession).post(nmcController.scoreIndividual);
     app.route('/kpmt/score/block/').get(nmcMiddleware.verifyAdminSession).post(nmcController.scoreBlock);
     app.route('/kpmt/score/mental/').get(nmcMiddleware.verifyAdminSession).post(nmcController.scoreMentalMath);
-    app.route('/kpmt/score/algebra/').get(nmcMiddleware.verifyAdminSession).post(nmcController.scoreAlgebra);
-    app.route('/kpmt/score/geometry/').get(nmcMiddleware.verifyAdminSession).post(nmcController.scoreGeometry);
-    app.route('/kpmt/score/probability/').get(nmcMiddleware.verifyAdminSession).post(nmcController.scoreProbability);
+    app.route('/kpmt/score/team/:type').get(nmcMiddleware.verifyAdminSession).post(nmcController.scoreTeam);
 }
