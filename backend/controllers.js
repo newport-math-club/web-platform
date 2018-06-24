@@ -34,6 +34,18 @@ exports.fetchProfile = (req, res) => {
 }
 
 exports.changePassword = (req, res) => {
+  var newPassword = req.body.newPassword;
+  var user = res.locals.user;
+
+  if (!newPassword) return res.status(400).end();
+
+  auth.hash(newPassword, (hash) => {
+    Members.updateOne({
+      _id: user._id
+    }, {
+      passHashed: hash
+    });
+  });
 
 }
 
@@ -56,14 +68,18 @@ exports.newMeeting = (req, res) => {
 }
 
 exports.fetchMeetings = (req, res) => {
-  Meetings.find({}).sort({'date': -1}).exec((err, meetings) => {
+  Meetings.find({}).sort({
+    'date': -1
+  }).exec((err, meetings) => {
     if (err) res.status(500).end();
     else res.status(200).json(meetings);
   });
 }
 
 exports.fetchMembers = (req, res) => {
-  Members.find({}).sort({'admin': -1}).exec((err, members) => {
+  Members.find({}).sort({
+    'admin': -1
+  }).exec((err, members) => {
     console.log(members);
     if (err) res.status(500).end();
     else res.status(200).json(members);
