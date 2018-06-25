@@ -9,7 +9,7 @@ module.exports = (app) => {
         res.json('pong');
     });
 
-    // member routes
+    // member routes; all routes work
     app.route('/api/members/login/').post(nmcMiddleware.authenticateMember).post(nmcController.login);
     app.route('/api/members/logout/').post(nmcMiddleware.verifySession).post(nmcController.logout);
     app.route('/api/members/profile/').get(nmcMiddleware.verifySession).get(nmcController.fetchProfile);

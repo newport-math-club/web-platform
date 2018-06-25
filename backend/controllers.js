@@ -72,7 +72,7 @@ exports.newMeeting = (req, res) => {
   var members = req.body.members;
   var newMeeting = new Meetings({
     date: date,
-    members: members.map(m => m._id),
+    members: members,
     piPoints: piPoints
   });
 
