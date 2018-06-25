@@ -28,7 +28,7 @@ module.exports = (app) => {
     app.route('/api/clear/').post(nmcMiddleware.verifyAdminSession).post(nmcController.clearMathClub);
 
     // kpmt school/coach routes
-    // TODO: create a route for coach registration
+    app.route('/api/kpmt/register/').post(nmcController.registerKPMT);
     app.route('/api/kpmt/login/').post(nmcMiddleware.authenticateCoach).post(nmcController.login);
     app.route('/api/kpmt/logout/').post(nmcMiddleware.verifySession).post(nmcController.logout);
     app.route('/api/kpmt/profile/').get(nmcMiddleware.verifySession).get(nmcController.fetchSchoolProfile);
@@ -40,11 +40,13 @@ module.exports = (app) => {
     app.route('/api/kpmt/indiv/remove/').post(nmcMiddleware.verifySession).post(nmcController.removeIndiv);
 
     // kpmt admin management routes
+    app.route('/api/kpmt/approveSchool').post(nmcMiddleware.verifyAdminSession).post(nmcController.approveSchoolKPMT);
+    app.route('/api/kpmt/removeSchool').post(nmcMiddleware.verifyAdminSession).post(nmcController.removeSchoolKPMT);
     app.route('/api/kpmt/lock/').post(nmcMiddleware.verifyAdminSession).post(nmcController.modifyKPMTLock);
     app.route('/api/kpmt/export/').get(nmcMiddleware.verifyAdminSession).get(nmcController.exportKPMT);
     app.route('/api/kpmt/clear/').post(nmcMiddleware.verifyAdminSession).post(nmcController.clearKPMT);
     app.route('/api/kpmt/import/').post(nmcMiddleware.verifyAdminSession).post(nmcController.importKPMT);
-    app.route('/api/kpmt/validate/').get(nmcMiddleware.verifyAdminSession).get(nmcController.validateKPMT);
+    // app.route('/api/kpmt/validate/').get(nmcMiddleware.verifyAdminSession).get(nmcController.validateKPMT);
 
     app.route('/api/kpmt/competitors/:category').get(nmcMiddleware.verifyAdminSession).get(nmcController.fetchCompetitors);
     app.route('/api/kpmt/teams/:category').get(nmcMiddleware.verifyAdminSession).get(nmcController.fetchTeams);

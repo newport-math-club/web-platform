@@ -42,7 +42,8 @@ exports.authenticateCoach = (req, res, next) => {
     coachEmail: email
   }, (err, school) => {
     if (err || !school) return res.status(404).end();
-
+    if (!school.active) return res.status(403).end();
+    
     auth.check(password, school.passHashed, (valid) => {
       if (valid) {
         res.locals.user = school;

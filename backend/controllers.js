@@ -14,6 +14,15 @@ const Schools = schemas.School;
 const Competitors = schemas.Competitor;
 const Teams = schemas.Team;
 
+// helper function
+// TODO: make every controller use this
+const validateInput = (...parameters) => {
+  for (var i = 0; i < parameters.length; i++) {
+    if (!parameters[i]) return false;
+  }
+}
+
+// route controllers
 exports.login = (req, res) => {
   var user = res.locals.user;
   req.session._id = user._id;
@@ -200,7 +209,11 @@ exports.exportMathClub = (req, res) => {
 }
 
 exports.clearMathClub = (req, res) => {
-  Members.remove({name: {$ne: 'rootAdmin'}}, (err) => {
+  Members.remove({
+    name: {
+      $ne: 'rootAdmin'
+    }
+  }, (err) => {
     if (err) return res.status(500).end();
 
     Meetings.remove({}, (err) => {
@@ -209,6 +222,33 @@ exports.clearMathClub = (req, res) => {
       res.status(200).end();
     });
   });
+}
+
+exports.registerKPMT = (req, res) => {
+  var school = req.body.school;
+  var coachName = req.body.coachName;
+  var email = req.body.email;
+  var password = req.body.password;
+
+  if (!school || !coachName || !email || !password) return res.status(400).end();
+
+  auth.hash(password, (hash) => {
+    var newSchool = new Schools({
+      name: school,
+      coachName: coachName,
+      coachEmail: email,
+      passHashed: hash,
+      active: false,
+      teams: [],
+      competitors: []
+    });
+
+    newSchool.save((err) => {
+      if (err) res.status(500).end();
+      else res.status(200).end();
+    })
+  });
+
 }
 
 exports.fetchSchoolProfile = (req, res) => {
@@ -269,7 +309,9 @@ exports.removeTeam = (req, res) => {
 
   if (!id) return res.status(400).end();
 
-  Teams.remove({_id: id}, (err) => {
+  Teams.remove({
+    _id: id
+  }, (err) => {
     if (err) res.status(500).end();
     else res.status(200).end();
   });
@@ -297,7 +339,39 @@ exports.removeIndiv = (req, res) => {
 
   if (!id) return res.status(400).end();
 
-  Competitors.remove({_id: id}, (err) => {
+  Competitors.remove({
+    _id: id
+  }, (err) => {
+    if (err) res.status(500).end();
+    else res.status(200).end();
+  });
+}
+
+exports.approveSchoolKPMT = (req, res) => {
+  var id = req.body.id;
+
+  if (!id) return res.status(400).end();
+
+  Schools.updateOne({
+    _id: id
+  }, {
+    $set: {
+      active: true
+    }
+  }, (err, updated) => {
+    if (err) res.status(500).end();
+    else res.status(200).end();
+  });
+}
+
+exports.removeSchoolKPMT = (req, res) => {
+  var id = req.body.id;
+
+  if (!id) return res.status(400).end();
+
+  Schools.remove({
+    _id: id
+  }, (err) => {
     if (err) res.status(500).end();
     else res.status(200).end();
   });
@@ -324,7 +398,7 @@ exports.exportKPMT = (req, res) => {
 
       Competitors.find({}, (err, competitors) => {
         if (err) return res.status(500).end();
-  
+
         master.competitors = competitors;
         res.status(200).json(master);
       });
@@ -341,7 +415,7 @@ exports.clearKPMT = (req, res) => {
 
       Competitors.remove({}, (err) => {
         if (err) return res.status(500).end();
-  
+
         res.status(200).end();
       });
     });
@@ -392,10 +466,6 @@ exports.importKPMT = (req, res) => {
   })
 }
 
-exports.validateKPMT = (req, res) => {
-  // TODO: 
-}
-
 // TODO: these three fetches need to take in req.params.category
 exports.fetchCompetitors = (req, res) => {
   Competitors.find({}, (err, competitors) => {
@@ -423,9 +493,16 @@ exports.scoreIndividual = (req, res) => {
   var score = req.body.score;
   var last = req.body.last;
 
-  if (!id || !score || ! last) return res.status(400).end();
+  if (!id || !score || !last) return res.status(400).end();
 
-  Competitors.updateOne({_id: id}, { $set: {'scores.individual': score, 'scores.individualLast': last}}, (err, updated) => {
+  Competitors.updateOne({
+    _id: id
+  }, {
+    $set: {
+      'scores.individual': score,
+      'scores.individualLast': last
+    }
+  }, (err, updated) => {
     if (err) res.status(500).end();
     else res.status(200).end();
   });
@@ -437,7 +514,13 @@ exports.scoreBlock = (req, res) => {
 
   if (!id || !score) return res.status(400).end();
 
-  Competitors.updateOne({_id: id}, { $set: {'scores.block': score }}, (err, updated) => {
+  Competitors.updateOne({
+    _id: id
+  }, {
+    $set: {
+      'scores.block': score
+    }
+  }, (err, updated) => {
     if (err) res.status(500).end();
     else res.status(200).end();
   });
@@ -449,7 +532,13 @@ exports.scoreMentalMath = (req, res) => {
 
   if (!id || !score) return res.status(400).end();
 
-  Competitors.updateOne({_id: id}, { $set: {'scores.mental': score }}, (err, updated) => {
+  Competitors.updateOne({
+    _id: id
+  }, {
+    $set: {
+      'scores.mental': score
+    }
+  }, (err, updated) => {
     if (err) res.status(500).end();
     else res.status(200).end();
   });
@@ -471,7 +560,13 @@ exports.scoreTeam = (req, res) => {
 
   var fieldString = 'scores.' + type;
 
-  Teams.updateOne({_id: id}, { $set: {[fieldString]: score }}, (err, updated) => {
+  Teams.updateOne({
+    _id: id
+  }, {
+    $set: {
+      [fieldString]: score
+    }
+  }, (err, updated) => {
     if (err) res.status(500).end();
     else res.status(200).end();
   });
