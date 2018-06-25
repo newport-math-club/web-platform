@@ -53,6 +53,7 @@ var CompetitorSchema = new Schema({
       type: Number,
       default: 0
     }
+  }
 }, {
   collection: 'competitors'
 });
