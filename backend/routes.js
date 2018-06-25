@@ -33,11 +33,9 @@ module.exports = (app) => {
     app.route('/api/kpmt/profile/').get(nmcMiddleware.verifySession).get(nmcController.fetchSchoolProfile);
 
     app.route('/api/kpmt/team/add/').post(nmcMiddleware.verifySession).post(nmcController.addTeam);
-    app.route('/api/kpmt/team/update/').post(nmcMiddleware.verifySession).post(nmcController.editTeam);
     app.route('/api/kpmt/team/remove/').post(nmcMiddleware.verifySession).post(nmcController.removeTeam);
 
     app.route('/api/kpmt/indiv/add/').post(nmcMiddleware.verifySession).post(nmcController.addIndiv);
-    app.route('/api/kpmt/indiv/update/').post(nmcMiddleware.verifySession).post(nmcController.editIndiv);
     app.route('/api/kpmt/indiv/remove/').post(nmcMiddleware.verifySession).post(nmcController.removeIndiv);
 
     // kpmt admin management routes
