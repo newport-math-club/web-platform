@@ -136,7 +136,7 @@ exports.editMember = (req, res) => {
 
   if (!id || !type || !payload) return res.status(400).end();
   if (type != 'name' && type != 'yearOfGraduation' && type != 'piPoints' && type != 'email') return res.status(400).end();
-  
+
   Members.updateOne({
     _id: id
   }, {
@@ -395,6 +395,7 @@ exports.validateKPMT = (req, res) => {
   // TODO: 
 }
 
+// TODO: these three fetches need to take in req.params.category
 exports.fetchCompetitors = (req, res) => {
   Competitors.find({}, (err, competitors) => {
     if (err) res.status(500).end();
