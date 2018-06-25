@@ -130,11 +130,21 @@ exports.removeMember = (req, res) => {
 
   if (!id) return res.status(400).end();
 
-  Members.remove({
-    _id: id
+  Meetings.update({
+    members: id
+  }, {
+    $pull: {
+      members: id
+    }
   }, (err) => {
     if (err) res.status(500).end();
-    else res.status(200).end();
+
+    Members.remove({
+      _id: id
+    }, (err) => {
+      if (err) res.status(500).end();
+      else res.status(200).end();
+    });
   });
 }
 
