@@ -28,6 +28,7 @@ module.exports = (app) => {
     app.route('/api/clear/').post(nmcMiddleware.verifyAdminSession).post(nmcController.clearMathClub);
 
     // kpmt school/coach routes
+    // TODO: create a route for coach registration
     app.route('/api/kpmt/login/').post(nmcMiddleware.authenticateCoach).post(nmcController.login);
     app.route('/api/kpmt/logout/').post(nmcMiddleware.verifySession).post(nmcController.logout);
     app.route('/api/kpmt/profile/').get(nmcMiddleware.verifySession).get(nmcController.fetchSchoolProfile);
