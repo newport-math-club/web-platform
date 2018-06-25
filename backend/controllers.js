@@ -63,7 +63,7 @@ exports.newMeeting = (req, res) => {
   var members = req.body.members;
   var newMeeting = new Meetings({
     date: date,
-    members: members,
+    members: members.map(m => m._id),
     piPoints: piPoints
   });
 
@@ -135,59 +135,18 @@ exports.editMember = (req, res) => {
   var payload = req.body.payload;
 
   if (!id || !type || !payload) return res.status(400).end();
-
-  switch (type) {
-    case 'name':
-      Members.updateOne({
-        _id: id
-      }, {
-        $set: {
-          name: payload
-        }
-      }, (err) => {
-        if (err) res.status(500).end();
-        else res.status(200).end();
-      });
-      break;
-    case 'yearOfGraduation':
-      Members.updateOne({
-        _id: id
-      }, {
-        $set: {
-          yearOfGraduation: payload
-        }
-      }, (err) => {
-        if (err) res.status(500).end();
-        else res.status(200).end();
-      });
-      break;
-    case 'piPoints':
-      Members.updateOne({
-        _id: id
-      }, {
-        $set: {
-          piPoints: payload
-        }
-      }, (err) => {
-        if (err) res.status(500).end();
-        else res.status(200).end();
-      });
-      break;
-    case 'email':
-      Members.updateOne({
-        _id: id
-      }, {
-        $set: {
-          email: payload
-        }
-      }, (err) => {
-        if (err) res.status(500).end();
-        else res.status(200).end();
-      });
-      break;
-    default:
-      res.status(400).end();
-  }
+  if (type != 'name' && type != 'yearOfGraduation' && type != 'piPoints' && type != 'email') return res.status(400).end();
+  
+  Members.updateOne({
+    _id: id
+  }, {
+    $set: {
+      [type]: payload
+    }
+  }, (err) => {
+    if (err) res.status(500).end();
+    else res.status(200).end();
+  });
 }
 
 exports.promoteMember = (req, res) => {
@@ -272,7 +231,7 @@ exports.addTeam = (req, res) => {
       var competitorObject = new Competitors({
         name: competitor.name,
         grade: competitor.grade,
-        school: school,
+        school: school._id,
         scores: []
       });
       competitorObject.save((err, savedCompetitor) => {
@@ -291,9 +250,9 @@ exports.addTeam = (req, res) => {
     });
 
     var teamObject = new Team({
-      members: competitors,
+      members: competitors.map(c => c._id),
       grade: maxGrade,
-      school: school,
+      school: school._id,
       scores: []
     });
 
@@ -327,7 +286,7 @@ exports.addIndiv = (req, res) => {
   var newCompetitor = new Competitors({
     name: name,
     grade: grade,
-    school: school,
+    school: school._id,
     scores: []
   });
 }
@@ -389,37 +348,129 @@ exports.clearKPMT = (req, res) => {
 }
 
 exports.importKPMT = (req, res) => {
+  var payload = req.body.payload;
 
+  if (!payload || !payload.schools || !payload.teams || !payload.competitors) return res.status(400).end();
+
+  /**
+   * payload is an object (similar to master for the export routes)
+   * 
+   * {
+   *    schools: [],
+   *    teams: [],
+   *    competitors: []
+   * }
+   */
+
+  var calls = [];
+
+  calls.push((callback) => {
+    Schools.insertMany(payload.schools, (err) => {
+      if (err) callback(err);
+      else callback(null);
+    });
+  });
+
+  calls.push((callback) => {
+    Teams.insertMany(payload.teams, (err) => {
+      if (err) callback(err);
+      else callback(null);
+    });
+  });
+
+  calls.push((callback) => {
+    Competitors.insertMany(payload.competitors, (err) => {
+      if (err) callback(err);
+      else callback(null);
+    });
+  });
+
+  async.parallel(calls, (err) => {
+    if (err) res.status(500).end();
+    else res.status(200).end();
+  })
 }
 
 exports.validateKPMT = (req, res) => {
-
+  // TODO: 
 }
 
 exports.fetchCompetitors = (req, res) => {
-
+  Competitors.find({}, (err, competitors) => {
+    if (err) res.status(500).end();
+    else res.status(200).json(competitors);
+  });
 }
 
 exports.fetchTeams = (req, res) => {
-
+  Teams.find({}, (err, teams) => {
+    if (err) res.status(500).end();
+    else res.status(200).json(teams);
+  });
 }
 
 exports.fetchSchools = (req, res) => {
-
+  Schools.find({}, (err, schools) => {
+    if (err) res.status(500).end();
+    else res.status(200).json(schools);
+  });
 }
 
 exports.scoreIndividual = (req, res) => {
+  var id = req.body.id;
+  var score = req.body.score;
+  var last = req.body.last;
 
+  if (!id || !score || ! last) return res.status(400).end();
+
+  Competitors.updateOne({_id: id}, { $set: {'scores.individual': score, 'scores.individualLast': last}}, (err, updated) => {
+    if (err) res.status(500).end();
+    else res.status(200).end();
+  });
 }
 
 exports.scoreBlock = (req, res) => {
+  var id = req.body.id;
+  var score = req.body.score;
 
+  if (!id || !score) return res.status(400).end();
+
+  Competitors.updateOne({_id: id}, { $set: {'scores.block': score }}, (err, updated) => {
+    if (err) res.status(500).end();
+    else res.status(200).end();
+  });
 }
 
 exports.scoreMentalMath = (req, res) => {
+  var id = req.body.id;
+  var score = req.body.score;
 
+  if (!id || !score) return res.status(400).end();
+
+  Competitors.updateOne({_id: id}, { $set: {'scores.mental': score }}, (err, updated) => {
+    if (err) res.status(500).end();
+    else res.status(200).end();
+  });
 }
 
 exports.scoreTeam = (req, res) => {
+  var id = req.body.id;
+  var type = req.body.type;
+  var score = req.body.score;
 
+  if (!id || !type || !score || (type != 'algebra' && type != 'geometry' && type != 'probability')) {
+    return res.status(400).end();
+  }
+
+  var id = req.body.id;
+  var score = req.body.score;
+
+  if (!id || !score) return res.status(400).end();
+
+  var fieldString = 'scores.' + type;
+
+  Teams.updateOne({_id: id}, { $set: {[fieldString]: score }}, (err, updated) => {
+    if (err) res.status(500).end();
+    else res.status(200).end();
+  });
 }

@@ -16,43 +16,95 @@ var MemberSchema = new Schema({
 
 var MeetingSchema = new Schema({
   date: Date,
-  members: [MemberSchema],
+  members: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Member'
+  }],
   piPoints: Number
 }, {
   collection: 'meetings'
 });
 
-var SchoolSchema = new Schema();
-SchoolSchema.set('collection', 'schools');
-
 var CompetitorSchema = new Schema({
   name: String,
   grade: Number,
-  school: SchoolSchema,
-  scores: [Number] // TODO: figure out what the scoring will be like so we can replace this with an object
+  school: {
+    type: Schema.Types.ObjectId,
+    ref: 'School'
+  },
+  scores: {
+    weighted: {
+      type: Number,
+      default: 0
+    },
+    individual: {
+      type: Number,
+      default: 0
+    },
+    individualLast: {
+      type: Number,
+      default: 0
+    },
+    block: {
+      type: Number,
+      default: 0
+    },
+    mental: {
+      type: Number,
+      default: 0
+    }
 }, {
   collection: 'competitors'
 });
 
 var TeamSchema = new Schema({
-  members: [CompetitorSchema],
+  members: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Competitor'
+  }],
   grade: Number,
-  school: SchoolSchema,
-  scores: [Number] // TODO: figure out what the scoring will be like so we can replace this with an object
+  school: {
+    type: Schema.Types.ObjectId,
+    ref: 'School'
+  },
+  scores: {
+    weighted: {
+      type: Number,
+      default: 0
+    },
+    algebra: {
+      type: Number,
+      default: 0
+    },
+    geometry: {
+      type: Number,
+      default: 0
+    },
+    probability: {
+      type: Number,
+      default: 0
+    }
+  }
 }, {
   collection: 'teams'
 });
 
 // KPMT SCHEMAS BELOW
-SchoolSchema.add({
+var SchoolSchema = new Schema({
   name: String,
   coachName: String,
   coachEmail: String,
   passHashed: String,
   active: Boolean,
-  teams: [TeamSchema],
-  competitors: [CompetitorSchema]
-});
+  teams: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Team'
+  }],
+  competitors: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Competitor'
+  }]
+}, {collection: 'schools'});
 
 var Meeting = mongoose.model('Meeting', MeetingSchema, 'meetings');
 var Member = mongoose.model('Member', MemberSchema, 'members');
