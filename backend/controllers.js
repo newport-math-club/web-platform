@@ -257,6 +257,7 @@ exports.fetchSchoolProfile = (req, res) => {
 }
 
 exports.addTeam = (req, res) => {
+  if (kpmtLock) return res.status(403).end();
   var school = res.locals.user;
   var team = req.body.team;
 
@@ -303,32 +304,88 @@ exports.addTeam = (req, res) => {
   })
 }
 
-exports.editTeam = (req, res) => {
-
-}
-
 exports.removeTeam = (req, res) => {
-  
+  if (kpmtLock) return res.status(403).end();
+  var id = req.body.id;
+
+  if (!id) return res.status(400).end();
+
+  Teams.remove({_id: id}, (err) => {
+    if (err) res.status(500).end();
+    else res.status(200).end();
+  });
 }
 
 exports.addIndiv = (req, res) => {
+  if (kpmtLock) return res.status(403).end();
+  var school = res.locals.user;
+  var name = req.body.name;
+  var grade = req.body.grade;
 
-}
+  if (!name || !grade) return res.status(400).end();
 
-exports.editIndiv = (req, res) => {
-
+  var newCompetitor = new Competitors({
+    name: name,
+    grade: grade,
+    school: school,
+    scores: []
+  });
 }
 
 exports.removeIndiv = (req, res) => {
+  if (kpmtLock) return res.status(403).end();
+  var id = req.body.id;
 
+  if (!id) return res.status(400).end();
+
+  Competitors.remove({_id: id}, (err) => {
+    if (err) res.status(500).end();
+    else res.status(200).end();
+  });
+}
+
+exports.modifyKPMTLock = (req, res) => {
+  if (req.body.lock === null || req.body.lock === undefined) res.status(400).end();
+  else if (req.body.lock == true) kpmtLock = true;
+  else kpmtLock = false;
 }
 
 exports.exportKPMT = (req, res) => {
+  var master = {};
+  Schools.find({}, (err, schools) => {
+    if (err) return res.status(500).end();
+
+    master.schools = schools;
+
+    Teams.find({}, (err, teams) => {
+      if (err) return res.status(500).end();
+
+      master.teams = teams;
+
+      Competitors.find({}, (err, competitors) => {
+        if (err) return res.status(500).end();
   
+        master.competitors = competitors;
+        res.status(200).json(master);
+      });
+    });
+  });
 }
 
 exports.clearKPMT = (req, res) => {
+  Schools.remove({}, (err) => {
+    if (err) return res.status(500).end();
 
+    Teams.remove({}, (err) => {
+      if (err) return res.status(500).end();
+
+      Competitors.remove({}, (err) => {
+        if (err) return res.status(500).end();
+  
+        res.status(200).end();
+      });
+    });
+  });
 }
 
 exports.importKPMT = (req, res) => {

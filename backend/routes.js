@@ -41,6 +41,7 @@ module.exports = (app) => {
     app.route('/api/kpmt/indiv/remove/').post(nmcMiddleware.verifySession).post(nmcController.removeIndiv);
 
     // kpmt admin management routes
+    app.route('/api/kpmt/lock/').post(nmcMiddleware.verifyAdminSession).post(nmcController.modifyKPMTLock);
     app.route('/api/kpmt/export/').get(nmcMiddleware.verifyAdminSession).get(nmcController.exportKPMT);
     app.route('/api/kpmt/clear/').post(nmcMiddleware.verifyAdminSession).post(nmcController.clearKPMT);
     app.route('/api/kpmt/import/').post(nmcMiddleware.verifyAdminSession).post(nmcController.importKPMT);

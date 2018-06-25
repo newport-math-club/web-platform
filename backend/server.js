@@ -53,6 +53,8 @@ db.once('open', () => {
   })
 });
 
+global.kpmtLock = true;
+
 // sessions
 const cookieExpire = 1000 * 60 * 60 * 24 * 7; // 1 week
 app.set('trust proxy', 1);
