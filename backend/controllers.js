@@ -681,7 +681,8 @@ exports.scoreWeighted = (req, res) => {
     Teams.find({}).populate('competitors').exec((err, teams) => {
       teams.forEach((team) => {
         calls.push((callback) => {
-          var alg = team.scores.algebra;
+          console.log(team);
+          var algebra = team.scores.algebra;
           var geometry = team.scores.geometry;
           var probability = team.scores.probability;
   
