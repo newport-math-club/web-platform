@@ -313,6 +313,7 @@ exports.addTeam = (req, res) => {
   })
 }
 
+// TODO: remove from school and collection
 exports.removeTeam = (req, res) => {
   if (kpmtLock) return res.status(403).end();
   var id = req.body.id;
@@ -341,8 +342,14 @@ exports.addIndiv = (req, res) => {
     school: school._id,
     scores: []
   });
+
+  newCompetitor.save((err) => {
+    if (err) res.status(500).end();
+      else res.status(200).end();
+  });
 }
 
+// TODO: remove from school and collection
 exports.removeIndiv = (req, res) => {
   if (kpmtLock) return res.status(403).end();
   var id = req.body.id;
