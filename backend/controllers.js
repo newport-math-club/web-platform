@@ -717,7 +717,7 @@ exports.scoreWeighted = (req, res) => {
 
     async.parallel(calls, (innerErr) => {
       if (innerErr) res.status(500).end();
-      else res.status(200).end
+      else res.status(200).end();
     });
   });
 }
