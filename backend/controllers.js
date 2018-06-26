@@ -272,6 +272,8 @@ exports.addTeam = (req, res) => {
 
   if (!team || team.length > 4 || team.length < 3) return res.status(400).end();
 
+  console.log('adding team: ');
+  console.log(team);
   var calls = [];
   for (var i = 0; i < team.length; i++) {
     var competitor = team[i];
