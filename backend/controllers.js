@@ -272,15 +272,12 @@ exports.addTeam = (req, res) => {
 
   if (!team || team.length > 4 || team.length < 3) return res.status(400).end();
 
-  console.log('adding team: ');
-  console.log(team);
   var calls = [];
 
   team.forEach((competitor) => {
     if (!competitor.name || !competitor.grade) return res.status(400);
 
     calls.push((callback) => {
-      console.log('creating new competitor: ' + competitor.name + ', ' + competitor.grade);
       var competitorObject = new Competitors({
         name: competitor.name,
         grade: competitor.grade,
@@ -300,15 +297,12 @@ exports.addTeam = (req, res) => {
   });
 
   async.parallel(calls, (err, competitors) => {
-    console.log('parallel calls finished');
     if (err) return res.status(500).end();
 
     var maxGrade = 0;
     competitors.forEach((competitor) => {
       if (competitor.grade > maxGrade) maxGrade = competitor.grade;
     });
-
-    console.log('highest grade is ' + maxGrade);
 
     var teamObject = new Teams({
       members: competitors.map(c => c._id),
@@ -670,7 +664,7 @@ exports.scoreWeighted = (req, res) => {
           Competitors.updateOne({_id: competitor._id}, { $set: {'scores.weighted': weightedScore}}, (err) => {
             if (err) callback(err);
             else callback(null);
-          })
+          });
         });
       });
       outercallback(null);
@@ -678,13 +672,13 @@ exports.scoreWeighted = (req, res) => {
   });
 
   outerCalls.push((outercallback) => {
-    Teams.find({}).populate('competitors').exec((err, teams) => {
+    Teams.find({}).populate('members').exec((err, teams) => {
       teams.forEach((team) => {
         calls.push((callback) => {
-          var alg = team.scores.algebra;
+          var algebra = team.scores.algebra;
           var geometry = team.scores.geometry;
           var probability = team.scores.probability;
-  
+
           var mentalScores = team.members.map(m => m.scores.mental).sort((a, b) => { return b - a; });
           var indivScores = team.members.map(m => m.scores.individual).sort((a, b) => { return b - a; });
           var blockScores = team.members.map(m => m.scores.block).sort((a, b) => { return b - a; });
@@ -714,7 +708,7 @@ exports.scoreWeighted = (req, res) => {
 
     async.parallel(calls, (innerErr) => {
       if (innerErr) res.status(500).end();
-      else res.status(200).end
+      else res.status(200).end();
     });
   });
 }
