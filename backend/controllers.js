@@ -310,7 +310,7 @@ exports.addTeam = (req, res) => {
 
     console.log('highest grade is ' + maxGrade);
 
-    var teamObject = new Team({
+    var teamObject = new Teams({
       members: competitors.map(c => c._id),
       grade: maxGrade,
       school: school._id,
