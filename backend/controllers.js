@@ -286,7 +286,12 @@ exports.addTeam = (req, res) => {
       });
       competitorObject.save((err, savedCompetitor) => {
         if (err) callback(err);
-        else callback(null, savedCompetitor);
+        else {
+          Schools.update({_id: school._id}, { $push: {competitors: savedCompetitor._id}}, (err, updated) => {
+            if (err) callback(err);
+            else callback(null, savedCompetitor);
+          });
+        }
       });
     });
   }
@@ -306,26 +311,72 @@ exports.addTeam = (req, res) => {
       scores: []
     });
 
-    teamObject.save((err) => {
+    teamObject.save((err, savedTeam) => {
       if (err) res.status(500).end();
-      else res.status(200).end();
+      else {
+        Schools.update({_id: school._id}, { $push: {teams: savedTeam._id}}, (err, updated) => {
+          if (err) res.status(500).end();
+          else res.status(200).end();
+        });
+      }
     });
   })
 }
 
-// TODO: remove from school and collection
 exports.removeTeam = (req, res) => {
   if (kpmtLock) return res.status(403).end();
   var id = req.body.id;
+  var school = res.locals.user;
 
   if (!id) return res.status(400).end();
 
-  Teams.remove({
-    _id: id
-  }, (err) => {
-    if (err) res.status(500).end();
-    else res.status(200).end();
+  calls = [];
+
+  calls.push((callback) => {
+    Teams.remove({
+      _id: id
+    }, (err) => {
+      if (err) callback(err);
+      else callback(null);
+    });
   });
+
+  calls.push((callback) => {
+    Schools.update({
+      _id: school._id
+    }, {
+      $pull: {teams: id}
+    }, (err) => {
+      if (err) callback(err);
+      else callback(null);
+    });
+  });
+
+  Teams.findOne({_id: id}, (err, team) => {
+    if (err) return res.status(404).end();
+
+    team.members.forEach((memberID) => {
+      calls.push((callback) => {
+        Competitors.remove({_id: memberID}, (err) => {
+          if (err) callback(err);
+          else callback(null);
+        });
+      });
+
+      calls.push((callback) => {
+        Schools.update({_id: school._id}, { $pull: {competitors: memberID}}, (err) => {
+          if (err) callback(err);
+          else callback(null);
+        });
+      });
+    });
+
+    async.parallel(calls, (err) => {
+      if (err) res.status(500).end();
+      else res.status(200).end();
+    });
+  });
+  
 }
 
 exports.addIndiv = (req, res) => {
@@ -343,13 +394,18 @@ exports.addIndiv = (req, res) => {
     scores: []
   });
 
-  newCompetitor.save((err) => {
+  newCompetitor.save((err, savedCompetitor) => {
     if (err) res.status(500).end();
-      else res.status(200).end();
+    else {
+      Schools.update({_id: school._id}, { $push: {competitors: savedCompetitor._id}}, (err, updated) => {
+        if (err) res.status(500).end();
+        else res.status(200).end();
+      });
+    }
   });
 }
 
-// TODO: remove from school and collection
+// TODO: remove from school competitors and master competitors
 exports.removeIndiv = (req, res) => {
   if (kpmtLock) return res.status(403).end();
   var id = req.body.id;
@@ -359,8 +415,12 @@ exports.removeIndiv = (req, res) => {
   Competitors.remove({
     _id: id
   }, (err) => {
-    if (err) res.status(500).end();
-    else res.status(200).end();
+    if (err) return res.status(500).end();
+
+    Schools.update({_id: res.locals.user._id}, { $pull: {competitors: id}}, (err) => {
+      if (err) res.status(500).end();
+      else res.status(200).end();
+    });
   });
 }
 
