@@ -65,11 +65,12 @@ exports.changePassword = (req, res) => {
 }
 
 exports.newMeeting = (req, res) => {
-  if (!req.body.members) return res.status(400).end();
-
   var piPoints = req.body.piPoints ? req.body.piPoints : 1;
   var date = req.body.date ? req.body.date : Date.now();
   var members = req.body.members;
+
+  if (!validateInput(members)) return res.status(400).end();
+
   var newMeeting = new Meetings({
     date: date,
     members: members,
@@ -106,7 +107,7 @@ exports.newMember = (req, res) => {
   var email = req.body.email;
   var admin = req.body.admin;
 
-  if (!name || !yearOfGraduation || !email || !admin) return res.status(400).end();
+  if (!validateInput(name, yearOfGraduation, email, admin)) return res.status(400).end();
 
   auth.hash(defaultPassword, (hash) => {
     var newMember = new Members({
@@ -153,7 +154,7 @@ exports.editMember = (req, res) => {
   var type = req.body.type;
   var payload = req.body.payload;
 
-  if (!id || !type || !payload) return res.status(400).end();
+  if (!validateInput(id, type, payload)) return res.status(400).end();
   if (type != 'name' && type != 'yearOfGraduation' && type != 'piPoints' && type != 'email') return res.status(400).end();
 
   Members.updateOne({
@@ -240,7 +241,7 @@ exports.registerKPMT = (req, res) => {
   var email = req.body.email;
   var password = req.body.password;
 
-  if (!school || !coachName || !email || !password) return res.status(400).end();
+  if (!validateInput(school, coachName, email, password)) return res.status(400).end();
 
   auth.hash(password, (hash) => {
     var newSchool = new Schools({
@@ -385,7 +386,7 @@ exports.addIndiv = (req, res) => {
   var name = req.body.name;
   var grade = req.body.grade;
 
-  if (!name || !grade) return res.status(400).end();
+  if (!validateInput(name, grade)) return res.status(400).end();
 
   var newCompetitor = new Competitors({
     name: name,
@@ -405,7 +406,6 @@ exports.addIndiv = (req, res) => {
   });
 }
 
-// TODO: remove from school competitors and master competitors
 exports.removeIndiv = (req, res) => {
   if (kpmtLock) return res.status(403).end();
   var id = req.body.id;
@@ -502,7 +502,7 @@ exports.clearKPMT = (req, res) => {
 exports.importKPMT = (req, res) => {
   var payload = req.body.payload;
 
-  if (!payload || !payload.schools || !payload.teams || !payload.competitors) return res.status(400).end();
+  if (!validateInput(payload, payload.schools, payload.teams, payload.competitors)) return res.status(400).end();
 
   /**
    * payload is an object (similar to master for the export routes)
@@ -543,7 +543,6 @@ exports.importKPMT = (req, res) => {
   })
 }
 
-// TODO: these three fetches need to take in req.params.category
 exports.fetchCompetitors = (req, res) => {
   Competitors.find({}, (err, competitors) => {
     if (err) res.status(500).end();
@@ -570,7 +569,7 @@ exports.scoreIndividual = (req, res) => {
   var score = req.body.score;
   var last = req.body.last;
 
-  if (!id || !score || !last) return res.status(400).end();
+  if (!validateInput(id, score, last))return res.status(400).end();
 
   Competitors.updateOne({
     _id: id
@@ -626,7 +625,7 @@ exports.scoreTeam = (req, res) => {
   var type = req.body.type;
   var score = req.body.score;
 
-  if (!id || !type || !score || (type != 'algebra' && type != 'geometry' && type != 'probability')) {
+  if (!validateInput(id, type, score) || (type != 'algebra' && type != 'geometry' && type != 'probability')) {
     return res.status(400).end();
   }
 
