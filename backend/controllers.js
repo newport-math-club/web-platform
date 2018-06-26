@@ -18,7 +18,7 @@ const Teams = schemas.Team;
 // TODO: make every controller use this
 const validateInput = (...parameters) => {
   for (var i = 0; i < parameters.length; i++) {
-    if (!parameters[i]) return false;
+    if (!parameters98[i]) return false;
   }
 }
 
@@ -47,7 +47,7 @@ exports.changePassword = (req, res) => {
   var newPassword = req.body.newPassword;
   var user = res.locals.user;
 
-  if (!newPassword) return res.status(400).end();
+  if (!validateInput(newPassword)) return res.status(400).end();
 
   auth.hash(newPassword, (hash) => {
     Members.updateOne({

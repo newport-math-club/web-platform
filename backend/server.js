@@ -53,7 +53,7 @@ db.once('open', () => {
   })
 });
 
-global.kpmtLock = true;
+global.kpmtLock = process.env.KPMT_LOCK ? process.env.KPMT_LOCK : true;
 
 // sessions
 const cookieExpire = 1000 * 60 * 60 * 24 * 7; // 1 week
