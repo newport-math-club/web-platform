@@ -15,7 +15,7 @@ module.exports = (app) => {
     app.route('/api/members/profile/').get(nmcMiddleware.verifySession).get(nmcController.fetchProfile);
     app.route('/api/members/change-password/').post(nmcMiddleware.verifySession).post(nmcMiddleware.authenticateMember).post(nmcController.changePassword);
 
-    // admin math club routes
+    // admin math club routes; all routes work
     app.route('/api/meetings/add/').post(nmcMiddleware.verifyAdminSession).post(nmcController.newMeeting);
     app.route('/api/meetings/').get(nmcMiddleware.verifyAdminSession).get(nmcController.fetchMeetings);
     app.route('/api/members/').get(nmcMiddleware.verifyAdminSession).get(nmcController.fetchMembers);
@@ -30,14 +30,14 @@ module.exports = (app) => {
     // kpmt school/coach routes
     app.route('/api/kpmt/register/').post(nmcController.registerKPMT);
     app.route('/api/kpmt/login/').post(nmcMiddleware.authenticateCoach).post(nmcController.login);
-    app.route('/api/kpmt/logout/').post(nmcMiddleware.verifySession).post(nmcController.logout);
-    app.route('/api/kpmt/profile/').get(nmcMiddleware.verifySession).get(nmcController.fetchSchoolProfile);
+    app.route('/api/kpmt/logout/').post(nmcMiddleware.verifyCoachSession).post(nmcController.logout);
+    app.route('/api/kpmt/profile/').get(nmcMiddleware.verifyCoachSession).get(nmcController.fetchSchoolProfile);
 
-    app.route('/api/kpmt/team/add/').post(nmcMiddleware.verifySession).post(nmcController.addTeam);
-    app.route('/api/kpmt/team/remove/').post(nmcMiddleware.verifySession).post(nmcController.removeTeam);
+    app.route('/api/kpmt/team/add/').post(nmcMiddleware.verifyCoachSession).post(nmcController.addTeam);
+    app.route('/api/kpmt/team/remove/').post(nmcMiddleware.verifyCoachSession).post(nmcController.removeTeam);
 
-    app.route('/api/kpmt/indiv/add/').post(nmcMiddleware.verifySession).post(nmcController.addIndiv);
-    app.route('/api/kpmt/indiv/remove/').post(nmcMiddleware.verifySession).post(nmcController.removeIndiv);
+    app.route('/api/kpmt/indiv/add/').post(nmcMiddleware.verifyCoachSession).post(nmcController.addIndiv);
+    app.route('/api/kpmt/indiv/remove/').post(nmcMiddleware.verifyCoachSession).post(nmcController.removeIndiv);
 
     // kpmt admin management routes
     app.route('/api/kpmt/approveSchool').post(nmcMiddleware.verifyAdminSession).post(nmcController.approveSchoolKPMT);
