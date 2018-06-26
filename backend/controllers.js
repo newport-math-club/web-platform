@@ -336,7 +336,7 @@ exports.removeTeam = (req, res) => {
 
   if (!id) return res.status(400).end();
 
-  calls = [];
+  var calls = [];
 
   calls.push((callback) => {
     Teams.remove({
