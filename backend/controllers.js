@@ -679,7 +679,6 @@ exports.scoreWeighted = (req, res) => {
 
   outerCalls.push((outercallback) => {
     Teams.find({}).populate('members').exec((err, teams) => {
-      console.log(teams);
       teams.forEach((team) => {
         calls.push((callback) => {
           var algebra = team.scores.algebra;
@@ -698,6 +697,9 @@ exports.scoreWeighted = (req, res) => {
           var topThreeBlock = blockScores.slice(0, 3).reduce((total, num) => {
             return total + num;
           });
+          console.log(mentalScores);
+          console.log(indivScores);
+          console.log(blockScores);
           var weightedScore = algebra + geometry + probability + 2 * topThreeMental + topThreeIndiv + topThreeBlock + indivScores[indivScores.length - 1] / 100.0 + blockScores[blockScores.length - 1] / 1000.0 + algebra / 10000.0;
   
           Teams.updateOne({_id: team._id}, { $set: {'scores.weighted': weightedScore}}, (err) => {
