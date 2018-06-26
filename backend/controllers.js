@@ -670,7 +670,7 @@ exports.scoreWeighted = (req, res) => {
           Competitors.updateOne({_id: competitor._id}, { $set: {'scores.weighted': weightedScore}}, (err) => {
             if (err) callback(err);
             else callback(null);
-          })
+          });
         });
       });
       outercallback(null);
@@ -678,14 +678,14 @@ exports.scoreWeighted = (req, res) => {
   });
 
   outerCalls.push((outercallback) => {
-    Teams.find({}).populate('competitors').exec((err, teams) => {
+    Teams.find({}).populate('members.Competitor').exec((err, teams) => {
       teams.forEach((team) => {
         calls.push((callback) => {
           console.log(team);
           var algebra = team.scores.algebra;
           var geometry = team.scores.geometry;
           var probability = team.scores.probability;
-  
+
           var mentalScores = team.members.map(m => m.scores.mental).sort((a, b) => { return b - a; });
           var indivScores = team.members.map(m => m.scores.individual).sort((a, b) => { return b - a; });
           var blockScores = team.members.map(m => m.scores.block).sort((a, b) => { return b - a; });
