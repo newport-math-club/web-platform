@@ -275,8 +275,8 @@ exports.addTeam = (req, res) => {
   console.log('adding team: ');
   console.log(team);
   var calls = [];
-  for (var i = 0; i < team.length; i++) {
-    var competitor = team[i];
+
+  team.forEach((competitor) => {
     if (!competitor.name || !competitor.grade) return res.status(400);
 
     calls.push((callback) => {
@@ -297,7 +297,7 @@ exports.addTeam = (req, res) => {
         }
       });
     });
-  }
+  });
 
   async.parallel(calls, (err, competitors) => {
     console.log('parallel calls finished');
