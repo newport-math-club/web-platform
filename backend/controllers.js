@@ -270,7 +270,7 @@ exports.addTeam = (req, res) => {
   var school = res.locals.user;
   var team = req.body.team;
 
-  if (team.length > 4 || team.length < 3) return res.status(400).end();
+  if (!team || team.length > 4 || team.length < 3) return res.status(400).end();
 
   var calls = [];
   for (var i = 0; i < team.length; i++) {
@@ -278,6 +278,7 @@ exports.addTeam = (req, res) => {
     if (!competitor.name || !competitor.grade) return res.status(400);
 
     calls.push((callback) => {
+      console.log('creating new competitor: ' + competitor.name + ', ' + competitor.grade);
       var competitorObject = new Competitors({
         name: competitor.name,
         grade: competitor.grade,
@@ -297,12 +298,15 @@ exports.addTeam = (req, res) => {
   }
 
   async.parallel(calls, (err, competitors) => {
+    console.log('parallel calls finished');
     if (err) return res.status(500).end();
 
     var maxGrade = 0;
     competitors.forEach((competitor) => {
       if (competitor.grade > maxGrade) maxGrade = competitor.grade;
     });
+
+    console.log('highest grade is ' + maxGrade);
 
     var teamObject = new Team({
       members: competitors.map(c => c._id),
