@@ -48,14 +48,15 @@ module.exports = (app) => {
     //app.route('/api/kpmt/import/').post(nmcMiddleware.verifyAdminSession).post(nmcController.importKPMT);
     // app.route('/api/kpmt/validate/').get(nmcMiddleware.verifyAdminSession).get(nmcController.validateKPMT);
 
-    // kpmt admin fetching routes
-    app.route('/api/kpmt/competitors/:category').get(nmcMiddleware.verifyAdminSession).get(nmcController.fetchCompetitors);
-    app.route('/api/kpmt/teams/:category').get(nmcMiddleware.verifyAdminSession).get(nmcController.fetchTeams);
-    app.route('/api/kpmt/schools/:category').get(nmcMiddleware.verifyAdminSession).get(nmcController.fetchSchools);
+    // kpmt admin fetching routes; all routes work
+    app.route('/api/kpmt/competitors/').get(nmcMiddleware.verifyAdminSession).get(nmcController.fetchCompetitors);
+    app.route('/api/kpmt/teams/').get(nmcMiddleware.verifyAdminSession).get(nmcController.fetchTeams);
+    app.route('/api/kpmt/schools/').get(nmcMiddleware.verifyAdminSession).get(nmcController.fetchSchools);
 
-    // kpmt admin scoring routes
+    // kpmt admin scoring routes; all routes work
     app.route('/api/kpmt/score/indiv/').post(nmcMiddleware.verifyAdminSession).post(nmcController.scoreIndividual);
     app.route('/api/kpmt/score/block/').post(nmcMiddleware.verifyAdminSession).post(nmcController.scoreBlock);
     app.route('/api/kpmt/score/mental/').post(nmcMiddleware.verifyAdminSession).post(nmcController.scoreMentalMath);
     app.route('/api/kpmt/score/team/').post(nmcMiddleware.verifyAdminSession).post(nmcController.scoreTeam);
+    app.route('/api/kpmt/score/calculateWeightScores/').post(nmcMiddleware.verifyAdminSession).post(nmcController.scoreWeighted);
 }

@@ -654,3 +654,67 @@ exports.scoreTeam = (req, res) => {
     else res.status(200).end();
   });
 }
+
+exports.scoreWeighted = (req, res) => {
+  var outerCalls = [];
+  var calls = [];
+  outerCalls.push((outercallback) => {
+    Competitors.find({}, (err, competitors) => {
+      competitors.forEach((competitor) => {
+        calls.push((callback) => {
+          var indiv = competitor.scores.individual;
+          var last = competitor.scores.individualLast;
+          var block = competitor.scores.block;
+          var mental = competitor.scores.mental;
+          var weightedScore = indiv + block / 3.0 + last / 100.0 + block / 1000.0 + mental / 10000.0;
+          Competitors.updateOne({_id: competitor._id}, { $set: {'scores.weighted': weightedScore}}, (err) => {
+            if (err) callback(err);
+            else callback(null);
+          })
+        });
+      });
+      outercallback(null);
+    });
+  });
+
+  outerCalls.push((outercallback) => {
+    Teams.find({}).populate('competitors').exec((err, teams) => {
+      teams.forEach((team) => {
+        calls.push((callback) => {
+          var alg = team.scores.algebra;
+          var geometry = team.scores.geometry;
+          var probability = team.scores.probability;
+  
+          var mentalScores = team.members.map(m => m.scores.mental).sort((a, b) => { return b - a; });
+          var indivScores = team.members.map(m => m.scores.individual).sort((a, b) => { return b - a; });
+          var blockScores = team.members.map(m => m.scores.block).sort((a, b) => { return b - a; });
+          var topThreeMental = mentalScores.slice(0, 3).reduce((total, num) => {
+            return total + num;
+          });
+          var topThreeIndiv = indivScores.slice(0, 3).reduce((total, num) => {
+            return total + num;
+          });
+          var topThreeBlock = blockScores.slice(0, 3).reduce((total, num) => {
+            return total + num;
+          });
+          var weightedScore = algebra + geometry + probability + 2 * topThreeMental + topThreeIndiv + topThreeBlock + indivScores[indivScores.length - 1] / 100.0 + blockScores[blockScores.length - 1] / 1000.0 + algebra / 10000.0;
+  
+          Teams.updateOne({_id: team._id}, { $set: {'scores.weighted': weightedScore}}, (err) => {
+            if (err) callback(err);
+            else callback(null);
+          });
+        });
+      });
+      outercallback(null);
+    });
+  });
+
+  async.parallel(outerCalls, (err) => {
+    if (err) return res.status(500).end();
+
+    async.parallel(calls, (innerErr) => {
+      if (innerErr) res.status(500).end();
+      else res.status(200).end
+    });
+  });
+}
