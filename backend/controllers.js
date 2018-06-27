@@ -18,7 +18,7 @@ const Teams = schemas.Team;
 // TODO: make every controller use this
 const validateInput = (...parameters) => {
   for (var i = 0; i < parameters.length; i++) {
-    if (!parameters98[i]) return false;
+    if (!parameters[i]) return false;
   }
 }
 
