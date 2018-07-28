@@ -1,13 +1,57 @@
 html {
-    margin: 0 !important;
-    padding: 0 !important;
-    font-family: 'Lato';
-    width: 100%;
+	margin: 0 !important;
+	padding: 0 !important;
+	font-family: 'Lato';
+	width: 100%;
+	font-size: 16px;
 }
 
 body {
-    margin: 0 !important;
-    padding: 0 !important;
-    font-family: 'Lato';
-    width: 100%;
+	margin: 0 !important;
+	padding: 0 !important;
+	font-family: 'Lato';
+	width: 100%;
+}
+
+.nav {
+	padding-left: 4em;
+	padding-right: 2em;
+	height: 8em;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: center;
+	align-content: center;
+}
+
+.navItem {
+	padding-left: 3em;
+	color: #c4c4c4;
+}
+
+h4 {
+	font-size: 1.5em;
+	cursor: pointer;
+	margin: 0;
+}
+
+h4.title {
+	cursor: default;
+}
+
+.navItem._highlight {
+	color: #637296;
+}
+
+.navItem:hover {
+	color: #637296;
+}
+
+.dropdown-contents {
+	display: none;
+}
+
+.dropdown-contents._show {
+	display: block;
 }

@@ -20,6 +20,7 @@ const validateInput = (...parameters) => {
   for (var i = 0; i < parameters.length; i++) {
     if (!parameters[i]) return false;
   }
+  return true;
 }
 
 // route controllers
