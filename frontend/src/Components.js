@@ -124,14 +124,16 @@ class NavItem extends Component {
 				return (
 					<h4
 						key={subItem.name}
-						className={'navItem' + (subItem.highlight ? ' _highlight' : '')}
+						className={
+							'navItem navSubitem' + (subItem.highlight ? ' _highlight' : '')
+						}
 						onClick={() => this.gotoPath(subItem.path)}>
 						{subItem.name}
 					</h4>
 				)
 			})
 
-			var paddingAmount = this.props.item.length * 2.2 - 2.2
+			var paddingAmount = this.props.item.length * 2.2 - 2.2 + 0.5
 			var style = {}
 			if (this.state.hover || this.state.contentHover) {
 				style.paddingTop = paddingAmount + 'em'
