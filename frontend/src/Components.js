@@ -131,8 +131,7 @@ class NavItem extends Component {
 				)
 			})
 
-			var paddingAmount = this.props.item.length * 1.8 - 1.55
-
+			var paddingAmount = this.props.item.length * 2.2 - 2.2
 			var style = {}
 			if (this.state.hover || this.state.contentHover) {
 				style.paddingTop = paddingAmount + 'em'
