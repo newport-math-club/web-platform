@@ -7,7 +7,15 @@
 - Pull latest code
 - `npm i`
 - `npm run build`
-- `npm run serve &`
+- `npm run serve`
+
+Creates a `pm2` process that watches for filesystem changes
+
+### Backend
+
+- Pull latest code
+- `npm i`
+- `npm start`
 
 Creates a `pm2` process that watches for filesystem changes
 
@@ -18,6 +26,12 @@ Creates a `pm2` process that watches for filesystem changes
 - Pull latest code
 - `npm i`
 - `npm run build`
+
+### Backend
+
+- Pull latest code
+- `npm i`
+- `npm restart
 
 The `pm2` daemon watches the `build/` directory, so new compiled code will automatically be served.
 
