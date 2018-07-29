@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
-import { Nav, getNavItems, LeftPane } from '../Components'
+import { Nav, getNavItems, OfficerPane } from '../Components'
 
 export default class HomePage extends Component {
 	render() {
 		return (
 			<div className="fullheight">
 				<Nav admin={false} items={getNavItems(-1)} />
-				<LeftPane header="Officers" />
+				<div className="fill-nav-remainder homepage">
+					<div>
+						<h1>Fridays 3:35-4:30</h1>
+						<h5>Room 1106</h5>
+					</div>
+				</div>
 			</div>
 		)
 	}

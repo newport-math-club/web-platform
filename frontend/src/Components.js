@@ -187,12 +187,53 @@ class NavItem extends Component {
  *    header: String
  * }
  */
-export class LeftPane extends Component {
+export class OfficerPane extends Component {
 	render() {
 		return (
 			<div className="leftpane">
-				<h2>{this.props.header}</h2>
-				{this.props.children}
+				<h2 style={{ paddingLeft: '2em' }}>{this.props.header}</h2>
+				<div
+					style={{
+						display: 'grid',
+						gridColumnGap: '1em',
+						gridRowGap: '0.5em',
+						padding: '2em'
+					}}>
+					{this.props.children}
+				</div>
+			</div>
+		)
+	}
+}
+
+/**
+ * props:
+ * {
+ *    name: String,
+ *    title: String,
+ *    image: String,
+ *    row: Number, // starts at 1
+ *    column: Number // starts at 1
+ *
+ * }
+ */
+export class Bio extends Component {
+	render() {
+		return (
+			<div style={{ height: '5em', paddingLeft: '3em' }}>
+				<img src={this.props.image} style={{ height: '90%', float: 'left' }} />
+				<div
+					style={{
+						paddingLeft: '2em',
+						height: '90%',
+						display: 'flex',
+						flexDirection: 'column',
+						justifyContent: 'center',
+						alignItems: 'left'
+					}}>
+					<h3>{this.props.name}</h3>
+					<h5>{this.props.title}</h5>
+				</div>
 			</div>
 		)
 	}
