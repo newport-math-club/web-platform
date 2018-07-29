@@ -1,24 +1,25 @@
 {
-  "name": "nmc-server",
-  "version": "0.0.1",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "start": "pm2 start server.js --name nmc-backend"
-  },
-  "author": "Terrance Li & Sriram Thothatri",
-  "dependencies": {
-    "async": "^2.6.1",
-    "bcrypt": "^2.0.1",
-    "body-parser": "^1.18.2",
-    "compression": "^1.7.2",
-    "connect-mongo": "^2.0.1",
-    "cors": "^2.8.4",
-    "express": "^4.16.2",
-    "express-session": "^1.15.6",
-    "mongoose": "^4.13.9",
-    "request": "^2.83.0",
-    "request-promise": "^4.2.2",
-    "socket.io": "^2.1.1"
-  }
+	"name": "nmc-server",
+	"version": "0.0.1",
+	"description": "",
+	"main": "server.js",
+	"scripts": {
+		"start": "pm2 start server.js --name nmc-backend",
+		"restart": "pm2 restart nmc-backend"
+	},
+	"author": "Terrance Li & Sriram Thothatri",
+	"dependencies": {
+		"async": "^2.6.1",
+		"bcrypt": "^2.0.1",
+		"body-parser": "^1.18.2",
+		"compression": "^1.7.2",
+		"connect-mongo": "^2.0.1",
+		"cors": "^2.8.4",
+		"express": "^4.16.2",
+		"express-session": "^1.15.6",
+		"mongoose": "^4.13.9",
+		"request": "^2.83.0",
+		"request-promise": "^4.2.2",
+		"socket.io": "^2.1.1"
+	}
 }
