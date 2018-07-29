@@ -86,7 +86,9 @@ h5 {
 }
 
 .dropdown-contents {
+	border-radius: 1em;
 	background: #fff;
+	box-shadow: 1px 4px 8px lightgray;
 	display: none;
 }
 
