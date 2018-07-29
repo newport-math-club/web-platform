@@ -30,8 +30,10 @@ export const getNavItems = (itemIndex, subItemIndex) => {
 			{ name: 'past tests & results', path: '/kpmt/past' },
 			{ name: 'contact', path: '/kpmt/contact' }
 		],
-		{ name: 'login', path: '/login' }
+		{ name: 'login', path: '/login', end: true }
 	]
+
+	if (itemIndex < 0) return base
 
 	var item = base[itemIndex]
 	if (item instanceof Array) {
@@ -56,6 +58,15 @@ export const getNavItems = (itemIndex, subItemIndex) => {
  * }
  */
 export class Nav extends Component {
+	gotoHome = () => {
+		window.location.href = '/'
+	}
+
+	gotoAdminHome = () => {
+		// TODO: make this redirect to admin dashboard
+		window.location.href = '/'
+	}
+
 	render() {
 		const navItems = this.props.items.map(item => {
 			return (
@@ -71,9 +82,14 @@ export class Nav extends Component {
 		})
 
 		const title = this.props.admin ? (
-			<h4 className="title">newportmathclubadmin</h4>
+			<h4 onClick={this.gotoHome} className="title">
+				<red>newportmathclub</red>
+				<gold>admin</gold>
+			</h4>
 		) : (
-			<h4 className="title">newportmathclub</h4>
+			<h4 onClick={this.gotoAdminHome} className="title">
+				<red>newportmathclub</red>
+			</h4>
 		)
 
 		return (
@@ -116,13 +132,17 @@ class NavItem extends Component {
 			})
 
 			var paddingAmount = this.props.item.length * 1.8 - 1.55
+
+			var style = {}
+			if (this.state.hover || this.state.contentHover) {
+				style.paddingTop = paddingAmount + 'em'
+			}
+			if (mainItem.end) {
+				style.margin = 'auto'
+			}
+
 			return (
-				<div
-					style={
-						this.state.hover || this.state.contentHover
-							? { paddingTop: paddingAmount + 'em' }
-							: {}
-					}>
+				<div style={style}>
 					<h4
 						className={'navItem' + (mainItem.highlight ? ' _highlight' : '')}
 						onClick={() => this.gotoPath(mainItem.path)}
@@ -143,8 +163,13 @@ class NavItem extends Component {
 			)
 		} else {
 			var item = this.props.item
+			var style = {}
+
+			if (item.end) {
+				style.marginLeft = 'auto'
+			}
 			return (
-				<div>
+				<div style={style}>
 					<h4
 						className={'navItem' + (item.highlight ? ' _highlight' : '')}
 						onClick={() => this.gotoPath(item.path)}>
@@ -153,5 +178,22 @@ class NavItem extends Component {
 				</div>
 			)
 		}
+	}
+}
+
+/**
+ * props:
+ * {
+ *    header: String
+ * }
+ */
+export class LeftPane extends Component {
+	render() {
+		return (
+			<div className="leftpane">
+				<h2>{this.props.header}</h2>
+				{this.props.children}
+			</div>
+		)
 	}
 }

@@ -4,6 +4,7 @@ html {
 	font-family: 'Lato';
 	width: 100%;
 	font-size: 16px;
+	height: 100%;
 }
 
 body {
@@ -11,11 +12,12 @@ body {
 	padding: 0 !important;
 	font-family: 'Lato';
 	width: 100%;
+	height: 100%;
 }
 
 .nav {
 	padding-left: 4em;
-	padding-right: 2em;
+	padding-right: 4em;
 	height: 8em;
 	display: flex;
 	flex-direction: row;
@@ -36,10 +38,6 @@ h4 {
 	margin: 0;
 }
 
-h4.title {
-	cursor: default;
-}
-
 .navItem._highlight {
 	color: #637296;
 }
@@ -49,9 +47,33 @@ h4.title {
 }
 
 .dropdown-contents {
+	background: #fff;
 	display: none;
 }
 
 .dropdown-contents._show {
 	display: block;
+}
+
+.leftpane {
+	padding-left: 8em;
+	width: calc(33% - 8em);
+	float: left;
+	border-right: 2px solid lightgray;
+	height: calc(
+		100% - 12em
+	); /* account for the nav bar at the top (8em) and 4em of padding */
+}
+.fullheight {
+	height: 100%;
+}
+red {
+	color: #eb5757;
+}
+gold {
+	color: #bfdb12;
+}
+h2 {
+	font-size: 2.5em;
+	margin: 0;
 }
