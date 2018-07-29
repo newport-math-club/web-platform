@@ -31,10 +31,6 @@ Creates a `pm2` process that watches for filesystem changes
 
 - Pull latest code
 - `npm i`
-- `npm restart
+- `npm run restart`
 
 The `pm2` daemon watches the `build/` directory, so new compiled code will automatically be served.
-
-### Backend
-
-WIP
