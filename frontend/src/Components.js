@@ -115,8 +115,14 @@ class NavItem extends Component {
 				)
 			})
 
+			var paddingAmount = this.props.item.length * 1.8 - 1.55
 			return (
-				<div style={{ transform: 'translate(0, 200)' }}>
+				<div
+					style={
+						this.state.hover || this.state.contentHover
+							? { paddingTop: paddingAmount + 'em' }
+							: {}
+					}>
 					<h4
 						className={'navItem' + (mainItem.highlight ? ' _highlight' : '')}
 						onClick={() => this.gotoPath(mainItem.path)}
