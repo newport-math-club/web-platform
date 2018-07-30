@@ -15,13 +15,8 @@ export default class ArticlesPage extends Component {
 						paddingRight: '4em',
 						overflowY: 'auto'
 					}}>
-					<h2>Articles</h2>
-					<p>
-						We periodically update articles and lessons on various math topics,
-						spanning a wide range of difficulty levels. Content will be added as
-						we cover more material in our club meetings. Click{' '}
-						<a href="/articles">here</a> to access articles.
-					</p>
+					{/* <h2>Articles</h2> */}
+					<p>Not much to see here. Sorry!</p>
 				</div>
 			</div>
 		)

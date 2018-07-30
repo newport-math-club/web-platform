@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Nav, getNavItems, OfficerPane, Bio } from '../Components'
 
-export default class HomePage extends Component {
+export default class AboutPage extends Component {
 	render() {
 		return (
 			<div className="fullheight">

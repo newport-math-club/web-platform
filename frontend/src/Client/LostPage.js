@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Nav, getNavItems, OfficerPane, Bio } from '../Components'
 
-export default class EventsPage extends Component {
+export default class LostPage extends Component {
 	render() {
 		return (
 			<div className="fullheight">
-				<Nav admin={false} items={getNavItems(1)} />
+				<Nav admin={false} items={getNavItems(-1)} />
 				<div
 					style={{
 						float: 'left',
@@ -13,10 +13,12 @@ export default class EventsPage extends Component {
 						height: 'calc(100% - 12em)',
 						paddingLeft: '4em',
 						paddingRight: '4em',
-						overflowY: 'auto'
+						overflowY: 'auto',
+						textAlign: 'center'
 					}}>
-					{/* <h2>P1</h2> */}
-					<p>Not much to see here. Sorry!</p>
+					<h1 style={{ fontSize: '20em' }}>:(</h1>
+					<h2>404 Not Found</h2>
+					<p>The page you're looking for doesn't exist, sorry!</p>
 				</div>
 			</div>
 		)

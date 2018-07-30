@@ -7,6 +7,11 @@ import EventsPage from './Client/EventsPage'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import ResourcesPage from './Client/Resources/ResourcesPage'
 import ArticlesPage from './Client/Resources/ArticlesPage'
+import PracticePage from './Client/Resources/PracticePage'
+import LinksPage from './Client/Resources/LinksPage'
+import KPMTAboutPage from './Client/KPMT/KPMTAboutPage'
+import KPMTPastPage from './Client/KPMT/KPMTPastPage'
+import LostPage from './Client/LostPage'
 
 export default class App extends React.Component {
 	render() {
@@ -18,6 +23,11 @@ export default class App extends React.Component {
 					<Route exact path="/events" component={EventsPage} />
 					<Route exact path="/resources" component={ResourcesPage} />
 					<Route exact path="/articles" component={ArticlesPage} />
+					<Route exact path="/practice" component={PracticePage} />
+					<Route exact path="/links" component={LinksPage} />
+					<Route exact path="/kpmt" component={KPMTAboutPage} />
+					<Route exact path="/kpmt/past" component={KPMTPastPage} />
+					<Route path="/" component={LostPage} />
 				</div>
 			</Router>
 		)

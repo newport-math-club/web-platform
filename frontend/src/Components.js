@@ -24,8 +24,8 @@ export const getNavItems = (itemIndex, subItemIndex) => {
 			{ name: 'links', path: '/links' }
 		],
 		[
-			{ name: 'kpmt', path: '/kpmt/about' },
-			{ name: 'about', path: '/kpmt/about' },
+			{ name: 'kpmt', path: '/kpmt' },
+			{ name: 'about', path: '/kpmt' },
 			{ name: 'registration', path: '/kpmt/registration' },
 			{ name: 'past tests & results', path: '/kpmt/past' },
 			{ name: 'contact', path: '/kpmt/contact' }
@@ -236,6 +236,23 @@ export class Bio extends Component {
 					<h5>{this.props.title}</h5>
 				</div>
 			</div>
+		)
+	}
+}
+
+/**
+ * props:
+ * {
+ *    name: String,
+ *    href: String
+ * }
+ */
+export class Link extends Component {
+	render() {
+		return (
+			<a href={this.props.href} target="_blank">
+				<h4 style={{ paddingTop: '1em' }}>{this.props.name}</h4>
+			</a>
 		)
 	}
 }
