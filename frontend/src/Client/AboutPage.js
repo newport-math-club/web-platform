@@ -15,17 +15,52 @@ export default class AboutPage extends Component {
 						column={1}
 					/>
 					<Bio
-						name="Terrance Li"
-						title="President"
+						name="Frank Hou"
+						title="Vice President"
 						image="https://newport-math-club.nyc3.digitaloceanspaces.com/terrance.png"
 						row={2}
 						column={1}
 					/>
 					<Bio
-						name="Terrance Li"
-						title="President"
+						name="Alan Li"
+						title="Secretary"
 						image="https://newport-math-club.nyc3.digitaloceanspaces.com/terrance.png"
 						row={3}
+						column={1}
+					/>
+					<Bio
+						name="Luke Xie"
+						title="Treasurer"
+						image="https://newport-math-club.nyc3.digitaloceanspaces.com/terrance.png"
+						row={4}
+						column={1}
+					/>
+					<Bio
+						name="Sriram Thothathri"
+						title="Webmaster"
+						image="https://newport-math-club.nyc3.digitaloceanspaces.com/terrance.png"
+						row={5}
+						column={1}
+					/>
+					<Bio
+						name="Candace Do"
+						title="Shadow Officer"
+						image="https://newport-math-club.nyc3.digitaloceanspaces.com/terrance.png"
+						row={6}
+						column={1}
+					/>
+					<Bio
+						name="Justin Chen"
+						title="Shadow Officer"
+						image="https://newport-math-club.nyc3.digitaloceanspaces.com/terrance.png"
+						row={7}
+						column={1}
+					/>
+					<Bio
+						name="Alex Liu"
+						title="Shadow Officer"
+						image="https://newport-math-club.nyc3.digitaloceanspaces.com/terrance.png"
+						row={8}
 						column={1}
 					/>
 					{/* TODO: put everyone here, get photos and such */}
