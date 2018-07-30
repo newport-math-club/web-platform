@@ -44,7 +44,8 @@ export default class PracticePage extends Component {
 				<div
 					style={{
 						float: 'left',
-						width: 'calc(100% - 8em)',
+						marginLeft: '20%',
+						width: 'calc(60% - 8em)',
 						height: 'calc(100% - 12em)',
 						paddingLeft: '4em',
 						paddingRight: '4em',

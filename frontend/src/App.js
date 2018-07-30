@@ -4,7 +4,7 @@ import HomePage from './Client/HomePage'
 import AboutPage from './Client/AboutPage'
 import EventsPage from './Client/EventsPage'
 
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import ResourcesPage from './Client/Resources/ResourcesPage'
 import ArticlesPage from './Client/Resources/ArticlesPage'
 import PracticePage from './Client/Resources/PracticePage'
@@ -17,7 +17,7 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<Router>
-				<div style={{ height: '100%' }}>
+				<Switch>
 					<Route exact path="/" component={HomePage} />
 					<Route exact path="/about" component={AboutPage} />
 					<Route exact path="/events" component={EventsPage} />
@@ -27,8 +27,8 @@ export default class App extends React.Component {
 					<Route exact path="/links" component={LinksPage} />
 					<Route exact path="/kpmt" component={KPMTAboutPage} />
 					<Route exact path="/kpmt/past" component={KPMTPastPage} />
-					<Route path="/" component={LostPage} />
-				</div>
+					<Route component={LostPage} />
+				</Switch>
 			</Router>
 		)
 	}
