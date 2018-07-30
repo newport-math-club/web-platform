@@ -1,18 +1,17 @@
-import axios from 'axios';
-import queryString from 'query-string';
+// TODO: use the domain after migration to cloudflare
+const BASE_URL = 'http://165.227.54.2:3000/api'
 
-const BASE_URL = 'https://api.newportmathclub.org';
-
-/*
-var getMembers = (callback) => {
-    const url = BASE_URL + '/api/get-members';
-    
-    axios.get(url, {withCredentials: true}).then((res) => {
-        callback(res.data.all_members);
-    }).catch((err) => {
-        console.log(err);
-    });
-};
-*/
-
-export {};
+exports.login = (email, password) => {
+	return fetch(BASE_URL + '/members/login', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			email: email,
+			password: password
+		}),
+		credentials: 'include'
+	})
+}

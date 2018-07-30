@@ -13,6 +13,7 @@ import KPMTAboutPage from './Client/KPMT/KPMTAboutPage'
 import KPMTPastPage from './Client/KPMT/KPMTPastPage'
 import LostPage from './Client/LostPage'
 import KPMTContactPage from './Client/KPMT/KPMTContactPage'
+import LoginPage from './Client/LoginPage'
 
 export default class App extends React.Component {
 	render() {
@@ -29,6 +30,7 @@ export default class App extends React.Component {
 					<Route exact path="/kpmt" component={KPMTAboutPage} />
 					<Route exact path="/kpmt/past" component={KPMTPastPage} />
 					<Route exact path="/kpmt/contact" component={KPMTContactPage} />
+					<Route exact path="/login" component={LoginPage} />
 					<Route component={LostPage} />
 				</Switch>
 			</Router>

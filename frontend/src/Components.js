@@ -258,3 +258,63 @@ export class Link extends Component {
 		)
 	}
 }
+
+/**
+ * props:
+ * {
+ *    placeholder: String,
+ *    type: String
+ * }
+ */
+export class Textbox extends Component {
+	getText = () => {
+		return this.state.text
+	}
+
+	constructor(props) {
+		super(props)
+		this.state = {
+			text: ''
+		}
+	}
+	render() {
+		return (
+			<input
+				placeholder={this.props.placeholder}
+				type={this.props.type}
+				value={this.state.text}
+				onChange={e => {
+					this.setState({ text: e.target.value })
+				}}
+			/>
+		)
+	}
+}
+
+/**
+ * props:
+ * {
+ *    text: String,
+ *    onClick: function
+ * }
+ */
+export class Button extends Component {
+	startLoading = () => {}
+
+	stopLoading = () => {}
+
+	constructor(props) {
+		super(props)
+		this.state = {
+			loading: false
+		}
+	}
+
+	render() {
+		return (
+			<div onClick={this.props.onClick} className="button">
+				{this.props.text}
+			</div>
+		)
+	}
+}
