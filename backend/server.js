@@ -6,7 +6,6 @@ const session = require('express-session')
 const mongoose = require('mongoose')
 const MongoStore = require('connect-mongo')(session)
 const bodyParser = require('body-parser')
-const cors = require('cors')
 const app = express()
 const schemas = require('./schemas')
 const routes = require('./routes')
@@ -87,7 +86,6 @@ const sessionMiddleware = session({
 })
 
 app.use(sessionMiddleware)
-app.use(cors())
 app.use(
 	bodyParser.urlencoded({
 		extended: true
