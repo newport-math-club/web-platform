@@ -95,7 +95,11 @@ app.use(
 )
 app.use(bodyParser.json())
 app.use((req, res, next) => {
-	res.header('Access-Control-Allow-Origin', 'http://165.227.54.2')
+	var allowedOrigins = ['http://165.227.54.2:5000', 'http://localhost:3000']
+	var origin = req.headers.origin
+	if (allowedOrigins.indexOf(origin) > -1) {
+		res.setHeader('Access-Control-Allow-Origin', origin)
+	}
 	res.header('Access-Control-Allow-Credentials', 'true')
 	res.header(
 		'Access-Control-Allow-Headers',
