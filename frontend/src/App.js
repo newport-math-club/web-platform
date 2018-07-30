@@ -14,6 +14,8 @@ import KPMTPastPage from './Client/KPMT/KPMTPastPage'
 import LostPage from './Client/LostPage'
 import KPMTContactPage from './Client/KPMT/KPMTContactPage'
 import LoginPage from './Client/LoginPage'
+import ProfilePage from './Client/ProfilePage'
+import LogoutPage from './Client/LogoutPage'
 
 export default class App extends React.Component {
 	render() {
@@ -31,6 +33,8 @@ export default class App extends React.Component {
 					<Route exact path="/kpmt/past" component={KPMTPastPage} />
 					<Route exact path="/kpmt/contact" component={KPMTContactPage} />
 					<Route exact path="/login" component={LoginPage} />
+					<Route exact path="/profile" component={ProfilePage} />
+					<Route exact path="/logout" component={LogoutPage} />
 					<Route component={LostPage} />
 				</Switch>
 			</Router>

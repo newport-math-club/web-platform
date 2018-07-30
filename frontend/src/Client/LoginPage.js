@@ -6,6 +6,10 @@ export default class LoginPage extends Component {
 	constructor(props) {
 		super(props)
 
+		this.state = {
+			error: false
+		}
+
 		this.emailTextBox = React.createRef()
 		this.passwordTextBox = React.createRef()
 	}
@@ -14,9 +18,19 @@ export default class LoginPage extends Component {
 		const email = this.emailTextBox.current.getText()
 		const password = this.passwordTextBox.current.getText()
 
+		if (email == '' || password == '') {
+			this.setState({ error: true })
+			return
+		}
+
 		const response = await login(email, password)
 
-		console.log(response)
+		if (response.status != 200) {
+			this.setState({ error: true })
+			return
+		}
+
+		window.location.href = '/profile'
 	}
 
 	render() {
@@ -45,6 +59,9 @@ export default class LoginPage extends Component {
 						type="password"
 						placeholder="password"
 					/>
+					{this.state.error && (
+						<h5 style={{ marginTop: '8px' }}>login failed, please try again</h5>
+					)}
 					<Button onClick={this.handleLogin} text="login" />
 				</div>
 			</div>

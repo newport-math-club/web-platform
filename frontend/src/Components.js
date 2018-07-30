@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { fetchProfile } from './nmc-api'
 
 /**
  * Gets the nav items array complete with highlight injection
@@ -58,6 +59,12 @@ export const getNavItems = (itemIndex, subItemIndex) => {
  * }
  */
 export class Nav extends Component {
+	constructor(props) {
+		super(props)
+
+		this.state = {}
+	}
+
 	gotoHome = () => {
 		window.location.href = '/'
 	}
@@ -67,8 +74,26 @@ export class Nav extends Component {
 		window.location.href = '/'
 	}
 
+	async componentDidMount() {
+		const profileResponse = await fetchProfile()
+
+		if (profileResponse.status == 200) {
+			const data = await profileResponse.json()
+
+			this.setState({ name: data.name.split(' ')[0] })
+		}
+	}
+
 	render() {
-		const navItems = this.props.items.map(item => {
+		var items = this.props.items.slice()
+		if (this.state.name) {
+			// base[4] = { name: profileName, path: '/profile', end: true }
+			items[items.length - 1] = [
+				{ name: this.state.name, path: '/profile', end: true, highlight: true },
+				{ name: 'logout', path: '/logout' }
+			]
+		}
+		const navItems = items.map(item => {
 			return (
 				<NavItem
 					item={item}
@@ -139,7 +164,8 @@ class NavItem extends Component {
 				style.paddingTop = paddingAmount + 'em'
 			}
 			if (mainItem.end) {
-				style.margin = 'auto'
+				style.marginLeft = 'auto'
+				style.textAlign = 'right'
 			}
 
 			return (
@@ -157,7 +183,8 @@ class NavItem extends Component {
 						className={
 							'dropdown-contents' +
 							(this.state.hover || this.state.contentHover ? ' _show' : '')
-						}>
+						}
+						style={{ paddingTop: '0.2em' }}>
 						{subItems}
 					</div>
 				</div>
