@@ -12,6 +12,7 @@ import LinksPage from './Client/Resources/LinksPage'
 import KPMTAboutPage from './Client/KPMT/KPMTAboutPage'
 import KPMTPastPage from './Client/KPMT/KPMTPastPage'
 import LostPage from './Client/LostPage'
+import KPMTContactPage from './Client/KPMT/KPMTContactPage'
 
 export default class App extends React.Component {
 	render() {
@@ -27,6 +28,7 @@ export default class App extends React.Component {
 					<Route exact path="/links" component={LinksPage} />
 					<Route exact path="/kpmt" component={KPMTAboutPage} />
 					<Route exact path="/kpmt/past" component={KPMTPastPage} />
+					<Route exact path="/kpmt/contact" component={KPMTContactPage} />
 					<Route component={LostPage} />
 				</Switch>
 			</Router>

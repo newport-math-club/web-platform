@@ -251,7 +251,9 @@ export class Link extends Component {
 	render() {
 		return (
 			<a href={this.props.href} target="_blank">
-				<h4 style={{ paddingTop: '1em' }}>{this.props.name}</h4>
+				<h4 style={{ marginTop: '1em', display: 'inline-block' }}>
+					{this.props.name}
+				</h4>
 			</a>
 		)
 	}

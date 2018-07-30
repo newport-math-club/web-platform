@@ -16,7 +16,7 @@ export default class EventsPage extends Component {
 						paddingRight: '4em',
 						overflowY: 'auto'
 					}}>
-					{/* <h2>P1</h2> */}
+					{/* <h2>P1</h2> TODO: populate this page */}
 					<p>Not much to see here. Sorry!</p>
 				</div>
 			</div>

@@ -1,8 +1,25 @@
 import React, { Component } from 'react'
-import { Nav, getNavItems, OfficerPane, Bio } from '../../Components'
+import { Nav, getNavItems, Link } from '../../Components'
 
 export default class KPMTPastPage extends Component {
 	render() {
+		var pastTestsData = []
+		var pastTests = pastTestsData.map(pastTest => {
+			return (
+				<div>
+					<Link href={pastTest.href} name={pastTest.name} />
+					<p style={{ marginTop: 0 }}>{pastTest.date}</p>
+				</div>
+			)
+		})
+
+		const nothingMsg = (
+			<div>
+				{/* TODO: populate this page */}
+				<p>Nothing to see here yet; coming soon!</p>
+			</div>
+		)
+
 		return (
 			<div className="fullheight">
 				<Nav admin={false} items={getNavItems(3, 1)} />
@@ -28,7 +45,7 @@ export default class KPMTPastPage extends Component {
 						year.
 					</p>
 
-					<h3 style={{ paddingTop: '1em' }}>10th KPMT March 17th, 2018</h3>
+					{pastTests.length > 0 ? pastTests : nothingMsg}
 				</div>
 			</div>
 		)
