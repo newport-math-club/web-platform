@@ -25,41 +25,34 @@ var mathclubDBConnection = mongoose.connect(
 )
 var db = mongoose.connection
 
-db.once('open', () => {
+db.once('open', async () => {
 	console.log('Connected to MongoDB at mongodb://localhost/mathclubDB')
 
-	Members.findOne(
-		{
-			name: 'rootAdmin',
-			admin: true
-		},
-		(err, rootAdmin) => {
-			if (rootAdmin == null || err) {
-				// no rootAdmin, create one
-				auth.hash(rootAdminPass, hash => {
-					Members.remove(
-						{
-							name: 'rootAdmin',
-							admin: true
-						},
-						err => {
-							var newRootAdmin = new Members({
-								name: 'Math Club Admin',
-								email: 'officers@newportmathclub.org',
-								passHashed: hash,
-								admin: true
-							})
+	try {
+    const rootAdmin = await Members.findOne({
+      name: 'rootAdmin',
+      admin: true
+    }).exec()
 
-							newRootAdmin.save(err => {
-								if (err) console.log(err)
-								else console.log('Recreated root administrator')
-							})
-						}
-					)
-				})
-			}
-		}
-	)
+    if (!rootAdmin) {
+      // no rootAdmin, create one
+      auth.hash(rootAdminPass, hash => {
+        var newRootAdmin = new Members({
+          name: 'Math Club Admin',
+          email: 'officers@newportmathclub.org',
+          passHashed: hash,
+          admin: true
+        })
+
+        await newRootAdmin.save()
+
+        console.log('Recreated root administrator')
+      })
+    }
+  } catch (err) {
+    console.log('error while checking/creating root admin')
+    console.log(err)
+  }
 })
 
 global.kpmtLock = process.env.KPMT_LOCK ? process.env.KPMT_LOCK : true
