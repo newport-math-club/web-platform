@@ -46,20 +46,11 @@ export default class MembersPage extends Component {
 	}
 
 	async componentDidMount() {
-		var members = []
 		const response = await fetchMembers()
 		if (response.status == 200) {
 			const data = await response.json()
 
-			data.forEach(member => {
-				members.push([
-					member.yearOfGraduation,
-					member.name,
-					member.email,
-					member.piPoints || 0
-				])
-			})
-			this.setState({ members: members })
+			this.setState({ members: data })
 		}
 	}
 
@@ -129,7 +120,7 @@ export default class MembersPage extends Component {
 						<Button onClick={this.saveMember} text="save" />
 					</div>
 				</Modal>
-				<Nav admin={true} items={getAdminNavItems(0)} />
+				<Nav admin={true} items={getAdminNavItems(1)} />
 				<div
 					style={{
 						float: 'left',
@@ -151,7 +142,17 @@ export default class MembersPage extends Component {
 					<Table
 						headers={['Year', 'Name', 'Email', 'Pi Points']}
 						filter={this.state.filter}
-						data={this.state.members}
+						data={this.state.members.slice().map(member => {
+							return {
+								_id: member._id,
+								fields: [
+									member.yearOfGraduation,
+									member.name,
+									member.email,
+									member.piPoints || 0
+								]
+							}
+						})}
 					/>
 				</div>
 			</div>

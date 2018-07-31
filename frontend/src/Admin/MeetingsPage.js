@@ -9,6 +9,8 @@ import {
 import { Table } from '../Components'
 import Modal from 'react-modal'
 import moment from 'moment'
+import Autosuggest from 'react-autosuggest'
+import { fetchMembers } from '../nmc-api'
 
 Modal.setAppElement('#root')
 
@@ -30,22 +32,41 @@ const customStyles = {
 	}
 }
 
+const renderSuggestion = suggestion => <div>{suggestion.name}</div>
+
 export default class MeetingsPage extends Component {
 	constructor(props) {
 		super(props)
 
 		this.state = {
 			filter: '',
-			newMeetingDialogIsOpen: false
+			newMeetingDialogIsOpen: false,
+			members: [],
+			memberSuggestions: [],
+			suggestionValue: '',
+			addedMembers: []
+		}
+	}
+
+	async componentDidMount() {
+		const response = await fetchMembers()
+		if (response.status == 200) {
+			const data = await response.json()
+
+			this.setState({ members: data })
 		}
 	}
 
 	openNewMeetingModal = () => {
-		this.setState({ newMeetingDialogIsOpen: true })
+		this.setState({
+			newMeetingDialogIsOpen: true
+		})
 	}
 
 	closeNewMeetingModal = () => {
-		this.setState({ newMeetingDialogIsOpen: false })
+		this.setState({
+			newMeetingDialogIsOpen: false
+		})
 	}
 
 	saveMeeting = () => {
@@ -53,9 +74,57 @@ export default class MeetingsPage extends Component {
 		this.closeNewMeetingModal()
 	}
 
+	getMemberSuggestions = value => {
+		const input = value.trim().toLowerCase()
+
+		return input.length === 0
+			? []
+			: this.state.members
+					.slice()
+					.filter(
+						member =>
+							member.name.toLowerCase().includes(input) &&
+							!this.state.addedMembers.includes(member)
+					)
+	}
+
+	onSuggestionsFetchRequested = value => {
+		this.setState({
+			memberSuggestions: this.getMemberSuggestions(value.value)
+		})
+	}
+
+	// Autosuggest will call this function every time you need to clear suggestions.
+	onSuggestionsClearRequested = () => {
+		this.setState({ memberSuggestions: [] })
+	}
+
+	onSuggestionInputChange = (event, { newValue }) => {
+		this.setState({ suggestionValue: newValue })
+	}
+
+	onSuggestionSelected = (_, item) => {
+		const suggestion = item.suggestion
+		this.setState({
+			addedMembers: this.state.addedMembers.slice().concat(suggestion)
+		})
+		this.setState({ suggestionValue: '' })
+	}
+
 	render() {
 		const date = moment()
 		var dateString = date.format('MM/DD/YYYY')
+
+		const inputProps = {
+			placeholder: 'add member',
+			value: this.state.suggestionValue,
+			onChange: this.onSuggestionInputChange,
+			style: {
+				width: '70%',
+				display: 'inline-block'
+			}
+		}
+
 		return (
 			<div className="fullheight">
 				<Modal
@@ -72,12 +141,47 @@ export default class MeetingsPage extends Component {
 						/>
 					</div>
 					<div>
-						<h3 style={{ marginTop: '1em', display: 'inline' }}>Members:</h3>
-						<Textbox
-							style={{ display: 'inline-block', marginLeft: '1em' }}
-							placeholder="add member"
-							// TODO: autocomplete here
-						/>
+						<h3 style={{ paddingTop: '1em' }}>Members:</h3>
+
+						<div
+							style={{
+								display: 'flex',
+								flexDirection: 'row',
+								justifyContent: 'center',
+								alignContent: 'top'
+							}}>
+							<div
+								style={{
+									width: '50%'
+								}}>
+								<h5>select members</h5>
+								<Autosuggest
+									suggestions={this.state.memberSuggestions}
+									onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+									onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+									getSuggestionValue={suggestion => suggestion.name}
+									onSuggestionSelected={this.onSuggestionSelected}
+									renderSuggestion={renderSuggestion}
+									inputProps={inputProps}
+								/>
+							</div>
+
+							<div
+								style={{
+									width: '50%',
+									paddingLeft: '1em'
+								}}>
+								<h5>selected members</h5>
+								<div
+									style={{
+										paddingTop: '1em'
+									}}>
+									{this.state.addedMembers.map(member => {
+										return <h3>{member.name}</h3>
+									})}
+								</div>
+							</div>
+						</div>
 					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeNewMeetingModal} text="close" />

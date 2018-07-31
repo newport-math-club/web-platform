@@ -50,11 +50,13 @@ export default class LoginPage extends Component {
 					}}>
 					<h1>member login</h1>
 					<Textbox
+						onEnter={this.handleLogin}
 						ref={this.emailTextBox}
 						type="text"
 						placeholder="student email"
 					/>
 					<Textbox
+						onEnter={this.handleLogin}
 						ref={this.passwordTextBox}
 						type="password"
 						placeholder="password"

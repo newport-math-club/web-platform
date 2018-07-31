@@ -45,7 +45,7 @@ export default class AboutPage extends Component {
 					<Bio
 						name="Candace Do"
 						title="Shadow Officer"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/terrance.png"
+						image="https://newport-math-club.nyc3.digitaloceanspaces.com/candace.png"
 						row={6}
 						column={1}
 					/>

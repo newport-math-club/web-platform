@@ -340,12 +340,31 @@ export class Textbox extends Component {
 		this.setState({ errored: false })
 	}
 
+	handleKeyDown = e => {
+		if (e.key === 'Enter') {
+			if (this.props.onEnter) this.props.onEnter()
+		}
+
+		if (e.key === 'Tab') {
+			if (this.props.onTab) this.props.onTab()
+		}
+
+		if (e.key === 'ArrowDown') {
+			if (this.props.onArrowDown) this.props.onArrowDown()
+		}
+
+		if (e.key === 'ArrowUp') {
+			if (this.props.onArrowUp) this.props.onArrowUp()
+		}
+	}
+
 	render() {
 		var style = { ...this.props.style }
 		if (this.state.errored) style.border = '2px solid #eb5757'
 
 		return (
 			<input
+				onKeyDown={this.handleKeyDown}
 				style={style}
 				placeholder={this.props.placeholder}
 				type={this.props.type}
@@ -406,8 +425,11 @@ export class Table extends Component {
 					if (!row[i]) continue
 					if (row[i].toString().includes(this.props.filter)) {
 						return (
-							<tr>
-								{row.map(item => {
+							<tr
+								onClick={() => {
+									console.log(row._id)
+								}}>
+								{row.fields.map(item => {
 									return <td>{item}</td>
 								})}
 							</tr>
@@ -418,16 +440,17 @@ export class Table extends Component {
 		} else {
 			rows = this.props.data.slice().map(row => {
 				return (
-					<tr>
-						{row.map(item => {
+					<tr
+						onClick={() => {
+							console.log(row._id)
+						}}>
+						{row.fields.map(item => {
 							return <td>{item}</td>
 						})}
 					</tr>
 				)
 			})
 		}
-
-		console.log(rows)
 
 		return (
 			<table>

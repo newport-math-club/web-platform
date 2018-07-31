@@ -211,7 +211,6 @@ input {
 	margin-right: 0.25em;
 	border-radius: 2em;
 	border: none;
-
 	&:hover {
 		transition: 0.1s;
 		box-shadow: 1px 3px 12px $grayDark;
@@ -221,7 +220,6 @@ input {
 		box-shadow: 1px 2px 8px $grayLight;
 	}
 }
-
 table {
 	text-align: left;
 	width: 100%;
@@ -230,35 +228,28 @@ table {
 		border-radius: 2em;
 		box-shadow: 1px 2px 8px $grayLight;
 	}
-
 	tr {
 		&:not(:first-child) {
 			&:hover {
 				color: $highlight;
 			}
-
 			cursor: pointer;
 		}
-
 		th {
 			font-size: 1.5em;
 		}
-
 		td {
 			font-size: 1.5em;
 		}
-
 		td:first-of-type,
 		th:first-of-type {
 			width: 4em;
 		}
-
 		td:last-of-type,
 		th:last-of-type {
 			text-align: right;
 			width: 4em;
 		}
-
 		td,
 		th {
 			height: 2em;
