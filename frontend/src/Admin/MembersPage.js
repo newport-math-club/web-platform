@@ -8,7 +8,7 @@ import {
 } from '../Components'
 import { Table } from '../Components'
 import Modal from 'react-modal'
-import { newMember } from '../nmc-api'
+import { newMember, fetchMembers } from '../nmc-api'
 
 Modal.setAppElement('#root')
 
@@ -36,12 +36,31 @@ export default class MembersPage extends Component {
 
 		this.state = {
 			filter: '',
-			newMemberDialogIsOpen: false
+			newMemberDialogIsOpen: false,
+			members: []
 		}
 
 		this.nameTextbox = React.createRef()
 		this.emailTextbox = React.createRef()
 		this.yearTextbox = React.createRef()
+	}
+
+	async componentDidMount() {
+		var members = []
+		const response = await fetchMembers()
+		if (response.status == 200) {
+			const data = await response.json()
+
+			data.forEach(member => {
+				members.push([
+					member.yearOfGraduation,
+					member.name,
+					member.email,
+					member.piPoints || 0
+				])
+			})
+			this.setState({ members: members })
+		}
 	}
 
 	openNewMemberModal = () => {
@@ -130,9 +149,9 @@ export default class MembersPage extends Component {
 						<Button text="new member" onClick={this.openNewMemberModal} />
 					</div>
 					<Table
-						headers={['Year', 'Name', 'Email', 'Attendance']}
+						headers={['Year', 'Name', 'Email', 'Pi Points']}
 						filter={this.state.filter}
-						data={[]}
+						data={this.state.members}
 					/>
 				</div>
 			</div>

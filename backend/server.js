@@ -44,7 +44,7 @@ db.once('open', () => {
 						},
 						err => {
 							var newRootAdmin = new Members({
-								name: 'rootAdmin',
+								name: 'Math Club Admin',
 								email: 'officers@newportmathclub.org',
 								passHashed: hash,
 								admin: true
@@ -95,7 +95,7 @@ app.use(bodyParser.json())
 app.use((req, res, next) => {
 	var allowedOrigins = ['http://165.227.54.2:5000', 'http://localhost:3000']
 	var origin = req.headers.origin
-	console.log(origin)
+
 	if (allowedOrigins.indexOf(origin) > -1) {
 		res.setHeader('Access-Control-Allow-Origin', origin)
 	}

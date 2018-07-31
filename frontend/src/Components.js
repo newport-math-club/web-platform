@@ -386,27 +386,24 @@ export class FilterBar extends Component {
 }
 
 export class Table extends Component {
-	constructor(props) {
-		super(props)
-
-		this.state = {
-			data: this.props.data // a 2d array
-		}
-	}
-
 	toggleSortByIndex = index => {
 		// TODO:
 	}
 
 	render() {
 		var headers = this.props.headers.map((header, index) => {
-			return <th onClick={this.toggleSortByIndex(index)}>{header}</th>
+			return (
+				<th key={header} onClick={this.toggleSortByIndex(index)}>
+					{header}
+				</th>
+			)
 		})
 
 		var rows
 		if (this.props.filter.length > 0) {
-			rows = this.state.data.map(row => {
+			rows = this.props.data.slice().map(row => {
 				for (var i = 0; i < row.length; i++) {
+					if (!row[i]) continue
 					if (row[i].toString().includes(this.props.filter)) {
 						return (
 							<tr>
@@ -419,7 +416,7 @@ export class Table extends Component {
 				}
 			})
 		} else {
-			rows = this.state.data.map(row => {
+			rows = this.props.data.slice().map(row => {
 				return (
 					<tr>
 						{row.map(item => {
@@ -429,6 +426,8 @@ export class Table extends Component {
 				)
 			})
 		}
+
+		console.log(rows)
 
 		return (
 			<table>

@@ -53,3 +53,13 @@ exports.newMember = (name, email, yearOfGraduation) => {
 		credentials: 'include'
 	})
 }
+
+exports.fetchMembers = () => {
+	return fetch(BASE_URL + '/members', {
+		method: 'GET',
+		headers: {
+			Accept: 'application/json'
+		},
+		credentials: 'include'
+	})
+}
