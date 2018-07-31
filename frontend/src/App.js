@@ -17,6 +17,7 @@ import LoginPage from './Client/LoginPage'
 import ProfilePage from './Client/ProfilePage'
 import LogoutPage from './Client/LogoutPage'
 import MeetingsPage from './Admin/MeetingsPage'
+import MembersPage from './Admin/MembersPage'
 
 export default class App extends React.Component {
 	render() {
@@ -38,6 +39,7 @@ export default class App extends React.Component {
 					<Route exact path="/logout" component={LogoutPage} />
 
 					<Route exact path="/admin/meetings" component={MeetingsPage} />
+					<Route exact path="/admin/members" component={MembersPage} />
 					<Route component={LostPage} />
 				</Switch>
 			</Router>

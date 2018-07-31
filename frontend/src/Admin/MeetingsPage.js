@@ -48,7 +48,10 @@ export default class MeetingsPage extends Component {
 		this.setState({ newMeetingDialogIsOpen: false })
 	}
 
-	onNewMeetingDialogClose = () => {}
+	saveMeeting = () => {
+		// TODO:
+		this.closeNewMeetingModal()
+	}
 
 	render() {
 		const date = moment()
@@ -73,6 +76,7 @@ export default class MeetingsPage extends Component {
 						<Textbox
 							style={{ display: 'inline-block', marginLeft: '1em' }}
 							placeholder="add member"
+							// TODO: autocomplete here
 						/>
 					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
