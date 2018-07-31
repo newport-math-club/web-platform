@@ -26,7 +26,7 @@ mongoose.connect(
 var db = mongoose.connection
 
 db.once('open', async () => {
-	console.log('Connected to MongoDB at mongodb://localhost/mathclubDB')
+	console.log('Connected to MongoDB at mo ngodb://localhost/mathclubDB')
 
 	try {
 		const rootAdmin = await Members.findOne({
@@ -40,7 +40,7 @@ db.once('open', async () => {
 			auth.hash(rootAdminPass, async hash => {
 				console.log(hash)
 				var newRootAdmin = new Members({
-					name: 'Math Club Admin',
+					name: 'Admin Math Club',
 					email: 'officers@newportmathclub.org',
 					passHashed: hash,
 					admin: true
