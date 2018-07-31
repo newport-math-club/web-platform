@@ -115,8 +115,8 @@ exports.newMember = (req, res) => {
 	var email = req.body.email
 	var admin = req.body.admin
 
-	console.log(name + ' ' + yearOfGraduation + ' ' + email + ' ' + admin)
-	if (!validateInput(name, yearOfGraduation, email, admin))
+	if (admin == null || admin == undefined) admin = false
+	if (!validateInput(name, yearOfGraduation, email))
 		return res.status(400).end()
 
 	auth.hash(defaultPassword, hash => {
