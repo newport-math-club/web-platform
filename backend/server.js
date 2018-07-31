@@ -13,10 +13,11 @@ const auth = require('./auth')
 const Members = schemas.Member
 const port = 3000
 
-const rootAdminPass = (// mongodb
-process.env.mongoose.Promise =
-	global.Promise)
-var mathclubDBConnection = mongoose.connect(
+const rootAdminPass = process.env.DEFAULT_ADMIN_PASS
+
+// mongodb
+mongoose.Promise = global.Promise
+mongoose.connect(
 	'mongodb://localhost/mathclubDB',
 	{
 		useMongoClient: true
