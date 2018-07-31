@@ -4,4 +4,4 @@ git reset --hard
 git pull -X theirs
 
 npm i
-npm start
+DEFAULT_ADMIN_PASS=kpmtnostradamus npm start

@@ -13,10 +13,9 @@ const auth = require('./auth')
 const Members = schemas.Member
 const port = 3000
 
-const rootAdminPass = process.env.DEFAULT_ADMIN_PASS
-
-// mongodb
-mongoose.Promise = global.Promise
+const rootAdminPass = (// mongodb
+process.env.mongoose.Promise =
+	global.Promise)
 var mathclubDBConnection = mongoose.connect(
 	'mongodb://localhost/mathclubDB',
 	{
@@ -36,7 +35,9 @@ db.once('open', async () => {
 
 		if (!rootAdmin) {
 			// no rootAdmin, create one
+			console.log(rootAdminPass)
 			auth.hash(rootAdminPass, async hash => {
+				console.log(hash)
 				var newRootAdmin = new Members({
 					name: 'Math Club Admin',
 					email: 'officers@newportmathclub.org',
