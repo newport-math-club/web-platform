@@ -12,6 +12,12 @@ export default class ProfilePage extends Component {
 	// fetch profile data here
 	async componentDidMount() {
 		const response = await fetchProfile()
+
+		if (response.status != 200) {
+			window.location.href = '/login'
+			return
+		}
+
 		const data = await response.json()
 
 		this.setState({
@@ -43,8 +49,8 @@ export default class ProfilePage extends Component {
 					<h5>year of graduation: {this.state.year}</h5>
 					{this.state.admin ? (
 						<h5>
-							you are an admin; click <a href="/admin/login">here</a> to access
-							the admin dashboard
+							you are an admin; click <a href="/admin/meetings">here</a> to
+							access the admin dashboard
 						</h5>
 					) : (
 						<h5>you are NOT an admin</h5>

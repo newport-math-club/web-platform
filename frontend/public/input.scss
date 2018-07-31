@@ -195,26 +195,75 @@ input {
 	user-select: none;
 	transition: 0.1s;
 	cursor: pointer;
+	height: 1.7em;
+	padding-top: 0.3em;
 	margin-top: 0.5em;
 	display: inline-block;
 	background: $highlight;
 	color: white;
 	padding-left: 1.5em;
 	padding-right: 1.5em;
-	padding-top: 0.25em;
-	padding-bottom: 0.4em;
 	margin-bottom: 0.5em;
 	box-shadow: 1px 2px 8px $grayLight;
 	font-family: Sofia-Pro;
 	font-size: 1.5em;
+	margin-left: 0.25em;
+	margin-right: 0.25em;
 	border-radius: 2em;
 	border: none;
+
+	&:hover {
+		transition: 0.1s;
+		box-shadow: 1px 3px 12px $grayDark;
+	}
+	&:active {
+		transition: 0.1s;
+		box-shadow: 1px 2px 8px $grayLight;
+	}
 }
-.button:hover {
-	transition: 0.1s;
-	box-shadow: 1px 3px 12px $grayDark;
-}
-.button:active {
-	transition: 0.1s;
-	box-shadow: 1px 2px 8px $grayLight;
+
+table {
+	text-align: left;
+	width: 100%;
+	margin-top: 1em;
+	tr:first-of-type {
+		border-radius: 2em;
+		box-shadow: 1px 2px 8px $grayLight;
+	}
+
+	tr {
+		&:not(:first-child) {
+			&:hover {
+				color: $highlight;
+			}
+
+			cursor: pointer;
+		}
+
+		th {
+			font-size: 1.5em;
+		}
+
+		td {
+			font-size: 1.5em;
+		}
+
+		td:first-of-type,
+		th:first-of-type {
+			width: 4em;
+		}
+
+		td:last-of-type,
+		th:last-of-type {
+			text-align: right;
+			width: 4em;
+		}
+
+		td,
+		th {
+			height: 2em;
+			padding-right: 2em;
+			padding-left: 1em;
+		}
+	}
 }

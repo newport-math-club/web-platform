@@ -47,6 +47,32 @@ export const getNavItems = (itemIndex, subItemIndex) => {
 	return base
 }
 
+export const getAdminNavItems = (itemIndex, subItemIndex) => {
+	var base = [
+		{ name: 'meetings', path: '/admin/meetings' },
+		{ name: 'members', path: '/admin/members' },
+		[
+			{ name: 'kpmt', path: '/admin/kpmt' },
+			{ name: 'schools', path: '/admin/kpmt/schools' },
+			{ name: 'competitors', path: '/admin/kpmt/competitors' },
+			{ name: 'data entry', path: '/admin/kpmt/scoring' }
+		],
+		{ name: 'logout', path: '/logout', end: true }
+	]
+
+	if (itemIndex < 0) return base
+
+	var item = base[itemIndex]
+	if (item instanceof Array) {
+		item[0].highlight = true
+		item[subItemIndex].highlight = true
+	} else {
+		item.highlight = true
+	}
+
+	return base
+}
+
 /**
  * props:
  * {
@@ -294,6 +320,33 @@ export class Link extends Component {
  * }
  */
 export class Textbox extends Component {
+	constructor(props) {
+		super(props)
+		this.state = {
+			text: ''
+		}
+	}
+
+	getText = () => {
+		return this.state.text
+	}
+
+	render() {
+		return (
+			<input
+				style={this.props.style}
+				placeholder={this.props.placeholder}
+				type={this.props.type}
+				value={this.state.text}
+				onChange={e => {
+					this.setState({ text: e.target.value })
+				}}
+			/>
+		)
+	}
+}
+
+export class FilterBar extends Component {
 	getText = () => {
 		return this.state.text
 	}
@@ -307,13 +360,69 @@ export class Textbox extends Component {
 	render() {
 		return (
 			<input
+				style={{ display: 'inline-block' }}
 				placeholder={this.props.placeholder}
 				type={this.props.type}
 				value={this.state.text}
 				onChange={e => {
 					this.setState({ text: e.target.value })
+					this.props.onTextChange(e.target.value)
 				}}
 			/>
+		)
+	}
+}
+
+export class Table extends Component {
+	constructor(props) {
+		super(props)
+
+		this.state = {
+			data: this.props.data // a 2d array
+		}
+	}
+
+	toggleSortByIndex = index => {
+		// TODO:
+	}
+
+	render() {
+		var headers = this.props.headers.map((header, index) => {
+			return <th onClick={this.toggleSortByIndex(index)}>{header}</th>
+		})
+
+		var rows
+		if (this.props.filter.length > 0) {
+			rows = this.state.data.map(row => {
+				for (var i = 0; i < row.length; i++) {
+					if (row[i].toString().includes(this.props.filter)) {
+						return (
+							<tr>
+								{row.map(item => {
+									return <td>{item}</td>
+								})}
+							</tr>
+						)
+					}
+				}
+			})
+		} else {
+			rows = this.state.data.map(row => {
+				return (
+					<tr>
+						{row.map(item => {
+							return <td>{item}</td>
+						})}
+					</tr>
+				)
+			})
+		}
+
+		return (
+			<table>
+				<tr>{headers}</tr>
+				{rows}
+			</table>
 		)
 	}
 }

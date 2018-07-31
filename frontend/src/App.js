@@ -16,6 +16,7 @@ import KPMTContactPage from './Client/KPMT/KPMTContactPage'
 import LoginPage from './Client/LoginPage'
 import ProfilePage from './Client/ProfilePage'
 import LogoutPage from './Client/LogoutPage'
+import MeetingsPage from './Admin/MeetingsPage'
 
 export default class App extends React.Component {
 	render() {
@@ -35,6 +36,8 @@ export default class App extends React.Component {
 					<Route exact path="/login" component={LoginPage} />
 					<Route exact path="/profile" component={ProfilePage} />
 					<Route exact path="/logout" component={LogoutPage} />
+
+					<Route exact path="/admin/meetings" component={MeetingsPage} />
 					<Route component={LostPage} />
 				</Switch>
 			</Router>

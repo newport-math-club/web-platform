@@ -191,30 +191,67 @@ input {
   user-select: none;
   transition: 0.1s;
   cursor: pointer;
+  height: 1.7em;
+  padding-top: 0.3em;
   margin-top: 0.5em;
   display: inline-block;
   background: #527aff;
   color: white;
   padding-left: 1.5em;
   padding-right: 1.5em;
-  padding-top: 0.25em;
-  padding-bottom: 0.4em;
   margin-bottom: 0.5em;
   box-shadow: 1px 2px 8px #c4c4c4;
   font-family: Sofia-Pro;
   font-size: 1.5em;
+  margin-left: 0.25em;
+  margin-right: 0.25em;
   border-radius: 2em;
   border: none;
 }
-
 .button:hover {
   transition: 0.1s;
   box-shadow: 1px 3px 12px #888;
 }
-
 .button:active {
   transition: 0.1s;
   box-shadow: 1px 2px 8px #c4c4c4;
+}
+
+table {
+  text-align: left;
+  width: 100%;
+  margin-top: 1em;
+}
+table tr:first-of-type {
+  border-radius: 2em;
+  box-shadow: 1px 2px 8px #c4c4c4;
+}
+table tr:not(:first-child) {
+  cursor: pointer;
+}
+table tr:not(:first-child):hover {
+  color: #527aff;
+}
+table tr th {
+  font-size: 1.5em;
+}
+table tr td {
+  font-size: 1.5em;
+}
+table tr td:first-of-type,
+table tr th:first-of-type {
+  width: 4em;
+}
+table tr td:last-of-type,
+table tr th:last-of-type {
+  text-align: right;
+  width: 4em;
+}
+table tr td,
+table tr th {
+  height: 2em;
+  padding-right: 2em;
+  padding-left: 1em;
 }
 
 /*# sourceMappingURL=styles.css.map */
