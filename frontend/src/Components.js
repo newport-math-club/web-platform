@@ -323,7 +323,8 @@ export class Textbox extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			text: ''
+			text: '',
+			errored: false
 		}
 	}
 
@@ -331,10 +332,21 @@ export class Textbox extends Component {
 		return this.state.text
 	}
 
+	error = () => {
+		this.setState({ errored: true })
+	}
+
+	unError = () => {
+		this.setState({ errored: false })
+	}
+
 	render() {
+		var style = { ...this.props.style }
+		if (this.state.errored) style.border = '2px solid #eb5757'
+
 		return (
 			<input
-				style={this.props.style}
+				style={style}
 				placeholder={this.props.placeholder}
 				type={this.props.type}
 				value={this.state.text}

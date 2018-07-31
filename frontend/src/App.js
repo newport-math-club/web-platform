@@ -19,6 +19,15 @@ import LogoutPage from './Client/LogoutPage'
 import MeetingsPage from './Admin/MeetingsPage'
 import MembersPage from './Admin/MembersPage'
 
+String.prototype.isValidEmail = function() {
+	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+	return re.test(this.toLowerCase())
+}
+
+String.prototype.isOnlyWhitespace = function() {
+	return this.replace(/\s/g, '').length === 0
+}
+
 export default class App extends React.Component {
 	render() {
 		return (

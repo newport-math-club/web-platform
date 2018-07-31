@@ -36,3 +36,20 @@ exports.logout = () => {
 		credentials: 'include'
 	})
 }
+
+exports.newMember = (name, email, yearOfGraduation) => {
+	return fetch(BASE_URL + '/members/add', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			name: name,
+			email: email,
+			yearOfGraduation: yearOfGraduation,
+			admin: false
+		}),
+		credentials: 'include'
+	})
+}

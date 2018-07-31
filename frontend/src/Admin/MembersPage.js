@@ -8,6 +8,7 @@ import {
 } from '../Components'
 import { Table } from '../Components'
 import Modal from 'react-modal'
+import { newMember } from '../nmc-api'
 
 Modal.setAppElement('#root')
 
@@ -37,6 +38,10 @@ export default class MembersPage extends Component {
 			filter: '',
 			newMemberDialogIsOpen: false
 		}
+
+		this.nameTextbox = React.createRef()
+		this.emailTextbox = React.createRef()
+		this.yearTextbox = React.createRef()
 	}
 
 	openNewMemberModal = () => {
@@ -47,9 +52,41 @@ export default class MembersPage extends Component {
 		this.setState({ newMemberDialogIsOpen: false })
 	}
 
-	saveMember = () => {
-		// TODO:
-		this.closeNewMemberModal()
+	saveMember = async () => {
+		const name = this.nameTextbox.current.getText()
+		const email = this.emailTextbox.current.getText()
+		const year = this.yearTextbox.current.getText()
+
+		var error = false
+		if (!name || name.isOnlyWhitespace()) {
+			this.nameTextbox.current.error()
+			error = true
+		} else {
+			this.nameTextbox.current.unError()
+		}
+
+		if (!email || !email.isValidEmail()) {
+			this.emailTextbox.current.error()
+			error = true
+		} else {
+			this.emailTextbox.current.unError()
+		}
+
+		if (!year || isNaN(year)) {
+			this.yearTextbox.current.error()
+			error = true
+		} else {
+			this.yearTextbox.current.unError()
+		}
+
+		if (error) return
+
+		const response = await newMember(name, email, year)
+
+		console.log(response)
+		if (response.status == 200) {
+			this.closeNewMemberModal()
+		}
 	}
 
 	render() {
@@ -60,13 +97,17 @@ export default class MembersPage extends Component {
 					style={customStyles}
 					contentLabel="New Member">
 					<h2>New Member</h2>
-					<Textbox placeholder="name" type="text" />
-					<Textbox placeholder="email" type="text" />
-					<Textbox placeholder="year of graduation" type="text" />
+					<Textbox ref={this.nameTextbox} placeholder="name" type="text" />
+					<Textbox ref={this.emailTextbox} placeholder="email" type="text" />
+					<Textbox
+						ref={this.yearTextbox}
+						placeholder="year of graduation"
+						type="text"
+					/>
 
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeNewMemberModal} text="close" />
-						<Button text="save" />
+						<Button onClick={this.saveMember} text="save" />
 					</div>
 				</Modal>
 				<Nav admin={true} items={getAdminNavItems(0)} />
