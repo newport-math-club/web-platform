@@ -197,6 +197,8 @@ exports.editMeeting = async (req, res) => {
 					})
 				}
 
+				sockets.onMeetingsChange('edit', updated)
+
 				res.status(200).end()
 			}
 		}

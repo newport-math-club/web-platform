@@ -11,6 +11,7 @@ import Modal from 'react-modal'
 import moment from 'moment'
 import Autosuggest from 'react-autosuggest'
 import { fetchMembers, newMeeting, fetchMeetings } from '../nmc-api'
+import SocketEventHandlers from '../Sockets'
 
 Modal.setAppElement('#root')
 
@@ -54,7 +55,41 @@ export default class MeetingsPage extends Component {
 		this.descriptionTextbox = React.createRef()
 	}
 
+	componentWillUnmount() {
+		SocketEventHandlers.unsubscribeToMeetingsChange()
+	}
+
 	async componentDidMount() {
+		SocketEventHandlers.subscribeToMeetingsChange(data => {
+			console.log('received meeting change data')
+			console.log(data)
+			switch (data.type) {
+				case 'add':
+					this.setState({
+						meetings: this.state.meetings.slice().concat(data.payload)
+					})
+					break
+				case 'remove':
+					this.setState({
+						meetings: this.state.meetings
+							.slice()
+							.filter(m => m._id.toString() !== data.payload.toString())
+					})
+					break
+				case 'edit':
+					var newMeetings = this.state.meetings.slice()
+
+					for (var i = 0; i < newMeetings.length; i++) {
+						if (newMeetings[i]._id.toString() === data.payload._id.toString()) {
+							newMeetings[i] = data.payload
+							break
+						}
+					}
+					this.setState({ meetings: newMeeting })
+					break
+			}
+		})
+
 		const membersResponse = await fetchMembers()
 		if (membersResponse.status == 200) {
 			const data = await membersResponse.json()
