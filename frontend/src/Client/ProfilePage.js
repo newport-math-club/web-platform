@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Nav, getNavItems, OfficerPane, Bio } from '../Components'
 import { fetchProfile } from '../nmc-api'
-import { Sockets } from '../Sockets'
+import SocketEventHandlers, { Sockets } from '../Sockets'
 
 export default class ProfilePage extends Component {
 	constructor(props) {
@@ -10,8 +10,16 @@ export default class ProfilePage extends Component {
 		this.state = {}
 	}
 
+	componentWillUnmount() {
+		SocketEventHandlers.unsubscribeToPiPointChange()
+	}
+
 	// fetch profile data here
 	async componentDidMount() {
+		SocketEventHandlers.subscribeToPiPointChange(data => {
+			this.setState({ piPoints: this.state.piPoints + parseInt(data) })
+		})
+
 		const response = await fetchProfile()
 
 		if (response.status != 200) {
@@ -48,13 +56,11 @@ export default class ProfilePage extends Component {
 					<h2>{this.state.name}</h2>
 					<h5>email: {this.state.email}</h5>
 					<h5>year of graduation: {this.state.year}</h5>
-					{this.state.admin ? (
+					{this.state.admin && (
 						<h5>
 							you are an admin; click <a href="/admin/meetings">here</a> to
 							access the admin dashboard
 						</h5>
-					) : (
-						<h5>you are NOT an admin</h5>
 					)}
 
 					<br />
