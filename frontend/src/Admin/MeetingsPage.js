@@ -150,6 +150,20 @@ export default class MeetingsPage extends Component {
 		}
 	}
 
+	openEditMeetingModal = () => {
+		this.setState({
+			newMeetingDialogIsOpen: true
+		})
+	}
+
+	closeEditMeetingModal = () => {
+		this.setState({
+			newMeetingDialogIsOpen: false,
+			addedMembers: [],
+			suggestionValue: ''
+		})
+	}
+
 	removeMember = index => {
 		var copy = this.state.addedMembers.slice()
 		copy.splice(index, 1)
@@ -312,6 +326,7 @@ export default class MeetingsPage extends Component {
 					<Table
 						headers={['Date', 'Description', 'Attendance']}
 						filter={this.state.filter}
+						onItemClick={this.openEditMeetingModal}
 						data={this.state.meetings.slice().map(meeting => {
 							return {
 								_id: meeting._id,

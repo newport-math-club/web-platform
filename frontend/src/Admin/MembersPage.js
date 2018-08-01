@@ -78,7 +78,9 @@ export default class MembersPage extends Component {
 					for (var i = 0; i < newMembers.length; i++) {
 						if (newMembers[i]._id.toString() === data.payload._id.toString()) {
 							data.payload.data.forEach(change => {
-								newMembers[i][change.field] = change.value
+								if (change.field == 'piPoints')
+									newMembers[i].piPoints += parseInt(change.value)
+								else newMembers[i][change.field] = change.value
 							})
 
 							break
@@ -136,6 +138,7 @@ export default class MembersPage extends Component {
 	}
 
 	render() {
+		console.log(this.state.filter)
 		return (
 			<div className="fullheight">
 				<Modal

@@ -421,13 +421,18 @@ export class Table extends Component {
 		var rows
 		if (this.props.filter.length > 0) {
 			rows = this.props.data.slice().map(row => {
-				for (var i = 0; i < row.length; i++) {
-					if (!row[i]) continue
-					if (row[i].toString().includes(this.props.filter)) {
+				for (var i = 0; i < row.fields.length; i++) {
+					if (!row.fields[i]) continue
+					if (
+						row.fields[i]
+							.toString()
+							.toLowerCase()
+							.includes(this.props.filter.toLowerCase())
+					) {
 						return (
 							<tr
 								onClick={() => {
-									console.log(row._id)
+									this.props.onItemClick(row._id)
 								}}>
 								{row.fields.map(item => {
 									return <td>{item}</td>
@@ -442,7 +447,7 @@ export class Table extends Component {
 				return (
 					<tr
 						onClick={() => {
-							console.log(row._id)
+							this.props.onItemClick(row._id)
 						}}>
 						{row.fields.map(item => {
 							return <td>{item}</td>
@@ -454,8 +459,10 @@ export class Table extends Component {
 
 		return (
 			<table>
-				<tr>{headers}</tr>
-				{rows}
+				<thead>
+					<tr>{headers}</tr>
+				</thead>
+				<tbody>{rows}</tbody>
 			</table>
 		)
 	}
