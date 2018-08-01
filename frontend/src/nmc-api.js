@@ -73,6 +73,22 @@ exports.newMeeting = (piPoints, memberIds, description) => {
 	})
 }
 
+exports.editMeeting = (id, type, payload) => {
+	return fetch(BASE_URL + '/api/meetings/update', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id: id,
+			type: type,
+			payload: payload
+		}),
+		credentials: 'include'
+	})
+}
+
 exports.fetchMembers = () => {
 	return fetch(BASE_URL + '/api/members', {
 		method: 'GET',

@@ -137,6 +137,8 @@ exports.removeMeeting = async (req, res) => {
 			sockets.onPiPointChange(memberId.toString(), 0 - meeting.piPoints)
 		})
 
+		// TODO: onmemberchange
+
 		res.status(200).end()
 	} catch (err) {
 		console.log(err)
@@ -146,70 +148,62 @@ exports.removeMeeting = async (req, res) => {
 
 exports.editMeeting = async (req, res) => {
 	var id = req.body.id
-	var type = req.body.type
-	var payload = req.body.payload
+	var piPoints = req.body.piPoints ? req.body.piPoints : 1
+	var date = req.body.date ? req.body.date : Date.now()
+	var memberIds = req.body.memberIds
+	var description = req.body.description
 
-	if (!validateInput(id, type, payload)) return res.status(400).end()
-	if (
-		type != 'date' &&
-		type != 'description' &&
-		type != 'piPoints' &&
-		type != 'members'
-	)
+	if (!validateInput(id, piPoints, date, memberIds, description))
 		return res.status(400).end()
 
 	const oldMeeting = await Meetings.findOne({ _id: id }).exec()
 
 	if (!oldMeeting) return res.status(404).end()
 
-	Meetings.updateOne(
+	await Meetings.updateOne(
 		{
 			_id: id
 		},
 		{
 			$set: {
-				[type]: payload
-			}
-		},
-		async (err, updated) => {
-			if (err) res.status(500).end()
-			else {
-				if (type == 'piPoints' || type == 'members') {
-					// decrement these pi points from all old members
-					await Members.updateMany(
-						{ _id: { $in: oldMeeting.members } },
-						{ $inc: { piPoints: 0 - oldMeeting.piPoints } }
-					).exec()
-
-					// socket the decrement
-					oldMeeting.members.forEach(memberId => {
-						sockets.onPiPointChange(
-							memberId.toString(),
-							0 - oldMeeting.piPoints
-						)
-					})
-
-					// increment these pi points
-					await Members.updateMany(
-						{ _id: { $in: updated.members } },
-						{ $inc: { piPoints: updated.piPoints } }
-					).exec()
-
-					// socket the increment
-					updated.members.forEach(memberId => {
-						sockets.onPiPointChange(memberId.toString(), updated.piPoints)
-					})
-				}
-
-				sockets.onMeetingsChange('edit', {
-					_id: id,
-					data: [{ field: type, value: payload }]
-				})
-
-				res.status(200).end()
+				date: date,
+				description: description,
+				piPoints: piPoints,
+				members: members
 			}
 		}
-	)
+	).exec()
+
+	// decrement these pi points from all old members
+	await Members.updateMany(
+		{ _id: { $in: oldMeeting.members } },
+		{ $inc: { piPoints: 0 - oldMeeting.piPoints } }
+	).exec()
+
+	// socket the decrement
+	oldMeeting.members.forEach(memberId => {
+		sockets.onPiPointChange(memberId.toString(), 0 - oldMeeting.piPoints)
+	})
+
+	// TODO: socket on members change
+
+	// increment these pi points
+	await Members.updateMany(
+		{ _id: { $in: updated.members } },
+		{ $inc: { piPoints: updated.piPoints } }
+	).exec()
+
+	// socket the increment
+	updated.members.forEach(memberId => {
+		sockets.onPiPointChange(memberId.toString(), updated.piPoints)
+	})
+
+	sockets.onMeetingsChange('edit', {
+		_id: id,
+		data: [{ field: type, value: payload }]
+	})
+
+	res.status(200).end()
 }
 
 exports.fetchMeetings = (req, res) => {

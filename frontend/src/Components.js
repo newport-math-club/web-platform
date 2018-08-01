@@ -323,7 +323,7 @@ export class Textbox extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			text: '',
+			text: this.props.text || '',
 			errored: false
 		}
 	}

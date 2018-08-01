@@ -150,17 +150,33 @@ export default class MeetingsPage extends Component {
 		}
 	}
 
-	openEditMeetingModal = () => {
+	openEditMeetingModal = meetingId => {
 		this.setState({
-			newMeetingDialogIsOpen: true
+			editMeetingDialogIsOpen: true
+		})
+
+		const editMeeting = this.state.meetings
+			.slice()
+			.filter(m => m._id.toString() === meetingId.toString())[0]
+
+		this.setState({
+			editDate: moment(editMeeting.date).format('MM/DD/YYYY'),
+			editDescription: editMeeting.description,
+			editPiPoints: editMeeting.piPoints,
+			addedMembers: this.state.members.filter(m =>
+				editMeeting.members.map(m => m.toString()).includes(m._id.toString())
+			)
 		})
 	}
 
 	closeEditMeetingModal = () => {
 		this.setState({
-			newMeetingDialogIsOpen: false,
+			editMeetingDialogIsOpen: false,
 			addedMembers: [],
-			suggestionValue: ''
+			suggestionValue: '',
+			editDate: null,
+			editDescription: null,
+			editPiPoints: null
 		})
 	}
 
@@ -223,6 +239,89 @@ export default class MeetingsPage extends Component {
 
 		return (
 			<div className="fullheight">
+				<Modal
+					isOpen={this.state.editMeetingDialogIsOpen}
+					style={customStyles}
+					contentLabel="Edit Meeting">
+					<h2>Edit Meeting</h2>
+					<h3>Date: {this.state.editDate}</h3>
+					<div>
+						<h3 style={{ display: 'inline' }}>Pi Points:</h3>
+						<Textbox
+							ref={this.piPointTextbox}
+							text={this.state.editPiPoints}
+							style={{ display: 'inline-block', marginLeft: '1em' }}
+							placeholder="e.g. 1"
+						/>
+					</div>
+					<div>
+						<h3 style={{ display: 'inline' }}>Description:</h3>
+						<Textbox
+							ref={this.descriptionTextbox}
+							text={this.state.editDescription}
+							style={{ display: 'inline-block', marginLeft: '1em' }}
+							placeholder="activities, events, etc."
+						/>
+					</div>
+					<div>
+						<h3 style={{ paddingTop: '1em' }}>Members:</h3>
+
+						<div
+							style={{
+								display: 'flex',
+								flexDirection: 'row',
+								justifyContent: 'center',
+								alignContent: 'top'
+							}}>
+							<div
+								style={{
+									width: '50%'
+								}}>
+								<h5>select members</h5>
+								<Autosuggest
+									suggestions={this.state.memberSuggestions}
+									onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+									onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+									getSuggestionValue={suggestion => suggestion.name}
+									onSuggestionSelected={this.onSuggestionSelected}
+									renderSuggestion={renderSuggestion}
+									inputProps={inputProps}
+								/>
+							</div>
+
+							<div
+								style={{
+									width: '50%',
+									paddingLeft: '1em'
+								}}>
+								<h5>selected member; click to remove</h5>
+								<div
+									style={{
+										marginTop: '1em',
+										overflowY: 'auto',
+										height: '14em'
+									}}>
+									{this.state.addedMembers.map((member, index) => {
+										return (
+											<h3
+												onClick={() => {
+													this.removeMember(index)
+												}}
+												className="removableListItem"
+												style={{ fontSize: '1.25em' }}>
+												{member.name}
+											</h3>
+										)
+									})}
+								</div>
+							</div>
+						</div>
+					</div>
+					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
+						<Button onClick={this.closeEditMeetingModal} text="close" />
+						<Button onClick={this.saveEditMeeting} text="save" />
+					</div>
+				</Modal>
 				<Modal
 					isOpen={this.state.newMeetingDialogIsOpen}
 					style={customStyles}
