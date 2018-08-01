@@ -122,7 +122,7 @@ exports.newMember = async (req, res) => {
 	if (!validateInput(name, yearOfGraduation, email))
 		return res.status(400).end()
 
-	auth.hash(defaultPassword, hash => {
+	auth.hash(defaultPassword, async hash => {
 		const newMember = new Members({
 			name: name,
 			yearOfGraduation: yearOfGraduation,
@@ -132,16 +132,16 @@ exports.newMember = async (req, res) => {
 			admin: admin
 		})
 
-    try {
-      const memberObject = await newMember.save()
+		try {
+			const memberObject = await newMember.save()
 
-      sockets.onMembersChange('add', memberObject)
+			sockets.onMembersChange('add', memberObject)
 
-      res.status(200).end();
-    } catch (err) {
-      console.log(err)
-      res.status(500).end();
-    }
+			res.status(200).end()
+		} catch (err) {
+			console.log(err)
+			res.status(500).end()
+		}
 	})
 }
 
@@ -150,33 +150,32 @@ exports.removeMember = async (req, res) => {
 
 	if (!id) return res.status(400).end()
 
-  try {
-    await Meetings.updateMany(
-      {
-        members: id
-      },
-      {
-        $pull: {
-          members: id
-        }
-      }).exec()
+	try {
+		await Meetings.updateMany(
+			{
+				members: id
+			},
+			{
+				$pull: {
+					members: id
+				}
+			}
+		).exec()
 
-    // clear empty meetings
-    await Meetings.deleteMany({ members: [] }).exec()
+		// clear empty meetings
+		await Meetings.deleteMany({ members: [] }).exec()
 
-    await Members.deleteOne(
-      {
-        _id: id
-      }
-    ).exec()
-  } catch (err) {
-    console.log(err)
-    res.status(500).end();
-  }
+		await Members.deleteOne({
+			_id: id
+		}).exec()
+	} catch (err) {
+		console.log(err)
+		res.status(500).end()
+	}
 
-  sockets.onMembersChange('remove', id)
+	sockets.onMembersChange('remove', id)
 
-  res.status(200).end();
+	res.status(200).end()
 }
 
 exports.editMember = (req, res) => {
@@ -205,9 +204,9 @@ exports.editMember = (req, res) => {
 		(err, updated) => {
 			if (err) res.status(500).end()
 			else {
-        sockets.onMembersChange('edit', updated)
-        res.status(200).end()
-      }
+				sockets.onMembersChange('edit', updated)
+				res.status(200).end()
+			}
 		}
 	)
 }
