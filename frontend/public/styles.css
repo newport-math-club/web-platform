@@ -283,4 +283,56 @@ ul li:last-of-type {
   cursor: pointer;
 }
 
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 32px;
+  margin-top: 0.3em;
+  margin-left: 1em;
+  /* Rounded sliders */
+}
+.switch input {
+  display: none;
+}
+.switch input:checked + .slider {
+  background-color: #2196f3;
+}
+.switch input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+.switch input:checked + .slider:before {
+  -webkit-transform: translateX(28px);
+  -ms-transform: translateX(28px);
+  transform: translateX(28px);
+}
+.switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+.switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 24px;
+  width: 24px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+.switch .slider.round {
+  border-radius: 32px;
+}
+.switch .slider.round:before {
+  border-radius: 50%;
+}
+
 /*# sourceMappingURL=styles.css.map */

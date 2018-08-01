@@ -488,3 +488,31 @@ export class Button extends Component {
 		)
 	}
 }
+
+export class ToggleButton extends Component {
+	constructor(props) {
+		super(props)
+
+		this.state = {
+			enabled: false
+		}
+	}
+
+	isEnabled = () => {
+		return this.state.enabled
+	}
+
+	render() {
+		return (
+			<label class="switch">
+				<input
+					type="checkbox"
+					onClick={() => {
+						this.setState({ enabled: !this.state.enabled })
+					}}
+				/>
+				<span class="slider round" />
+			</label>
+		)
+	}
+}

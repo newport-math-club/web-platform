@@ -40,7 +40,7 @@ exports.logout = () => {
 	})
 }
 
-exports.newMember = (name, email, yearOfGraduation) => {
+exports.newMember = (name, email, yearOfGraduation, admin) => {
 	return fetch(BASE_URL + '/api/members/add', {
 		method: 'POST',
 		headers: {
@@ -51,7 +51,7 @@ exports.newMember = (name, email, yearOfGraduation) => {
 			name: name,
 			email: email,
 			yearOfGraduation: yearOfGraduation,
-			admin: false
+			admin: admin
 		}),
 		credentials: 'include'
 	})

@@ -4,7 +4,8 @@ import {
 	getAdminNavItems,
 	FilterBar,
 	Button,
-	Textbox
+	Textbox,
+	ToggleButton
 } from '../Components'
 import { Table } from '../Components'
 import Modal from 'react-modal'
@@ -44,6 +45,7 @@ export default class MembersPage extends Component {
 		this.nameTextbox = React.createRef()
 		this.emailTextbox = React.createRef()
 		this.yearTextbox = React.createRef()
+		this.adminTogglebutton = React.createRef()
 	}
 
 	async componentDidMount() {
@@ -97,6 +99,7 @@ export default class MembersPage extends Component {
 		const name = this.nameTextbox.current.getText()
 		const email = this.emailTextbox.current.getText()
 		const year = this.yearTextbox.current.getText()
+		const admin = this.adminTogglebutton.current.isEnabled()
 
 		var error = false
 		if (!name || name.isOnlyWhitespace()) {
@@ -122,9 +125,8 @@ export default class MembersPage extends Component {
 
 		if (error) return
 
-		const response = await newMember(name, email, year)
+		const response = await newMember(name, email, year, admin)
 
-		console.log(response)
 		if (response.status == 200) {
 			this.closeNewMemberModal()
 		}
@@ -145,6 +147,18 @@ export default class MembersPage extends Component {
 						placeholder="year of graduation"
 						type="text"
 					/>
+
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'center',
+							alignContent: 'center',
+							marginTop: '0.5em'
+						}}>
+						<h3 style={{ display: 'inline' }}>Admin?</h3>
+						<ToggleButton ref={this.adminTogglebutton} />
+					</div>
 
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeNewMemberModal} text="close" />
