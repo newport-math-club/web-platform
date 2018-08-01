@@ -431,11 +431,12 @@ export class Table extends Component {
 					) {
 						return (
 							<tr
+								key={row._id}
 								onClick={() => {
 									this.props.onItemClick(row._id)
 								}}>
-								{row.fields.map(item => {
-									return <td>{item}</td>
+								{row.fields.map((item, index) => {
+									return <td hey={index}>{item}</td>
 								})}
 							</tr>
 						)
@@ -446,11 +447,12 @@ export class Table extends Component {
 			rows = this.props.data.slice().map(row => {
 				return (
 					<tr
+						key={row._id}
 						onClick={() => {
 							this.props.onItemClick(row._id)
 						}}>
-						{row.fields.map(item => {
-							return <td>{item}</td>
+						{row.fields.map((item, index) => {
+							return <td key={index}>{item}</td>
 						})}
 					</tr>
 				)
