@@ -135,9 +135,11 @@ exports.removeMeeting = async (req, res) => {
 
 		meeting.members.forEach(memberId => {
 			sockets.onPiPointChange(memberId.toString(), 0 - meeting.piPoints)
+			sockets.onMembersChange('edit', {
+				_id: memberId.toString(),
+				data: [{ field: 'piPoints', value: 0 - meeting.piPoints }]
+			})
 		})
-
-		// TODO: onmemberchange
 
 		res.status(200).end()
 	} catch (err) {
@@ -183,24 +185,34 @@ exports.editMeeting = async (req, res) => {
 	// socket the decrement
 	oldMeeting.members.forEach(memberId => {
 		sockets.onPiPointChange(memberId.toString(), 0 - oldMeeting.piPoints)
+		sockets.onMembersChange('edit', {
+			_id: memberId.toString(),
+			data: [{ field: 'piPoints', value: 0 - oldMeeting.piPoints }]
+		})
 	})
 
-	// TODO: socket on members change
-
-	// increment these pi points
 	await Members.updateMany(
-		{ _id: { $in: updated.members } },
-		{ $inc: { piPoints: updated.piPoints } }
+		{ _id: { $in: members } },
+		{ $inc: { piPoints: piPoints } }
 	).exec()
 
 	// socket the increment
-	updated.members.forEach(memberId => {
-		sockets.onPiPointChange(memberId.toString(), updated.piPoints)
+	members.forEach(memberId => {
+		sockets.onPiPointChange(memberId.toString(), piPoints)
+		sockets.onMembersChange('edit', {
+			_id: memberId.toString(),
+			data: [{ field: 'piPoints', value: piPoints }]
+		})
 	})
 
 	sockets.onMeetingsChange('edit', {
 		_id: id,
-		data: [{ field: type, value: payload }]
+		data: [
+			{ field: 'piPoints', value: piPoints },
+			{ field: 'description', value: description },
+			{ field: 'members', value: members },
+			{ field: 'date', value: date }
+		]
 	})
 
 	res.status(200).end()

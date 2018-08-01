@@ -57,7 +57,7 @@ exports.newMember = (name, email, yearOfGraduation, admin) => {
 	})
 }
 
-exports.newMeeting = (piPoints, memberIds, description) => {
+exports.newMeeting = (piPoints, memberIds, description, date) => {
 	return fetch(BASE_URL + '/api/meetings/add', {
 		method: 'POST',
 		headers: {
@@ -73,7 +73,7 @@ exports.newMeeting = (piPoints, memberIds, description) => {
 	})
 }
 
-exports.editMeeting = (id, type, payload) => {
+exports.editMeeting = (id, piPoints, memberIds, description, date) => {
 	return fetch(BASE_URL + '/api/meetings/update', {
 		method: 'POST',
 		headers: {
@@ -81,9 +81,11 @@ exports.editMeeting = (id, type, payload) => {
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({
-			id: id,
-			type: type,
-			payload: payload
+			id,
+			piPoints,
+			date,
+			memberIds,
+			description
 		}),
 		credentials: 'include'
 	})

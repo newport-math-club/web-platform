@@ -142,7 +142,8 @@ export default class MeetingsPage extends Component {
 		const response = await newMeeting(
 			piPoints,
 			this.state.addedMembers.slice().map(m => m._id),
-			description
+			description,
+			new Date()
 		)
 
 		if (response.status == 200) {

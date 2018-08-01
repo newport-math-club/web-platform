@@ -96,8 +96,7 @@ export class Nav extends Component {
 	}
 
 	gotoAdminHome = () => {
-		// TODO: make this redirect to admin dashboard
-		window.location.href = '/'
+		window.location.href = '/admin/meetings'
 	}
 
 	async componentDidMount() {
