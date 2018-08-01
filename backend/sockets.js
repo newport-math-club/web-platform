@@ -58,7 +58,13 @@ module.exports = {
 		 * payload: Object/String
 		 *    if 'add': entire member object
 		 *    if 'remove': member id to remove
-		 *    if 'edit': entire new member object
+		 *    if 'edit': {
+		 *      _id: id,
+		 *      data: [{
+		 *        field: String, e.g. name or email
+		 *        value: new value NOTE: pi point updates are always relative changes in pi points
+		 *      },  ...]
+		 *    }
 		 */
 		io.to('admin').emit('membersChange', {
 			type: type,
@@ -71,7 +77,13 @@ module.exports = {
 		 * payload: Object/String
 		 *    if 'add': entire meeting object
 		 *    if 'remove': meeting id to remove
-		 *    if 'edit': entire new meeting object
+		 *    if 'edit': {
+		 *      _id: id,
+		 *      data: [{
+		 *        field: String, e.g. name or email
+		 *        value: new value NOTE: pi point updates are always relative changes in pi points
+		 *      },  ...]
+		 *    }
 		 */
 		io.to('admin').emit('meetingsChange', { type: type, payload: payload })
 	}

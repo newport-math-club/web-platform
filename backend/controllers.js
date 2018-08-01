@@ -98,6 +98,10 @@ exports.newMeeting = async (req, res) => {
 		// socket this change to everyone affected
 		memberIds.forEach(memberId => {
 			sockets.onPiPointChange(memberId.toString(), piPoints)
+			sockets.onMembersChange('edit', {
+				_id: memberId.toString(),
+				data: [{ field: 'piPoints', value: piPoints }]
+			})
 		})
 
 		res.status(200).end()
@@ -197,7 +201,10 @@ exports.editMeeting = async (req, res) => {
 					})
 				}
 
-				sockets.onMeetingsChange('edit', updated)
+				sockets.onMeetingsChange('edit', {
+					_id: id,
+					data: [{ field: type, value: payload }]
+				})
 
 				res.status(200).end()
 			}
@@ -319,7 +326,10 @@ exports.editMember = (req, res) => {
 		(err, updated) => {
 			if (err) res.status(500).end()
 			else {
-				sockets.onMembersChange('edit', updated)
+				sockets.onMembersChange('edit', {
+					_id: id,
+					data: [{ field: type, value: payload }]
+				})
 				res.status(200).end()
 			}
 		}

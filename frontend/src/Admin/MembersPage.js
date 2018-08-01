@@ -77,7 +77,10 @@ export default class MembersPage extends Component {
 
 					for (var i = 0; i < newMembers.length; i++) {
 						if (newMembers[i]._id.toString() === data.payload._id.toString()) {
-							newMembers[i] = data.payload
+							data.payload.data.forEach(change => {
+								newMembers[i][change.field] = change.value
+							})
+
 							break
 						}
 					}

@@ -81,7 +81,10 @@ export default class MeetingsPage extends Component {
 
 					for (var i = 0; i < newMeetings.length; i++) {
 						if (newMeetings[i]._id.toString() === data.payload._id.toString()) {
-							newMeetings[i] = data.payload
+							data.payload.data.forEach(change => {
+								newMeeting[i][change.field] = change.value
+							})
+
 							break
 						}
 					}
