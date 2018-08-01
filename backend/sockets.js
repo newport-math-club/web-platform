@@ -43,7 +43,9 @@ module.exports = {
 					}
 				} catch (err) {
 					console.log(err)
+					return next(err)
 				}
+				return ext()
 			})
 		})
 

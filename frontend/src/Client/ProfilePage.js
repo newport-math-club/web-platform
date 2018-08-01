@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Nav, getNavItems, OfficerPane, Bio } from '../Components'
 import { fetchProfile } from '../nmc-api'
+import { Sockets } from '../Sockets'
 
 export default class ProfilePage extends Component {
 	constructor(props) {
