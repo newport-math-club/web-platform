@@ -54,7 +54,7 @@ exports.newMember = (name, email, yearOfGraduation) => {
 	})
 }
 
-exports.newMeeting = (piPoints, memberIds) => {
+exports.newMeeting = (piPoints, memberIds, description) => {
 	return fetch(BASE_URL + '/meetings/add', {
 		method: 'POST',
 		headers: {
@@ -63,7 +63,8 @@ exports.newMeeting = (piPoints, memberIds) => {
 		},
 		body: JSON.stringify({
 			piPoints: piPoints,
-			memberIds: memberIds
+			memberIds: memberIds,
+			description: description
 		}),
 		credentials: 'include'
 	})
@@ -71,6 +72,16 @@ exports.newMeeting = (piPoints, memberIds) => {
 
 exports.fetchMembers = () => {
 	return fetch(BASE_URL + '/members', {
+		method: 'GET',
+		headers: {
+			Accept: 'application/json'
+		},
+		credentials: 'include'
+	})
+}
+
+exports.fetchMeetings = () => {
+	return fetch(BASE_URL + '/meetings', {
 		method: 'GET',
 		headers: {
 			Accept: 'application/json'

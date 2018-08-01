@@ -10,7 +10,7 @@ import { Table } from '../Components'
 import Modal from 'react-modal'
 import moment from 'moment'
 import Autosuggest from 'react-autosuggest'
-import { fetchMembers, newMeeting } from '../nmc-api'
+import { fetchMembers, newMeeting, fetchMeetings } from '../nmc-api'
 
 Modal.setAppElement('#root')
 
@@ -44,20 +44,30 @@ export default class MeetingsPage extends Component {
 			filter: '',
 			newMeetingDialogIsOpen: false,
 			members: [],
+			meetings: [],
 			memberSuggestions: [],
 			suggestionValue: '',
 			addedMembers: []
 		}
 
 		this.piPointTextbox = React.createRef()
+		this.descriptionTextbox = React.createRef()
 	}
 
 	async componentDidMount() {
-		const response = await fetchMembers()
-		if (response.status == 200) {
-			const data = await response.json()
+		const membersResponse = await fetchMembers()
+		if (membersResponse.status == 200) {
+			const data = await membersResponse.json()
 
 			this.setState({ members: data })
+		}
+
+		const meetingsResponse = await fetchMeetings()
+
+		if (meetingsResponse.status == 200) {
+			const data = await meetingsResponse.json()
+
+			this.setState({ meetings: data })
 		}
 	}
 
@@ -77,6 +87,7 @@ export default class MeetingsPage extends Component {
 
 	saveMeeting = async () => {
 		var piPoints = this.piPointTextbox.current.getText()
+		var description = this.descriptionTextbox.current.getText()
 
 		if (!piPoints || piPoints.isOnlyWhitespace() || isNaN(piPoints)) {
 			// TODO:
@@ -92,10 +103,10 @@ export default class MeetingsPage extends Component {
 
 		const response = await newMeeting(
 			piPoints,
-			this.state.addedMembers.slice().map(m => m._id)
+			this.state.addedMembers.slice().map(m => m._id),
+			description
 		)
 
-		console.log(response)
 		if (response.status == 200) {
 			this.closeNewMeetingModal()
 		}
@@ -171,7 +182,15 @@ export default class MeetingsPage extends Component {
 						<Textbox
 							ref={this.piPointTextbox}
 							style={{ display: 'inline-block', marginLeft: '1em' }}
-							placeholder="pi points e.g. 1"
+							placeholder="e.g. 1"
+						/>
+					</div>
+					<div>
+						<h3 style={{ display: 'inline' }}>Description:</h3>
+						<Textbox
+							ref={this.descriptionTextbox}
+							style={{ display: 'inline-block', marginLeft: '1em' }}
+							placeholder="activities, events, etc."
 						/>
 					</div>
 					<div>
@@ -210,7 +229,7 @@ export default class MeetingsPage extends Component {
 									style={{
 										marginTop: '1em',
 										overflowY: 'auto',
-										height: '18em'
+										height: '14em'
 									}}>
 									{this.state.addedMembers.map((member, index) => {
 										return (
@@ -255,7 +274,16 @@ export default class MeetingsPage extends Component {
 					<Table
 						headers={['Date', 'Description', 'Attendance']}
 						filter={this.state.filter}
-						data={[]}
+						data={this.state.meetings.slice().map(meeting => {
+							return {
+								_id: meeting._id,
+								fields: [
+									moment(meeting.date).format('MM/DD/YYYY'),
+									meeting.description,
+									meeting.members.length
+								]
+							}
+						})}
 					/>
 				</div>
 			</div>

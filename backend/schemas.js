@@ -26,6 +26,7 @@ var MeetingSchema = new Schema(
 				ref: 'Member'
 			}
 		],
+		description: String,
 		piPoints: {
 			type: Number,
 			default: 0

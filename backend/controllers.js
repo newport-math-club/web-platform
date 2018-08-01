@@ -72,12 +72,14 @@ exports.newMeeting = (req, res) => {
 	var piPoints = req.body.piPoints ? req.body.piPoints : 1
 	var date = req.body.date ? req.body.date : Date.now()
 	var memberIds = req.body.memberIds
+	var description = req.body.description
 
 	if (!validateInput(memberIds)) return res.status(400).end()
 
 	var newMeeting = new Meetings({
 		date: date,
 		members: memberIds,
+		description: description || '',
 		piPoints: piPoints
 	})
 
