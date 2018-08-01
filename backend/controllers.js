@@ -71,13 +71,13 @@ exports.changePassword = (req, res) => {
 exports.newMeeting = (req, res) => {
 	var piPoints = req.body.piPoints ? req.body.piPoints : 1
 	var date = req.body.date ? req.body.date : Date.now()
-	var members = req.body.members
+	var memberIds = req.body.memberIds
 
 	if (!validateInput(members)) return res.status(400).end()
 
 	var newMeeting = new Meetings({
 		date: date,
-		members: members,
+		members: memberIds,
 		piPoints: piPoints
 	})
 

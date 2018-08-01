@@ -19,7 +19,7 @@ const customStyles = {
 		top: '50%',
 		left: '50%',
 		width: '40em',
-		minHeight: '40em',
+		height: '40em',
 		right: 'auto',
 		bottom: 'auto',
 		paddingLeft: '2em',
@@ -32,7 +32,9 @@ const customStyles = {
 	}
 }
 
-const renderSuggestion = suggestion => <div>{suggestion.name}</div>
+const renderSuggestion = suggestion => (
+	<div style={{ display: 'inline', cursor: 'pointer' }}>{suggestion.name}</div>
+)
 
 export default class MeetingsPage extends Component {
 	constructor(props) {
@@ -46,6 +48,8 @@ export default class MeetingsPage extends Component {
 			suggestionValue: '',
 			addedMembers: []
 		}
+
+		this.piPointTextbox = React.createRef()
 	}
 
 	async componentDidMount() {
@@ -65,13 +69,34 @@ export default class MeetingsPage extends Component {
 
 	closeNewMeetingModal = () => {
 		this.setState({
-			newMeetingDialogIsOpen: false
+			newMeetingDialogIsOpen: false,
+			addedMembers: [],
+			suggestionValue: ''
 		})
 	}
 
 	saveMeeting = () => {
-		// TODO:
+		var piPoints = this.piPointTextbox.current.getText()
+
+		if (!piPoints || piPoints.isOnlyWhitespace() || isNaN(piPoints)) {
+			// TODO:
+		}
+
+		if (
+			!this.state.addedMembers ||
+			!this.state.addedMembers.length ||
+			this.state.addedMembers.length < 1
+		) {
+			// TODO:
+		}
+
 		this.closeNewMeetingModal()
+	}
+
+	removeMember = index => {
+		var copy = this.state.addedMembers.slice()
+		copy.splice(index, 1)
+		this.setState({ addedMembers: copy })
 	}
 
 	getMemberSuggestions = value => {
@@ -136,6 +161,7 @@ export default class MeetingsPage extends Component {
 					<div>
 						<h3 style={{ display: 'inline' }}>Pi Points:</h3>
 						<Textbox
+							ref={this.piPointTextbox}
 							style={{ display: 'inline-block', marginLeft: '1em' }}
 							placeholder="pi points e.g. 1"
 						/>
@@ -171,13 +197,24 @@ export default class MeetingsPage extends Component {
 									width: '50%',
 									paddingLeft: '1em'
 								}}>
-								<h5>selected members</h5>
+								<h5>selected member; click to remove</h5>
 								<div
 									style={{
-										paddingTop: '1em'
+										marginTop: '1em',
+										overflowY: 'auto',
+										height: '18em'
 									}}>
-									{this.state.addedMembers.map(member => {
-										return <h3>{member.name}</h3>
+									{this.state.addedMembers.map((member, index) => {
+										return (
+											<h3
+												onClick={() => {
+													this.removeMember(index)
+												}}
+												className="removableListItem"
+												style={{ fontSize: '1.25em' }}>
+												{member.name}
+											</h3>
+										)
 									})}
 								</div>
 							</div>

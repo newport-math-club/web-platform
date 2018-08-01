@@ -254,4 +254,33 @@ table tr th {
   padding-left: 1em;
 }
 
+ul {
+  list-style-type: none;
+  padding-left: 1.25em;
+}
+ul li:first-of-type {
+  padding-top: 0.3em;
+}
+ul li:last-of-type {
+  padding-bottom: 0.25em;
+}
+
+#react-autowhatever-1 {
+  border-radius: 1em;
+  font-size: 1.2em;
+  font-weight: bold;
+  width: calc(70% + 2.8em) !important;
+  box-shadow: 1px 2px 8px #c4c4c4;
+  margin-top: -0.5em;
+}
+
+.react-autosuggest__suggestion--highlighted {
+  color: #527aff;
+}
+
+.removableListItem:hover {
+  color: #eb5757;
+  cursor: pointer;
+}
+
 /*# sourceMappingURL=styles.css.map */

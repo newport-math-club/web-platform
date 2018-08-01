@@ -54,6 +54,8 @@ exports.newMember = (name, email, yearOfGraduation) => {
 	})
 }
 
+exports.newMeeting = (piPoints, members) => {}
+
 exports.fetchMembers = () => {
 	return fetch(BASE_URL + '/members', {
 		method: 'GET',
