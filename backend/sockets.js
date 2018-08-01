@@ -45,7 +45,7 @@ module.exports = {
 					console.log(err)
 					return next(err)
 				}
-				return ext()
+				return next()
 			})
 		})
 
