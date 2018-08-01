@@ -10,10 +10,13 @@ const app = express()
 const schemas = require('./schemas')
 const routes = require('./routes')
 const auth = require('./auth')
+const sockets = require('./sockets')
 const Members = schemas.Member
 const port = 3000
 
 const rootAdminPass = process.env.DEFAULT_ADMIN_PASS
+
+const server = require('http').Server(app)
 
 // mongodb
 mongoose.Promise = global.Promise
@@ -80,6 +83,8 @@ const sessionMiddleware = session({
 	unset: 'destroy'
 })
 
+sockets.init(server, sessionMiddleware)
+
 app.use(sessionMiddleware)
 app.use(
 	bodyParser.urlencoded({
@@ -104,6 +109,6 @@ app.use((req, res, next) => {
 
 routes(app)
 
-app.listen(port, () => {
+server.listen(port, () => {
 	console.log('Newport Math Club API is live on port ' + port)
 })
