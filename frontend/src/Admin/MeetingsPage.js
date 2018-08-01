@@ -10,7 +10,7 @@ import { Table } from '../Components'
 import Modal from 'react-modal'
 import moment from 'moment'
 import Autosuggest from 'react-autosuggest'
-import { fetchMembers } from '../nmc-api'
+import { fetchMembers, newMeeting } from '../nmc-api'
 
 Modal.setAppElement('#root')
 
@@ -75,7 +75,7 @@ export default class MeetingsPage extends Component {
 		})
 	}
 
-	saveMeeting = () => {
+	saveMeeting = async () => {
 		var piPoints = this.piPointTextbox.current.getText()
 
 		if (!piPoints || piPoints.isOnlyWhitespace() || isNaN(piPoints)) {
@@ -90,7 +90,15 @@ export default class MeetingsPage extends Component {
 			// TODO:
 		}
 
-		this.closeNewMeetingModal()
+		const response = await newMeeting(
+			piPoints,
+			this.state.addedMembers.slice().map(m => m._id)
+		)
+
+		console.log(response)
+		if (response.status == 200) {
+			this.closeNewMeetingModal()
+		}
 	}
 
 	removeMember = index => {
@@ -222,7 +230,7 @@ export default class MeetingsPage extends Component {
 					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeNewMeetingModal} text="close" />
-						<Button text="save" />
+						<Button onClick={this.saveMeeting} text="save" />
 					</div>
 				</Modal>
 				<Nav admin={true} items={getAdminNavItems(0)} />

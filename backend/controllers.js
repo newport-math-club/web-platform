@@ -73,7 +73,7 @@ exports.newMeeting = (req, res) => {
 	var date = req.body.date ? req.body.date : Date.now()
 	var memberIds = req.body.memberIds
 
-	if (!validateInput(members)) return res.status(400).end()
+	if (!validateInput(memberIds)) return res.status(400).end()
 
 	var newMeeting = new Meetings({
 		date: date,

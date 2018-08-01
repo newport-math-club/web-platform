@@ -54,7 +54,20 @@ exports.newMember = (name, email, yearOfGraduation) => {
 	})
 }
 
-exports.newMeeting = (piPoints, members) => {}
+exports.newMeeting = (piPoints, memberIds) => {
+	return fetch(BASE_URL + '/meetings/add', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			piPoints: piPoints,
+			memberIds: memberIds
+		}),
+		credentials: 'include'
+	})
+}
 
 exports.fetchMembers = () => {
 	return fetch(BASE_URL + '/members', {

@@ -30,7 +30,7 @@ db.once('open', async () => {
 
 	try {
 		const rootAdmin = await Members.findOne({
-			name: 'rootAdmin',
+			name: 'Admin Math Club',
 			admin: true
 		}).exec()
 
