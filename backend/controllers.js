@@ -4,6 +4,7 @@
 const request = require('request-promise')
 const async = require('async')
 const schemas = require('./schemas')
+const sockets = require('./sockets')
 const auth = require('./auth')
 const defaultPassword = 'newportmathclub'
 
@@ -111,7 +112,7 @@ exports.fetchMembers = (req, res) => {
 		})
 }
 
-exports.newMember = (req, res) => {
+exports.newMember = async (req, res) => {
 	var name = req.body.name
 	var yearOfGraduation = req.body.yearOfGraduation
 	var email = req.body.email
@@ -122,7 +123,7 @@ exports.newMember = (req, res) => {
 		return res.status(400).end()
 
 	auth.hash(defaultPassword, hash => {
-		var newMember = new Members({
+		const newMember = new Members({
 			name: name,
 			yearOfGraduation: yearOfGraduation,
 			piPoints: 0,
@@ -131,41 +132,51 @@ exports.newMember = (req, res) => {
 			admin: admin
 		})
 
-		newMember.save(err => {
-			if (err) res.status(500).end()
-			else res.status(200).end()
-		})
+    try {
+      const memberObject = await newMember.save()
+
+      sockets.onMembersChange('add', memberObject)
+
+      res.status(200).end();
+    } catch (err) {
+      console.log(err)
+      res.status(500).end();
+    }
 	})
 }
 
-exports.removeMember = (req, res) => {
+exports.removeMember = async (req, res) => {
 	var id = req.body.id
 
 	if (!id) return res.status(400).end()
 
-	Meetings.update(
-		{
-			members: id
-		},
-		{
-			$pull: {
-				members: id
-			}
-		},
-		err => {
-			if (err) res.status(500).end()
+  try {
+    await Meetings.updateMany(
+      {
+        members: id
+      },
+      {
+        $pull: {
+          members: id
+        }
+      }).exec()
 
-			Members.remove(
-				{
-					_id: id
-				},
-				err => {
-					if (err) res.status(500).end()
-					else res.status(200).end()
-				}
-			)
-		}
-	)
+    // clear empty meetings
+    await Meetings.deleteMany({ members: [] }).exec()
+
+    await Members.deleteOne(
+      {
+        _id: id
+      }
+    ).exec()
+  } catch (err) {
+    console.log(err)
+    res.status(500).end();
+  }
+
+  sockets.onMembersChange('remove', id)
+
+  res.status(200).end();
 }
 
 exports.editMember = (req, res) => {
@@ -191,9 +202,12 @@ exports.editMember = (req, res) => {
 				[type]: payload
 			}
 		},
-		err => {
+		(err, updated) => {
 			if (err) res.status(500).end()
-			else res.status(200).end()
+			else {
+        sockets.onMembersChange('edit', updated)
+        res.status(200).end()
+      }
 		}
 	)
 }

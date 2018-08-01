@@ -48,10 +48,6 @@ module.exports = {
 				return next()
 			})
 		})
-
-		io.on('connection', function(socket) {
-			console.log('socket connected')
-		})
 	},
 	onPiPointChange: (memberId, newPiPoints) => {
 		io.to(memberId.toString()).emit('piPointChange', newPiPoints)

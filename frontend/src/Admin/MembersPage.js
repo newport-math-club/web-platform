@@ -9,6 +9,7 @@ import {
 import { Table } from '../Components'
 import Modal from 'react-modal'
 import { newMember, fetchMembers } from '../nmc-api'
+import SocketEventHandlers from '../Sockets'
 
 Modal.setAppElement('#root')
 
@@ -52,6 +53,36 @@ export default class MembersPage extends Component {
 
 			this.setState({ members: data })
 		}
+
+		SocketEventHandlers.subscribeToMembersChange(data => {
+			console.log('received member change data')
+			console.log(data)
+			switch (data.type) {
+				case 'add':
+					this.setState({
+						members: this.state.members.slice().concat(data.payload)
+					})
+					break
+				case 'remove':
+					this.setState({
+						members: this.state.members
+							.slice()
+							.filter(m => m._id.toString() !== data.payload.toString())
+					})
+					break
+				case 'edit':
+					var newMembers = this.state.members.slice()
+
+					for (var i = 0; i < newMembers.length; i++) {
+						if (newMembers[i]._id.toString() === data.payload._id.toString()) {
+							newMembers[i] = data.payload
+							break
+						}
+					}
+					this.setState({ members: newMembers })
+					break
+			}
+		})
 	}
 
 	openNewMemberModal = () => {

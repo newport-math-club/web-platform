@@ -3,10 +3,6 @@ import { BASE_URL } from './nmc-api'
 
 const socket = io(BASE_URL, { secure: true })
 
-socket.on('connect', function() {
-	console.log('socket connected')
-})
-
 const SocketEventHandlers = {
 	subscribeToPiPointChange: cb => {
 		socket.on('piPointChange', cb)
