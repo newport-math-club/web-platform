@@ -69,7 +69,7 @@ exports.changePassword = (req, res) => {
 	})
 }
 
-exports.newMeeting = (req, res) => {
+exports.newMeeting = async (req, res) => {
 	var piPoints = req.body.piPoints ? req.body.piPoints : 1
 	var date = req.body.date ? req.body.date : Date.now()
 	var memberIds = req.body.memberIds
@@ -84,10 +84,123 @@ exports.newMeeting = (req, res) => {
 		piPoints: piPoints
 	})
 
-	newMeeting.save(err => {
-		if (err) res.status(500).end()
-		else res.status(200).end()
-	})
+	try {
+		const meetingObject = await newMeeting.save()
+
+		sockets.onMeetingsChange('add', meetingObject)
+
+		// increment these pi points
+		await Members.updateMany(
+			{ _id: { $in: memberIds } },
+			{ $inc: { piPoints: piPoints } }
+		).exec()
+
+		// socket this change to everyone affected
+		memberIds.forEach(memberId => {
+			sockets.onPiPointChange(memberId.toString(), piPoints)
+		})
+
+		res.status(200).end()
+	} catch (err) {
+		console.log(err)
+		res.status(500).end()
+	}
+}
+
+exports.removeMeeting = async (req, res) => {
+	var id = req.body.id
+
+	if (!id) return res.status(400).end()
+
+	try {
+		const meeting = Meetings.findOne({ _id: id }).exec()
+
+		if (!meeting) return res.status(404).end()
+
+		await Meetings.deleteOne({
+			_id: id
+		}).exec()
+
+		sockets.onMeetingsChange('remove', id)
+
+		// decrement these pi points
+		await Members.updateMany(
+			{ _id: { $in: meeting.members } },
+			{ $inc: { piPoints: 0 - piPoints } }
+		).exec()
+
+		meeting.members.forEach(memberId => {
+			sockets.onPiPointChange(memberId.toString(), 0 - meeting.piPoints)
+		})
+
+		res.status(200).end()
+	} catch (err) {
+		console.log(err)
+		res.status(500).end()
+	}
+}
+
+exports.editMeeting = async (req, res) => {
+	var id = req.body.id
+	var type = req.body.type
+	var payload = req.body.payload
+
+	if (!validateInput(id, type, payload)) return res.status(400).end()
+	if (
+		type != 'date' &&
+		type != 'description' &&
+		type != 'piPoints' &&
+		type != 'members'
+	)
+		return res.status(400).end()
+
+	const oldMeeting = await Meetings.findOne({ _id: id }).exec()
+
+	if (!oldMeeting) return res.status(404).end()
+
+	Meetings.updateOne(
+		{
+			_id: id
+		},
+		{
+			$set: {
+				[type]: payload
+			}
+		},
+		async (err, updated) => {
+			if (err) res.status(500).end()
+			else {
+				if (type == 'piPoints' || type == 'members') {
+					// decrement these pi points from all old members
+					await Members.updateMany(
+						{ _id: { $in: oldMeeting.members } },
+						{ $inc: { piPoints: 0 - oldMeeting.piPoints } }
+					).exec()
+
+					// socket the decrement
+					oldMeeting.members.forEach(memberId => {
+						sockets.onPiPointChange(
+							memberId.toString(),
+							0 - oldMeeting.piPoints
+						)
+					})
+
+					// increment these pi points
+					await Members.updateMany(
+						{ _id: { $in: updated.members } },
+						{ $inc: { piPoints: updated.piPoints } }
+					).exec()
+
+					// socket the increment
+					updated.members.forEach(memberId => {
+						sockets.onPiPointChange(memberId.toString(), updated.piPoints)
+					})
+				}
+
+				res.status(200).end()
+			}
+		}
+	)
 }
 
 exports.fetchMeetings = (req, res) => {
@@ -168,14 +281,14 @@ exports.removeMember = async (req, res) => {
 		await Members.deleteOne({
 			_id: id
 		}).exec()
+
+		sockets.onMembersChange('remove', id)
+
+		res.status(200).end()
 	} catch (err) {
 		console.log(err)
 		res.status(500).end()
 	}
-
-	sockets.onMembersChange('remove', id)
-
-	res.status(200).end()
 }
 
 exports.editMember = (req, res) => {
@@ -269,23 +382,21 @@ exports.exportMathClub = (req, res) => {
 	})
 }
 
-exports.clearMathClub = (req, res) => {
-	Members.remove(
-		{
+exports.clearMathClub = async (req, res) => {
+	try {
+		await Members.remove({
 			name: {
-				$ne: 'rootAdmin'
+				$ne: 'Admin Math Club'
 			}
-		},
-		err => {
-			if (err) return res.status(500).end()
+		}).exec()
 
-			Meetings.remove({}, err => {
-				if (err) return res.status(500).end()
+		await Meetings.remove({}).exec()
 
-				res.status(200).end()
-			})
-		}
-	)
+		res.status(200).end()
+	} catch (err) {
+		console.log(err)
+		res.status(500).end()
+	}
 }
 
 exports.registerKPMT = (req, res) => {

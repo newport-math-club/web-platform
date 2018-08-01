@@ -49,8 +49,8 @@ module.exports = {
 			})
 		})
 	},
-	onPiPointChange: (memberId, newPiPoints) => {
-		io.to(memberId.toString()).emit('piPointChange', newPiPoints)
+	onPiPointChange: (memberId, piPointChange) => {
+		io.to(memberId.toString()).emit('piPointChange', piPointChange)
 	},
 	onMembersChange: (type, payload) => {
 		/**
