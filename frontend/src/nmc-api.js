@@ -81,11 +81,11 @@ exports.editMeeting = (id, piPoints, memberIds, description, date) => {
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({
-			id,
-			piPoints,
-			date,
-			memberIds,
-			description
+			id: id,
+			piPoints: piPoints,
+			date: date,
+			memberIds: memberIds,
+			description: description
 		}),
 		credentials: 'include'
 	})

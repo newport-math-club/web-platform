@@ -1,7 +1,7 @@
 'use strict'
 
 // dependencies
-const request = require('request-promise')
+const mongoose = require('mongoose')
 const async = require('async')
 const schemas = require('./schemas')
 const sockets = require('./sockets')
@@ -158,7 +158,9 @@ exports.editMeeting = async (req, res) => {
 	if (!validateInput(id, piPoints, date, memberIds, description))
 		return res.status(400).end()
 
-	const oldMeeting = await Meetings.findOne({ _id: id }).exec()
+	const oldMeeting = await Meetings.findOne({
+		_id: mongoose.Types.ObjectId(id.toString())
+	}).exec()
 
 	if (!oldMeeting) return res.status(404).end()
 

@@ -10,8 +10,14 @@ import { Table } from '../Components'
 import Modal from 'react-modal'
 import moment from 'moment'
 import Autosuggest from 'react-autosuggest'
-import { fetchMembers, newMeeting, fetchMeetings } from '../nmc-api'
+import {
+	fetchMembers,
+	newMeeting,
+	fetchMeetings,
+	editMeeting
+} from '../nmc-api'
 import SocketEventHandlers from '../Sockets'
+import { pipeline } from 'stream'
 
 Modal.setAppElement('#root')
 
@@ -151,6 +157,36 @@ export default class MeetingsPage extends Component {
 		}
 	}
 
+	saveEditMeeting = async () => {
+		var piPoints = this.piPointTextbox.current.getText()
+		var description = this.descriptionTextbox.current.getText()
+
+		console.log(this.state.editId)
+		if (!piPoints || isNaN(piPoints)) {
+			// TODO:
+		}
+
+		if (
+			!this.state.addedMembers ||
+			!this.state.addedMembers.length ||
+			this.state.addedMembers.length < 1
+		) {
+			// TODO:
+		}
+
+		const response = await editMeeting(
+			this.state.editId.toString(),
+			piPoints,
+			this.state.addedMembers.slice().map(m => m._id),
+			description,
+			this.state.editDate
+		)
+
+		if (response.status == 200) {
+			this.closeNewMeetingModal()
+		}
+	}
+
 	openEditMeetingModal = meetingId => {
 		this.setState({
 			editMeetingDialogIsOpen: true
@@ -161,6 +197,7 @@ export default class MeetingsPage extends Component {
 			.filter(m => m._id.toString() === meetingId.toString())[0]
 
 		this.setState({
+			editId: meetingId,
 			editDate: moment(editMeeting.date).format('MM/DD/YYYY'),
 			editDescription: editMeeting.description,
 			editPiPoints: editMeeting.piPoints,
