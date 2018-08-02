@@ -202,7 +202,7 @@ export default class MembersPage extends Component {
 		)
 
 		if (response.status == 200) {
-			this.closeEditMeetingModal()
+			this.closeEditMemberModal()
 		}
 	}
 
