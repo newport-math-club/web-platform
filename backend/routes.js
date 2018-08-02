@@ -30,13 +30,22 @@ module.exports = app => {
 
 	// admin math club routes; all routes work
 	app
+		.route('/api/meetings/')
+		.get(nmcMiddleware.verifyAdminSession)
+		.get(nmcController.fetchMeetings)
+	app
 		.route('/api/meetings/add/')
 		.post(nmcMiddleware.verifyAdminSession)
 		.post(nmcController.newMeeting)
 	app
-		.route('/api/meetings/')
-		.get(nmcMiddleware.verifyAdminSession)
-		.get(nmcController.fetchMeetings)
+		.route('/api/meetings/remove/')
+		.post(nmcMiddleware.verifyAdminSession)
+		.post(nmcController.removeMeeting)
+	app
+		.route('/api/meetings/update/')
+		.post(nmcMiddleware.verifyAdminSession)
+		.post(nmcController.editMeeting)
+
 	app
 		.route('/api/members/')
 		.get(nmcMiddleware.verifyAdminSession)
