@@ -197,12 +197,12 @@ exports.editMeeting = async (req, res) => {
 	})
 
 	await Members.updateMany(
-		{ _id: { $in: members } },
+		{ _id: { $in: oldMeeting.members } },
 		{ $inc: { piPoints: piPoints } }
 	).exec()
 
 	// socket the increment
-	members.forEach(memberId => {
+	memberIds.forEach(memberId => {
 		sockets.onPiPointChange(memberId.toString(), piPoints)
 		sockets.onMembersChange('edit', {
 			_id: memberId.toString(),
@@ -215,7 +215,7 @@ exports.editMeeting = async (req, res) => {
 		data: [
 			{ field: 'piPoints', value: piPoints },
 			{ field: 'description', value: description },
-			{ field: 'members', value: members },
+			{ field: 'members', value: membersIds },
 			{ field: 'date', value: date }
 		]
 	})
