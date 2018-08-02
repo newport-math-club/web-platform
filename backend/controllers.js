@@ -315,7 +315,11 @@ exports.editMember = async (req, res) => {
 	var email = req.body.email
 	var admin = req.body.admin
 
-	if (!validateInput(id, name, yearOfGraduation, email, admin))
+	if (
+		!validateInput(id, name, yearOfGraduation, email) ||
+		admin == undefined ||
+		admin == null
+	)
 		return res.status(400).end()
 
 	const oldMember = await Members.findOne({ _id: id }).exec()

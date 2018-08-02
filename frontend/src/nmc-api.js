@@ -91,7 +91,7 @@ exports.editMeeting = (id, piPoints, memberIds, description, date) => {
 	})
 }
 
-exports.editMember = (id, name, email, yearOfGraduation, admine) => {
+exports.editMember = (id, name, email, yearOfGraduation, admin) => {
 	return fetch(BASE_URL + '/api/members/update', {
 		method: 'POST',
 		headers: {
@@ -102,7 +102,8 @@ exports.editMember = (id, name, email, yearOfGraduation, admine) => {
 			id: id,
 			name: name,
 			email: email,
-			yearOfGraduation: yearOfGraduation
+			yearOfGraduation: yearOfGraduation,
+			admin: admin
 		}),
 		credentials: 'include'
 	})
