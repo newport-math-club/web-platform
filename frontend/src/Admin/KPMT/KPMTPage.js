@@ -29,7 +29,7 @@ export default class KPMTPage extends Component {
 
 		return (
 			<div className="fullheight">
-				<Nav admin={false} items={getAdminNavItems(2, 0)} />
+				<Nav admin={true} items={getAdminNavItems(2, 0)} />
 				<div
 					style={{
 						float: 'left',
@@ -48,9 +48,31 @@ export default class KPMTPage extends Component {
 					{/* TODO: handle master controls */}
 					<div>
 						<Link name={'Export Data'} />
+						<p>
+							After every KPMT, following scoring and awards, the database
+							should be exported and purged. This copies and exports all the
+							data. It is good to perform regular backups.{' '}
+							<b>
+								This action is non-destructive, but exported data should be kept
+								confidential until the competition is finished.
+							</b>
+						</p>
+					</div>
+					<div>
+						<Link danger={true} name={'Modify KPMT Lock'} />
+						<p>
+							The lock controls whether or not coaches can add, remove, or make
+							changes to their teams. Once the competition starts, the service
+							must be locked to disallow further changes.
+						</p>
 					</div>
 					<div>
 						<Link danger={true} name={'Wipe KPMT Database'} />
+						<p>
+							After every KPMT, following scoring and awards, the database
+							should be exported and purged. This wipes the database! Don't
+							touch this button if you don't know what you're doing!
+						</p>
 					</div>
 				</div>
 			</div>

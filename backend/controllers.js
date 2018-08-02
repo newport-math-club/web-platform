@@ -679,20 +679,23 @@ exports.approveSchoolKPMT = (req, res) => {
 	)
 }
 
-exports.removeSchoolKPMT = (req, res) => {
+exports.removeSchoolKPMT = async (req, res) => {
 	var id = req.body.id
 
 	if (!id) return res.status(400).end()
 
-	Schools.remove(
-		{
-			_id: id
-		},
-		err => {
-			if (err) res.status(500).end()
-			else res.status(200).end()
-		}
-	)
+	try {
+		await Schools.deleteOne({ _id: id }).exec()
+
+		await Teams.deleteMany({ school: id }).exec()
+
+		await Competitors.deleteMany({ school: id }).exec()
+
+		res.status(200).end()
+	} catch (error) {
+		console.log(error)
+		res.status(500).end()
+	}
 }
 
 exports.modifyKPMTLock = (req, res) => {
@@ -796,17 +799,28 @@ exports.fetchCompetitors = (req, res) => {
 }
 
 exports.fetchTeams = (req, res) => {
-	Teams.find({}, (err, teams) => {
-		if (err) res.status(500).end()
-		else res.status(200).json(teams)
-	})
+	try {
+		const teams = await Teams.find({})
+      .populate('members')
+      .populate('school')
+			.exec()
+
+		res.status(200).json(teams)
+	} catch (error) {
+		console.log(error)
+	}
 }
 
-exports.fetchSchools = (req, res) => {
-	Schools.find({}, (err, schools) => {
-		if (err) res.status(500).end()
-		else res.status(200).json(schools)
-	})
+exports.fetchSchools = async (req, res) => {
+	try {
+		const schools = await Schools.find({})
+			.populate('teams')
+			.exec()
+
+		res.status(200).json(schools)
+	} catch (error) {
+		console.log(error)
+	}
 }
 
 exports.scoreIndividual = (req, res) => {

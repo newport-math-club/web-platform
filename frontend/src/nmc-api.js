@@ -172,3 +172,48 @@ exports.changePassword = (email, password, newPassword) => {
 		credentials: 'include'
 	})
 }
+
+// KPMT ROUTES BELOW
+exports.fetchKPMTSchools = () => {
+	return fetch(BASE_URL + '/api/kpmt/schools', {
+		method: 'GET',
+		headers: {
+			Accept: 'application/json'
+		},
+		credentials: 'include'
+	})
+}
+
+exports.fetchKPMTTeams = () => {
+	return fetch(BASE_URL + '/api/kpmt/teams', {
+		method: 'GET',
+		headers: {
+			Accept: 'application/json'
+		},
+		credentials: 'include'
+	})
+}
+
+exports.fetchKPMTCompetitors = () => {
+	return fetch(BASE_URL + '/api/kpmt/competitors', {
+		method: 'GET',
+		headers: {
+			Accept: 'application/json'
+		},
+		credentials: 'include'
+	})
+}
+
+exports.deleteKPMTSchool = id => {
+	return fetch(BASE_URL + '/api/members/removeSchool', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id: id
+		}),
+		credentials: 'include'
+	})
+}

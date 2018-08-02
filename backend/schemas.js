@@ -46,7 +46,7 @@ var CompetitorSchema = new Schema(
 			ref: 'School'
 		},
 		team: {
-			type: Schem.Types.ObjectId,
+			type: Schema.Types.ObjectId,
 			ref: 'Team'
 		},
 		scores: {
