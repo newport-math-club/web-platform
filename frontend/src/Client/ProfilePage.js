@@ -100,7 +100,11 @@ export default class ProfilePage extends Component {
 			return
 		}
 
-		const response = await changePassword(oldPassword, newPassword)
+		const response = await changePassword(
+			this.state.email,
+			oldPassword,
+			newPassword
+		)
 
 		if (response.status == 200) {
 			this.closeChangePasswordModal()

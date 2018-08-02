@@ -49,7 +49,6 @@ exports.changePassword = (req, res) => {
 	var newPassword = req.body.newPassword
 	var user = res.locals.user
 
-	console.log(newPassword)
 	if (!validateInput(newPassword)) return res.status(400).end()
 
 	auth.hash(newPassword, hash => {
