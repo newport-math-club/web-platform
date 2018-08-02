@@ -798,11 +798,11 @@ exports.fetchCompetitors = (req, res) => {
 	})
 }
 
-exports.fetchTeams = (req, res) => {
+exports.fetchTeams = async (req, res) => {
 	try {
 		const teams = await Teams.find({})
-      .populate('members')
-      .populate('school')
+			.populate('members')
+			.populate('school')
 			.exec()
 
 		res.status(200).json(teams)
