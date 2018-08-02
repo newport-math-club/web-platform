@@ -91,6 +91,23 @@ exports.editMeeting = (id, piPoints, memberIds, description, date) => {
 	})
 }
 
+exports.editMember = (id, name, email, yearOfGraduation, admine) => {
+	return fetch(BASE_URL + '/api/members/update', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id: id,
+			name: name,
+			email: email,
+			yearOfGraduation: yearOfGraduation
+		}),
+		credentials: 'include'
+	})
+}
+
 exports.fetchMembers = () => {
 	return fetch(BASE_URL + '/api/members', {
 		method: 'GET',

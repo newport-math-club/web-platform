@@ -158,12 +158,9 @@ exports.editMeeting = async (req, res) => {
 	if (!validateInput(id, piPoints, date, memberIds, description))
 		return res.status(400).end()
 
-	console.log(id)
 	const oldMeeting = await Meetings.findOne({
 		_id: id
 	}).exec()
-
-	console.log(oldMeeting)
 
 	if (!oldMeeting) return res.status(404).end()
 
@@ -311,40 +308,45 @@ exports.removeMember = async (req, res) => {
 	}
 }
 
-exports.editMember = (req, res) => {
+exports.editMember = async (req, res) => {
 	var id = req.body.id
-	var type = req.body.type
-	var payload = req.body.payload
+	var name = req.body.name
+	var yearOfGraduation = req.body.yearOfGraduation
+	var email = req.body.email
+	var admin = req.body.admin
 
-	if (!validateInput(id, type, payload)) return res.status(400).end()
-	if (
-		type != 'name' &&
-		type != 'yearOfGraduation' &&
-		type != 'piPoints' &&
-		type != 'email'
-	)
+	if (!validateInput(id, name, yearOfGraduation, email, admin))
 		return res.status(400).end()
 
-	Members.updateOne(
+	const oldMember = await Members.findOne({ _id: id }).exec()
+
+	if (!oldMember) return res.status(404).end()
+
+	await Members.updateOne(
 		{
 			_id: id
 		},
 		{
 			$set: {
-				[type]: payload
-			}
-		},
-		(err, updated) => {
-			if (err) res.status(500).end()
-			else {
-				sockets.onMembersChange('edit', {
-					_id: id,
-					data: [{ field: type, value: payload }]
-				})
-				res.status(200).end()
+				name: name,
+				yearOfGraduation: yearOfGraduation,
+				email: email,
+				admin: admin
 			}
 		}
-	)
+	).exec()
+
+	sockets.onMembersChange('edit', {
+		_id: id,
+		data: [
+			{ field: 'name', value: name },
+			{ field: 'yearOfGraduation', value: yearOfGraduation },
+			{ field: 'email', value: email },
+			{ field: 'admin', value: admin }
+		]
+	})
+
+	res.status(200).end()
 }
 
 exports.promoteMember = (req, res) => {

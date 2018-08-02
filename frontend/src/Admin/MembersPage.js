@@ -9,7 +9,7 @@ import {
 } from '../Components'
 import { Table } from '../Components'
 import Modal from 'react-modal'
-import { newMember, fetchMembers } from '../nmc-api'
+import { newMember, fetchMembers, editMember } from '../nmc-api'
 import SocketEventHandlers from '../Sockets'
 
 Modal.setAppElement('#root')
@@ -100,6 +100,32 @@ export default class MembersPage extends Component {
 		this.setState({ newMemberDialogIsOpen: false })
 	}
 
+	openEditMemberModal = memberId => {
+		const editMember = this.state.members
+			.slice()
+			.filter(m => m._id.toString() === memberId.toString())[0]
+
+		this.setState({
+			editMemberDialogIsOpen: true,
+			editId: memberId,
+			editName: editMember.name,
+			editEmail: editMember.email,
+			editYear: editMember.yearOfGraduation,
+			editAdmin: editMember.admin
+		})
+	}
+
+	closeEditMemberModal = () => {
+		this.setState({
+			editMemberDialogIsOpen: false,
+			editId: null,
+			editName: null,
+			editEmail: null,
+			editYear: null,
+			editAdmin: null
+		})
+	}
+
 	saveMember = async () => {
 		const name = this.nameTextbox.current.getText()
 		const email = this.emailTextbox.current.getText()
@@ -137,10 +163,96 @@ export default class MembersPage extends Component {
 		}
 	}
 
+	saveEditMember = async () => {
+		const name = this.nameTextbox.current.getText()
+		const email = this.emailTextbox.current.getText()
+		const year = this.yearTextbox.current.getText()
+		const admin = this.adminTogglebutton.current.isEnabled()
+
+		var error = false
+		if (!name || name.isOnlyWhitespace()) {
+			this.nameTextbox.current.error()
+			error = true
+		} else {
+			this.nameTextbox.current.unError()
+		}
+
+		if (!email || !email.isValidEmail()) {
+			this.emailTextbox.current.error()
+			error = true
+		} else {
+			this.emailTextbox.current.unError()
+		}
+
+		if (!year || isNaN(year)) {
+			this.yearTextbox.current.error()
+			error = true
+		} else {
+			this.yearTextbox.current.unError()
+		}
+
+		if (error) return
+
+		const response = await editMember(
+			this.state.editId.toString(),
+			name,
+			email,
+			year,
+			admin
+		)
+
+		if (response.status == 200) {
+			this.closeEditMeetingModal()
+		}
+	}
+
 	render() {
-		console.log(this.state.filter)
 		return (
 			<div className="fullheight">
+				<Modal
+					isOpen={this.state.editMemberDialogIsOpen}
+					style={customStyles}
+					contentLabel="Edit Member">
+					<h2>Edit Member</h2>
+					<Textbox
+						text={this.state.editName}
+						ref={this.nameTextbox}
+						placeholder="name"
+						type="text"
+					/>
+					<Textbox
+						text={this.state.editEmail}
+						ref={this.emailTextbox}
+						placeholder="email"
+						type="text"
+					/>
+					<Textbox
+						text={this.state.editYear}
+						ref={this.yearTextbox}
+						placeholder="year of graduation"
+						type="text"
+					/>
+
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'center',
+							alignContent: 'center',
+							marginTop: '0.5em'
+						}}>
+						<h3 style={{ display: 'inline' }}>Admin?</h3>
+						<ToggleButton
+							checked={this.state.editAdmin}
+							ref={this.adminTogglebutton}
+						/>
+					</div>
+
+					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
+						<Button onClick={this.closeEditMemberModal} text="close" />
+						<Button onClick={this.saveEditMember} text="save" />
+					</div>
+				</Modal>
 				<Modal
 					isOpen={this.state.newMemberDialogIsOpen}
 					style={customStyles}
@@ -193,6 +305,7 @@ export default class MembersPage extends Component {
 					<Table
 						headers={['Year', 'Name', 'Email', 'Pi Points']}
 						filter={this.state.filter}
+						onItemClick={this.openEditMemberModal}
 						data={this.state.members.slice().map(member => {
 							return {
 								_id: member._id,

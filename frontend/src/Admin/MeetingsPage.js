@@ -88,13 +88,13 @@ export default class MeetingsPage extends Component {
 					for (var i = 0; i < newMeetings.length; i++) {
 						if (newMeetings[i]._id.toString() === data.payload._id.toString()) {
 							data.payload.data.forEach(change => {
-								newMeeting[i][change.field] = change.value
+								newMeetings[i][change.field] = change.value
 							})
 
 							break
 						}
 					}
-					this.setState({ meetings: newMeeting })
+					this.setState({ meetings: newMeetings })
 					break
 			}
 		})
@@ -126,6 +126,23 @@ export default class MeetingsPage extends Component {
 			newMeetingDialogIsOpen: false,
 			addedMembers: [],
 			suggestionValue: ''
+		})
+	}
+
+	openEditMeetingModal = meetingId => {
+		const editMeeting = this.state.meetings
+			.slice()
+			.filter(m => m._id.toString() === meetingId.toString())[0]
+
+		this.setState({
+			editMeetingDialogIsOpen: true,
+			editId: meetingId,
+			editDate: moment(editMeeting.date).format('MM/DD/YYYY'),
+			editDescription: editMeeting.description,
+			editPiPoints: editMeeting.piPoints,
+			addedMembers: this.state.members.filter(m =>
+				editMeeting.members.map(m => m.toString()).includes(m._id.toString())
+			)
 		})
 	}
 
@@ -183,28 +200,8 @@ export default class MeetingsPage extends Component {
 		)
 
 		if (response.status == 200) {
-			this.closeNewMeetingModal()
+			this.closeEditMeetingModal()
 		}
-	}
-
-	openEditMeetingModal = meetingId => {
-		this.setState({
-			editMeetingDialogIsOpen: true
-		})
-
-		const editMeeting = this.state.meetings
-			.slice()
-			.filter(m => m._id.toString() === meetingId.toString())[0]
-
-		this.setState({
-			editId: meetingId,
-			editDate: moment(editMeeting.date).format('MM/DD/YYYY'),
-			editDescription: editMeeting.description,
-			editPiPoints: editMeeting.piPoints,
-			addedMembers: this.state.members.filter(m =>
-				editMeeting.members.map(m => m.toString()).includes(m._id.toString())
-			)
-		})
 	}
 
 	closeEditMeetingModal = () => {
@@ -212,6 +209,7 @@ export default class MeetingsPage extends Component {
 			editMeetingDialogIsOpen: false,
 			addedMembers: [],
 			suggestionValue: '',
+			editId: null,
 			editDate: null,
 			editDescription: null,
 			editPiPoints: null

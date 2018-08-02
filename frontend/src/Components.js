@@ -502,7 +502,7 @@ export class ToggleButton extends Component {
 		super(props)
 
 		this.state = {
-			enabled: false
+			enabled: this.props.checked || false
 		}
 	}
 
@@ -515,6 +515,7 @@ export class ToggleButton extends Component {
 			<label class="switch">
 				<input
 					type="checkbox"
+					checked={this.state.enabled}
 					onClick={() => {
 						this.setState({ enabled: !this.state.enabled })
 					}}
