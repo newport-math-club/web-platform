@@ -54,8 +54,9 @@ export const getAdminNavItems = (itemIndex, subItemIndex) => {
 		[
 			{ name: 'kpmt', path: '/admin/kpmt' },
 			{ name: 'schools', path: '/admin/kpmt/schools' },
+			{ name: 'teams', path: '/admin/kpmt/teams' },
 			{ name: 'competitors', path: '/admin/kpmt/competitors' },
-			{ name: 'data entry', path: '/admin/kpmt/scoring' }
+			{ name: 'data entry', path: '/admin/kpmt/entry' }
 		],
 		{ name: 'logout', path: '/logout', end: true }
 	]
@@ -303,7 +304,13 @@ export class Link extends Component {
 	render() {
 		return (
 			<a href={this.props.href} target="_blank">
-				<h4 style={{ marginTop: '1em', display: 'inline-block' }}>
+				<h4
+					onClick={this.props.onClick}
+					style={{
+						marginTop: '1em',
+						display: 'inline-block',
+						color: this.props.danger ? '#eb5757' : 'auto'
+					}}>
 					{this.props.name}
 				</h4>
 			</a>

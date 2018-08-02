@@ -45,6 +45,10 @@ var CompetitorSchema = new Schema(
 			type: Schema.Types.ObjectId,
 			ref: 'School'
 		},
+		team: {
+			type: Schem.Types.ObjectId,
+			ref: 'Team'
+		},
 		scores: {
 			weighted: {
 				type: Number,
@@ -75,6 +79,10 @@ var CompetitorSchema = new Schema(
 
 var TeamSchema = new Schema(
 	{
+		number: {
+			type: Number,
+			unique: true
+		},
 		members: [
 			{
 				type: Schema.Types.ObjectId,
@@ -117,6 +125,7 @@ var SchoolSchema = new Schema(
 		coachName: String,
 		coachEmail: String,
 		passHashed: String,
+		registrationDate: Date,
 		active: Boolean,
 		teams: [
 			{

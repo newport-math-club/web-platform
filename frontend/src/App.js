@@ -18,6 +18,7 @@ import ProfilePage from './Client/ProfilePage'
 import LogoutPage from './Client/LogoutPage'
 import MeetingsPage from './Admin/MeetingsPage'
 import MembersPage from './Admin/MembersPage'
+import KPMTPage from './Admin/KPMT/KPMTPage'
 
 String.prototype.isValidEmail = function() {
 	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -50,6 +51,18 @@ export default class App extends React.Component {
 
 					<Route exact path="/admin/meetings" component={MeetingsPage} />
 					<Route exact path="/admin/members" component={MembersPage} />
+
+					<Route exact path="/admin/kpmt" component={KPMTPage} />
+					{/* <Route exact path="/admin/kpmt/schools" component={KPMTSchoolsPage} />
+					<Route exact path="/admin/kpmt/teams" component={KPMTTeamsPage} />
+					<Route exact path="/admin/kpmt/competitors" component={KPMTCompetitorsPage} />
+					<Route exact path="/admin/kpmt/entry" component={KPMTDataEntryPage} />
+					<Route exact path="/admin/kpmt/entry/individual" component={KPMTDataEntryPage} />
+					<Route exact path="/admin/kpmt/entry/block" component={KPMTDataEntryPage} />
+					<Route exact path="/admin/kpmt/entry/mental" component={KPMTDataEntryPage} />
+					<Route exact path="/admin/kpmt/entry/algebra" component={KPMTDataEntryPage} />
+					<Route exact path="/admin/kpmt/entry/geometry" component={KPMTDataEntryPage} />
+					<Route exact path="/admin/kpmt/entry/pp" component={KPMTDataEntryPage} /> */}
 					<Route component={LostPage} />
 				</Switch>
 			</Router>

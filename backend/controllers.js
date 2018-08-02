@@ -16,7 +16,6 @@ const Competitors = schemas.Competitor
 const Teams = schemas.Team
 
 // helper function
-// TODO: make every controller use this
 const validateInput = (...parameters) => {
 	for (var i = 0; i < parameters.length; i++) {
 		if (!parameters[i]) return false
@@ -33,8 +32,6 @@ exports.login = (req, res) => {
 }
 
 exports.logout = (req, res) => {
-	var user = res.locals.user
-
 	req.session.destroy(err => {
 		if (err) res.status(500).end()
 		else res.status(200).end()
@@ -49,7 +46,7 @@ exports.changePassword = (req, res) => {
 	var newPassword = req.body.newPassword
 	var user = res.locals.user
 
-	if (!validateInput(newPassword)) return res.status(400).end()
+	if (!newPassword) return res.status(400).end()
 
 	auth.hash(newPassword, hash => {
 		Members.updateOne(
@@ -70,17 +67,17 @@ exports.changePassword = (req, res) => {
 }
 
 exports.newMeeting = async (req, res) => {
-	var piPoints = req.body.piPoints ? req.body.piPoints : 1
-	var date = req.body.date ? req.body.date : Date.now()
+	var piPoints = req.body.piPoints || 1
+	var date = req.body.date || Date.now()
 	var memberIds = req.body.memberIds
-	var description = req.body.description
+	var description = req.body.description || ''
 
-	if (!validateInput(memberIds)) return res.status(400).end()
+	if (!memberIds) return res.status(400).end()
 
 	var newMeeting = new Meetings({
 		date: date,
 		members: memberIds,
-		description: description || '',
+		description: description,
 		piPoints: piPoints
 	})
 
@@ -150,13 +147,12 @@ exports.removeMeeting = async (req, res) => {
 
 exports.editMeeting = async (req, res) => {
 	var id = req.body.id
-	var piPoints = req.body.piPoints ? req.body.piPoints : 1
-	var date = req.body.date ? req.body.date : Date.now()
+	var piPoints = req.body.piPoints || 1
+	var date = req.body.date || Date.now()
 	var memberIds = req.body.memberIds
-	var description = req.body.description
+	var description = req.body.description || ''
 
-	if (!validateInput(id, piPoints, date, memberIds, description))
-		return res.status(400).end()
+	if (!validateInput(id, memberIds)) return res.status(400).end()
 
 	const oldMeeting = await Meetings.findOne({
 		_id: id
@@ -443,6 +439,7 @@ exports.registerKPMT = (req, res) => {
 			coachName: coachName,
 			coachEmail: email,
 			passHashed: hash,
+			registrationDate: new Date(),
 			active: false,
 			teams: [],
 			competitors: []
@@ -494,7 +491,7 @@ exports.addTeam = (req, res) => {
 		})
 	})
 
-	async.parallel(calls, (err, competitors) => {
+	async.parallel(calls, async (err, competitors) => {
 		if (err) return res.status(500).end()
 
 		var maxGrade = 0
@@ -502,9 +499,24 @@ exports.addTeam = (req, res) => {
 			if (competitor.grade > maxGrade) maxGrade = competitor.grade
 		})
 
+		const existingTeams = await Teams.find({}).exec()
+		const teamsWithSameGrade = existingTeams
+			.filter(
+				t => t.number >= maxGrade * 100 && t.number < 100 * (maxGrade + 1)
+			)
+			.sort((t1, t2) => t1.number - t2.number)
+
+		var nextNumber
+		if (teamsWithSameGrade.length > 0) {
+			nextNumber = teamsWithSameGrade[teamsWithSameGrade.length - 1].number + 1
+		} else {
+			nextNumber = maxGrade * 100
+		}
+
 		var teamObject = new Teams({
 			members: competitors.map(c => c._id),
 			grade: maxGrade,
+			number: nextNumber,
 			school: school._id,
 			scores: []
 		})

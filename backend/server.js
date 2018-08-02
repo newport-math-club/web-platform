@@ -60,7 +60,7 @@ db.once('open', async () => {
 	}
 })
 
-global.kpmtLock = process.env.KPMT_LOCK ? process.env.KPMT_LOCK : true
+global.kpmtLock = true
 
 // sessions
 const cookieExpire = 1000 * 60 * 60 * 24 * 7 // 1 week
