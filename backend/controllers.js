@@ -215,7 +215,7 @@ exports.editMeeting = async (req, res) => {
 		data: [
 			{ field: 'piPoints', value: piPoints },
 			{ field: 'description', value: description },
-			{ field: 'members', value: membersIds },
+			{ field: 'members', value: memberIds },
 			{ field: 'date', value: date }
 		]
 	})
