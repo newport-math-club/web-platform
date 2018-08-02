@@ -156,3 +156,19 @@ exports.fetchMeetings = () => {
 		credentials: 'include'
 	})
 }
+
+exports.changePassword = (password, newPassword) => {
+	console.log(newPassword)
+	return fetch(BASE_URL + '/api/members/change-password', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			password: password,
+			newPassword: newPassword
+		}),
+		credentials: 'include'
+	})
+}

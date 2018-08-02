@@ -25,6 +25,7 @@ String.prototype.isValidEmail = function() {
 }
 
 String.prototype.isOnlyWhitespace = function() {
+	if (this === '') return true
 	return this.replace(/\s/g, '').length === 0
 }
 

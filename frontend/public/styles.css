@@ -152,6 +152,16 @@ p {
   color: #555555;
 }
 
+a {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  color: #527aff;
+  cursor: pointer;
+}
 a:link {
   color: #527aff;
   text-decoration: none;
