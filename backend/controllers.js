@@ -176,7 +176,7 @@ exports.editMeeting = async (req, res) => {
 				date: date,
 				description: description,
 				piPoints: piPoints,
-				members: members
+				members: memberIds
 			}
 		}
 	).exec()
