@@ -404,22 +404,82 @@ export class FilterBar extends Component {
 }
 
 export class Table extends Component {
+	constructor(props) {
+		super(props)
+
+		this.state = {
+			sortIndex: null,
+			sortDirection: null
+		}
+	}
+
 	toggleSortByIndex = index => {
-		// TODO:
+		const currentSortIndex = this.state.sortIndex
+		const currentSortDirection = this.state.sortDirection
+
+		// toggle order: sort ascending, sort descending, sort off
+		if (index === currentSortIndex) {
+			if (currentSortDirection === 1) {
+				this.setState({ sortDirection: -1 })
+				return
+			} else if (currentSortDirection === -1) {
+				this.setState({ sortIndex: null, sortDirection: null })
+				return
+			}
+		} else {
+			this.setState({ sortIndex: index, sortDirection: 1 })
+		}
 	}
 
 	render() {
 		var headers = this.props.headers.map((header, index) => {
 			return (
-				<th key={header} onClick={this.toggleSortByIndex(index)}>
+				<th key={header} onClick={() => this.toggleSortByIndex(index)}>
 					{header}
+					{this.state.sortIndex === index &&
+						this.state.sortDirection === 1 && (
+							<i
+								className="material-icons"
+								style={{ color: '#000', position: 'relative', top: '8%' }}>
+								arrow_drop_down
+							</i>
+						)}
+					{this.state.sortIndex === index &&
+						this.state.sortDirection === -1 && (
+							<i
+								className="material-icons"
+								style={{ color: '#000', position: 'relative', top: '8%' }}>
+								arrow_drop_up
+							</i>
+						)}
 				</th>
 			)
 		})
 
 		var rows
 		if (this.props.filter.length > 0) {
-			rows = this.props.data.slice().map(row => {
+			const data = this.props.data.slice()
+
+			const sortIndex = this.state.sortIndex
+			const sortDirection = this.state.sortDirection
+			if (
+				data.length > 0 &&
+				sortIndex != null &&
+				sortDirection != null &&
+				!isNaN(sortIndex) &&
+				!isNaN(sortDirection) &&
+				sortIndex >= 0 &&
+				sortIndex < data[0].fields.length
+			) {
+				data.sort((a, b) => {
+					return (
+						sortDirection *
+						a.fields[sortIndex].toString().localeCompare(b.fields[sortIndex])
+					)
+				})
+			}
+
+			rows = data.slice().map(row => {
 				for (var i = 0; i < row.fields.length; i++) {
 					if (!row.fields[i]) continue
 					if (
@@ -443,7 +503,29 @@ export class Table extends Component {
 				}
 			})
 		} else {
-			rows = this.props.data.slice().map(row => {
+			const data = this.props.data.slice()
+
+			const sortIndex = this.state.sortIndex
+			const sortDirection = this.state.sortDirection
+			if (
+				data.length > 0 &&
+				sortIndex != null &&
+				sortDirection != null &&
+				!isNaN(sortIndex) &&
+				!isNaN(sortDirection) &&
+				sortIndex >= 0 &&
+				sortIndex < data[0].fields.length
+			) {
+				data.sort((a, b) => {
+					if (!a.fields[sortIndex]) return 1
+					return (
+						sortDirection *
+						a.fields[sortIndex].toString().localeCompare(b.fields[sortIndex])
+					)
+				})
+			}
+
+			rows = data.slice().map(row => {
 				return (
 					<tr
 						key={row._id}

@@ -233,10 +233,21 @@ table {
 	width: 100%;
 	margin-top: 1em;
 	thead {
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
 		tr {
-			width: 4em;
 			border-radius: 2em;
 			box-shadow: 1px 2px 8px $grayLight;
+			th {
+				cursor: pointer;
+				&:hover {
+					color: $highlight;
+				}
+			}
 		}
 	}
 	tbody {
@@ -258,6 +269,10 @@ table {
 		td:last-of-type,
 		th:last-of-type {
 			text-align: right;
+			width: 8em;
+		}
+		td:first-of-type,
+		th:first-of-type {
 			width: 4em;
 		}
 		td,

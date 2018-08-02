@@ -232,10 +232,23 @@ table {
   width: 100%;
   margin-top: 1em;
 }
+table thead {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 table thead tr {
-  width: 4em;
   border-radius: 2em;
   box-shadow: 1px 2px 8px #c4c4c4;
+}
+table thead tr th {
+  cursor: pointer;
+}
+table thead tr th:hover {
+  color: #527aff;
 }
 table tbody tr {
   cursor: pointer;
@@ -252,6 +265,10 @@ table tr td {
 table tr td:last-of-type,
 table tr th:last-of-type {
   text-align: right;
+  width: 8em;
+}
+table tr td:first-of-type,
+table tr th:first-of-type {
   width: 4em;
 }
 table tr td,

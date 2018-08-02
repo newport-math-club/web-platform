@@ -38,7 +38,7 @@ export default class AboutPage extends Component {
 					<Bio
 						name="Sriram Thothathri"
 						title="Webmaster"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/terrance.png"
+						image="https://newport-math-club.nyc3.digitaloceanspaces.com/sriram.png"
 						row={5}
 						column={1}
 					/>
