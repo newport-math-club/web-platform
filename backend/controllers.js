@@ -158,9 +158,12 @@ exports.editMeeting = async (req, res) => {
 	if (!validateInput(id, piPoints, date, memberIds, description))
 		return res.status(400).end()
 
+	console.log(id)
 	const oldMeeting = await Meetings.findOne({
-		_id: mongoose.Types.ObjectId(id.toString())
+		_id: id
 	}).exec()
+
+	console.log(oldMeeting)
 
 	if (!oldMeeting) return res.status(404).end()
 
