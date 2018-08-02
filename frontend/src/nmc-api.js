@@ -109,6 +109,34 @@ exports.editMember = (id, name, email, yearOfGraduation, admin) => {
 	})
 }
 
+exports.deleteMember = id => {
+	return fetch(BASE_URL + '/api/members/remove', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id: id
+		}),
+		credentials: 'include'
+	})
+}
+
+exports.deleteMeeting = id => {
+	return fetch(BASE_URL + '/api/meetings/remove', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id: id
+		}),
+		credentials: 'include'
+	})
+}
+
 exports.fetchMembers = () => {
 	return fetch(BASE_URL + '/api/members', {
 		method: 'GET',

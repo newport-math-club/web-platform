@@ -14,7 +14,8 @@ import {
 	fetchMembers,
 	newMeeting,
 	fetchMeetings,
-	editMeeting
+	editMeeting,
+	deleteMeeting
 } from '../nmc-api'
 import SocketEventHandlers from '../Sockets'
 import { pipeline } from 'stream'
@@ -222,6 +223,14 @@ export default class MeetingsPage extends Component {
 		this.setState({ addedMembers: copy })
 	}
 
+	deleteMeeting = async () => {
+		const response = await deleteMeeting(this.state.editId.toString())
+
+		if (response.status == 200) {
+			this.closeEditMeetingModal()
+		}
+	}
+
 	getMemberSuggestions = value => {
 		const input = value.trim().toLowerCase()
 
@@ -352,6 +361,9 @@ export default class MeetingsPage extends Component {
 								</div>
 							</div>
 						</div>
+					</div>
+					<div style={{ bottom: '1em', left: '1em', position: 'absolute' }}>
+						<Button onClick={this.deleteMeeting} text="delete" />
 					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeEditMeetingModal} text="close" />

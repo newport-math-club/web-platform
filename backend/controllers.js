@@ -130,7 +130,7 @@ exports.removeMeeting = async (req, res) => {
 		// decrement these pi points
 		await Members.updateMany(
 			{ _id: { $in: meeting.members } },
-			{ $inc: { piPoints: 0 - piPoints } }
+			{ $inc: { piPoints: 0 - meeting.piPoints } }
 		).exec()
 
 		meeting.members.forEach(memberId => {

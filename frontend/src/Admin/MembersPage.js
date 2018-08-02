@@ -9,7 +9,7 @@ import {
 } from '../Components'
 import { Table } from '../Components'
 import Modal from 'react-modal'
-import { newMember, fetchMembers, editMember } from '../nmc-api'
+import { newMember, fetchMembers, editMember, deleteMember } from '../nmc-api'
 import SocketEventHandlers from '../Sockets'
 
 Modal.setAppElement('#root')
@@ -206,6 +206,14 @@ export default class MembersPage extends Component {
 		}
 	}
 
+	deleteMember = async () => {
+		const response = await deleteMember(this.state.editId.toString())
+
+		if (response.status == 200) {
+			this.closeEditMemberModal()
+		}
+	}
+
 	render() {
 		return (
 			<div className="fullheight">
@@ -248,6 +256,9 @@ export default class MembersPage extends Component {
 						/>
 					</div>
 
+					<div style={{ bottom: '1em', left: '1em', position: 'absolute' }}>
+						<Button onClick={this.deleteMember} text="delete" />
+					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeEditMemberModal} text="close" />
 						<Button onClick={this.saveEditMember} text="save" />
