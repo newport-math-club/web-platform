@@ -117,7 +117,7 @@ exports.removeMeeting = async (req, res) => {
 	if (!id) return res.status(400).end()
 
 	try {
-		const meeting = Meetings.findOne({ _id: id }).exec()
+		const meeting = await Meetings.findOne({ _id: id }).exec()
 
 		if (!meeting) return res.status(404).end()
 
@@ -130,7 +130,7 @@ exports.removeMeeting = async (req, res) => {
 		// decrement these pi points
 		await Members.updateMany(
 			{ _id: { $in: meeting.members } },
-			{ $inc: { piPoints: 0 - parseInt(meeting.piPoints) } }
+			{ $inc: { piPoints: 0 - meeting.piPoints } }
 		).exec()
 
 		meeting.members.forEach(memberId => {
@@ -181,7 +181,7 @@ exports.editMeeting = async (req, res) => {
 	// decrement these pi points from all old members
 	await Members.updateMany(
 		{ _id: { $in: oldMeeting.members } },
-		{ $inc: { piPoints: 0 - parseInt(oldMeeting.piPoints) } }
+		{ $inc: { piPoints: 0 - oldMeeting.piPoints } }
 	).exec()
 
 	// socket the decrement
