@@ -5,9 +5,7 @@ import { logout } from '../nmc-api'
 export default class LogoutPage extends Component {
 	async componentDidMount() {
 		const response = await logout()
-		if (response.status == 200) {
-			window.location.href = '/login'
-		}
+		window.location.href = '/login'
 	}
 
 	render() {
