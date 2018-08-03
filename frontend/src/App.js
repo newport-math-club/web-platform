@@ -57,8 +57,12 @@ export default class App extends React.Component {
 					<Route exact path="/admin/kpmt" component={KPMTPage} />
 					<Route exact path="/admin/kpmt/schools" component={KPMTSchoolsPage} />
 					<Route exact path="/admin/kpmt/teams" component={KPMTTeamsPage} />
-					{/* <Route exact path="/admin/kpmt/competitors" component={KPMTCompetitorsPage} />
-					<Route exact path="/admin/kpmt/entry" component={KPMTDataEntryPage} />
+					<Route
+						exact
+						path="/admin/kpmt/competitors"
+						component={KPMTCompetitorsPage}
+					/>
+					{/* <Route exact path="/admin/kpmt/entry" component={KPMTDataEntryPage} />
 					<Route exact path="/admin/kpmt/entry/individual" component={KPMTDataEntryPage} />
 					<Route exact path="/admin/kpmt/entry/block" component={KPMTDataEntryPage} />
 					<Route exact path="/admin/kpmt/entry/mental" component={KPMTDataEntryPage} />
