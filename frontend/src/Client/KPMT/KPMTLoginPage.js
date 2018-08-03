@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Nav, getNavItems, Link, Textbox, Button } from '../../Components'
+import { loginKPMT } from '../../nmc-api'
 
 export default class KPMTLoginPage extends Component {
 	constructor(props) {
@@ -12,11 +13,27 @@ export default class KPMTLoginPage extends Component {
 		this.passwordTextBox = React.createRef()
 	}
 
-	handleLogin = () => {
+	handleLogin = async () => {
 		const email = this.emailTextBox.current.getText()
 		const password = this.passwordTextBox.current.getText()
 
+		if (
+			email.isOnlyWhitespace() ||
+			password.isOnlyWhitespace() ||
+			!email.isValidEmail()
+		) {
+			this.setState({ error: 1 })
+			return
+		}
+
 		// TODO: handle login logic, if error, put http status code into this.state.error
+		const response = await loginKPMT(email, password)
+
+		if (response.status == 200) {
+			window.location.href = '/kpmt/profile'
+		} else {
+			this.setState({ error: response.status })
+		}
 	}
 
 	render() {
@@ -57,9 +74,21 @@ export default class KPMTLoginPage extends Component {
 						type="password"
 						placeholder="password"
 					/>
-					{this.state.error && (
-						<h5 style={{ marginTop: '8px' }}>login failed, please try again</h5>
-					)}
+					<div>
+						{(this.state.error == 1 || this.state.error == 400) && (
+							<h5 style={{ marginTop: '8px' }}>
+								invalid inputs, please try again
+							</h5>
+						)}
+						{this.state.error == 403 && (
+							<h5 style={{ marginTop: '8px' }}>
+								your account has not been activated yet!
+							</h5>
+						)}
+						{(this.state.error == 404 || this.state.error == 401) && (
+							<h5 style={{ marginTop: '8px' }}>invalid credentials</h5>
+						)}
+					</div>
 					<div style={{ textAlign: 'center' }}>
 						<Button onClick={this.handleLogin} text="login" />
 					</div>
