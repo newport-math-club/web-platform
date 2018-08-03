@@ -21,6 +21,7 @@ import MembersPage from './Admin/MembersPage'
 import KPMTPage from './Admin/KPMT/KPMTPage'
 import KPMTSchoolsPage from './Admin/KPMT/KPMTSchoolsPage'
 import KPMTTeamsPage from './Admin/KPMT/KPMTTeamsPage'
+import KPMTCompetitorsPage from './Admin/KPMT/KPMTCompetitorsPage'
 
 String.prototype.isValidEmail = function() {
 	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
