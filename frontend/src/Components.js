@@ -347,6 +347,10 @@ export class Textbox extends Component {
 		this.setState({ errored: false })
 	}
 
+	clear = () => {
+		this.setState({ text: '' })
+	}
+
 	handleKeyDown = e => {
 		if (e.key === 'Enter') {
 			if (this.props.onEnter) this.props.onEnter()

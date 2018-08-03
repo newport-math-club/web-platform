@@ -1,23 +1,60 @@
 import React, { Component } from 'react'
 import { Nav, getNavItems, Link, Textbox, Button } from '../../Components'
+import { registerKPMT } from '../../nmc-api'
 
 export default class KPMTRegistrationPage extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			error: null,
-			understood: false
+			error: null, // 1: empty/whitespace inputs, 2: passwords dont match
+			understood: false,
+			success: false
 		}
 
+		this.schoolTextbox = React.createRef()
+		this.nameTextbox = React.createRef()
 		this.emailTextBox = React.createRef()
 		this.passwordTextBox = React.createRef()
+		this.passwordRepeatTextBox = React.createRef()
 	}
 
-	handleLogin = () => {
+	handleRegister = async () => {
+		// handle login logic, if error, put http status code into this.state.error
+
+		const name = this.nameTextbox.current.getText()
+		const school = this.schoolTextbox.current.getText()
 		const email = this.emailTextBox.current.getText()
 		const password = this.passwordTextBox.current.getText()
+		const passwordRepeat = this.passwordRepeatTextBox.current.getText()
 
-		// TODO: handle login logic, if error, put http status code into this.state.error
+		if (passwordRepeat !== password) {
+			this.setState({ error: 2 })
+			return
+		}
+
+		if (
+			name.isOnlyWhitespace() ||
+			password.isOnlyWhitespace() ||
+			school.isOnlyWhitespace() ||
+			email.isOnlyWhitespace() ||
+			!email.isValidEmail()
+		) {
+			this.setState({ error: 1 })
+			return
+		}
+
+		const response = await registerKPMT(school, name, email, password)
+
+		if (response.status == 200) {
+			this.setState({ error: -1 })
+			this.nameTextbox.current.clear()
+			this.schoolTextbox.current.clear()
+			this.emailTextBox.current.clear()
+			this.passwordTextBox.current.clear()
+			this.passwordRepeatTextBox.current.clear()
+		} else {
+			this.setState({ error: response.status })
+		}
 	}
 
 	render() {
@@ -89,15 +126,38 @@ export default class KPMTRegistrationPage extends Component {
 								placeholder="password"
 							/>
 							<Textbox
-								ref={this.passwordTextBox}
+								ref={this.passwordRepeatTextBox}
 								type="password"
 								placeholder="password again"
 							/>
-							{this.state.error && (
-								<h5 style={{ marginTop: '8px' }}>
-									login failed, please try again
-								</h5>
-							)}
+							<div style={{ textAlign: 'center' }}>
+								{(this.state.error == 1 || this.state.error == 400) && (
+									<h5 style={{ marginTop: '8px' }}>
+										invalid inputs, please fill out the form
+									</h5>
+								)}
+								{this.state.error == 2 && (
+									<h5 style={{ marginTop: '8px' }}>
+										invalid inputs, passwords dont match
+									</h5>
+								)}
+								{this.state.error == 403 && (
+									<h5 style={{ marginTop: '8px' }}>
+										sorry, registration is closed at this time :(
+									</h5>
+								)}
+								{this.state.error == 500 && (
+									<h5 style={{ marginTop: '8px' }}>
+										something happened, please try again later :(
+									</h5>
+								)}
+								{this.state.error == -1 && (
+									<h5 style={{ marginTop: '8px', color: '#31CE73' }}>
+										registration successful, please wait for your account to be
+										activated :)
+									</h5>
+								)}
+							</div>
 							<div style={{ textAlign: 'center' }}>
 								<Button onClick={this.handleRegister} text="register" />
 							</div>

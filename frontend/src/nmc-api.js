@@ -245,3 +245,20 @@ exports.deactivateSchool = id => {
 		credentials: 'include'
 	})
 }
+
+exports.registerKPMT = (school, coachName, coachEmail, password) => {
+	return fetch(BASE_URL + '/api/kpmt/register', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			school: school,
+			coachName: coachName,
+			email: coachEmail,
+			password: password
+		}),
+		credentials: 'include'
+	})
+}
