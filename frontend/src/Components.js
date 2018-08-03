@@ -78,7 +78,8 @@ export const getAdminNavItems = (itemIndex, subItemIndex) => {
 export const getCoachNavItems = (itemIndex, subItemIndex) => {
 	var base = [
 		{ name: 'dashboard', path: '/kpmt/coach/dashboard' },
-		{ name: 'manage competitors', path: '/kpmt/coach/competitors' },
+		{ name: 'teams', path: '/kpmt/coach/teams' },
+		{ name: 'individuals', path: '/kpmt/coach/individuals' },
 		{ name: 'logout', path: '/coachLogout', end: true }
 	]
 

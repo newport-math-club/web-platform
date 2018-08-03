@@ -43,7 +43,8 @@ exports.authenticateCoach = async (req, res, next) => {
 
 	try {
 		const school = await Schools.findOne({ coachEmail: email })
-			.populate('teams')
+			.populate({ path: 'teams', populate: { path: 'members' } })
+			.populate({ path: 'competitors' })
 			.exec()
 
 		if (!school) return res.status(404).end()
@@ -104,7 +105,8 @@ exports.verifyCoachSession = async (req, res, next) => {
 
 	try {
 		const school = await Schools.findOne({ _id: id })
-			.populate('teams')
+			.populate({ path: 'teams', populate: { path: 'members' } })
+			.populate({ path: 'competitors' })
 			.exec()
 
 		res.locals.user = school

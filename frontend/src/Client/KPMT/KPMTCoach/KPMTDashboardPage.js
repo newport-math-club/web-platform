@@ -71,6 +71,7 @@ export default class KPMTDashboardPage extends Component {
 					<h3>
 						{this.state.profile.competitors.length} total student competitors
 					</h3>
+					{/* TODO: add cost calculation here */}
 				</div>
 			</div>
 		)
