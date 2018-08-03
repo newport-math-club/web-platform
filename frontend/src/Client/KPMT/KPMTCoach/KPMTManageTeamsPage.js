@@ -13,6 +13,7 @@ import SocketEventHandlers from '../../Sockets'
 import { fetchKPMTSchools, fetchKPMTTeams } from '../../nmc-api'
 import moment from 'moment'
 import { fetchSchoolProfile } from '../../../nmc-api'
+import { getCoachNavItems, CoachNav } from '../../../Components'
 
 Modal.setAppElement('#root')
 
@@ -75,7 +76,6 @@ export default class KPMTManageTeamsPage extends Component {
 	render() {
 		const selectedTeam = this.state.selectedTeam || {
 			members: [],
-			school: {},
 			scores: {}
 		}
 		return (
@@ -87,20 +87,20 @@ export default class KPMTManageTeamsPage extends Component {
 					<h2>View Team</h2>
 					<h3>Team #: {selectedTeam.number}</h3>
 					<h3>
-						Members: {selectedTeam.members.reduce((a, b) => a + ', ' + b, '')}
+						Members:{' '}
+						{selectedTeam.members.reduce((a, b) => a.name + ', ' + b.name, '')}
 					</h3>
-					<h3>School: {selectedTeam.school.name}</h3>
-					<h3>Algebra: {selectedTeam.scores.algebra}</h3>
-					<h3>Geometry: {selectedTeam.scores.geometry}</h3>
-					<h3>P&P: {selectedTeam.scores.probability}</h3>
-					<h3>Weighted: {selectedTeam.scores.weighted}</h3>
 
+					<div style={{ bottom: '1em', left: '1em', position: 'absolute' }}>
+						<Button onClick={this.deleteTeam} text="delete" />
+					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
-						<Button onClick={this.closeSchoolModal} text="close" />
+						<Button onClick={this.closeTeamModal} text="close" />
+						<Button onClick={this.saveEditTeam} text="save" />
 					</div>
 				</Modal>
 
-				<Nav admin={true} items={getAdminNavItems(2, 2)} />
+				<CoachNav items={getCoachNavItems(1)} />
 				<div
 					style={{
 						float: 'left',
@@ -111,7 +111,7 @@ export default class KPMTManageTeamsPage extends Component {
 						paddingRight: '4em',
 						overflowY: 'auto'
 					}}>
-					<h2>KPMT Teams</h2>
+					<h2>Your Teams</h2>
 					<div>
 						<FilterBar
 							placeholder="filter"
@@ -119,7 +119,7 @@ export default class KPMTManageTeamsPage extends Component {
 						/>
 					</div>
 					<Table
-						headers={['Number', 'School', 'Members', 'Score']}
+						headers={['Number', 'Members']}
 						filter={this.state.filter}
 						onItemClick={this.openTeamModal}
 						data={this.state.teams.slice().map(team => {
@@ -127,9 +127,7 @@ export default class KPMTManageTeamsPage extends Component {
 								_id: team._id,
 								fields: [
 									team.number,
-									team.school,
-									team.members.reduce((a, b) => a + ', ' + b),
-									team.scores.weighted
+									team.members.reduce((a, b) => a.name + ', ' + b.name, '')
 								]
 							}
 						})}

@@ -14,6 +14,17 @@ const sockets = require('./sockets')
 const Members = schemas.Member
 const port = 3000
 
+// string helper functions
+String.prototype.isValidEmail = function() {
+	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+	return re.test(this.toLowerCase())
+}
+
+String.prototype.isOnlyWhitespace = function() {
+	if (this === '') return true
+	return this.replace(/\s/g, '').length === 0
+}
+
 const rootAdminPass = process.env.DEFAULT_ADMIN_PASS
 
 const server = require('http').Server(app)

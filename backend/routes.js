@@ -99,6 +99,10 @@ module.exports = app => {
 		.post(nmcMiddleware.verifyCoachSession)
 		.post(nmcController.addTeam)
 	app
+		.route('/api/kpmt/team/edit/')
+		.post(nmcMiddleware.verifyCoachSession)
+		.post(nmcController.editTeam)
+	app
 		.route('/api/kpmt/team/remove/')
 		.post(nmcMiddleware.verifyCoachSession)
 		.post(nmcController.removeTeam)

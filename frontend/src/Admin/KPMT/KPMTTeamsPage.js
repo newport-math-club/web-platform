@@ -92,7 +92,8 @@ export default class KPMTTeamsPage extends Component {
 					<h2>View Team</h2>
 					<h3>Team #: {selectedTeam.number}</h3>
 					<h3>
-						Members: {selectedTeam.members.reduce((a, b) => a + ', ' + b, '')}
+						Members:{' '}
+						{selectedTeam.members.reduce((a, b) => a.name + ', ' + b.name, '')}
 					</h3>
 					<h3>School: {selectedTeam.school.name}</h3>
 					<h3>Algebra: {selectedTeam.scores.algebra}</h3>
@@ -101,7 +102,7 @@ export default class KPMTTeamsPage extends Component {
 					<h3>Weighted: {selectedTeam.scores.weighted}</h3>
 
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
-						<Button onClick={this.closeSchoolModal} text="close" />
+						<Button onClick={this.closeTeamModal} text="close" />
 					</div>
 				</Modal>
 
@@ -133,7 +134,7 @@ export default class KPMTTeamsPage extends Component {
 								fields: [
 									team.number,
 									team.school,
-									team.members.reduce((a, b) => a + ', ' + b),
+									team.members.reduce((a, b) => a.name + ', ' + b.name),
 									team.scores.weighted
 								]
 							}

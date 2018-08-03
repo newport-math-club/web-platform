@@ -464,17 +464,23 @@ exports.addTeam = (req, res) => {
 
 	if (!team || team.length > 4 || team.length < 3) return res.status(400).end()
 
+	// check that the new members are valid
+	for (var i = 0; i < team.length; i++) {
+		if (!team[i].name || !team[i].grade) return res.status(400).end()
+
+		if (team[i].name.isOnlyWhitespace() || isNaN(team[i].grade))
+			return res.status(400).end()
+	}
+
 	var calls = []
 
 	team.forEach(competitor => {
-		if (!competitor.name || !competitor.grade) return res.status(400)
-
 		calls.push(callback => {
 			var competitorObject = new Competitors({
 				name: competitor.name,
 				grade: competitor.grade,
 				school: school._id,
-				scores: []
+				scores: {}
 			})
 			competitorObject.save((err, savedCompetitor) => {
 				if (err) callback(err)
@@ -501,17 +507,18 @@ exports.addTeam = (req, res) => {
 		})
 
 		const existingTeams = await Teams.find({}).exec()
-		const teamsWithSameGrade = existingTeams
-			.filter(
-				t => t.number >= maxGrade * 100 && t.number < 100 * (maxGrade + 1)
-			)
-			.sort((t1, t2) => t1.number - t2.number)
 
-		var nextNumber
-		if (teamsWithSameGrade.length > 0) {
-			nextNumber = teamsWithSameGrade[teamsWithSameGrade.length - 1].number + 1
-		} else {
-			nextNumber = maxGrade * 100
+		var teamNumberDigits = 3
+		var nextNumber = 10 ** (teamNumberDigits - 1) * maxGrade
+		while (existingTeams.filter(t => t.number == nextNumber).length > 0) {
+			// this number of digits wont suffice, time to step it up
+			// this step is highly unlikely for the near future, but should future years need more than 100 teams for a grade, i gotchu covered :)
+			if (10 ** (teamNumberDigits - 1) * (maxGrade + 1) - 1 === nextNumber) {
+				teamNumberDigits++
+				var nextNumber = 10 ** (teamNumberDigits - 1) * maxGrade
+			} else {
+				nextNumber++
+			}
 		}
 
 		var teamObject = new Teams({
@@ -519,7 +526,7 @@ exports.addTeam = (req, res) => {
 			grade: maxGrade,
 			number: nextNumber,
 			school: school._id,
-			scores: []
+			scores: {}
 		})
 
 		teamObject.save((err, savedTeam) => {
@@ -536,6 +543,73 @@ exports.addTeam = (req, res) => {
 			}
 		})
 	})
+}
+
+exports.editTeam = async (req, res) => {
+	const id = req.body.id
+	const newMembers = req.body.members
+	const school = res.locals.user
+
+	if (!validateInput(id, newMembers)) return res.status(400).end()
+	if (newMembers.length > 4) return res.status(400).end()
+	if (newMembers.length < 3) return res.status(400).end()
+
+	// make sure the team belongs to the school
+	const targetTeam = await Teams.findOne({ _id: id }).exec()
+	if (targetTeam.school.toString() !== school._id.toString())
+		return res.status(404).end()
+
+	// check that the new members are valid
+	for (var i = 0; i < newMembers.length; i++) {
+		if (!newMembers[i].name || !newMembers[i].grade)
+			return res.status(400).end()
+
+		if (newMembers[i].name.isOnlyWhitespace() || isNaN(newMembers[i].grade))
+			return res.status(400).end()
+	}
+
+	try {
+		// perform the edits
+
+		// remove all the old members cuz atomic edits are too tedious
+		await Members.deleteMany({
+			_id: { $in: targetTeam.members.map(m => m._id) }
+		}).exec()
+
+		// create the new members
+
+		var newMemberObjects = []
+
+		for (var i = 0; i < newMembers.length; i++) {
+			const newMember = new Competitors({
+				name: newMembers[i].name,
+				grade: newMembers[i].grade,
+				school: school._id,
+				scores: {}
+			})
+
+			const newMemberObject = await newMember.save()
+
+			newMemberObjects.push(newMemberObject)
+		}
+
+		// recompute maxgrade
+		var maxGrade = 0
+
+		newMemberObjects.forEach(newMember => {
+			if (newMember.grade > maxGrade) maxGrade = newMember.grade
+		})
+
+		await Teams.updateOne(
+			{ _id: targetTeam._id },
+			{ $set: { grade: maxGrade, members: newMemberObjects.map(m => m._id) } }
+		).exec()
+
+		res.status(200).end()
+	} catch (error) {
+		console.log(error)
+		res.status(500).end()
+	}
 }
 
 exports.removeTeam = (req, res) => {
@@ -616,7 +690,7 @@ exports.addIndiv = (req, res) => {
 		name: name,
 		grade: grade,
 		school: school._id,
-		scores: []
+		scores: {}
 	})
 
 	newCompetitor.save((err, savedCompetitor) => {
