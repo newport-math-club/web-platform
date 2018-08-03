@@ -117,6 +117,11 @@ module.exports = app => {
 		.route('/api/kpmt/approveSchool')
 		.post(nmcMiddleware.verifyAdminSession)
 		.post(nmcController.approveSchoolKPMT)
+
+	app
+		.route('/api/kpmt/deactivateSchool')
+		.post(nmcMiddleware.verifyAdminSession)
+		.post(nmcController.deactivateSchoolKPMT)
 	app
 		.route('/api/kpmt/removeSchool')
 		.post(nmcMiddleware.verifyAdminSession)

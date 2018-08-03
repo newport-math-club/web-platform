@@ -217,3 +217,31 @@ exports.deleteKPMTSchool = id => {
 		credentials: 'include'
 	})
 }
+
+exports.activateSchool = id => {
+	return fetch(BASE_URL + '/api/members/approveSchool', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id: id
+		}),
+		credentials: 'include'
+	})
+}
+
+exports.deactivateSchool = id => {
+	return fetch(BASE_URL + '/api/members/deactivateSchool', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id: id
+		}),
+		credentials: 'include'
+	})
+}

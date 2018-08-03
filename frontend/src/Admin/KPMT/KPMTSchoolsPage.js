@@ -10,7 +10,12 @@ import {
 } from '../../Components'
 import Modal from 'react-modal'
 import SocketEventHandlers from '../../Sockets'
-import { fetchKPMTSchools, deleteKPMTSchool } from '../../nmc-api'
+import {
+	fetchKPMTSchools,
+	deleteKPMTSchool,
+	activateSchool,
+	deactivateSchool
+} from '../../nmc-api'
 import moment from 'moment'
 
 Modal.setAppElement('#root')
@@ -43,6 +48,8 @@ export default class KPMTSchoolsPage extends Component {
 			schools: [],
 			selectedSchool: null
 		}
+
+		this.selectedSchoolActiveToggleButton = React.createRef()
 	}
 
 	componentWillUnmount() {
@@ -86,9 +93,21 @@ export default class KPMTSchoolsPage extends Component {
 		}
 	}
 
-	handleSchoolActiveToggle = () => {
-		// TODO: handle school activate deactivate, use ref to set enabled/disabled by response code
-		return false
+	handleSchoolActiveToggle = async () => {
+		// handle school activate deactivate, use ref to set enabled/disabled by response code
+		const active = this.selectedSchoolActiveToggleButton.current.isEnabled()
+
+		var response
+		if (active)
+			response = await activateSchool(this.state.selectedSchool._id.toString())
+		else
+			response = await deactivateSchool(
+				this.state.selectedSchool._id.toString()
+			)
+
+		if (response.status == 200) {
+			this.selectedSchoolActiveToggleButton.current.setEnabled(active)
+		}
 	}
 
 	render() {
@@ -129,7 +148,10 @@ export default class KPMTSchoolsPage extends Component {
 						}}>
 						<h3 style={{ display: 'inline' }}>Active?</h3>
 						<ToggleButton
-							onClick={this.handleSchoolActiveToggle}
+							onClick={() => {
+								this.handleSchoolActiveToggle()
+								return false
+							}}
 							checked={selectedSchool.active}
 							ref={this.selectedSchoolActiveToggleButton}
 						/>

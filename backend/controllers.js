@@ -679,6 +679,27 @@ exports.approveSchoolKPMT = (req, res) => {
 	)
 }
 
+exports.deactivateSchoolKPMT = (req, res) => {
+	var id = req.body.id
+
+	if (!id) return res.status(400).end()
+
+	Schools.updateOne(
+		{
+			_id: id
+		},
+		{
+			$set: {
+				active: false
+			}
+		},
+		(err, updated) => {
+			if (err) res.status(500).end()
+			else res.status(200).end()
+		}
+	)
+}
+
 exports.removeSchoolKPMT = async (req, res) => {
 	var id = req.body.id
 
