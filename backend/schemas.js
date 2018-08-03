@@ -122,7 +122,10 @@ var TeamSchema = new Schema(
 var SchoolSchema = new Schema(
 	{
 		name: String,
-		coachName: String,
+		coachName: {
+			type: String,
+			unique: true
+		},
 		coachEmail: String,
 		passHashed: String,
 		registrationDate: Date,

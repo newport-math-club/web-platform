@@ -277,3 +277,13 @@ exports.loginKPMT = (email, password) => {
 		credentials: 'include'
 	})
 }
+
+exports.fetchSchoolProfile = () => {
+	return fetch(BASE_URL + '/api/kpmt/profile', {
+		method: 'GET',
+		headers: {
+			Accept: 'application/json'
+		},
+		credentials: 'include'
+	})
+}

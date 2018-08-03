@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { fetchProfile } from './nmc-api'
+import { fetchProfile, fetchSchoolProfile } from './nmc-api'
 
 /**
  * Gets the nav items array complete with highlight injection
@@ -73,6 +73,99 @@ export const getAdminNavItems = (itemIndex, subItemIndex) => {
 	}
 
 	return base
+}
+
+export const getCoachNavItems = (itemIndex, subItemIndex) => {
+	var base = [
+		{ name: 'dashboard', path: '/kpmt/coach/dashboard' },
+		{ name: 'manage competitors', path: '/kpmt/coach/competitors' },
+		{ name: 'logout', path: '/coachLogout', end: true }
+	]
+
+	if (itemIndex < 0) return base
+
+	var item = base[itemIndex]
+	if (item instanceof Array) {
+		item[0].highlight = true
+		item[subItemIndex].highlight = true
+	} else {
+		item.highlight = true
+	}
+
+	return base
+}
+
+/**
+ * props:
+ * {
+ *    items: [{
+ *      name: String,
+ *      path: String, // used in window.location.href = path
+ *      highlight: Boolean
+ *    }] // NOTE: could be array of arrays, for subitems
+ * }
+ */
+export class CoachNav extends Component {
+	constructor(props) {
+		super(props)
+
+		this.state = {}
+	}
+
+	gotoDashboard = () => {
+		window.location.href = '/kpmt/coach/dashboard'
+	}
+
+	async componentDidMount() {
+		const profileResponse = await fetchSchoolProfile()
+
+		if (profileResponse.status == 200) {
+			const data = await profileResponse.json()
+
+			this.setState({ name: data.coachName.split(' ')[0] })
+		}
+	}
+
+	render() {
+		var items = this.props.items.slice()
+		if (this.state.name) {
+			// base[4] = { name: profileName, path: '/profile', end: true }
+			items[items.length - 1] = [
+				{
+					name: this.state.name,
+					path: '/kpmt/coach/profile',
+					end: true,
+					highlight: true
+				},
+				{ name: 'logout', path: '/coachLogout' }
+			]
+		}
+		const navItems = items.map(item => {
+			return (
+				<NavItem
+					item={item}
+					key={
+						item instanceof Array
+							? item.map(i => i.name).reduce((a, b) => a + b)
+							: item.name
+					}
+				/>
+			)
+		})
+
+		const title = (
+			<h4 onClick={this.gotoDashboard} className="title">
+				<red>kpmt</red>
+			</h4>
+		)
+
+		return (
+			<div className="nav">
+				{title}
+				{navItems}
+			</div>
+		)
+	}
 }
 
 /**

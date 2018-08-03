@@ -30,7 +30,7 @@ export default class KPMTLoginPage extends Component {
 		const response = await loginKPMT(email, password)
 
 		if (response.status == 200) {
-			window.location.href = '/kpmt/profile'
+			window.location.href = '/kpmt/coach/dashboard'
 		} else {
 			this.setState({ error: response.status })
 		}
