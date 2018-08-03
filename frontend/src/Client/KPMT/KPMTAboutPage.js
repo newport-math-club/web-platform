@@ -41,6 +41,9 @@ export default class KPMTAboutPage extends Component {
 						Registration is carried out <b>PER SCHOOL</b>. Please coordinate
 						with all teams in your school, and have a <b>single</b> coach
 						register the entire school. We will not approve duplicate schools.
+						Unless unique circumstances arise, we will only accept the first
+						registration of a school; other coaches that register the same
+						school will be removed.
 					</p>
 
 					<h3>Fees and Deadlines</h3>

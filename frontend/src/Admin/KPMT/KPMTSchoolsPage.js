@@ -86,6 +86,11 @@ export default class KPMTSchoolsPage extends Component {
 		}
 	}
 
+	handleSchoolActiveToggle = () => {
+		// TODO: handle school activate deactivate, use ref to set enabled/disabled by response code
+		return false
+	}
+
 	render() {
 		const selectedSchool = this.state.selectedSchool || {
 			teams: [],
@@ -124,6 +129,7 @@ export default class KPMTSchoolsPage extends Component {
 						}}>
 						<h3 style={{ display: 'inline' }}>Active?</h3>
 						<ToggleButton
+							onClick={this.handleSchoolActiveToggle}
 							checked={selectedSchool.active}
 							ref={this.selectedSchoolActiveToggleButton}
 						/>

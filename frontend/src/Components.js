@@ -29,7 +29,8 @@ export const getNavItems = (itemIndex, subItemIndex) => {
 			{ name: 'about', path: '/kpmt' },
 			{ name: 'registration', path: '/kpmt/registration' },
 			{ name: 'past tests & results', path: '/kpmt/past' },
-			{ name: 'contact', path: '/kpmt/contact' }
+			{ name: 'contact', path: '/kpmt/contact' },
+			{ name: 'coach login', path: '/kpmt/login' }
 		],
 		{ name: 'login', path: '/login', end: true }
 	]
@@ -599,6 +600,10 @@ export class ToggleButton extends Component {
 		return this.state.enabled
 	}
 
+	setEnabled = enabled => {
+		this.setState({ enabled: enabled })
+	}
+
 	render() {
 		return (
 			<label class="switch">
@@ -606,7 +611,13 @@ export class ToggleButton extends Component {
 					type="checkbox"
 					checked={this.state.enabled}
 					onClick={() => {
-						this.setState({ enabled: !this.state.enabled })
+						if (this.props.onClick) {
+							const shouldAutoToggle = this.props.onClick()
+							if (shouldAutoToggle)
+								this.setState({ enabled: !this.state.enabled })
+						} else {
+							this.setState({ enabled: !this.state.enabled })
+						}
 					}}
 				/>
 				<span class="slider round" />
