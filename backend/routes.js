@@ -130,6 +130,12 @@ module.exports = app => {
 		.route('/api/kpmt/lock/')
 		.post(nmcMiddleware.verifyAdminSession)
 		.post(nmcController.modifyKPMTLock)
+
+	app
+		.route('/api/kpmt/reglock/')
+		.post(nmcMiddleware.verifyAdminSession)
+		.post(nmcController.modifyKPMTRegistrationLock)
+
 	app
 		.route('/api/kpmt/export/')
 		.get(nmcMiddleware.verifyAdminSession)

@@ -727,6 +727,14 @@ exports.modifyKPMTLock = (req, res) => {
 	res.status(200).end()
 }
 
+exports.modifyKPMTRegistrationLock = (req, res) => {
+	if (req.body.lock === null || req.body.lock === undefined)
+		res.status(400).end()
+	else if (req.body.lock == true) registrationLock = true
+	else registrationLock = false
+	res.status(200).end()
+}
+
 exports.exportKPMT = (req, res) => {
 	var master = {}
 	Schools.find({}, (err, schools) => {

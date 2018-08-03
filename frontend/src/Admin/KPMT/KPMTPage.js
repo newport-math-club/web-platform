@@ -67,6 +67,14 @@ export default class KPMTPage extends Component {
 						</p>
 					</div>
 					<div>
+						<Link danger={true} name={'Modify KPMT Registration Lock'} />
+						<p>
+							The lock controls whether or not new coaches can still register.
+							Once registration closes, this needs to be locked to prevent late
+							coaches from registering.
+						</p>
+					</div>
+					<div>
 						<Link danger={true} name={'Wipe KPMT Database'} />
 						<p>
 							After every KPMT, following scoring and awards, the database
