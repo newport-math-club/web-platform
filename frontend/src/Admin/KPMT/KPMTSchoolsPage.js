@@ -95,7 +95,7 @@ export default class KPMTSchoolsPage extends Component {
 
 	handleSchoolActiveToggle = async () => {
 		// handle school activate deactivate, use ref to set enabled/disabled by response code
-		const active = this.selectedSchoolActiveToggleButton.current.isEnabled()
+		const active = !this.selectedSchoolActiveToggleButton.current.isEnabled()
 
 		var response
 		if (active)
@@ -129,7 +129,7 @@ export default class KPMTSchoolsPage extends Component {
 						Registered:{' '}
 						{moment(selectedSchool.registrationDate).format('MM/DD/YYYY')}
 					</h3>
-					<h3>Teams: {selectedSchool.teams}</h3>
+					<h3>Teams: {selectedSchool.teams.length}</h3>
 					<h3>
 						Teamless Individuals:{' '}
 						{selectedSchool.competitors.length -
@@ -142,7 +142,7 @@ export default class KPMTSchoolsPage extends Component {
 						style={{
 							display: 'flex',
 							flexDirection: 'row',
-							justifyContent: 'center',
+							justifyContent: 'start',
 							alignContent: 'center',
 							marginTop: '0.5em'
 						}}>

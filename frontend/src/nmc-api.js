@@ -219,7 +219,7 @@ exports.deleteKPMTSchool = id => {
 }
 
 exports.activateSchool = id => {
-	return fetch(BASE_URL + '/api/members/approveSchool', {
+	return fetch(BASE_URL + '/api/kpmt/approveSchool', {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',
@@ -233,7 +233,7 @@ exports.activateSchool = id => {
 }
 
 exports.deactivateSchool = id => {
-	return fetch(BASE_URL + '/api/members/deactivateSchool', {
+	return fetch(BASE_URL + '/api/kpmt/deactivateSchool', {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',
