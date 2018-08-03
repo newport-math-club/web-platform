@@ -266,16 +266,16 @@ table tr td:last-of-type,
 table tr th:last-of-type {
   text-align: right;
   width: 8em;
+  padding-right: 1em;
 }
 table tr td:first-of-type,
 table tr th:first-of-type {
-  width: 4em;
+  width: 6em;
+  padding-left: 1em;
 }
 table tr td,
 table tr th {
   height: 2em;
-  padding-right: 2em;
-  padding-left: 1em;
 }
 
 ul {

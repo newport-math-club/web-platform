@@ -37,7 +37,7 @@ module.exports = {
 					// if admin, join admin room
 					const user = await Member.findOne({ _id: id }).exec()
 
-					if (user.admin) {
+					if (user && user.admin) {
 						console.log('joined admin room')
 						socket.join('admin')
 					}
