@@ -791,15 +791,18 @@ exports.importKPMT = (req, res) => {
 	})
 }
 
-exports.fetchCompetitors = (req, res) => {
-  try {
-    const competitors = await Competitors.find({}).populate('school').populate('team').exec()
+exports.fetchCompetitors = async (req, res) => {
+	try {
+		const competitors = await Competitors.find({})
+			.populate('school')
+			.populate('team')
+			.exec()
 
-    res.status(200).json(competitors);
-  } catch(err) {
-    console.log(err)
-    res.status(500).end();
-  }
+		res.status(200).json(competitors)
+	} catch (err) {
+		console.log(err)
+		res.status(500).end()
+	}
 }
 
 exports.fetchTeams = async (req, res) => {
@@ -811,8 +814,8 @@ exports.fetchTeams = async (req, res) => {
 
 		res.status(200).json(teams)
 	} catch (error) {
-    console.log(error)
-    res.status(500).end();
+		console.log(error)
+		res.status(500).end()
 	}
 }
 
@@ -824,8 +827,8 @@ exports.fetchSchools = async (req, res) => {
 
 		res.status(200).json(schools)
 	} catch (error) {
-    console.log(error)
-    res.status(500).end();
+		console.log(error)
+		res.status(500).end()
 	}
 }
 
