@@ -645,7 +645,7 @@ exports.removeTeam = async (req, res) => {
 
 	if (!id) return res.status(400).end()
 
-	const target = await Schools.findOne({ _id: id }).exec()
+	const target = await Teams.findOne({ _id: id }).exec()
 
 	if (!target || target.school.toString() !== school._id.toString())
 		return res.status(404).end()

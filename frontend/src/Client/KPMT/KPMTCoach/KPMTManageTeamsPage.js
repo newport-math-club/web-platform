@@ -162,7 +162,7 @@ export default class KPMTManageTeamsPage extends Component {
 
 	deleteTeam = async () => {
 		const response = await removeTeam(this.state.selectedTeam._id.toString())
-
+		console.log(response)
 		if (response.status == 200) {
 			window.location.href = '/kpmt/coach/teams'
 		} else {
