@@ -902,6 +902,9 @@ exports.exportKPMT = async (req, res) => {
 }
 
 exports.clearKPMT = (req, res) => {
+	registrationLock = true
+	kpmtLock = true
+
 	Schools.remove({}, err => {
 		if (err) return res.status(500).end()
 

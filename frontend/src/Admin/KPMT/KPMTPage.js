@@ -7,7 +7,13 @@ import {
 	Button,
 	ToggleButton
 } from '../../Components'
-import { exportData, getLockStatus, coachLock, regLock } from '../../nmc-api'
+import {
+	exportData,
+	getLockStatus,
+	coachLock,
+	regLock,
+	wipeKPMT
+} from '../../nmc-api'
 import moment from 'moment'
 import Modal from 'react-modal'
 
@@ -92,8 +98,6 @@ export default class KPMTPage extends Component {
 			const data = await response.json()
 
 			this.setState({ locks: data })
-			// this.coachLockToggleButton.current.setEnabled(data.coachLock)
-			// this.regLockToggleButton.current.setEnabled(data.regLock)
 		}
 	}
 
@@ -124,6 +128,16 @@ export default class KPMTPage extends Component {
 			newLocks.regLock = !newLocks.regLock
 			this.setState({ locks: newLocks })
 			this.regLockToggleButton.current.setEnabled(newLocks.regLock)
+		}
+	}
+
+	wipeKPMT = async () => {
+		if (!this.state.wipeActivated) return
+
+		const response = await wipeKPMT()
+
+		if (response.status == 200) {
+			this.setState({ kpmtWipeDialogOpen: false })
 		}
 	}
 
@@ -239,7 +253,7 @@ export default class KPMTPage extends Component {
 							style={
 								this.state.wipeActivated
 									? { background: '#eb5757' }
-									: { background: '#888888' }
+									: { background: '#aaaaaa' }
 							}
 							onClick={this.wipeKPMT}
 							text="wipe"

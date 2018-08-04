@@ -423,3 +423,15 @@ exports.regLock = lock => {
 		credentials: 'include'
 	})
 }
+
+exports.wipeKPMT = () => {
+	return fetch(BASE_URL + '/api/kpmt/clear', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({}),
+		credentials: 'include'
+	})
+}
