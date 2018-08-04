@@ -376,6 +376,16 @@ exports.removeTeam = id => {
 	})
 }
 
+exports.getLockStatus = () => {
+	return fetch(BASE_URL + '/api/kpmt/getLocks', {
+		method: 'GET',
+		headers: {
+			Accept: 'application/json'
+		},
+		credentials: 'include'
+	})
+}
+
 exports.exportData = () => {
 	return fetch(BASE_URL + '/api/kpmt/export', {
 		method: 'GET',

@@ -858,6 +858,10 @@ exports.removeSchoolKPMT = async (req, res) => {
 	}
 }
 
+exports.getLockStatus = (req, res) => {
+	res.status(200).json({ coachLock: kpmtLock, regLock: registrationLock })
+}
+
 exports.modifyKPMTLock = (req, res) => {
 	if (req.body.lock === null || req.body.lock === undefined)
 		res.status(400).end()

@@ -134,6 +134,12 @@ module.exports = app => {
 		.route('/api/kpmt/removeSchool')
 		.post(nmcMiddleware.verifyAdminSession)
 		.post(nmcController.removeSchoolKPMT)
+
+	app
+		.route('/api/kpmt/getLocks/')
+		.get(nmcMiddleware.verifyAdminSession)
+		.get(nmcController.getLockStatus)
+
 	app
 		.route('/api/kpmt/lock/')
 		.post(nmcMiddleware.verifyAdminSession)

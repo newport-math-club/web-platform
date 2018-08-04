@@ -476,6 +476,7 @@ export class Textbox extends Component {
 				value={this.state.text}
 				onChange={e => {
 					this.setState({ text: e.target.value })
+					if (this.props.onTextChange) this.props.onTextChange(e.target.value)
 				}}
 			/>
 		)
@@ -678,7 +679,10 @@ export class Button extends Component {
 
 	render() {
 		return (
-			<div onClick={this.props.onClick} className="button">
+			<div
+				style={this.props.style}
+				onClick={this.props.onClick}
+				className="button">
 				{this.props.text}
 			</div>
 		)

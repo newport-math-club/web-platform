@@ -1,34 +1,111 @@
 import React, { Component } from 'react'
-import { Nav, getNavItems, Link, getAdminNavItems } from '../../Components'
-import { exportData } from '../../nmc-api'
+import {
+	Nav,
+	Textbox,
+	Link,
+	getAdminNavItems,
+	Button,
+	ToggleButton
+} from '../../Components'
+import { exportData, getLockStatus } from '../../nmc-api'
+import moment from 'moment'
+import Modal from 'react-modal'
+
 const fileDownload = require('js-file-download')
 
+Modal.setAppElement('#root')
+
+const customStyles = {
+	content: {
+		top: '50%',
+		left: '50%',
+		width: '30em',
+		height: '24em',
+		right: 'auto',
+		bottom: 'auto',
+		paddingLeft: '2em',
+		paddingTop: '2em',
+		marginRight: '-50%',
+		transform: 'translate(-50%, -50%)',
+		boxShadow: '1px 2px 8px #c4c4c4',
+		borderRadius: '32px',
+		border: 'none'
+	}
+}
 export default class KPMTPage extends Component {
+	constructor(props) {
+		super(props)
+		this.state = {
+			wipeActivated: false,
+			wipeText: '',
+			locks: {}
+		}
+
+		this.coachLockToggleButton = React.createRef()
+		this.regLockToggleButton = React.createRef()
+		this.wipeButton = React.createRef()
+		this.wipeInput = React.createRef()
+	}
+
 	exportData = async () => {
 		const response = await exportData()
 
 		if (response.status == 200) {
 			const data = await response.json()
-			console.log(data)
+
 			fileDownload(JSON.stringify(data), 'export-' + Date.now() + '.json')
 		}
+	}
+
+	openModifyKPMTLock = () => {
+		this.setState({ kpmtLockDialogOpen: true })
+	}
+
+	closeModifyKPMTLock = () => {
+		this.setState({ kpmtLockDialogOpen: false })
+	}
+
+	openModifyKPMTRegLock = () => {
+		this.setState({
+			kpmtRegLockDialogOpen: true
+		})
+	}
+
+	closeModifyKPMTRegLock = () => {
+		this.setState({
+			kpmtRegLockDialogOpen: false
+		})
+	}
+
+	openKPMTWipe = () => {
+		this.setState({ kpmtWipeDialogOpen: true })
+	}
+
+	closeKPMTWipe = () => {
+		this.setState({ kpmtWipeDialogOpen: false })
+	}
+
+	async componentDidMount() {
+		const response = await getLockStatus()
+
+		if (response.status == 200) {
+			const data = await response.json()
+
+			this.setState({ locks: data })
+		}
+	}
+
+	handleWipeInputTextChange = text => {
+		var activated = moment(new Date()).format('MM/DD/YYYY') === text
+		this.setState({ wipeText: text, wipeActivated: activated })
 	}
 
 	render() {
 		var linksData = [
 			{ href: '/admin/kpmt/schools', name: 'Schools' },
-			{
-				href: '/admin/kpmt/teams',
-				name: 'Teams'
-			},
-			{
-				href: '/admin/kpmt/competitors',
-				name: 'Individuals'
-			},
-			{
-				href: '/admin/kpmt/entry',
-				name: 'Data Entry'
-			}
+			{ href: '/admin/kpmt/teams', name: 'Teams' },
+			{ href: '/admin/kpmt/competitors', name: 'Individuals' },
+			{ href: '/admin/kpmt/entry', name: 'Data Entry' }
 		]
 
 		var links = linksData.map(linkData => {
@@ -41,6 +118,107 @@ export default class KPMTPage extends Component {
 
 		return (
 			<div className="fullheight">
+				<Modal
+					isOpen={this.state.kpmtLockDialogOpen}
+					style={customStyles}
+					contentLabel="KPMT Coach Activity Lock">
+					<h2 style={{ color: '#eb5757' }}>KPMT Coach Activity Lock</h2>
+					<h5>
+						This is a dangerous action. The KPMT Coach Activity Lock controls
+						whether or not coaches can make changes to their teams and
+						individuals competing. This should be kept open until the day of the
+						competition, where it is closed to disallow further changes during
+						the competition.
+					</h5>
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'start',
+							alignContent: 'center',
+							marginTop: '0.5em'
+						}}>
+						<h3 style={{ display: 'inline' }}>Lock</h3>
+						<ToggleButton
+							onClick={() => {
+								this.coachLockKPMT()
+								return false
+							}}
+							checked={this.state.locks.coachLock}
+							ref={this.coachLockToggleButton}
+						/>
+					</div>
+					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
+						<Button onClick={this.closeModifyKPMTLock} text="close" />
+					</div>
+				</Modal>
+				<Modal
+					isOpen={this.state.kpmtRegLockDialogOpen}
+					style={customStyles}
+					contentLabel="KPMT Registration Lock">
+					<h2 style={{ color: '#eb5757' }}>KPMT Registration Lock</h2>
+					<h5>
+						This is a dangerous action. The KPMT Registration Lock controls
+						whether or not new coaches/schools can register. This should be kept
+						open until registration is officially closed, where it is closed to
+						disallow further changes during the competition.
+					</h5>
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'start',
+							alignContent: 'center',
+							marginTop: '0.5em'
+						}}>
+						<h3 style={{ display: 'inline' }}>Lock</h3>
+						<ToggleButton
+							onClick={() => {
+								this.regLockKPMT()
+								return false
+							}}
+							checked={this.state.locks.regLock}
+							ref={this.regLockToggleButton}
+						/>
+					</div>
+					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
+						<Button onClick={this.closeModifyKPMTRegLock} text="close" />
+					</div>
+				</Modal>
+				<Modal
+					isOpen={this.state.kpmtWipeDialogOpen}
+					style={customStyles}
+					contentLabel="KPMT Wipe Data">
+					<h2 style={{ color: '#eb5757' }}>KPMT Wipe Data</h2>
+					<h5>
+						This is a dangerous and destructive action. This wipes all KPMT data
+						irreversibly. This should only be used after the competition, after
+						awards have been handed out, and after an export has been performed.
+					</h5>
+					<h5>
+						The wipe button is disabled until the current date is typed into the
+						box in MM/DD/YYYY format.
+					</h5>
+					<div>
+						<Textbox
+							ref={this.wipeInput}
+							placeholder="today's date"
+							onTextChange={this.handleWipeInputTextChange}
+						/>
+					</div>
+					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
+						<Button onClick={this.closeKPMTWipe} text="close" />
+						<Button
+							style={
+								this.state.wipeActivated
+									? { background: '#eb5757' }
+									: { background: '#888888' }
+							}
+							onClick={this.wipeKPMT}
+							text="wipe"
+						/>
+					</div>
+				</Modal>
 				<Nav admin={true} items={getAdminNavItems(2, 0)} />
 				<div
 					style={{
@@ -57,7 +235,6 @@ export default class KPMTPage extends Component {
 					{links}
 					<h3 style={{ marginTop: '1em' }}>KPMT Master Controls</h3>
 
-					{/* TODO: handle master controls */}
 					<div>
 						<Link onClick={this.exportData} name={'Export Data'} />
 						<p>
@@ -71,7 +248,11 @@ export default class KPMTPage extends Component {
 						</p>
 					</div>
 					<div>
-						<Link danger={true} name={'Modify KPMT Lock'} />
+						<Link
+							onClick={this.openModifyKPMTLock}
+							danger={true}
+							name={'Modify KPMT Lock'}
+						/>
 						<p>
 							The lock controls whether or not coaches can add, remove, or make
 							changes to their teams. Once the competition starts, the service
@@ -79,7 +260,11 @@ export default class KPMTPage extends Component {
 						</p>
 					</div>
 					<div>
-						<Link danger={true} name={'Modify KPMT Registration Lock'} />
+						<Link
+							onClick={this.openModifyKPMTRegLock}
+							danger={true}
+							name={'Modify KPMT Registration Lock'}
+						/>
 						<p>
 							The lock controls whether or not new coaches can still register.
 							Once registration closes, this needs to be locked to prevent late
@@ -87,7 +272,11 @@ export default class KPMTPage extends Component {
 						</p>
 					</div>
 					<div>
-						<Link danger={true} name={'Wipe KPMT Database'} />
+						<Link
+							onClick={this.openKPMTWipe}
+							danger={true}
+							name={'Wipe KPMT Database'}
+						/>
 						<p>
 							After every KPMT, following scoring and awards, the database
 							should be exported and purged. This wipes the database! Don't
