@@ -550,11 +550,8 @@ exports.editTeam = async (req, res) => {
 	const newMembers = req.body.members
 	const school = res.locals.user
 
-	console.log('1')
 	if (!validateInput(id, newMembers)) return res.status(400).end()
-	console.log('1')
 	if (newMembers.length > 4) return res.status(400).end()
-	console.log('1')
 	if (newMembers.length < 3) return res.status(400).end()
 
 	// make sure the team belongs to the school
@@ -565,7 +562,6 @@ exports.editTeam = async (req, res) => {
 	// check that the new members are valid
 
 	for (var i = 0; i < newMembers.length; i++) {
-		console.log('2')
 		if (!newMembers[i].name || !newMembers[i].grade)
 			return res.status(400).end()
 
@@ -604,6 +600,29 @@ exports.editTeam = async (req, res) => {
 		newMemberObjects.forEach(newMember => {
 			if (newMember.grade > maxGrade) maxGrade = newMember.grade
 		})
+
+		if (maxGrade !== Math.floor(targetTeam.number / 100)) {
+			// maxgrade changed, calculate new number
+			const existingTeams = await Teams.find({}).exec()
+
+			var teamNumberDigits = 3
+			var nextNumber = 10 ** (teamNumberDigits - 1) * maxGrade
+			while (existingTeams.filter(t => t.number == nextNumber).length > 0) {
+				// this number of digits wont suffice, time to step it up
+				// this step is highly unlikely for the near future, but should future years need more than 100 teams for a grade, i gotchu covered :)
+				if (10 ** (teamNumberDigits - 1) * (maxGrade + 1) - 1 === nextNumber) {
+					teamNumberDigits++
+					var nextNumber = 10 ** (teamNumberDigits - 1) * maxGrade
+				} else {
+					nextNumber++
+				}
+			}
+
+			await Teams.updateOne(
+				{ _id: targetTeam._id },
+				{ $set: { number: nextNumber } }
+			).exec()
+		}
 
 		await Teams.updateOne(
 			{ _id: targetTeam._id },

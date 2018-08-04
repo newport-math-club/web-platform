@@ -139,8 +139,8 @@ export default class KPMTManageTeamsPage extends Component {
 		}
 
 		const response = await editTeam(
-			team,
-			this.state.selectedTeam._id.toString()
+			this.state.selectedTeam._id.toString(),
+			team
 		)
 
 		console.log(response)
