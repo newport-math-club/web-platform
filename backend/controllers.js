@@ -734,6 +734,33 @@ exports.addIndiv = (req, res) => {
 	})
 }
 
+exports.editIndiv = async (req, res) => {
+	if (kpmtLock) return res.status(403).end()
+	var school = res.locals.user
+	var id = req.body.id
+	var name = req.body.name
+	var grade = req.body.grade
+
+	if (!validateInput(name, grade)) return res.status(400).end()
+
+	try {
+		const targetIndiv = await Competitors.findOne({ _id: id }).exec()
+
+		if (!targetIndiv || targetIndiv.school.toString() !== school._id.toString())
+			return res.status(404).end()
+
+		await Competitors.updateOne(
+			{ _id: id },
+			{ $set: { name: name, grade: grade } }
+		).exec()
+
+		res.status(200).end()
+	} catch (err) {
+		console.log(err)
+		res.status(500).end()
+	}
+}
+
 exports.removeIndiv = (req, res) => {
 	if (kpmtLock) return res.status(403).end()
 	var id = req.body.id

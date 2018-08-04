@@ -112,6 +112,10 @@ module.exports = app => {
 		.post(nmcMiddleware.verifyCoachSession)
 		.post(nmcController.addIndiv)
 	app
+		.route('/api/kpmt/indiv/edit/')
+		.post(nmcMiddleware.verifyCoachSession)
+		.post(nmcController.editIndiv)
+	app
 		.route('/api/kpmt/indiv/remove/')
 		.post(nmcMiddleware.verifyCoachSession)
 		.post(nmcController.removeIndiv)

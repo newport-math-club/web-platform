@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
 import Modal from 'react-modal'
-import { fetchSchoolProfile, addIndiv, editTeam } from '../../../nmc-api'
+import {
+	fetchSchoolProfile,
+	addIndiv,
+	editTeam,
+	editIndiv
+} from '../../../nmc-api'
 import {
 	FilterBar,
 	Button,
@@ -108,7 +113,6 @@ export default class KPMTManageIndividualsPage extends Component {
 		}
 
 		const response = await addIndiv(name, grade)
-		console.log(response)
 
 		if (response.status == 200) {
 			// too lazy to use sockets to insert the new team
@@ -119,38 +123,29 @@ export default class KPMTManageIndividualsPage extends Component {
 		}
 	}
 
-	// saveEditIndiv = async () => {
-	// 	var team = []
-	// 	;[0, 1, 2, 3].forEach(index => {
-	// 		const name = this.editNameRefs[index].current.getText()
-	// 		const grade = this.editGradeRefs[index].current.getText().toString()
+	saveEditIndiv = async () => {
+		const name = this.editNameRef.current.getText()
+		const grade = this.editGradeRef.current.getText()
 
-	// 		if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace())
-	// 			return
+		if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace()) {
+			this.setState({ error: 1 })
+			return
+		}
 
-	// 		team.push({ name: name, grade: parseInt(grade) })
-	// 	})
+		const response = await editIndiv(
+			this.state.selectedIndiv._id.toString(),
+			name,
+			grade
+		)
 
-	// 	console.log(team)
-	// 	if (team.length < 3) {
-	// 		this.setState({ error: 1 })
-	// 		return
-	// 	}
-
-	// 	const response = await editTeam(
-	// 		this.state.selectedTeam._id.toString(),
-	// 		team
-	// 	)
-
-	// 	console.log(response)
-	// 	if (response.status == 200) {
-	// 		// too lazy to use sockets to insert the new team
-	// 		// just refresh the page lmao hacky but works
-	// 		window.location.href = '/kpmt/coach/teams'
-	// 	} else {
-	// 		this.setState({ error: response.status })
-	// 	}
-	// }
+		if (response.status == 200) {
+			// too lazy to use sockets to insert the new team
+			// just refresh the page lmao hacky but works
+			window.location.href = '/kpmt/coach/individuals'
+		} else {
+			this.setState({ error: response.status })
+		}
+	}
 
 	render() {
 		const selectedIndiv = this.state.selectedIndiv || {

@@ -331,3 +331,19 @@ exports.addIndiv = (name, grade) => {
 		credentials: 'include'
 	})
 }
+
+exports.editIndiv = (id, name, grade) => {
+	return fetch(BASE_URL + '/api/kpmt/indiv/edit', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id: id,
+			name: name,
+			grade: grade
+		}),
+		credentials: 'include'
+	})
+}
