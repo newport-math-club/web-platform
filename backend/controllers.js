@@ -574,7 +574,7 @@ exports.editTeam = async (req, res) => {
 
 		// remove all the old members cuz atomic edits are too tedious
 		await Members.deleteMany({
-			_id: { $in: targetTeam.members.map(m => m._id) }
+			_id: { $in: targetTeam.members }
 		}).exec()
 
 		// create the new members
