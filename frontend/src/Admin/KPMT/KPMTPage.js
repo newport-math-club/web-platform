@@ -7,7 +7,7 @@ import {
 	Button,
 	ToggleButton
 } from '../../Components'
-import { exportData, getLockStatus } from '../../nmc-api'
+import { exportData, getLockStatus, coachLock, regLock } from '../../nmc-api'
 import moment from 'moment'
 import Modal from 'react-modal'
 
@@ -92,12 +92,39 @@ export default class KPMTPage extends Component {
 			const data = await response.json()
 
 			this.setState({ locks: data })
+			// this.coachLockToggleButton.current.setEnabled(data.coachLock)
+			// this.regLockToggleButton.current.setEnabled(data.regLock)
 		}
 	}
 
 	handleWipeInputTextChange = text => {
 		var activated = moment(new Date()).format('MM/DD/YYYY') === text
-		this.setState({ wipeText: text, wipeActivated: activated })
+		this.setState({
+			wipeText: text,
+			wipeActivated: activated
+		})
+	}
+
+	coachLockKPMT = async () => {
+		const response = await coachLock(!this.state.locks.coachLock)
+
+		if (response.status == 200) {
+			var newLocks = { ...this.state.locks }
+			newLocks.coachLock = !newLocks.coachLock
+			this.setState({ locks: newLocks })
+			this.coachLockToggleButton.current.setEnabled(newLocks.coachLock)
+		}
+	}
+
+	regLockKPMT = async () => {
+		const response = await regLock(!this.state.locks.regLock)
+
+		if (response.status == 200) {
+			var newLocks = { ...this.state.locks }
+			newLocks.regLock = !newLocks.regLock
+			this.setState({ locks: newLocks })
+			this.regLockToggleButton.current.setEnabled(newLocks.regLock)
+		}
 	}
 
 	render() {

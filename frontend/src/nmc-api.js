@@ -395,3 +395,31 @@ exports.exportData = () => {
 		credentials: 'include'
 	})
 }
+
+exports.coachLock = lock => {
+	return fetch(BASE_URL + '/api/kpmt/lock', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			lock: lock
+		}),
+		credentials: 'include'
+	})
+}
+
+exports.regLock = lock => {
+	return fetch(BASE_URL + '/api/kpmt/reglock', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			lock: lock
+		}),
+		credentials: 'include'
+	})
+}
