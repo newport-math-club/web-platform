@@ -313,7 +313,10 @@ export default class KPMTManageTeamsPage extends Component {
 								_id: team._id,
 								fields: [
 									team.number,
-									team.members.map(m => m.name).reduce((a, b) => a + ', ' + b),
+									team.members
+										.map(m => m.name)
+										.reduce((a, b) => a + ', ' + b, '')
+										.substring(2),
 									''
 								]
 							}

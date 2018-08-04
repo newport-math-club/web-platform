@@ -133,10 +133,7 @@ export default class KPMTSchoolsPage extends Component {
 					<h3>
 						Teamless Individuals:{' '}
 						{selectedSchool.competitors.length -
-							selectedSchool.teams.reduce(
-								(a, b) => a.members.length + b.members.length,
-								0
-							)}
+							selectedSchool.teams.reduce((a, b) => a + b.members.length, 0)}
 					</h3>
 					<div
 						style={{

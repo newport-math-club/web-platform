@@ -93,7 +93,9 @@ export default class KPMTTeamsPage extends Component {
 					<h3>Team #: {selectedTeam.number}</h3>
 					<h3>
 						Members:{' '}
-						{selectedTeam.members.reduce((a, b) => a.name + ', ' + b.name, '')}
+						{selectedTeam.members
+							.reduce((a, b) => a + ', ' + b.name, '')
+							.substring(2)}
 					</h3>
 					<h3>School: {selectedTeam.school.name}</h3>
 					<h3>Algebra: {selectedTeam.scores.algebra}</h3>
@@ -133,8 +135,10 @@ export default class KPMTTeamsPage extends Component {
 								_id: team._id,
 								fields: [
 									team.number,
-									team.school,
-									team.members.reduce((a, b) => a.name + ', ' + b.name),
+									team.school.name,
+									team.members
+										.reduce((a, b) => a + ', ' + b.name, '')
+										.substring(2),
 									team.scores.weighted
 								]
 							}

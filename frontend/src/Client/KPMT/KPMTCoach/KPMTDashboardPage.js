@@ -34,6 +34,7 @@ export default class KPMTDashboardPage extends Component {
 	}
 
 	render() {
+		console.log(this.state.profile.teams)
 		return (
 			<div className="fullheight">
 				<CoachNav items={getCoachNavItems(0)} />
@@ -62,10 +63,10 @@ export default class KPMTDashboardPage extends Component {
 						{this.state.profile.teams.length +
 							' team(s), ' +
 							(this.state.profile.competitors.length -
-								this.state.profile.teams.reduce(
-									(a, b) => a.members.length + b.members.length,
-									0
-								)) +
+								this.state.profile.teams
+									.slice()
+									.map(t => t.members)
+									.reduce((a, b) => a + b.length, 0)) +
 							' individual(s)'}
 					</h3>
 					<h3>
