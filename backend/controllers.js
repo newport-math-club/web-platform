@@ -638,12 +638,17 @@ exports.editTeam = async (req, res) => {
 	}
 }
 
-exports.removeTeam = (req, res) => {
+exports.removeTeam = async (req, res) => {
 	if (kpmtLock) return res.status(403).end()
 	var id = req.body.id
-	var school = res.locals.user
+	const school = res.locals.user
 
 	if (!id) return res.status(400).end()
+
+	const target = await Schools.findOne({ _id: id }).exec()
+
+	if (!target || target.school.toString() !== school._id.toString())
+		return res.status(404).end()
 
 	var calls = []
 
@@ -761,11 +766,17 @@ exports.editIndiv = async (req, res) => {
 	}
 }
 
-exports.removeIndiv = (req, res) => {
+exports.removeIndiv = async (req, res) => {
 	if (kpmtLock) return res.status(403).end()
+	const school = res.locals.user
 	var id = req.body.id
 
 	if (!id) return res.status(400).end()
+
+	const target = await Competitors.findOne({ _id: id }).exec()
+
+	if (!target || target.school.toString() !== school._id.toString())
+		return res.status(404).end()
 
 	Competitors.remove(
 		{

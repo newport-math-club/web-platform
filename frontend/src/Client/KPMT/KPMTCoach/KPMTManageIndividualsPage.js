@@ -4,7 +4,8 @@ import {
 	fetchSchoolProfile,
 	addIndiv,
 	editTeam,
-	editIndiv
+	editIndiv,
+	removeIndiv
 } from '../../../nmc-api'
 import {
 	FilterBar,
@@ -125,7 +126,7 @@ export default class KPMTManageIndividualsPage extends Component {
 
 	saveEditIndiv = async () => {
 		const name = this.editNameRef.current.getText()
-		const grade = this.editGradeRef.current.getText()
+		const grade = this.editGradeRef.current.getText().toString()
 
 		if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace()) {
 			this.setState({ error: 1 })
@@ -141,6 +142,16 @@ export default class KPMTManageIndividualsPage extends Component {
 		if (response.status == 200) {
 			// too lazy to use sockets to insert the new team
 			// just refresh the page lmao hacky but works
+			window.location.href = '/kpmt/coach/individuals'
+		} else {
+			this.setState({ error: response.status })
+		}
+	}
+
+	deleteIndiv = async () => {
+		const response = await removeIndiv(this.state.selectedIndiv._id.toString())
+
+		if (response.status == 200) {
 			window.location.href = '/kpmt/coach/individuals'
 		} else {
 			this.setState({ error: response.status })

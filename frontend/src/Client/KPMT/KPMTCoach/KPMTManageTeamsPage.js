@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
 import Modal from 'react-modal'
-import { fetchSchoolProfile, addTeam, editTeam } from '../../../nmc-api'
+import {
+	fetchSchoolProfile,
+	addTeam,
+	editTeam,
+	removeTeam
+} from '../../../nmc-api'
 import {
 	FilterBar,
 	Button,
@@ -55,15 +60,11 @@ export default class KPMTManageTeamsPage extends Component {
 	}
 
 	openNewTeamModal = () => {
-		this.setState({
-			newTeamDialogIsOpen: true
-		})
+		this.setState({ newTeamDialogIsOpen: true })
 	}
 
 	closeNewTeamModal = () => {
-		this.setState({
-			newTeamDialogIsOpen: false
-		})
+		this.setState({ newTeamDialogIsOpen: false })
 	}
 
 	async componentDidMount() {
@@ -101,7 +102,10 @@ export default class KPMTManageTeamsPage extends Component {
 			if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace())
 				return
 
-			team.push({ name: name, grade: parseInt(grade) })
+			team.push({
+				name: name,
+				grade: parseInt(grade)
+			})
 		})
 
 		if (team.length < 3) {
@@ -129,7 +133,10 @@ export default class KPMTManageTeamsPage extends Component {
 			if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace())
 				return
 
-			team.push({ name: name, grade: parseInt(grade) })
+			team.push({
+				name: name,
+				grade: parseInt(grade)
+			})
 		})
 
 		console.log(team)
@@ -153,11 +160,18 @@ export default class KPMTManageTeamsPage extends Component {
 		}
 	}
 
-	render() {
-		const selectedTeam = this.state.selectedTeam || {
-			members: [],
-			scores: {}
+	deleteTeam = async () => {
+		const response = await removeTeam(this.state.selectedTeam._id.toString())
+
+		if (response.status == 200) {
+			window.location.href = '/kpmt/coach/teams'
+		} else {
+			this.setState({ error: response.status })
 		}
+	}
+
+	render() {
+		const selectedTeam = this.state.selectedTeam || { members: [], scores: {} }
 
 		const memberTextboxes = [0, 1, 2, 3].map(index => {
 			if (selectedTeam.members.length > index) {
@@ -166,12 +180,19 @@ export default class KPMTManageTeamsPage extends Component {
 					<div>
 						<Textbox
 							ref={this.editNameRefs[index]}
-							style={{ display: 'inline', width: '16em' }}
+							style={{
+								display: 'inline',
+								width: '16em'
+							}}
 							text={member.name}
 							placeholder="name"
 						/>
 						<Textbox
-							style={{ display: 'inline', width: '4em', marginLeft: '1em' }}
+							style={{
+								display: 'inline',
+								width: '4em',
+								marginLeft: '1em'
+							}}
 							ref={this.editGradeRefs[index]}
 							text={member.grade}
 							placeholder="grade"
@@ -182,12 +203,19 @@ export default class KPMTManageTeamsPage extends Component {
 			return (
 				<div>
 					<Textbox
-						style={{ display: 'inline', width: '16em' }}
+						style={{
+							display: 'inline',
+							width: '16em'
+						}}
 						ref={this.editNameRefs[index]}
 						placeholder="full name"
 					/>
 					<Textbox
-						style={{ display: 'inline', width: '4em', marginLeft: '1em' }}
+						style={{
+							display: 'inline',
+							width: '4em',
+							marginLeft: '1em'
+						}}
 						ref={this.editGradeRefs[index]}
 						placeholder="grade"
 					/>
@@ -199,12 +227,19 @@ export default class KPMTManageTeamsPage extends Component {
 			return (
 				<div>
 					<Textbox
-						style={{ display: 'inline', width: '16em' }}
+						style={{
+							display: 'inline',
+							width: '16em'
+						}}
 						ref={this.newNameRefs[index]}
 						placeholder="full name"
 					/>
 					<Textbox
-						style={{ display: 'inline', width: '4em', marginLeft: '1em' }}
+						style={{
+							display: 'inline',
+							width: '4em',
+							marginLeft: '1em'
+						}}
 						ref={this.newGradeRefs[index]}
 						placeholder="grade"
 					/>

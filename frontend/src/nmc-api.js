@@ -347,3 +347,31 @@ exports.editIndiv = (id, name, grade) => {
 		credentials: 'include'
 	})
 }
+
+exports.removeIndiv = id => {
+	return fetch(BASE_URL + '/api/kpmt/indiv/remove', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id: id
+		}),
+		credentials: 'include'
+	})
+}
+
+exports.removeTeam = id => {
+	return fetch(BASE_URL + '/api/kpmt/team/remove', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id: id
+		}),
+		credentials: 'include'
+	})
+}
