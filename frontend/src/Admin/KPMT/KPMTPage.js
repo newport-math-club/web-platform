@@ -1,7 +1,19 @@
 import React, { Component } from 'react'
 import { Nav, getNavItems, Link, getAdminNavItems } from '../../Components'
+import { exportData } from '../../nmc-api'
+const fileDownload = require('js-file-download')
 
 export default class KPMTPage extends Component {
+	exportData = async () => {
+		const response = await exportData()
+
+		if (response.status == 200) {
+			const data = await response.json()
+			console.log(data)
+			fileDownload(JSON.stringify(data), 'export-' + Date.now() + '.json')
+		}
+	}
+
 	render() {
 		var linksData = [
 			{ href: '/admin/kpmt/schools', name: 'Schools' },
@@ -47,7 +59,7 @@ export default class KPMTPage extends Component {
 
 					{/* TODO: handle master controls */}
 					<div>
-						<Link name={'Export Data'} />
+						<Link onClick={this.exportData} name={'Export Data'} />
 						<p>
 							After every KPMT, following scoring and awards, the database
 							should be exported and purged. This copies and exports all the

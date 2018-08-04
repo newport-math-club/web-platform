@@ -2,6 +2,7 @@
 	"name": "nmc-web",
 	"version": "0.0.1",
 	"dependencies": {
+		"js-file-download": "^0.4.1",
 		"moment": "^2.22.2",
 		"react": "^16.4.0",
 		"react-autosuggest": "^9.3.4",

@@ -375,3 +375,13 @@ exports.removeTeam = id => {
 		credentials: 'include'
 	})
 }
+
+exports.exportData = () => {
+	return fetch(BASE_URL + '/api/kpmt/export', {
+		method: 'GET',
+		headers: {
+			Accept: 'application/json'
+		},
+		credentials: 'include'
+	})
+}

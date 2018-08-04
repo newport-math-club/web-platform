@@ -874,26 +874,27 @@ exports.modifyKPMTRegistrationLock = (req, res) => {
 	res.status(200).end()
 }
 
-exports.exportKPMT = (req, res) => {
+exports.exportKPMT = async (req, res) => {
 	var master = {}
-	Schools.find({}, (err, schools) => {
-		if (err) return res.status(500).end()
 
-		master.schools = schools
+	try {
+		master.schools = await Schools.find({})
+			.populate('teams')
+			.populate('competitors')
+			.exec()
+		master.teams = await Teams.find({})
+			.populate('members')
+			.exec()
+		master.competitors = await Competitors.find({})
+			.populate('school')
+			.populate('team')
+			.exec()
 
-		Teams.find({}, (err, teams) => {
-			if (err) return res.status(500).end()
-
-			master.teams = teams
-
-			Competitors.find({}, (err, competitors) => {
-				if (err) return res.status(500).end()
-
-				master.competitors = competitors
-				res.status(200).json(master)
-			})
-		})
-	})
+		res.status(200).json(master)
+	} catch (err) {
+		console.log(err)
+		res.status(500).end()
+	}
 }
 
 exports.clearKPMT = (req, res) => {
