@@ -546,6 +546,7 @@ exports.addTeam = (req, res) => {
 }
 
 exports.editTeam = async (req, res) => {
+	if (kpmtLock) return res.status(403).end()
 	const id = req.body.id
 	const newMembers = req.body.members
 	const school = res.locals.user

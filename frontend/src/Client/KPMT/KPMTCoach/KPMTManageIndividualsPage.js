@@ -99,10 +99,16 @@ export default class KPMTManageIndividualsPage extends Component {
 	}
 
 	saveIndiv = async () => {
-		const name = this.newNameRefcurrent.current.getText()
+		const name = this.newNameRef.current.getText()
 		const grade = this.newGradeRef.current.getText()
 
+		if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace()) {
+			this.setState({ error: 1 })
+			return
+		}
+
 		const response = await addIndiv(name, grade)
+		console.log(response)
 
 		if (response.status == 200) {
 			// too lazy to use sockets to insert the new team

@@ -318,7 +318,7 @@ exports.editTeam = (id, members) => {
 }
 
 exports.addIndiv = (name, grade) => {
-	return fetch(BASE_URL + '/api/kpmt/team/add', {
+	return fetch(BASE_URL + '/api/kpmt/indiv/add', {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',
