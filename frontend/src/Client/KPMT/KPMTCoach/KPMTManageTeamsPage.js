@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Modal from 'react-modal'
-import { fetchSchoolProfile, addTeam } from '../../../nmc-api'
+import { fetchSchoolProfile, addTeam, editTeam } from '../../../nmc-api'
 import {
 	FilterBar,
 	Button,
@@ -100,7 +100,7 @@ export default class KPMTManageTeamsPage extends Component {
 
 			if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace())
 				return
-			console.log(index + ' pushed')
+
 			team.push({ name: name, grade: parseInt(grade) })
 		})
 
@@ -112,14 +112,46 @@ export default class KPMTManageTeamsPage extends Component {
 		const response = await addTeam(team)
 
 		if (response.status == 200) {
-			this.closeNewTeamModal()
-			this.setState({ error: null })
+			// too lazy to use sockets to insert the new team
+			// just refresh the page lmao hacky but works
+			window.location.href = '/kpmt/coach/teams'
 		} else {
 			this.setState({ error: response.status })
 		}
 	}
 
-	saveEditTeam = async () => {}
+	saveEditTeam = async () => {
+		var team = []
+		;[0, 1, 2, 3].forEach(index => {
+			const name = this.editNameRefs[index].current.getText()
+			const grade = this.editGradeRefs[index].current.getText().toString()
+
+			if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace())
+				return
+
+			team.push({ name: name, grade: parseInt(grade) })
+		})
+
+		console.log(team)
+		if (team.length < 3) {
+			this.setState({ error: 1 })
+			return
+		}
+
+		const response = await editTeam(
+			team,
+			this.state.selectedTeam._id.toString()
+		)
+
+		console.log(response)
+		if (response.status == 200) {
+			// too lazy to use sockets to insert the new team
+			// just refresh the page lmao hacky but works
+			window.location.href = '/kpmt/coach/teams'
+		} else {
+			this.setState({ error: response.status })
+		}
+	}
 
 	render() {
 		const selectedTeam = this.state.selectedTeam || {
@@ -180,7 +212,6 @@ export default class KPMTManageTeamsPage extends Component {
 			)
 		})
 
-		console.log(this.state.teams)
 		return (
 			<div className="fullheight">
 				<Modal
@@ -221,7 +252,18 @@ export default class KPMTManageTeamsPage extends Component {
 						blank to have 3 members
 					</h5>
 					<div style={{ marginTop: '2em' }}>{memberTextboxes}</div>
-
+					<div style={{ textAlign: 'center' }}>
+						{(this.state.error == 1 || this.state.error == 400) && (
+							<h5 style={{ marginTop: '8px' }}>
+								invalid inputs, please try again
+							</h5>
+						)}
+						{this.state.error == 403 && (
+							<h5 style={{ marginTop: '8px' }}>
+								changes to teams and individuals are not allowed at this time!
+							</h5>
+						)}
+					</div>
 					<div style={{ bottom: '1em', left: '1em', position: 'absolute' }}>
 						<Button onClick={this.deleteTeam} text="delete" />
 					</div>

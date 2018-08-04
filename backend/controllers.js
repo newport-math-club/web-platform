@@ -550,8 +550,11 @@ exports.editTeam = async (req, res) => {
 	const newMembers = req.body.members
 	const school = res.locals.user
 
+	console.log('1')
 	if (!validateInput(id, newMembers)) return res.status(400).end()
+	console.log('1')
 	if (newMembers.length > 4) return res.status(400).end()
+	console.log('1')
 	if (newMembers.length < 3) return res.status(400).end()
 
 	// make sure the team belongs to the school
@@ -560,7 +563,9 @@ exports.editTeam = async (req, res) => {
 		return res.status(404).end()
 
 	// check that the new members are valid
+
 	for (var i = 0; i < newMembers.length; i++) {
+		console.log('2')
 		if (!newMembers[i].name || !newMembers[i].grade)
 			return res.status(400).end()
 

@@ -301,3 +301,18 @@ exports.addTeam = members => {
 		credentials: 'include'
 	})
 }
+
+exports.editTeam = (id, members) => {
+	return fetch(BASE_URL + '/api/kpmt/team/edit', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id: id,
+			members: members
+		}),
+		credentials: 'include'
+	})
+}
