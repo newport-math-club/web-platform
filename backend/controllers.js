@@ -585,6 +585,7 @@ exports.editTeam = async (req, res) => {
 			const newMember = new Competitors({
 				name: newMembers[i].name,
 				grade: newMembers[i].grade,
+				team: targetTeam._id,
 				school: school._id,
 				scores: {}
 			})
