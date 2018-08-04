@@ -74,7 +74,7 @@ export default class KPMTLoginPage extends Component {
 						type="password"
 						placeholder="password"
 					/>
-					<div>
+					<div style={{ textAlign: 'center' }}>
 						{(this.state.error == 1 || this.state.error == 400) && (
 							<h5 style={{ marginTop: '8px' }}>
 								invalid inputs, please try again

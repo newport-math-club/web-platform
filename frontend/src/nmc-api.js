@@ -287,3 +287,17 @@ exports.fetchSchoolProfile = () => {
 		credentials: 'include'
 	})
 }
+
+exports.addTeam = members => {
+	return fetch(BASE_URL + '/api/kpmt/team/add', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			team: members
+		}),
+		credentials: 'include'
+	})
+}

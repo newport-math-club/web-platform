@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Modal from 'react-modal'
-import { fetchSchoolProfile } from '../../../nmc-api'
+import { fetchSchoolProfile, addTeam } from '../../../nmc-api'
 import {
 	FilterBar,
 	Button,
@@ -92,7 +92,32 @@ export default class KPMTManageTeamsPage extends Component {
 		})
 	}
 
-	saveTeam = async () => {}
+	saveTeam = async () => {
+		var team = []
+		;[0, 1, 2, 3].forEach(index => {
+			const name = this.newNameRefs[index].current.getText()
+			const grade = this.newGradeRefs[index].current.getText()
+
+			if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace())
+				return
+			console.log(index + ' pushed')
+			team.push({ name: name, grade: parseInt(grade) })
+		})
+
+		if (team.length < 3) {
+			this.setState({ error: 1 })
+			return
+		}
+
+		const response = await addTeam(team)
+
+		if (response.status == 200) {
+			this.closeNewTeamModal()
+			this.setState({ error: null })
+		} else {
+			this.setState({ error: response.status })
+		}
+	}
 
 	saveEditTeam = async () => {}
 
@@ -154,6 +179,8 @@ export default class KPMTManageTeamsPage extends Component {
 				</div>
 			)
 		})
+
+		console.log(this.state.teams)
 		return (
 			<div className="fullheight">
 				<Modal
@@ -166,7 +193,18 @@ export default class KPMTManageTeamsPage extends Component {
 						blank to have 3 members
 					</h5>
 					<div style={{ marginTop: '2em' }}>{newMemberTextboxes}</div>
-
+					<div style={{ textAlign: 'center' }}>
+						{(this.state.error == 1 || this.state.error == 400) && (
+							<h5 style={{ marginTop: '8px' }}>
+								invalid inputs, please try again
+							</h5>
+						)}
+						{this.state.error == 403 && (
+							<h5 style={{ marginTop: '8px' }}>
+								changes to teams and individuals are not allowed at this time!
+							</h5>
+						)}
+					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeNewTeamModal} text="close" />
 						<Button onClick={this.saveTeam} text="save" />
@@ -233,7 +271,7 @@ export default class KPMTManageTeamsPage extends Component {
 								_id: team._id,
 								fields: [
 									team.number,
-									team.members.reduce((a, b) => a.name + ', ' + b.name, ''),
+									team.members.map(m => m.name).reduce((a, b) => a + ', ' + b),
 									''
 								]
 							}
