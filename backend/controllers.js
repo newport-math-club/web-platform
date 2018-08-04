@@ -574,7 +574,7 @@ exports.editTeam = async (req, res) => {
 		// perform the edits
 
 		// remove all the old members cuz atomic edits are too tedious
-		await Members.deleteMany({
+		await Competitors.deleteMany({
 			_id: { $in: targetTeam.members }
 		}).exec()
 
