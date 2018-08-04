@@ -14,30 +14,6 @@ import {
 	regLock,
 	wipeKPMT
 } from '../../../nmc-api'
-import moment from 'moment'
-import Modal from 'react-modal'
-
-const fileDownload = require('js-file-download')
-
-Modal.setAppElement('#root')
-
-const customStyles = {
-	content: {
-		top: '50%',
-		left: '50%',
-		width: '30em',
-		height: '24em',
-		right: 'auto',
-		bottom: 'auto',
-		paddingLeft: '2em',
-		paddingTop: '2em',
-		marginRight: '-50%',
-		transform: 'translate(-50%, -50%)',
-		boxShadow: '1px 2px 8px #c4c4c4',
-		borderRadius: '32px',
-		border: 'none'
-	}
-}
 
 const individualLinksData = [
 	{ href: '/admin/kpmt/entry/individual', name: 'Individual Test' },

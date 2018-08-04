@@ -473,6 +473,7 @@ exports.addTeam = (req, res) => {
 	}
 
 	var calls = []
+	var competitorIds = []
 
 	team.forEach(competitor => {
 		calls.push(callback => {
@@ -485,6 +486,7 @@ exports.addTeam = (req, res) => {
 			competitorObject.save((err, savedCompetitor) => {
 				if (err) callback(err)
 				else {
+					competitorIds.push(savedCompetitor._id)
 					Schools.update(
 						{ _id: school._id },
 						{ $push: { competitors: savedCompetitor._id } },
@@ -532,6 +534,12 @@ exports.addTeam = (req, res) => {
 		teamObject.save((err, savedTeam) => {
 			if (err) res.status(500).end()
 			else {
+				competitorIds.forEach(async competitorId => {
+					await Competitors.updateOne(
+						{ _id: competitorId },
+						{ $set: { team: savedTeam._id } }
+					).exec()
+				})
 				Schools.update(
 					{ _id: school._id },
 					{ $push: { teams: savedTeam._id } },
