@@ -464,7 +464,7 @@ exports.changeSchoolPassword = (req, res) => {
 	if (!newPassword) return res.status(400).end()
 
 	auth.hash(newPassword, hash => {
-		School.updateOne(
+		Schools.updateOne(
 			{
 				_id: school._id
 			},
