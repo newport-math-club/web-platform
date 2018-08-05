@@ -110,6 +110,7 @@ export default class KPMTDashboardPage extends Component {
 	}
 
 	render() {
+		console.log(this.state.profile.competitors)
 		console.log(this.state.profile.teams)
 		return (
 			<div className="fullheight">
