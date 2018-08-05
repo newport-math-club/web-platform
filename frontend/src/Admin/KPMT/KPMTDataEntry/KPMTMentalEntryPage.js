@@ -8,13 +8,10 @@ import {
 	ToggleButton
 } from '../../../Components'
 import {
-	exportData,
-	getLockStatus,
-	coachLock,
-	regLock,
-	wipeKPMT,
 	fetchKPMTCompetitors,
-	scoreIndiv
+	scoreIndiv,
+	scoreBlock,
+	scoreMental
 } from '../../../nmc-api'
 import Autosuggest from 'react-autosuggest'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
@@ -24,7 +21,7 @@ const renderSuggestion = suggestion => (
 	<div style={{ display: 'inline', cursor: 'pointer' }}>{suggestion.name}</div>
 )
 
-export default class KPMTIndividualEntryPage extends Component {
+export default class KPMTMentalEntryPage extends Component {
 	constructor(props) {
 		super(props)
 
@@ -38,7 +35,6 @@ export default class KPMTIndividualEntryPage extends Component {
 		}
 
 		this.scoreTextbox = React.createRef()
-		this.lastTextbox = React.createRef()
 		this.indivAutosuggest = React.createRef()
 	}
 
@@ -93,38 +89,28 @@ export default class KPMTIndividualEntryPage extends Component {
 		}
 
 		var score = this.scoreTextbox.current.getText().toString()
-		var last = this.lastTextbox.current.getText().toString()
 
-		if (
-			score.isOnlyWhitespace() ||
-			last.isOnlyWhitespace() ||
-			isNaN(score) ||
-			isNaN(last)
-		) {
+		if (score.isOnlyWhitespace() || isNaN(score)) {
 			NotificationManager.error('Invalid score inputs', 'Error')
 			return
 		}
 
 		score = parseInt(score)
-		last = parseInt(last)
 
-		if (score > 40 || score < 0 || last > 40 || last < 0 || last < score) {
+		if (score > 5 || score < 0) {
 			NotificationManager.error('Invalid score inputs', 'Error')
 			return
 		}
 
-		const response = await scoreIndiv(
+		const response = await scoreMental(
 			this.state.selectedIndividual._id.toString(),
-			score,
-			last
+			score
 		)
 
 		if (response.status == 200) {
 			NotificationManager.success(
 				'Score entered: ' +
 					score +
-					'/' +
-					last +
 					' for ' +
 					this.state.selectedIndividual.name,
 				'Success'
@@ -137,7 +123,6 @@ export default class KPMTIndividualEntryPage extends Component {
 			})
 
 			this.scoreTextbox.current.clear()
-			this.lastTextbox.current.clear()
 			this.indivAutosuggest.current.input.focus()
 		} else {
 			NotificationManager.error('Response code ' + response.status, 'Error')
@@ -189,7 +174,7 @@ export default class KPMTIndividualEntryPage extends Component {
 								name={'Back to Data Entry Portal'}
 							/>
 						</div>
-						<h2>KPMT Individual Test Data Entry</h2>
+						<h2>KPMT Mental Math Test Data Entry</h2>
 						<p>
 							Select a competitor by first typing a couple characters, use tab
 							to select first suggestion.
@@ -216,16 +201,10 @@ export default class KPMTIndividualEntryPage extends Component {
 						</div>
 						<div style={{ marginTop: '1em' }}>
 							<Textbox
-								placeholder={'individual score'}
+								placeholder={'score'}
 								style={{ display: 'inline-block' }}
 								onEnter={this.submitScore}
 								ref={this.scoreTextbox}
-							/>
-							<Textbox
-								placeholder={'last solved'}
-								style={{ display: 'inline-block', marginLeft: '1em' }}
-								onEnter={this.submitScore}
-								ref={this.lastTextbox}
 							/>
 						</div>
 					</div>

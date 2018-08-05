@@ -7,15 +7,7 @@ import {
 	Button,
 	ToggleButton
 } from '../../../Components'
-import {
-	exportData,
-	getLockStatus,
-	coachLock,
-	regLock,
-	wipeKPMT,
-	fetchKPMTCompetitors,
-	scoreIndiv
-} from '../../../nmc-api'
+import { fetchKPMTCompetitors, scoreIndiv, scoreBlock } from '../../../nmc-api'
 import Autosuggest from 'react-autosuggest'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import 'react-notifications/lib/notifications.css'
@@ -24,7 +16,7 @@ const renderSuggestion = suggestion => (
 	<div style={{ display: 'inline', cursor: 'pointer' }}>{suggestion.name}</div>
 )
 
-export default class KPMTIndividualEntryPage extends Component {
+export default class KPMTBlockEntryPage extends Component {
 	constructor(props) {
 		super(props)
 
@@ -38,7 +30,7 @@ export default class KPMTIndividualEntryPage extends Component {
 		}
 
 		this.scoreTextbox = React.createRef()
-		this.lastTextbox = React.createRef()
+		this.levelTextbox = React.createRef()
 		this.indivAutosuggest = React.createRef()
 	}
 
@@ -93,38 +85,46 @@ export default class KPMTIndividualEntryPage extends Component {
 		}
 
 		var score = this.scoreTextbox.current.getText().toString()
-		var last = this.lastTextbox.current.getText().toString()
+		var level = this.levelTextbox.current.getText().toString()
 
 		if (
 			score.isOnlyWhitespace() ||
-			last.isOnlyWhitespace() ||
+			level.isOnlyWhitespace() ||
 			isNaN(score) ||
-			isNaN(last)
+			isNaN(level)
 		) {
 			NotificationManager.error('Invalid score inputs', 'Error')
 			return
 		}
 
 		score = parseInt(score)
-		last = parseInt(last)
+		level = parseInt(level)
 
-		if (score > 40 || score < 0 || last > 40 || last < 0 || last < score) {
+		if (score > 15 || score < 0 || level > 5 || level < 0) {
 			NotificationManager.error('Invalid score inputs', 'Error')
 			return
 		}
 
-		const response = await scoreIndiv(
+		var multiplier
+
+		if (level === 5) multiplier = 4
+		else if (level === 4) multiplier = 3
+		else if (level === 3) multiplier = 2.5
+		else if (level === 2) multiplier = 2
+		else if (level === 1) multiplier = 1.5
+		else multiplier = 1
+
+		const response = await scoreBlock(
 			this.state.selectedIndividual._id.toString(),
-			score,
-			last
+			multiplier * score
 		)
 
 		if (response.status == 200) {
 			NotificationManager.success(
 				'Score entered: ' +
 					score +
-					'/' +
-					last +
+					' at level ' +
+					level +
 					' for ' +
 					this.state.selectedIndividual.name,
 				'Success'
@@ -137,7 +137,7 @@ export default class KPMTIndividualEntryPage extends Component {
 			})
 
 			this.scoreTextbox.current.clear()
-			this.lastTextbox.current.clear()
+			this.levelTextbox.current.clear()
 			this.indivAutosuggest.current.input.focus()
 		} else {
 			NotificationManager.error('Response code ' + response.status, 'Error')
@@ -189,7 +189,7 @@ export default class KPMTIndividualEntryPage extends Component {
 								name={'Back to Data Entry Portal'}
 							/>
 						</div>
-						<h2>KPMT Individual Test Data Entry</h2>
+						<h2>KPMT Block Test Data Entry</h2>
 						<p>
 							Select a competitor by first typing a couple characters, use tab
 							to select first suggestion.
@@ -216,16 +216,16 @@ export default class KPMTIndividualEntryPage extends Component {
 						</div>
 						<div style={{ marginTop: '1em' }}>
 							<Textbox
-								placeholder={'individual score'}
+								placeholder={'raw score'}
 								style={{ display: 'inline-block' }}
 								onEnter={this.submitScore}
 								ref={this.scoreTextbox}
 							/>
 							<Textbox
-								placeholder={'last solved'}
+								placeholder={'block level (0-5)'}
 								style={{ display: 'inline-block', marginLeft: '1em' }}
 								onEnter={this.submitScore}
-								ref={this.lastTextbox}
+								ref={this.levelTextbox}
 							/>
 						</div>
 					</div>
