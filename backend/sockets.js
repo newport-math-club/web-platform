@@ -108,44 +108,40 @@ module.exports = {
 		})
 	},
 	onTeamsChange: (type, payload) => {
-		onSchoolsChange: (type, payload) => {
-			/**
-			 * type: String; 'add', 'remove', or 'edit'
-			 * payload: Object/String
-			 *    if 'add': entire team object
-			 *    if 'remove': team id to remove // dw about also removing the competitors, they'll get their own socket
-			 *    if 'edit': {
-			 *      _id: id,
-			 *      data: [{
-			 *      field: String, e.g. 'number' or 'scores'
-			 *      value: new value OR object (in the case of scores)
-			 *    },  ...]}
-			 */
-			io.to('admin').emit('teamsChange', {
-				type: type,
-				payload: payload
-			})
-		}
+		/**
+		 * type: String; 'add', 'remove', or 'edit'
+		 * payload: Object/String
+		 *    if 'add': entire team object
+		 *    if 'remove': team id to remove // dw about also removing the competitors, they'll get their own socket
+		 *    if 'edit': {
+		 *      _id: id,
+		 *      data: [{
+		 *      field: String, e.g. 'number' or 'scores'
+		 *      value: new value OR object (in the case of scores)
+		 *    },  ...]}
+		 */
+		io.to('admin').emit('teamsChange', {
+			type: type,
+			payload: payload
+		})
 	},
 	onCompetitorsChange: (type, payload) => {
-		onSchoolsChange: (type, payload) => {
-			/**
-			 * type: String; 'add', 'remove', or 'edit'
-			 * payload: Object/String
-			 *    if 'add': entire competitor object
-			 *    if 'remove': competitor id to remove // dw about also removing from teams, they'll get their own socket
-			 *    if 'edit': {
-			 *      _id: id,
-			 *      data: [{
-			 *      field: String, e.g. 'name' or 'scores'
-			 *      value: new value OR object (in the case of scores)
-			 *      },  ...]
-			 *    }
-			 */
-			io.to('admin').emit('competitorsChange', {
-				type: type,
-				payload: payload
-			})
-		}
+		/**
+		 * type: String; 'add', 'remove', or 'edit'
+		 * payload: Object/String
+		 *    if 'add': entire competitor object
+		 *    if 'remove': competitor id to remove // dw about also removing from teams, they'll get their own socket
+		 *    if 'edit': {
+		 *      _id: id,
+		 *      data: [{
+		 *      field: String, e.g. 'name' or 'scores'
+		 *      value: new value OR object (in the case of scores)
+		 *      },  ...]
+		 *    }
+		 */
+		io.to('admin').emit('competitorsChange', {
+			type: type,
+			payload: payload
+		})
 	}
 }
