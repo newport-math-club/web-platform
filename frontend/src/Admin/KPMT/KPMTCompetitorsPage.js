@@ -10,7 +10,11 @@ import {
 } from '../../Components'
 import Modal from 'react-modal'
 import SocketEventHandlers from '../../Sockets'
-import { fetchKPMTSchools, fetchKPMTTeams } from '../../nmc-api'
+import {
+	fetchKPMTSchools,
+	fetchKPMTTeams,
+	fetchKPMTCompetitors
+} from '../../nmc-api'
 import moment from 'moment'
 
 Modal.setAppElement('#root')
@@ -52,10 +56,10 @@ export default class KPMTCompetitorsPage extends Component {
 	async componentDidMount() {
 		// TODO: handle kpmt competitor change socket sub
 
-		const competitorsResponse = await fetchKPMTTeams()
+		const competitorsResponse = await fetchKPMTCompetitors()
+
 		if (competitorsResponse.status == 200) {
 			const data = await competitorsResponse.json()
-
 			this.setState({ competitors: data })
 		}
 	}
@@ -97,12 +101,14 @@ export default class KPMTCompetitorsPage extends Component {
 					<h3>
 						Individual:{' '}
 						{selectedCompetitor.scores.individual +
-							', ' +
+							'/' +
 							selectedCompetitor.scores.individualLast}
 					</h3>
 					<h3>Block: {selectedCompetitor.scores.block}</h3>
 					<h3>Mental: {selectedCompetitor.scores.mental}</h3>
-					<h3>Weighted: {selectedCompetitor.scores.weighted}</h3>
+					<h3 style={{ color: '#527aff' }}>
+						Weighted: {selectedCompetitor.scores.weighted}
+					</h3>
 
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeCompetitorModal} text="close" />
