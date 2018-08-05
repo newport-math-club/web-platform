@@ -85,6 +85,12 @@ module.exports = app => {
 		.route('/api/kpmt/login/')
 		.post(nmcMiddleware.authenticateCoach)
 		.post(nmcController.login)
+
+	app
+		.route('/api/kpmt/change-password/')
+		.post(nmcMiddleware.verifyCoachSession)
+		.post(nmcMiddleware.authenticateCoach)
+		.post(nmcController.changeSchoolPassword)
 	app
 		.route('/api/kpmt/logout/')
 		.post(nmcMiddleware.verifyCoachSession)

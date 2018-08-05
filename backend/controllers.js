@@ -457,6 +457,30 @@ exports.fetchSchoolProfile = (req, res) => {
 	res.status(200).json(res.locals.user)
 }
 
+exports.changeSchoolPassword = (req, res) => {
+	var newPassword = req.body.newPassword
+	var school = res.locals.user
+
+	if (!newPassword) return res.status(400).end()
+
+	auth.hash(newPassword, hash => {
+		School.updateOne(
+			{
+				_id: school._id
+			},
+			{
+				$set: {
+					passHashed: hash
+				}
+			},
+			err => {
+				if (err) res.status(500).end()
+				else res.status(200).end()
+			}
+		)
+	})
+}
+
 exports.addTeam = (req, res) => {
 	if (kpmtLock) return res.status(403).end()
 	var school = res.locals.user

@@ -288,6 +288,22 @@ exports.fetchSchoolProfile = () => {
 	})
 }
 
+exports.schoolChangePassword = (email, password, newPassword) => {
+	return fetch(BASE_URL + '/api/kpmt/change-password', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			email,
+			password,
+			newPassword
+		}),
+		credentials: 'include'
+	})
+}
+
 exports.addTeam = members => {
 	return fetch(BASE_URL + '/api/kpmt/team/add', {
 		method: 'POST',

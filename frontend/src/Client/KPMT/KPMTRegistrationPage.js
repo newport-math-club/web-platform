@@ -95,10 +95,12 @@ export default class KPMTRegistrationPage extends Component {
 							Once you register, a KPMT coach account will be made for your
 							school with the credentials that you provide. You will only be
 							able to login after we activate your account. Once your account is
-							activated, you can login <a href="/kpmt/login">here</a>. Once you
-							login, you can add teams and individuals to represent your school.
-							It will also display the cost of registering the given number of
-							students and teams, but you cannot pay online.
+							activated, you can login <a href="/kpmt/login">here</a>. To avoid
+							confusion, you cannot change your name, school name, or email
+							after registering! You will be able to change your password. Once
+							you login, you can add teams and individuals to represent your
+							school. It will also display the cost of registering the given
+							number of students and teams, but you cannot pay online.
 							{/* TODO: something about how to pay here */}
 						</p>
 					</div>
