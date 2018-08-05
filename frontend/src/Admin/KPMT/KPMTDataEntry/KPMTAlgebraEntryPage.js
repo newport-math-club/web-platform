@@ -18,6 +18,7 @@ import {
 import Autosuggest from 'react-autosuggest'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import 'react-notifications/lib/notifications.css'
+import SocketEventHandlers from '../../../Sockets'
 
 const renderSuggestion = suggestion => (
 	<div style={{ display: 'inline', cursor: 'pointer' }}>
@@ -42,7 +43,95 @@ export default class KPMTAlgebraEntryPage extends Component {
 		this.teamAutosuggest = React.createRef()
 	}
 
+	componentWillUnmount() {
+		SocketEventHandlers.unsubscribeToCompetitorsChange()
+
+		SocketEventHandlers.unsubscribeToTeamsChange()
+
+		SocketEventHandlers.unsubscribeToSchoolsChange()
+	}
+
 	async componentDidMount() {
+		SocketEventHandlers.subscribeToTeamsChange(data => {
+			console.log('team edit received: ')
+			console.log(data)
+			switch (data.type) {
+				case 'add':
+					this.setState({
+						teams: this.state.teams.slice().concat(data.payload)
+					})
+					break
+				case 'remove':
+					this.setState({
+						teams: this.state.teams
+							.slice()
+							.filter(t => t._id.toString() !== data.payload.toString())
+					})
+					// if the removed team is currently selected, oh whale :P
+					if (
+						this.state.selectedTeam._id.toString() == data.payload.toString()
+					) {
+						this.setState({
+							selectedTeam: null,
+							suggestionValue: '',
+							suggestions: [],
+							highlightedSuggestion: null
+						})
+					}
+					break
+				case 'edit':
+					var newTeams = this.state.teams.slice()
+
+					for (var i = 0; i < newTeams.length; i++) {
+						if (newTeams[i]._id.toString() === data.payload._id.toString()) {
+							data.payload.data.forEach(change => {
+								newTeams[i][change.field] = change.value
+							})
+
+							if (
+								newTeams[i]._id.toString() ===
+								this.state.selectedTeam._id.toString()
+							) {
+								var newSelectedTeam = { ...this.state.selectedTeam }
+								data.payload.data.forEach(change => {
+									newSelectedTeam[change.field] = change.value
+								})
+								this.setState({ selectedTeam: newSelectedTeam })
+							}
+							break
+						}
+					}
+					this.setState({ teams: newTeams })
+					break
+			}
+		})
+
+		SocketEventHandlers.subscribeToSchoolsChange(data => {
+			if (data.type === 'edit') {
+				var newTeams = this.state.teams.slice()
+
+				newTeams.forEach(team => {
+					if (team.school._id.toString() === data.payload._id.toString()) {
+						data.payload.data.forEach(change => {
+							team.school[change.field] = change.value
+						})
+
+						if (
+							team._id.toString() === this.state.selectedTeam._id.toString()
+						) {
+							var newSelectedTeam = { ...this.state.selectedTeam }
+							data.payload.data.forEach(change => {
+								newSelectedTeam.school[change.field] = change.value
+							})
+							this.setState({ selectedTeam: newSelectedTeam })
+						}
+					}
+				})
+
+				this.setState({ teams: newTeams })
+			}
+		})
+
 		const response = await fetchKPMTTeams()
 
 		if (response.status == 200) {
