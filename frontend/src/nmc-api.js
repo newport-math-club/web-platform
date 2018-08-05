@@ -435,3 +435,19 @@ exports.wipeKPMT = () => {
 		credentials: 'include'
 	})
 }
+
+exports.scoreIndiv = (id, score, last) => {
+	return fetch(BASE_URL + '/api/kpmt/score/indiv', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id,
+			score,
+			last
+		}),
+		credentials: 'include'
+	})
+}

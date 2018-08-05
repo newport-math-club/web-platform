@@ -398,7 +398,7 @@ export class Bio extends Component {
 export class Link extends Component {
 	render() {
 		return (
-			<a href={this.props.href} target="_blank">
+			<a href={this.props.href}>
 				<h4
 					onClick={this.props.onClick}
 					style={{
