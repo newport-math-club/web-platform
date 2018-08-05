@@ -198,8 +198,4 @@ module.exports = app => {
 		.route('/api/kpmt/score/team/')
 		.post(nmcMiddleware.verifyAdminSession)
 		.post(nmcController.scoreTeam)
-	app
-		.route('/api/kpmt/score/calculateWeightScores/')
-		.post(nmcMiddleware.verifyAdminSession)
-		.post(nmcController.scoreWeighted)
 }
