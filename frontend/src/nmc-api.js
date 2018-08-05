@@ -451,3 +451,18 @@ exports.scoreIndiv = (id, score, last) => {
 		credentials: 'include'
 	})
 }
+
+exports.scoreBlock = (id, score) => {
+	return fetch(BASE_URL + '/api/kpmt/score/block', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id,
+			score
+		}),
+		credentials: 'include'
+	})
+}
