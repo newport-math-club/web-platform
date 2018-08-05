@@ -1016,7 +1016,67 @@ exports.fetchSchools = async (req, res) => {
 	}
 }
 
-exports.scoreIndividual = (req, res) => {
+const calculateWeightedScore = async competitorId => {
+	const competitor = await Competitors.findOne({ _id: competitorId }).exec()
+
+	var indiv = competitor.scores.individual
+	var last = competitor.scores.individualLast
+	var block = competitor.scores.block
+	var mental = competitor.scores.mental
+	var weightedScore =
+		indiv + block / 3.0 + last / 100.0 + block / 1000.0 + mental / 10000.0
+
+	await Competitors.updateOne(
+		{ _id: competitor._id },
+		{ $set: { 'scores.weighted': weightedScore } }
+	)
+}
+
+const calculateWeightedScoreTeam = async teamId => {
+	const team = await Teams.findOne({ _id: teamId })
+		.populate('members')
+		.exec()
+
+	var algebra = team.scores.algebra
+	var geometry = team.scores.geometry
+	var probability = team.scores.probability
+
+	var mentalScores = team.members.map(m => m.scores.mental).sort((a, b) => {
+		return b - a
+	})
+	var indivScores = team.members.map(m => m.scores.individual).sort((a, b) => {
+		return b - a
+	})
+	var blockScores = team.members.map(m => m.scores.block).sort((a, b) => {
+		return b - a
+	})
+	var topThreeMental = mentalScores.slice(0, 3).reduce((total, num) => {
+		return total + num
+	})
+	var topThreeIndiv = indivScores.slice(0, 3).reduce((total, num) => {
+		return total + num
+	})
+	var topThreeBlock = blockScores.slice(0, 3).reduce((total, num) => {
+		return total + num
+	})
+	var weightedScore =
+		algebra +
+		geometry +
+		probability +
+		2 * topThreeMental +
+		topThreeIndiv +
+		topThreeBlock +
+		indivScores[indivScores.length - 1] / 100.0 +
+		blockScores[blockScores.length - 1] / 1000.0 +
+		algebra / 10000.0
+
+	await Teams.updateOne(
+		{ _id: teamId },
+		{ $set: { 'scores.weighted': weightedScore } }
+	)
+}
+
+exports.scoreIndividual = async (req, res) => {
 	var id = req.body.id
 	var score = req.body.score
 	var last = req.body.last
@@ -1035,7 +1095,10 @@ exports.scoreIndividual = (req, res) => {
 		},
 		(err, updated) => {
 			if (err) res.status(500).end()
-			else res.status(200).end()
+			else {
+				calculateWeightedScore(id)
+				res.status(200).end()
+			}
 		}
 	)
 }
@@ -1057,7 +1120,10 @@ exports.scoreBlock = (req, res) => {
 		},
 		(err, updated) => {
 			if (err) res.status(500).end()
-			else res.status(200).end()
+			else {
+				calculateWeightedScore(id)
+				res.status(200).end()
+			}
 		}
 	)
 }
@@ -1079,7 +1145,10 @@ exports.scoreMentalMath = (req, res) => {
 		},
 		(err, updated) => {
 			if (err) res.status(500).end()
-			else res.status(200).end()
+			else {
+				calculateWeightedScore(id)
+				res.status(200).end()
+			}
 		}
 	)
 }
@@ -1114,7 +1183,10 @@ exports.scoreTeam = (req, res) => {
 		},
 		(err, updated) => {
 			if (err) res.status(500).end()
-			else res.status(200).end()
+			else {
+				calculateWeightedScoreTeam(id)
+				res.status(200).end()
+			}
 		}
 	)
 }
@@ -1125,91 +1197,13 @@ exports.scoreWeighted = (req, res) => {
 	outerCalls.push(outercallback => {
 		Competitors.find({}, (err, competitors) => {
 			competitors.forEach(competitor => {
-				calls.push(callback => {
-					var indiv = competitor.scores.individual
-					var last = competitor.scores.individualLast
-					var block = competitor.scores.block
-					var mental = competitor.scores.mental
-					var weightedScore =
-						indiv +
-						block / 3.0 +
-						last / 100.0 +
-						block / 1000.0 +
-						mental / 10000.0
-					Competitors.updateOne(
-						{ _id: competitor._id },
-						{ $set: { 'scores.weighted': weightedScore } },
-						err => {
-							if (err) callback(err)
-							else callback(null)
-						}
-					)
-				})
+				calls.push(callback => {})
 			})
 			outercallback(null)
 		})
 	})
 
-	outerCalls.push(outercallback => {
-		Teams.find({})
-			.populate('members')
-			.exec((err, teams) => {
-				teams.forEach(team => {
-					calls.push(callback => {
-						var algebra = team.scores.algebra
-						var geometry = team.scores.geometry
-						var probability = team.scores.probability
-
-						var mentalScores = team.members
-							.map(m => m.scores.mental)
-							.sort((a, b) => {
-								return b - a
-							})
-						var indivScores = team.members
-							.map(m => m.scores.individual)
-							.sort((a, b) => {
-								return b - a
-							})
-						var blockScores = team.members
-							.map(m => m.scores.block)
-							.sort((a, b) => {
-								return b - a
-							})
-						var topThreeMental = mentalScores
-							.slice(0, 3)
-							.reduce((total, num) => {
-								return total + num
-							})
-						var topThreeIndiv = indivScores.slice(0, 3).reduce((total, num) => {
-							return total + num
-						})
-						var topThreeBlock = blockScores.slice(0, 3).reduce((total, num) => {
-							return total + num
-						})
-						var weightedScore =
-							algebra +
-							geometry +
-							probability +
-							2 * topThreeMental +
-							topThreeIndiv +
-							topThreeBlock +
-							indivScores[indivScores.length - 1] / 100.0 +
-							blockScores[blockScores.length - 1] / 1000.0 +
-							algebra / 10000.0
-
-						Teams.updateOne(
-							{ _id: team._id },
-							{ $set: { 'scores.weighted': weightedScore } },
-							err => {
-								if (err) callback(err)
-								else callback(null)
-							}
-						)
-					})
-				})
-				outercallback(null)
-			})
-	})
+	outerCalls.push(outercallback => {})
 
 	async.parallel(outerCalls, err => {
 		if (err) return res.status(500).end()
