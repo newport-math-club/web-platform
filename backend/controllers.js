@@ -596,13 +596,13 @@ exports.addTeam = (req, res) => {
 						else {
 							// socket the updated school here
 							const populatedSchool = await Schools.findOne({
-								_id: updated._id
+								_id: school._id
 							})
 								.populate('teams')
 								.exec()
 
 							sockets.onSchoolsChange('edit', {
-								_id: updated._id.toString(),
+								_id: populatedSchool._id.toString(),
 								data: [
 									{ field: 'competitors', value: populatedSchool.competitors },
 									{ field: 'teams', value: populatedSchool.teams }
