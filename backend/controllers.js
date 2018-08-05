@@ -1097,6 +1097,7 @@ exports.scoreIndividual = async (req, res) => {
 			if (err) res.status(500).end()
 			else {
 				calculateWeightedScore(id)
+				calculateWeightedScoreTeam(updated.team)
 				res.status(200).end()
 			}
 		}
@@ -1122,6 +1123,7 @@ exports.scoreBlock = (req, res) => {
 			if (err) res.status(500).end()
 			else {
 				calculateWeightedScore(id)
+				calculateWeightedScoreTeam(updated.team)
 				res.status(200).end()
 			}
 		}
@@ -1147,6 +1149,7 @@ exports.scoreMentalMath = (req, res) => {
 			if (err) res.status(500).end()
 			else {
 				calculateWeightedScore(id)
+				calculateWeightedScoreTeam(updated.team)
 				res.status(200).end()
 			}
 		}

@@ -25,7 +25,7 @@ const renderSuggestion = suggestion => (
 	</div>
 )
 
-export default class KPMTAlgebraEntryPage extends Component {
+export default class KPMTPPEntryPage extends Component {
 	constructor(props) {
 		super(props)
 
@@ -108,7 +108,7 @@ export default class KPMTAlgebraEntryPage extends Component {
 		const response = await scoreTeam(
 			this.state.selectedTeam._id.toString(),
 			score,
-			'algebra'
+			'probability'
 		)
 
 		if (response.status == 200) {
@@ -178,7 +178,7 @@ export default class KPMTAlgebraEntryPage extends Component {
 								name={'Back to Data Entry Portal'}
 							/>
 						</div>
-						<h2>KPMT Algebra Team Test Data Entry</h2>
+						<h2>KPMT P&P Team Test Data Entry</h2>
 						<p>
 							Select a team by first typing in its team number, use tab to
 							select first suggestion.

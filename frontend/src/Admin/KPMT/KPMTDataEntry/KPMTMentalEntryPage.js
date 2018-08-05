@@ -144,8 +144,7 @@ export default class KPMTMentalEntryPage extends Component {
 			style: {
 				width: '70%',
 				display: 'inline-block'
-			},
-			ref: this.indivAutosuggest
+			}
 		}
 
 		const selectedIndividual = this.state.selectedIndividual || { school: {} }
