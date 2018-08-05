@@ -649,9 +649,12 @@ exports.editTeam = async (req, res) => {
 		// remove all the old members cuz atomic edits are too tedious
 		await Competitors.deleteMany({
 			_id: { $in: targetTeam.members }
-    }).exec()
-    
-    await Schools.updateOne({_id: targetTeam.school}, { $pull: { competitors: { $or: { targetTeam.members }}}}).exec()
+		}).exec()
+
+		await Schools.updateOne(
+			{ _id: targetTeam.school },
+			{ $pull: { competitors: { $or: targetTeam.members } } }
+		).exec()
 
 		// socket delete these competitors
 		targetTeam.members.forEach(memberId => {
@@ -671,9 +674,12 @@ exports.editTeam = async (req, res) => {
 				scores: {}
 			})
 
-      const newMemberObject = await newMember.save()
-      
-      await Schools.updateOne({_id: targetTeam.school}, {$push: { competitors: newMemberObject._id}}).exec()
+			const newMemberObject = await newMember.save()
+
+			await Schools.updateOne(
+				{ _id: targetTeam.school },
+				{ $push: { competitors: newMemberObject._id } }
+			).exec()
 
 			const populatedCompetitor = await Competitors.findOne({
 				_id: newMemberObject._id
@@ -737,12 +743,14 @@ exports.editTeam = async (req, res) => {
 			]
 		})
 
-    // socket a school change
-    const populatedSchool = await Schools.findOne({_id: targetTeam.school}).populate('teams').exec()
-    sockets.onSchoolsChange('edit', {
-      _id: populatedSchool._id.toString(),
-      data: [{field: 'competitors', value: populatedSchool.competitors}]
-    })
+		// socket a school change
+		const populatedSchool = await Schools.findOne({ _id: targetTeam.school })
+			.populate('teams')
+			.exec()
+		sockets.onSchoolsChange('edit', {
+			_id: populatedSchool._id.toString(),
+			data: [{ field: 'competitors', value: populatedSchool.competitors }]
+		})
 
 		res.status(200).end()
 	} catch (error) {
