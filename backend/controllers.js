@@ -588,7 +588,7 @@ exports.addTeam = (req, res) => {
 						{ $set: { team: savedTeam._id } }
 					).exec()
 				})
-				Schools.update(
+				Schools.updateOne(
 					{ _id: school._id },
 					{ $push: { teams: savedTeam._id } },
 					async (err, updated) => {
