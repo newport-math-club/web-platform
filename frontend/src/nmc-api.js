@@ -466,3 +466,34 @@ exports.scoreBlock = (id, score) => {
 		credentials: 'include'
 	})
 }
+
+exports.scoreMental = (id, score) => {
+	return fetch(BASE_URL + '/api/kpmt/score/mental', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id,
+			score
+		}),
+		credentials: 'include'
+	})
+}
+
+exports.scoreTeam = (id, score, type) => {
+	return fetch(BASE_URL + '/api/kpmt/score/team', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id,
+			score,
+			type
+		}),
+		credentials: 'include'
+	})
+}

@@ -10,56 +10,56 @@ export default class AboutPage extends Component {
 					<Bio
 						name="Terrance Li"
 						title="President"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/terrance.png"
+						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/terrance.png"
 						row={1}
 						column={1}
 					/>
 					<Bio
 						name="Frank Hou"
 						title="Vice President"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/frank.png"
+						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/frank.png"
 						row={2}
 						column={1}
 					/>
 					<Bio
 						name="Alan Li"
 						title="Secretary"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/alan.png"
+						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/alan.png"
 						row={3}
 						column={1}
 					/>
 					<Bio
 						name="Luke Xie"
 						title="Treasurer"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/terrance.png"
+						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/luke.png"
 						row={4}
 						column={1}
 					/>
 					<Bio
 						name="Sriram Thothathri"
 						title="Webmaster"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/sriram.png"
+						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/sriram.png"
 						row={5}
 						column={1}
 					/>
 					<Bio
 						name="Candace Do"
 						title="Shadow Officer"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/candace.png"
+						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/candace.png"
 						row={6}
 						column={1}
 					/>
 					<Bio
 						name="Justin Chen"
 						title="Shadow Officer"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/justin.png"
+						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/justin.png"
 						row={7}
 						column={1}
 					/>
 					<Bio
 						name="Alex Liu"
 						title="Shadow Officer"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/terrance.png"
+						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/terrance.png"
 						row={8}
 						column={1}
 					/>
