@@ -1243,6 +1243,15 @@ const calculateWeightedScore = async competitorId => {
 		{ _id: competitor._id },
 		{ $set: { 'scores.weighted': weightedScore } }
 	)
+
+	// socket competitor change
+	const weightedCompetitor = await Competitors.findOne({
+		_id: competitorId
+	}).exec()
+	sockets.onCompetitorsChange('edit', {
+		_id: competitorId,
+		data: [{ field: 'scores', value: weightedCompetitor.scores }]
+	})
 }
 
 const calculateWeightedScoreTeam = async teamId => {
@@ -1287,6 +1296,15 @@ const calculateWeightedScoreTeam = async teamId => {
 		{ _id: teamId },
 		{ $set: { 'scores.weighted': weightedScore } }
 	)
+
+	// socket team change
+	const weightedTeam = await Teams.findOne({
+		_id: teamId
+	}).exec()
+	sockets.onTeamsChange('edit', {
+		_id: teamId,
+		data: [{ field: 'scores', value: weightedTeam.scores }]
+	})
 }
 
 exports.scoreIndividual = async (req, res) => {
@@ -1315,26 +1333,8 @@ exports.scoreIndividual = async (req, res) => {
 			else {
 				calculateWeightedScore(id)
 
-				// socket competitor change
-				const weightedCompetitor = await Competitors.findOne({
-					_id: targetIndiv._id
-				}).exec()
-				sockets.onCompetitorsChange('edit', {
-					_id: id,
-					data: [{ field: 'scores', value: weightedCompetitor.scores }]
-				})
-
 				if (targetIndiv.team) {
 					calculateWeightedScoreTeam(targetIndiv.team)
-					// socket team change
-					// socket competitor change
-					const weightedTeam = await Teams.findOne({
-						_id: targetIndiv.team
-					}).exec()
-					sockets.onTeamsChange('edit', {
-						_id: targetIndiv.team,
-						data: [{ field: 'scores', value: weightedTeam.scores }]
-					})
 				}
 
 				res.status(200).end()
@@ -1367,26 +1367,8 @@ exports.scoreBlock = async (req, res) => {
 			else {
 				calculateWeightedScore(id)
 
-				// socket competitor change
-				const weightedCompetitor = await Competitors.findOne({
-					_id: targetIndiv._id
-				}).exec()
-				sockets.onCompetitorsChange('edit', {
-					_id: id,
-					data: [{ field: 'scores', value: weightedCompetitor.scores }]
-				})
-
 				if (targetIndiv.team) {
 					calculateWeightedScoreTeam(targetIndiv.team)
-					// socket team change
-					// socket competitor change
-					const weightedTeam = await Teams.findOne({
-						_id: targetIndiv.team
-					}).exec()
-					sockets.onTeamsChange('edit', {
-						_id: targetIndiv.team,
-						data: [{ field: 'scores', value: weightedTeam.scores }]
-					})
 				}
 
 				res.status(200).end()
@@ -1419,26 +1401,8 @@ exports.scoreMentalMath = async (req, res) => {
 			else {
 				calculateWeightedScore(id)
 
-				// socket competitor change
-				const weightedCompetitor = await Competitors.findOne({
-					_id: targetIndiv._id
-				}).exec()
-				sockets.onCompetitorsChange('edit', {
-					_id: id,
-					data: [{ field: 'scores', value: weightedCompetitor.scores }]
-				})
-
 				if (targetIndiv.team) {
 					calculateWeightedScoreTeam(targetIndiv.team)
-					// socket team change
-					// socket competitor change
-					const weightedTeam = await Teams.findOne({
-						_id: targetIndiv.team
-					}).exec()
-					sockets.onTeamsChange('edit', {
-						_id: targetIndiv.team,
-						data: [{ field: 'scores', value: weightedTeam.scores }]
-					})
 				}
 
 				res.status(200).end()
@@ -1479,13 +1443,6 @@ exports.scoreTeam = (req, res) => {
 			if (err) res.status(500).end()
 			else {
 				calculateWeightedScoreTeam(id)
-
-				// socket team change
-				const weightedTeam = await Teams.findOne({ _id: id }).exec()
-				sockets.onTeamsChange('edit', {
-					_id: id,
-					data: [{ field: 'scores', value: weightedTeam.scores }]
-				})
 
 				res.status(200).end()
 			}
