@@ -114,7 +114,7 @@ export default class KPMTIndividualEntryPage extends Component {
 
 		const response = await fetchKPMTCompetitors()
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			const data = await response.json()
 
 			this.setState({ individuals: data })
@@ -188,7 +188,7 @@ export default class KPMTIndividualEntryPage extends Component {
 			last
 		)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			NotificationManager.success(
 				'Score entered: ' +
 					score +

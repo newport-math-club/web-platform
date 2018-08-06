@@ -120,7 +120,7 @@ export class CoachNav extends Component {
 	async componentDidMount() {
 		const profileResponse = await fetchSchoolProfile()
 
-		if (profileResponse.status == 200) {
+		if (profileResponse.status === 200) {
 			const data = await profileResponse.json()
 
 			this.setState({ name: data.coachName.split(' ')[0] })
@@ -198,7 +198,7 @@ export class Nav extends Component {
 	async componentDidMount() {
 		const profileResponse = await fetchProfile()
 
-		if (profileResponse.status == 200) {
+		if (profileResponse.status === 200) {
 			const data = await profileResponse.json()
 
 			this.setState({ name: data.name.split(' ')[0] })
@@ -571,8 +571,8 @@ export class Table extends Component {
 			const sortDirection = this.state.sortDirection
 			if (
 				data.length > 0 &&
-				sortIndex != null &&
-				sortDirection != null &&
+				sortIndex !== null &&
+				sortDirection !== null &&
 				!isNaN(sortIndex) &&
 				!isNaN(sortDirection) &&
 				sortIndex >= 0 &&
@@ -616,8 +616,8 @@ export class Table extends Component {
 			const sortDirection = this.state.sortDirection
 			if (
 				data.length > 0 &&
-				sortIndex != null &&
-				sortDirection != null &&
+				sortIndex !== null &&
+				sortDirection !== null &&
 				!isNaN(sortIndex) &&
 				!isNaN(sortDirection) &&
 				sortIndex >= 0 &&

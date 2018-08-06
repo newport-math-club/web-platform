@@ -115,7 +115,7 @@ export default class KPMTAlgebraEntryPage extends Component {
 
 		const response = await fetchKPMTTeams()
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			const data = await response.json()
 
 			this.setState({ teams: data })
@@ -181,7 +181,7 @@ export default class KPMTAlgebraEntryPage extends Component {
 			'algebra'
 		)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			NotificationManager.success(
 				'Score entered: ' +
 					score +

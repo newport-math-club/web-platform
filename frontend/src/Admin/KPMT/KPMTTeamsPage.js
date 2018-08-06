@@ -109,7 +109,7 @@ export default class KPMTTeamsPage extends Component {
 		})
 
 		const teamsResponse = await fetchKPMTTeams()
-		if (teamsResponse.status == 200) {
+		if (teamsResponse.status === 200) {
 			const data = await teamsResponse.json()
 
 			this.setState({ teams: data })

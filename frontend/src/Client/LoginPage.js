@@ -18,14 +18,14 @@ export default class LoginPage extends Component {
 		const email = this.emailTextBox.current.getText()
 		const password = this.passwordTextBox.current.getText()
 
-		if (email == '' || password == '') {
+		if (email === '' || password === '') {
 			this.setState({ error: true })
 			return
 		}
 
 		const response = await login(email, password)
 
-		if (response.status != 200) {
+		if (response.status !== 200) {
 			this.setState({ error: true })
 			return
 		}

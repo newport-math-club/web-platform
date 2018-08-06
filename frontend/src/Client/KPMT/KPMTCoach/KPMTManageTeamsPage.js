@@ -69,7 +69,7 @@ export default class KPMTManageTeamsPage extends Component {
 
 	async componentDidMount() {
 		const profileResponse = await fetchSchoolProfile()
-		if (profileResponse.status == 200) {
+		if (profileResponse.status === 200) {
 			const data = await profileResponse.json()
 
 			this.setState({ teams: data.teams })
@@ -115,7 +115,7 @@ export default class KPMTManageTeamsPage extends Component {
 
 		const response = await addTeam(team)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			// too lazy to use sockets to insert the new team
 			// just refresh the page lmao hacky but works
 			window.location.href = '/kpmt/coach/teams'
@@ -151,7 +151,7 @@ export default class KPMTManageTeamsPage extends Component {
 		)
 
 		console.log(response)
-		if (response.status == 200) {
+		if (response.status === 200) {
 			// too lazy to use sockets to insert the new team
 			// just refresh the page lmao hacky but works
 			window.location.href = '/kpmt/coach/teams'
@@ -163,7 +163,7 @@ export default class KPMTManageTeamsPage extends Component {
 	deleteTeam = async () => {
 		const response = await removeTeam(this.state.selectedTeam._id.toString())
 		console.log(response)
-		if (response.status == 200) {
+		if (response.status === 200) {
 			window.location.href = '/kpmt/coach/teams'
 		} else {
 			this.setState({ error: response.status })
@@ -260,12 +260,12 @@ export default class KPMTManageTeamsPage extends Component {
 					</h5>
 					<div style={{ marginTop: '2em' }}>{newMemberTextboxes}</div>
 					<div style={{ textAlign: 'center' }}>
-						{(this.state.error == 1 || this.state.error == 400) && (
+						{(this.state.error === 1 || this.state.error === 400) && (
 							<h5 style={{ marginTop: '8px' }}>
 								invalid inputs, please try again
 							</h5>
 						)}
-						{this.state.error == 403 && (
+						{this.state.error === 403 && (
 							<h5 style={{ marginTop: '8px' }}>
 								changes to teams and individuals are not allowed at this time!
 							</h5>
@@ -288,12 +288,12 @@ export default class KPMTManageTeamsPage extends Component {
 					</h5>
 					<div style={{ marginTop: '2em' }}>{memberTextboxes}</div>
 					<div style={{ textAlign: 'center' }}>
-						{(this.state.error == 1 || this.state.error == 400) && (
+						{(this.state.error === 1 || this.state.error === 400) && (
 							<h5 style={{ marginTop: '8px' }}>
 								invalid inputs, please try again
 							</h5>
 						)}
-						{this.state.error == 403 && (
+						{this.state.error === 403 && (
 							<h5 style={{ marginTop: '8px' }}>
 								changes to teams and individuals are not allowed at this time!
 							</h5>

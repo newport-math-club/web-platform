@@ -117,7 +117,7 @@ export default class KPMTCompetitorsPage extends Component {
 
 		const competitorsResponse = await fetchKPMTCompetitors()
 
-		if (competitorsResponse.status == 200) {
+		if (competitorsResponse.status === 200) {
 			const data = await competitorsResponse.json()
 			this.setState({ competitors: data })
 		}

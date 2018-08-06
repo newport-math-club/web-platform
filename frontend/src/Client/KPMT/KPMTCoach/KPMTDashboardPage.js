@@ -88,7 +88,7 @@ export default class KPMTDashboardPage extends Component {
 			newPassword
 		)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			this.closeChangePasswordModal()
 			this.setState({ error: 0 })
 		} else {
@@ -101,7 +101,7 @@ export default class KPMTDashboardPage extends Component {
 	async componentDidMount() {
 		const response = await fetchSchoolProfile()
 
-		if (response.status != 200) {
+		if (response.status !== 200) {
 			window.location.href = '/login'
 			return
 		}
@@ -114,8 +114,6 @@ export default class KPMTDashboardPage extends Component {
 	}
 
 	render() {
-		console.log(this.state.profile.competitors)
-		console.log(this.state.profile.teams)
 		return (
 			<div className="fullheight">
 				<Modal

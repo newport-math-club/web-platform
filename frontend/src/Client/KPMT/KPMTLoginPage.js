@@ -28,7 +28,7 @@ export default class KPMTLoginPage extends Component {
 
 		const response = await loginKPMT(email, password)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			window.location.href = '/kpmt/coach/dashboard'
 		} else {
 			this.setState({ error: response.status })
@@ -74,17 +74,17 @@ export default class KPMTLoginPage extends Component {
 						placeholder="password"
 					/>
 					<div style={{ textAlign: 'center' }}>
-						{(this.state.error == 1 || this.state.error == 400) && (
+						{(this.state.error === 1 || this.state.error === 400) && (
 							<h5 style={{ marginTop: '8px' }}>
 								invalid inputs, please try again
 							</h5>
 						)}
-						{this.state.error == 403 && (
+						{this.state.error === 403 && (
 							<h5 style={{ marginTop: '8px' }}>
 								your account has not been activated yet!
 							</h5>
 						)}
-						{(this.state.error == 404 || this.state.error == 401) && (
+						{(this.state.error === 404 || this.state.error === 401) && (
 							<h5 style={{ marginTop: '8px' }}>invalid credentials</h5>
 						)}
 					</div>

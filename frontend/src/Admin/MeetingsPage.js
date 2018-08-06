@@ -101,7 +101,7 @@ export default class MeetingsPage extends Component {
 		})
 
 		const membersResponse = await fetchMembers()
-		if (membersResponse.status == 200) {
+		if (membersResponse.status === 200) {
 			const data = await membersResponse.json()
 
 			this.setState({ members: data })
@@ -109,7 +109,7 @@ export default class MeetingsPage extends Component {
 
 		const meetingsResponse = await fetchMeetings()
 
-		if (meetingsResponse.status == 200) {
+		if (meetingsResponse.status === 200) {
 			const data = await meetingsResponse.json()
 
 			this.setState({ meetings: data })
@@ -238,7 +238,7 @@ export default class MeetingsPage extends Component {
 	deleteMeeting = async () => {
 		const response = await deleteMeeting(this.state.editId.toString())
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			this.closeEditMeetingModal()
 		}
 	}

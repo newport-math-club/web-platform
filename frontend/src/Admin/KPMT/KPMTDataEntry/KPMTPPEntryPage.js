@@ -68,7 +68,7 @@ export default class KPMTPPEntryPage extends Component {
 					// if the removed team is currently selected, oh whale :P
 					if (
 						this.state.selectedTeam &&
-						this.state.selectedTeam._id.toString() == data.payload.toString()
+						this.state.selectedTeam._id.toString() === data.payload.toString()
 					) {
 						NotificationManager.error(
 							'Your selected team has been deleted',
@@ -115,7 +115,7 @@ export default class KPMTPPEntryPage extends Component {
 
 		const response = await fetchKPMTTeams()
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			const data = await response.json()
 
 			this.setState({ teams: data })
@@ -181,7 +181,7 @@ export default class KPMTPPEntryPage extends Component {
 			'probability'
 		)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			NotificationManager.success(
 				'Score entered: ' +
 					score +

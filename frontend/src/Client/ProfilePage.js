@@ -51,7 +51,7 @@ export default class ProfilePage extends Component {
 
 		const response = await fetchProfile()
 
-		if (response.status != 200) {
+		if (response.status !== 200) {
 			window.location.href = '/login'
 			return
 		}
@@ -107,7 +107,7 @@ export default class ProfilePage extends Component {
 			newPassword
 		)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			this.closeChangePasswordModal()
 			this.setState({ error: 0 })
 		} else {
