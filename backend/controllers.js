@@ -1317,7 +1317,7 @@ exports.scoreIndividual = async (req, res) => {
 
 				// socket competitor change
 				const weightedCompetitor = await Competitors.findOne({
-					_id: _id
+					_id: targetIndiv._id
 				}).exec()
 				sockets.onCompetitorsChange('edit', {
 					_id: id,
