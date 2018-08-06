@@ -69,6 +69,7 @@ export default class KPMTAlgebraEntryPage extends Component {
 					})
 					// if the removed team is currently selected, oh whale :P
 					if (
+						this.state.selectedTeam &&
 						this.state.selectedTeam._id.toString() == data.payload.toString()
 					) {
 						this.setState({
@@ -89,8 +90,9 @@ export default class KPMTAlgebraEntryPage extends Component {
 							})
 
 							if (
+								this.state.selectedTeam &&
 								newTeams[i]._id.toString() ===
-								this.state.selectedTeam._id.toString()
+									this.state.selectedTeam._id.toString()
 							) {
 								var newSelectedTeam = { ...this.state.selectedTeam }
 								data.payload.data.forEach(change => {
@@ -120,6 +122,7 @@ export default class KPMTAlgebraEntryPage extends Component {
 						})
 
 						if (
+							this.state.selectedTeam &&
 							team._id.toString() === this.state.selectedTeam._id.toString()
 						) {
 							var newSelectedTeam = { ...this.state.selectedTeam }
