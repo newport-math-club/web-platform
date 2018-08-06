@@ -38,7 +38,7 @@ const SocketEventHandlers = {
 	subscribeToCompetitorsChange: cb => {
 		socket.on('competitorsChange', cb)
 	},
-	unsubscribeSchoolsChange: () => {
+	unsubscribeCompetitorsChange: () => {
 		socket.on('competitorsChange', () => {})
 	}
 }

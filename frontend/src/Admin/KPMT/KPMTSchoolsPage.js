@@ -17,6 +17,7 @@ import {
 	deactivateSchool
 } from '../../nmc-api'
 import moment from 'moment'
+import { NotificationContainer, NotificationManager } from 'react-notifications'
 
 Modal.setAppElement('#root')
 
@@ -53,11 +54,71 @@ export default class KPMTSchoolsPage extends Component {
 	}
 
 	componentWillUnmount() {
-		// TODO: handle kpmt school change socket unsub
+		SocketEventHandlers.unsubscribeSchoolsChange()
 	}
 
 	async componentDidMount() {
-		// TODO: handle kpmt school change socket sub
+		SocketEventHandlers.subscribeToSchoolsChange(data => {
+			console.log('received school change: ')
+			console.log(data)
+			switch (data.type) {
+				case 'add':
+					this.setState({
+						schools: this.state.schools.slice().concat(data.payload)
+					})
+					break
+				case 'remove':
+					this.setState({
+						schools: this.state.schools
+							.slice()
+							.filter(s => s._id.toString() !== data.payload.toString())
+					})
+
+					if (
+						this.state.selectedSchool &&
+						this.state.selectedSchool._id.toString() === data.payload.toString()
+					) {
+						NotificationManager.error(
+							'Your selected school has been deleted',
+							'School removed'
+						)
+
+						this.setState({
+							selectedSchool: null,
+							schoolDialogIsOpen: false
+						})
+					}
+					break
+				case 'edit':
+					var newSchools = this.state.schools.slice()
+
+					for (var i = 0; i < newSchools.length; i++) {
+						if (newSchools[i]._id.toString() === data.payload._id.toString()) {
+							data.payload.data.forEach(change => {
+								newSchools[i][change.field] = change.value
+							})
+
+							if (
+								this.state.selectedSchool &&
+								newSchools[i]._id.toString() ===
+									this.state.selectedSchool._id.toString()
+							) {
+								var newSelectedSchool = { ...this.state.selectedSchool }
+								data.payload.data.forEach(change => {
+									newSelectedSchool[change.field] = change.value
+								})
+
+								this.setState({
+									selectedSchool: newSelectedSchool
+								})
+							}
+							break
+						}
+					}
+					this.setState({ schools: newSchools })
+					break
+			}
+		})
 
 		const schoolsResponse = await fetchKPMTSchools()
 		if (schoolsResponse.status == 200) {
@@ -198,6 +259,7 @@ export default class KPMTSchoolsPage extends Component {
 						})}
 					/>
 				</div>
+				<NotificationContainer />
 			</div>
 		)
 	}

@@ -47,8 +47,6 @@ export default class KPMTAlgebraEntryPage extends Component {
 		SocketEventHandlers.unsubscribeToCompetitorsChange()
 
 		SocketEventHandlers.unsubscribeToTeamsChange()
-
-		SocketEventHandlers.unsubscribeToSchoolsChange()
 	}
 
 	async componentDidMount() {
@@ -69,8 +67,13 @@ export default class KPMTAlgebraEntryPage extends Component {
 					})
 					// if the removed team is currently selected, oh whale :P
 					if (
-						this.state.selectedTeam._id.toString() == data.payload.toString()
+						this.state.selectedTeam &&
+						this.state.selectedTeam._id.toString() === data.payload.toString()
 					) {
+						NotificationManager.error(
+							'Your selected team has been deleted',
+							'Team removed'
+						)
 						this.setState({
 							selectedTeam: null,
 							suggestionValue: '',
@@ -89,8 +92,9 @@ export default class KPMTAlgebraEntryPage extends Component {
 							})
 
 							if (
+								this.state.selectedTeam &&
 								newTeams[i]._id.toString() ===
-								this.state.selectedTeam._id.toString()
+									this.state.selectedTeam._id.toString()
 							) {
 								var newSelectedTeam = { ...this.state.selectedTeam }
 								data.payload.data.forEach(change => {
@@ -106,32 +110,6 @@ export default class KPMTAlgebraEntryPage extends Component {
 					}
 					this.setState({ teams: newTeams })
 					break
-			}
-		})
-
-		SocketEventHandlers.subscribeToSchoolsChange(data => {
-			if (data.type === 'edit') {
-				var newTeams = this.state.teams.slice()
-
-				newTeams.forEach(team => {
-					if (team.school._id.toString() === data.payload._id.toString()) {
-						data.payload.data.forEach(change => {
-							team.school[change.field] = change.value
-						})
-
-						if (
-							team._id.toString() === this.state.selectedTeam._id.toString()
-						) {
-							var newSelectedTeam = { ...this.state.selectedTeam }
-							data.payload.data.forEach(change => {
-								newSelectedTeam.school[change.field] = change.value
-							})
-							this.setState({ selectedTeam: newSelectedTeam })
-						}
-					}
-				})
-
-				this.setState({ teams: newTeams })
 			}
 		})
 
