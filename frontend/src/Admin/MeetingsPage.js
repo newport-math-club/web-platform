@@ -67,8 +67,6 @@ export default class MeetingsPage extends Component {
 
 	async componentDidMount() {
 		SocketEventHandlers.subscribeToMeetingsChange(data => {
-			console.log('received meeting change data')
-			console.log(data)
 			switch (data.type) {
 				case 'add':
 					this.setState({
@@ -96,6 +94,9 @@ export default class MeetingsPage extends Component {
 					}
 					this.setState({ meetings: newMeetings })
 					break
+				default:
+					console.log('erroneous socket data: ')
+					console.log(data)
 			}
 		})
 

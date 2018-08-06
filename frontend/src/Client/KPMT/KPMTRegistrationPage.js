@@ -73,6 +73,7 @@ export default class KPMTRegistrationPage extends Component {
 						overflowY: 'auto'
 					}}>
 					<img
+						alt="kpmt-banner"
 						style={{ width: '100%' }}
 						src="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmtbanner.png"
 					/>

@@ -104,7 +104,7 @@ export default class KPMTManageTeamsPage extends Component {
 
 			team.push({
 				name: name,
-				grade: parseInt(grade)
+				grade: parseInt(grade, 10)
 			})
 		})
 
@@ -135,7 +135,7 @@ export default class KPMTManageTeamsPage extends Component {
 
 			team.push({
 				name: name,
-				grade: parseInt(grade)
+				grade: parseInt(grade, 10)
 			})
 		})
 

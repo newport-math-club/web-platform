@@ -263,8 +263,9 @@ class NavItem extends Component {
 
 	render() {
 		// check if there are subitems
+		var item
 		if (this.props.item instanceof Array) {
-			var item = this.props.item.slice()
+			item = this.props.item.slice()
 			var mainItem = item.splice(0, 1)[0]
 			var subItems = item.map(subItem => {
 				return (
@@ -311,7 +312,7 @@ class NavItem extends Component {
 				</div>
 			)
 		} else {
-			var item = this.props.item
+			item = this.props.item
 			var style = {}
 
 			if (item.end) {
