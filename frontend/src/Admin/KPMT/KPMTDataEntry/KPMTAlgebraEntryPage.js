@@ -96,7 +96,10 @@ export default class KPMTAlgebraEntryPage extends Component {
 								data.payload.data.forEach(change => {
 									newSelectedTeam[change.field] = change.value
 								})
-								this.setState({ selectedTeam: newSelectedTeam })
+								this.setState({
+									selectedTeam: newSelectedTeam,
+									suggestionValue: newSelectedTeam.number.toString()
+								})
 							}
 							break
 						}
