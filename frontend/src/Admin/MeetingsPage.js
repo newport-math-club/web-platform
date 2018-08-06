@@ -18,7 +18,6 @@ import {
 	deleteMeeting
 } from '../nmc-api'
 import SocketEventHandlers from '../Sockets'
-import { pipeline } from 'stream'
 
 Modal.setAppElement('#root')
 

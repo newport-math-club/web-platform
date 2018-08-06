@@ -3,7 +3,6 @@ import Modal from 'react-modal'
 import {
 	fetchSchoolProfile,
 	addIndiv,
-	editTeam,
 	editIndiv,
 	removeIndiv
 } from '../../../nmc-api'

@@ -1,18 +1,6 @@
 import React, { Component } from 'react'
-import {
-	Nav,
-	Textbox,
-	Link,
-	getAdminNavItems,
-	Button,
-	ToggleButton
-} from '../../../Components'
-import {
-	fetchKPMTCompetitors,
-	scoreIndiv,
-	scoreBlock,
-	scoreMental
-} from '../../../nmc-api'
+import { Nav, Textbox, Link, getAdminNavItems } from '../../../Components'
+import { fetchKPMTCompetitors, scoreMental } from '../../../nmc-api'
 import Autosuggest from 'react-autosuggest'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import 'react-notifications/lib/notifications.css'

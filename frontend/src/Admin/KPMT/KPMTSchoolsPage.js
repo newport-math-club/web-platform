@@ -4,7 +4,6 @@ import {
 	getAdminNavItems,
 	FilterBar,
 	Button,
-	Textbox,
 	Table,
 	ToggleButton
 } from '../../Components'

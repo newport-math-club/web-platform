@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Nav, getNavItems, Textbox, Button } from '../Components'
 import { fetchProfile, changePassword } from '../nmc-api'
-import SocketEventHandlers, { Sockets } from '../Sockets'
+import SocketEventHandlers from '../Sockets'
 import Modal from 'react-modal'
 
 Modal.setAppElement('#root')

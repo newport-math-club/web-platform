@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Nav, getNavItems, Textbox, Button } from '../Components'
+import { Nav, getNavItems } from '../Components'
 import { logout } from '../nmc-api'
 
 export default class LogoutPage extends Component {

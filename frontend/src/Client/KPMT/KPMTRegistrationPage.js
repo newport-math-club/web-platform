@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Nav, getNavItems, Link, Textbox, Button } from '../../Components'
+import { Nav, getNavItems, Textbox, Button } from '../../Components'
 import { registerKPMT } from '../../nmc-api'
 
 export default class KPMTRegistrationPage extends Component {
