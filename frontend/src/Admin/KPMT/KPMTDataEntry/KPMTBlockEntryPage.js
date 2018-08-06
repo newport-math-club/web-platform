@@ -1,13 +1,6 @@
 import React, { Component } from 'react'
-import {
-	Nav,
-	Textbox,
-	Link,
-	getAdminNavItems,
-	Button,
-	ToggleButton
-} from '../../../Components'
-import { fetchKPMTCompetitors, scoreIndiv, scoreBlock } from '../../../nmc-api'
+import { Nav, Textbox, Link, getAdminNavItems } from '../../../Components'
+import { fetchKPMTCompetitors, scoreBlock } from '../../../nmc-api'
 import Autosuggest from 'react-autosuggest'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import 'react-notifications/lib/notifications.css'
@@ -106,7 +99,7 @@ export default class KPMTBlockEntryPage extends Component {
 
 		const response = await fetchKPMTCompetitors()
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			const data = await response.json()
 
 			this.setState({ individuals: data })
@@ -188,7 +181,7 @@ export default class KPMTBlockEntryPage extends Component {
 			multiplier * score
 		)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			NotificationManager.success(
 				'Score entered: ' +
 					score +

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Nav, getNavItems, OfficerPane, Bio } from '../../Components'
+import { Nav, getNavItems } from '../../Components'
 
 export default class KPMTAboutPage extends Component {
 	render() {
@@ -18,6 +18,7 @@ export default class KPMTAboutPage extends Component {
 						overflowY: 'auto'
 					}}>
 					<img
+						alt="kpmt-banner"
 						style={{ width: '100%' }}
 						src="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmtbanner.png"
 					/>

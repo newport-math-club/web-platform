@@ -18,7 +18,6 @@ import {
 	deleteMeeting
 } from '../nmc-api'
 import SocketEventHandlers from '../Sockets'
-import { pipeline } from 'stream'
 
 Modal.setAppElement('#root')
 
@@ -27,7 +26,7 @@ const customStyles = {
 		top: '50%',
 		left: '50%',
 		width: '40em',
-		height: '40em',
+		height: '42em',
 		right: 'auto',
 		bottom: 'auto',
 		paddingLeft: '2em',
@@ -68,8 +67,6 @@ export default class MeetingsPage extends Component {
 
 	async componentDidMount() {
 		SocketEventHandlers.subscribeToMeetingsChange(data => {
-			console.log('received meeting change data')
-			console.log(data)
 			switch (data.type) {
 				case 'add':
 					this.setState({
@@ -97,11 +94,14 @@ export default class MeetingsPage extends Component {
 					}
 					this.setState({ meetings: newMeetings })
 					break
+				default:
+					console.log('erroneous socket data: ')
+					console.log(data)
 			}
 		})
 
 		const membersResponse = await fetchMembers()
-		if (membersResponse.status == 200) {
+		if (membersResponse.status === 200) {
 			const data = await membersResponse.json()
 
 			this.setState({ members: data })
@@ -109,7 +109,7 @@ export default class MeetingsPage extends Component {
 
 		const meetingsResponse = await fetchMeetings()
 
-		if (meetingsResponse.status == 200) {
+		if (meetingsResponse.status === 200) {
 			const data = await meetingsResponse.json()
 
 			this.setState({ meetings: data })
@@ -126,7 +126,8 @@ export default class MeetingsPage extends Component {
 		this.setState({
 			newMeetingDialogIsOpen: false,
 			addedMembers: [],
-			suggestionValue: ''
+			suggestionValue: '',
+			error: 0
 		})
 	}
 
@@ -152,7 +153,8 @@ export default class MeetingsPage extends Component {
 		var description = this.descriptionTextbox.current.getText()
 
 		if (!piPoints || piPoints.isOnlyWhitespace() || isNaN(piPoints)) {
-			// TODO:
+			this.setState({ error: 1 })
+			return
 		}
 
 		if (
@@ -160,7 +162,8 @@ export default class MeetingsPage extends Component {
 			!this.state.addedMembers.length ||
 			this.state.addedMembers.length < 1
 		) {
-			// TODO:
+			this.setState({ error: 2 })
+			return
 		}
 
 		const response = await newMeeting(
@@ -170,8 +173,12 @@ export default class MeetingsPage extends Component {
 			new Date()
 		)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			this.closeNewMeetingModal()
+			this.setState({ error: 0 })
+		} else {
+			if (response.status === 401) window.location.href = '/login'
+			else this.setState({ error: response.status })
 		}
 	}
 
@@ -181,7 +188,7 @@ export default class MeetingsPage extends Component {
 
 		console.log(this.state.editId)
 		if (!piPoints || isNaN(piPoints)) {
-			// TODO:
+			this.setState({ error: 1 })
 		}
 
 		if (
@@ -189,7 +196,7 @@ export default class MeetingsPage extends Component {
 			!this.state.addedMembers.length ||
 			this.state.addedMembers.length < 1
 		) {
-			// TODO:
+			this.setState({ error: 2 })
 		}
 
 		const response = await editMeeting(
@@ -200,8 +207,12 @@ export default class MeetingsPage extends Component {
 			this.state.editDate
 		)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			this.closeEditMeetingModal()
+			this.setState({ error: 0 })
+		} else {
+			if (response.status === 401) window.location.href = '/login'
+			else this.setState({ error: response.status })
 		}
 	}
 
@@ -213,7 +224,8 @@ export default class MeetingsPage extends Component {
 			editId: null,
 			editDate: null,
 			editDescription: null,
-			editPiPoints: null
+			editPiPoints: null,
+			error: 0
 		})
 	}
 
@@ -226,7 +238,7 @@ export default class MeetingsPage extends Component {
 	deleteMeeting = async () => {
 		const response = await deleteMeeting(this.state.editId.toString())
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			this.closeEditMeetingModal()
 		}
 	}
@@ -362,6 +374,15 @@ export default class MeetingsPage extends Component {
 							</div>
 						</div>
 					</div>
+					<div style={{ textAlign: 'center' }}>
+						{(this.state.error === 1 ||
+							this.state.error === 2 ||
+							this.state.error === 400) && (
+							<h5 style={{ marginTop: '8px' }}>
+								invalid inputs, please try again
+							</h5>
+						)}
+					</div>
 					<div style={{ bottom: '1em', left: '1em', position: 'absolute' }}>
 						<Button onClick={this.deleteMeeting} text="delete" />
 					</div>
@@ -445,6 +466,15 @@ export default class MeetingsPage extends Component {
 								</div>
 							</div>
 						</div>
+					</div>
+					<div style={{ textAlign: 'center' }}>
+						{(this.state.error === 1 ||
+							this.state.error === 2 ||
+							this.state.error === 400) && (
+							<h5 style={{ marginTop: '8px' }}>
+								invalid inputs, please try again
+							</h5>
+						)}
 					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeNewMeetingModal} text="close" />

@@ -3,7 +3,6 @@ import Modal from 'react-modal'
 import {
 	fetchSchoolProfile,
 	addIndiv,
-	editTeam,
 	editIndiv,
 	removeIndiv
 } from '../../../nmc-api'
@@ -68,7 +67,7 @@ export default class KPMTManageIndividualsPage extends Component {
 
 	async componentDidMount() {
 		const profileResponse = await fetchSchoolProfile()
-		if (profileResponse.status == 200) {
+		if (profileResponse.status === 200) {
 			const data = await profileResponse.json()
 
 			var competitors = data.competitors
@@ -115,7 +114,7 @@ export default class KPMTManageIndividualsPage extends Component {
 
 		const response = await addIndiv(name, grade)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			// too lazy to use sockets to insert the new team
 			// just refresh the page lmao hacky but works
 			window.location.href = '/kpmt/coach/individuals'
@@ -139,7 +138,7 @@ export default class KPMTManageIndividualsPage extends Component {
 			grade
 		)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			// too lazy to use sockets to insert the new team
 			// just refresh the page lmao hacky but works
 			window.location.href = '/kpmt/coach/individuals'
@@ -151,7 +150,7 @@ export default class KPMTManageIndividualsPage extends Component {
 	deleteIndiv = async () => {
 		const response = await removeIndiv(this.state.selectedIndiv._id.toString())
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			window.location.href = '/kpmt/coach/individuals'
 		} else {
 			this.setState({ error: response.status })
@@ -209,12 +208,12 @@ export default class KPMTManageIndividualsPage extends Component {
 					</h5>
 					<div style={{ marginTop: '2em' }}>{newMemberTextboxes}</div>
 					<div style={{ textAlign: 'center' }}>
-						{(this.state.error == 1 || this.state.error == 400) && (
+						{(this.state.error === 1 || this.state.error === 400) && (
 							<h5 style={{ marginTop: '8px' }}>
 								invalid inputs, please try again
 							</h5>
 						)}
-						{this.state.error == 403 && (
+						{this.state.error === 403 && (
 							<h5 style={{ marginTop: '8px' }}>
 								changes to teams and individuals are not allowed at this time!
 							</h5>
@@ -232,12 +231,12 @@ export default class KPMTManageIndividualsPage extends Component {
 					<h2>Edit Individual</h2>
 					<div style={{ marginTop: '2em' }}>{memberTextboxes}</div>
 					<div style={{ textAlign: 'center' }}>
-						{(this.state.error == 1 || this.state.error == 400) && (
+						{(this.state.error === 1 || this.state.error === 400) && (
 							<h5 style={{ marginTop: '8px' }}>
 								invalid inputs, please try again
 							</h5>
 						)}
-						{this.state.error == 403 && (
+						{this.state.error === 403 && (
 							<h5 style={{ marginTop: '8px' }}>
 								changes to teams and individuals are not allowed at this time!
 							</h5>

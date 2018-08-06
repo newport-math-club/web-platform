@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Nav, getNavItems, OfficerPane, Bio } from '../Components'
+import { Nav, getNavItems } from '../Components'
 
 export default class LostPage extends Component {
 	render() {

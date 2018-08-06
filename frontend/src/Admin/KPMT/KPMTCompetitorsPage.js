@@ -4,17 +4,11 @@ import {
 	getAdminNavItems,
 	FilterBar,
 	Button,
-	Textbox,
-	Table,
-	ToggleButton
+	Table
 } from '../../Components'
 import Modal from 'react-modal'
 import SocketEventHandlers from '../../Sockets'
-import {
-	fetchKPMTSchools,
-	fetchKPMTTeams,
-	fetchKPMTCompetitors
-} from '../../nmc-api'
+import { fetchKPMTCompetitors } from '../../nmc-api'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 
 Modal.setAppElement('#root')
@@ -117,7 +111,7 @@ export default class KPMTCompetitorsPage extends Component {
 
 		const competitorsResponse = await fetchKPMTCompetitors()
 
-		if (competitorsResponse.status == 200) {
+		if (competitorsResponse.status === 200) {
 			const data = await competitorsResponse.json()
 			this.setState({ competitors: data })
 		}

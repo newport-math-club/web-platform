@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Nav, getNavItems, Link, Textbox, Button } from '../../Components'
+import { Nav, getNavItems, Textbox, Button } from '../../Components'
 import { loginKPMT } from '../../nmc-api'
 
 export default class KPMTLoginPage extends Component {
@@ -26,10 +26,9 @@ export default class KPMTLoginPage extends Component {
 			return
 		}
 
-		// TODO: handle login logic, if error, put http status code into this.state.error
 		const response = await loginKPMT(email, password)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			window.location.href = '/kpmt/coach/dashboard'
 		} else {
 			this.setState({ error: response.status })
@@ -52,6 +51,7 @@ export default class KPMTLoginPage extends Component {
 						overflowY: 'auto'
 					}}>
 					<img
+						alt="kpmt-banner"
 						style={{ width: '100%' }}
 						src="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmtbanner.png"
 					/>
@@ -75,17 +75,17 @@ export default class KPMTLoginPage extends Component {
 						placeholder="password"
 					/>
 					<div style={{ textAlign: 'center' }}>
-						{(this.state.error == 1 || this.state.error == 400) && (
+						{(this.state.error === 1 || this.state.error === 400) && (
 							<h5 style={{ marginTop: '8px' }}>
 								invalid inputs, please try again
 							</h5>
 						)}
-						{this.state.error == 403 && (
+						{this.state.error === 403 && (
 							<h5 style={{ marginTop: '8px' }}>
 								your account has not been activated yet!
 							</h5>
 						)}
-						{(this.state.error == 404 || this.state.error == 401) && (
+						{(this.state.error === 404 || this.state.error === 401) && (
 							<h5 style={{ marginTop: '8px' }}>invalid credentials</h5>
 						)}
 					</div>

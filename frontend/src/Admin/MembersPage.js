@@ -50,7 +50,7 @@ export default class MembersPage extends Component {
 
 	async componentDidMount() {
 		const response = await fetchMembers()
-		if (response.status == 200) {
+		if (response.status === 200) {
 			const data = await response.json()
 
 			this.setState({ members: data })
@@ -78,7 +78,7 @@ export default class MembersPage extends Component {
 					for (var i = 0; i < newMembers.length; i++) {
 						if (newMembers[i]._id.toString() === data.payload._id.toString()) {
 							data.payload.data.forEach(change => {
-								if (change.field == 'piPoints')
+								if (change.field === 'piPoints')
 									newMembers[i].piPoints += parseInt(change.value)
 								else newMembers[i][change.field] = change.value
 							})
@@ -158,7 +158,7 @@ export default class MembersPage extends Component {
 
 		const response = await newMember(name, email, year, admin)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			this.closeNewMemberModal()
 		}
 	}
@@ -201,7 +201,7 @@ export default class MembersPage extends Component {
 			admin
 		)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			this.closeEditMemberModal()
 		}
 	}
@@ -209,7 +209,7 @@ export default class MembersPage extends Component {
 	deleteMember = async () => {
 		const response = await deleteMember(this.state.editId.toString())
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			this.closeEditMemberModal()
 		}
 	}
