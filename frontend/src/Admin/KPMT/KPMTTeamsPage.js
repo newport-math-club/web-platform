@@ -11,7 +11,7 @@ import {
 import Modal from 'react-modal'
 import SocketEventHandlers from '../../Sockets'
 import { fetchKPMTSchools, fetchKPMTTeams } from '../../nmc-api'
-import moment from 'moment'
+import { NotificationContainer, NotificationManager } from 'react-notifications'
 
 Modal.setAppElement('#root')
 
@@ -46,11 +46,67 @@ export default class KPMTTeamsPage extends Component {
 	}
 
 	componentWillUnmount() {
-		// TODO: handle kpmt team change socket unsub
+		SocketEventHandlers.unsubscribeTeamsChange()
 	}
 
 	async componentDidMount() {
-		// TODO: handle kpmt team change socket sub
+		SocketEventHandlers.subscribeToTeamsChange(data => {
+			switch (data.type) {
+				case 'add':
+					this.setState({
+						teams: this.state.teams.slice().concat(data.payload)
+					})
+					break
+				case 'remove':
+					this.setState({
+						teams: this.state.teams
+							.slice()
+							.filter(t => t._id.toString() !== data.payload.toString())
+					})
+					// if the removed team is currently selected, oh whale :P
+					if (
+						this.state.selectedTeam &&
+						this.state.selectedTeam._id.toString() === data.payload.toString()
+					) {
+						NotificationManager.error(
+							'Your selected team has been deleted',
+							'Team removed'
+						)
+						this.setState({
+							selectedTeam: null,
+							teamDialogIsOpen: false
+						})
+					}
+					break
+				case 'edit':
+					var newTeams = this.state.teams.slice()
+
+					for (var i = 0; i < newTeams.length; i++) {
+						if (newTeams[i]._id.toString() === data.payload._id.toString()) {
+							data.payload.data.forEach(change => {
+								newTeams[i][change.field] = change.value
+							})
+
+							if (
+								this.state.selectedTeam &&
+								newTeams[i]._id.toString() ===
+									this.state.selectedTeam._id.toString()
+							) {
+								var newSelectedTeam = { ...this.state.selectedTeam }
+								data.payload.data.forEach(change => {
+									newSelectedTeam[change.field] = change.value
+								})
+								this.setState({
+									selectedTeam: newSelectedTeam
+								})
+							}
+							break
+						}
+					}
+					this.setState({ teams: newTeams })
+					break
+			}
+		})
 
 		const teamsResponse = await fetchKPMTTeams()
 		if (teamsResponse.status == 200) {
@@ -145,6 +201,7 @@ export default class KPMTTeamsPage extends Component {
 						})}
 					/>
 				</div>
+				<NotificationContainer />
 			</div>
 		)
 	}

@@ -70,6 +70,10 @@ export default class KPMTGeometryEntryPage extends Component {
 						this.state.selectedTeam &&
 						this.state.selectedTeam._id.toString() == data.payload.toString()
 					) {
+						NotificationManager.error(
+							'Your selected team has been deleted',
+							'Team removed'
+						)
 						this.setState({
 							selectedTeam: null,
 							suggestionValue: '',

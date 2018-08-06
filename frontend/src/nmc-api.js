@@ -205,7 +205,7 @@ exports.fetchKPMTCompetitors = () => {
 }
 
 exports.deleteKPMTSchool = id => {
-	return fetch(BASE_URL + '/api/members/removeSchool', {
+	return fetch(BASE_URL + '/api/kpmt/removeSchool', {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',

@@ -15,7 +15,7 @@ import {
 	fetchKPMTTeams,
 	fetchKPMTCompetitors
 } from '../../nmc-api'
-import moment from 'moment'
+import { NotificationContainer, NotificationManager } from 'react-notifications'
 
 Modal.setAppElement('#root')
 
@@ -50,11 +50,70 @@ export default class KPMTCompetitorsPage extends Component {
 	}
 
 	componentWillUnmount() {
-		// TODO: handle kpmt competitor change socket unsub
+		SocketEventHandlers.unsubscribeCompetitorsChange()
 	}
 
 	async componentDidMount() {
-		// TODO: handle kpmt competitor change socket sub
+		SocketEventHandlers.subscribeToCompetitorsChange(data => {
+			switch (data.type) {
+				case 'add':
+					this.setState({
+						competitors: this.state.competitors.slice().concat(data.payload)
+					})
+					break
+				case 'remove':
+					this.setState({
+						competitors: this.state.competitors
+							.slice()
+							.filter(c => c._id.toString() !== data.payload.toString())
+					})
+					// if the removed competitor is currently selected, oh whale :P
+					if (
+						this.state.selectedCompetitor &&
+						this.state.selectedCompetitor._id.toString() ===
+							data.payload.toString()
+					) {
+						NotificationManager.error(
+							'Your selected competitor has been deleted',
+							'Competitor removed'
+						)
+						this.setState({
+							selectedCompetitor: null,
+							competitorDialogIsOpen: false
+						})
+					}
+					break
+				case 'edit':
+					var newCompetitors = this.state.competitors.slice()
+
+					for (var i = 0; i < newCompetitors.length; i++) {
+						if (
+							newCompetitors[i]._id.toString() === data.payload._id.toString()
+						) {
+							data.payload.data.forEach(change => {
+								newCompetitors[i][change.field] = change.value
+							})
+
+							if (
+								this.state.selectedCompetitor &&
+								newCompetitors[i]._id.toString() ===
+									this.state.selectedCompetitor._id.toString()
+							) {
+								var newSelectedCompetitor = { ...this.state.selectedCompetitor }
+								data.payload.data.forEach(change => {
+									newSelectedCompetitor[change.field] = change.value
+								})
+								this.setState({
+									selectedCompetitor: newSelectedCompetitor
+								})
+							}
+							break
+						}
+					}
+					this.setState({ competitors: newCompetitors })
+					break
+			}
+		})
 
 		const competitorsResponse = await fetchKPMTCompetitors()
 
@@ -97,7 +156,9 @@ export default class KPMTCompetitorsPage extends Component {
 					<h3>Name: {selectedCompetitor.name}</h3>
 					<h3>Grade: {selectedCompetitor.grade}</h3>
 					<h3>School: {selectedCompetitor.school.name}</h3>
-					<h3>Team: {selectedCompetitor.team.number}</h3>
+					{selectedCompetitor.team && (
+						<h3>Team: {selectedCompetitor.team.number}</h3>
+					)}
 					<h3>
 						Individual:{' '}
 						{selectedCompetitor.scores.individual +
@@ -150,6 +211,7 @@ export default class KPMTCompetitorsPage extends Component {
 						})}
 					/>
 				</div>
+				<NotificationContainer />
 			</div>
 		)
 	}
