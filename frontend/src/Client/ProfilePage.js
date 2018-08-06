@@ -77,7 +77,8 @@ export default class ProfilePage extends Component {
 		this.setState({
 			changePasswordModalOpen: false,
 			password: '',
-			newPassword: ''
+			newPassword: '',
+			error: 0
 		})
 	}
 
@@ -91,12 +92,12 @@ export default class ProfilePage extends Component {
 			newPasswordRepeat.isOnlyWhitespace() ||
 			newPassword.isOnlyWhitespace()
 		) {
-			// TODO:
+			this.setState({ error: 1 })
 			return
 		}
 
 		if (newPassword !== newPasswordRepeat) {
-			// TODO:
+			this.setState({ error: 2 })
 			return
 		}
 
@@ -108,6 +109,10 @@ export default class ProfilePage extends Component {
 
 		if (response.status == 200) {
 			this.closeChangePasswordModal()
+			this.setState({ error: 0 })
+		} else {
+			if (response.status === 401) window.location.href = '/login'
+			else this.setState({ error: response.status })
 		}
 	}
 
@@ -139,6 +144,21 @@ export default class ProfilePage extends Component {
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeChangePasswordModal} text="cancel" />
 						<Button onClick={this.changePassword} text="save" />
+					</div>
+					<div style={{ textAlign: 'center' }}>
+						{(this.state.error === 1 || this.state.error === 400) && (
+							<h5 style={{ marginTop: '8px' }}>
+								invalid inputs, please try again
+							</h5>
+						)}
+						{this.state.error === 2 && (
+							<h5 style={{ marginTop: '8px' }}>new passwords don't match</h5>
+						)}
+						{this.state.error === 500 && (
+							<h5 style={{ marginTop: '8px' }}>
+								something went wrong, please try again
+							</h5>
+						)}
 					</div>
 				</Modal>
 				<Nav admin={false} items={getNavItems(4, 0, firstName)} />

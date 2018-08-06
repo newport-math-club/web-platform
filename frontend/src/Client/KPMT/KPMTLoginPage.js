@@ -26,7 +26,6 @@ export default class KPMTLoginPage extends Component {
 			return
 		}
 
-		// TODO: handle login logic, if error, put http status code into this.state.error
 		const response = await loginKPMT(email, password)
 
 		if (response.status == 200) {

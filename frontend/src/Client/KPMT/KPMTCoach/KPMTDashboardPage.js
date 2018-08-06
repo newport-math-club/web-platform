@@ -39,7 +39,8 @@ export default class KPMTDashboardPage extends Component {
 
 				changePasswordModalOpen: false,
 				password: '',
-				newPassword: ''
+				newPassword: '',
+				error: 0
 			}
 		}
 		this.oldPasswordTextbox = React.createRef()
@@ -57,7 +58,8 @@ export default class KPMTDashboardPage extends Component {
 		this.setState({
 			changePasswordModalOpen: false,
 			password: '',
-			newPassword: ''
+			newPassword: '',
+			error: 0
 		})
 	}
 
@@ -71,12 +73,12 @@ export default class KPMTDashboardPage extends Component {
 			newPasswordRepeat.isOnlyWhitespace() ||
 			newPassword.isOnlyWhitespace()
 		) {
-			// TODO:
+			this.setState({ error: 1 })
 			return
 		}
 
 		if (newPassword !== newPasswordRepeat) {
-			// TODO:
+			this.setState({ error: 2 })
 			return
 		}
 
@@ -88,8 +90,10 @@ export default class KPMTDashboardPage extends Component {
 
 		if (response.status == 200) {
 			this.closeChangePasswordModal()
+			this.setState({ error: 0 })
 		} else {
-			// TODO:
+			if (response.status === 401) window.location.href = '/kpmt/login'
+			else this.setState({ error: response.status })
 		}
 	}
 
@@ -134,7 +138,21 @@ export default class KPMTDashboardPage extends Component {
 						placeholder="new password again"
 						type="password"
 					/>
-
+					<div style={{ textAlign: 'center' }}>
+						{(this.state.error === 1 || this.state.error === 400) && (
+							<h5 style={{ marginTop: '8px' }}>
+								invalid inputs, please try again
+							</h5>
+						)}
+						{this.state.error === 2 && (
+							<h5 style={{ marginTop: '8px' }}>new passwords don't match</h5>
+						)}
+						{this.state.error === 500 && (
+							<h5 style={{ marginTop: '8px' }}>
+								something went wrong, please try again
+							</h5>
+						)}
+					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeChangePasswordModal} text="cancel" />
 						<Button onClick={this.changePassword} text="save" />
