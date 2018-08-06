@@ -19,6 +19,7 @@ import {
 import Autosuggest from 'react-autosuggest'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import 'react-notifications/lib/notifications.css'
+import SocketEventHandlers from '../../../Sockets'
 
 const renderSuggestion = suggestion => (
 	<div style={{ display: 'inline', cursor: 'pointer' }}>{suggestion.name}</div>
@@ -42,7 +43,75 @@ export default class KPMTIndividualEntryPage extends Component {
 		this.indivAutosuggest = React.createRef()
 	}
 
+	componentWillUnmount() {
+		SocketEventHandlers.unsubscribeCompetitorsChange()
+	}
+
 	async componentDidMount() {
+		SocketEventHandlers.subscribeToCompetitorsChange(data => {
+			switch (data.type) {
+				case 'add':
+					this.setState({
+						individuals: this.state.individuals.slice().concat(data.payload)
+					})
+					break
+				case 'remove':
+					this.setState({
+						individuals: this.state.individuals
+							.slice()
+							.filter(i => i._id.toString() !== data.payload.toString())
+					})
+
+					if (
+						this.state.selectedIndividual &&
+						this.state.selectedIndividual._id.toString() ===
+							data.payload.toString()
+					) {
+						NotificationManager.error(
+							'Your selected competitor has been deleted',
+							'Individual removed'
+						)
+						this.setState({
+							selectedIndividual: null,
+							suggestionValue: '',
+							suggestions: [],
+							highlightedSuggestion: null
+						})
+					}
+					break
+				case 'edit':
+					var newIndividuals = this.state.individuals.slice()
+
+					for (var i = 0; i < newIndividuals.length; i++) {
+						if (
+							newIndividuals[i]._id.toString() === data.payload._id.toString()
+						) {
+							data.payload.data.forEach(change => {
+								newIndividuals[i][change.field] = change.value
+							})
+
+							if (
+								this.state.selectedIndividual &&
+								newIndividuals[i]._id.toString() ===
+									this.state.selectedIndividual._id.toString()
+							) {
+								var newSelectedIndividual = { ...this.state.selectedIndividual }
+								data.payload.data.forEach(change => {
+									newSelectedIndividual[change.field] = change.value
+								})
+								this.setState({
+									selectedIndividual: newSelectedIndividual,
+									suggestionValue: newSelectedIndividual.name
+								})
+							}
+							break
+						}
+					}
+					this.setState({ individuals: newIndividuals })
+					break
+			}
+		})
+
 		const response = await fetchKPMTCompetitors()
 
 		if (response.status == 200) {

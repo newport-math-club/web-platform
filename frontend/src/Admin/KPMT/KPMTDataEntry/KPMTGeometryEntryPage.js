@@ -47,8 +47,6 @@ export default class KPMTGeometryEntryPage extends Component {
 		SocketEventHandlers.unsubscribeToCompetitorsChange()
 
 		SocketEventHandlers.unsubscribeToTeamsChange()
-
-		SocketEventHandlers.unsubscribeToSchoolsChange()
 	}
 
 	async componentDidMount() {
@@ -108,33 +106,6 @@ export default class KPMTGeometryEntryPage extends Component {
 					}
 					this.setState({ teams: newTeams })
 					break
-			}
-		})
-
-		SocketEventHandlers.subscribeToSchoolsChange(data => {
-			if (data.type === 'edit') {
-				var newTeams = this.state.teams.slice()
-
-				newTeams.forEach(team => {
-					if (team.school._id.toString() === data.payload._id.toString()) {
-						data.payload.data.forEach(change => {
-							team.school[change.field] = change.value
-						})
-
-						if (
-							this.state.selectedTeam &&
-							team._id.toString() === this.state.selectedTeam._id.toString()
-						) {
-							var newSelectedTeam = { ...this.state.selectedTeam }
-							data.payload.data.forEach(change => {
-								newSelectedTeam.school[change.field] = change.value
-							})
-							this.setState({ selectedTeam: newSelectedTeam })
-						}
-					}
-				})
-
-				this.setState({ teams: newTeams })
 			}
 		})
 
