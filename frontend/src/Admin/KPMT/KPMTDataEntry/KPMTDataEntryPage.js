@@ -5,7 +5,8 @@ import {
 	getLockStatus,
 	coachLock,
 	regLock,
-	wipeKPMT
+	wipeKPMT,
+	fetchKPMTCompetitors
 } from '../../../nmc-api'
 
 const individualLinksData = [
@@ -37,6 +38,15 @@ const teamLinks = teamLinksData.map(linkData => {
 })
 
 export default class KPMTDataEntryPage extends Component {
+	async componentDidMount() {
+		const response = await fetchKPMTCompetitors()
+
+		if (response.status !== 200) {
+			window.location.href = '/login'
+			return
+		}
+	}
+
 	render() {
 		return (
 			<div className="fullheight">

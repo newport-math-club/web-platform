@@ -48,6 +48,16 @@ export default class KPMTCompetitorsPage extends Component {
 	}
 
 	async componentDidMount() {
+		const competitorsResponse = await fetchKPMTCompetitors()
+
+		if (competitorsResponse.status === 200) {
+			const data = await competitorsResponse.json()
+			this.setState({ competitors: data })
+		} else {
+			window.location.href = '/login'
+			return
+		}
+
 		SocketEventHandlers.subscribeToCompetitorsChange(data => {
 			switch (data.type) {
 				case 'add':
@@ -108,13 +118,6 @@ export default class KPMTCompetitorsPage extends Component {
 					break
 			}
 		})
-
-		const competitorsResponse = await fetchKPMTCompetitors()
-
-		if (competitorsResponse.status === 200) {
-			const data = await competitorsResponse.json()
-			this.setState({ competitors: data })
-		}
 	}
 
 	openCompetitorModal = competitorId => {

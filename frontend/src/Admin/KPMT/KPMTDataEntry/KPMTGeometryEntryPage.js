@@ -36,6 +36,17 @@ export default class KPMTGeometryEntryPage extends Component {
 	}
 
 	async componentDidMount() {
+		const response = await fetchKPMTTeams()
+
+		if (response.status === 200) {
+			const data = await response.json()
+
+			this.setState({ teams: data })
+		} else {
+			window.location.href = '/login'
+			return
+		}
+
 		SocketEventHandlers.subscribeToTeamsChange(data => {
 			console.log('team edit received: ')
 			console.log(data)
@@ -98,14 +109,6 @@ export default class KPMTGeometryEntryPage extends Component {
 					break
 			}
 		})
-
-		const response = await fetchKPMTTeams()
-
-		if (response.status === 200) {
-			const data = await response.json()
-
-			this.setState({ teams: data })
-		}
 	}
 
 	onSuggestionsFetchRequested = value => {
@@ -281,7 +284,9 @@ export default class KPMTGeometryEntryPage extends Component {
 							<div style={{ marginTop: '4em' }}>
 								<h2>{selectedTeam.number}</h2>
 								<h3>{selectedTeam.school.name}</h3>
-								{selectedTeam.members.map(m => <h5>{m.name}</h5>)}
+								{selectedTeam.members.map(m => (
+									<h5>{m.name}</h5>
+								))}
 								<br />
 								<h2>Scores</h2>
 								<h3>Algebra: {selectedTeam.scores.algebra}</h3>

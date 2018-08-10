@@ -33,6 +33,17 @@ export default class KPMTBlockEntryPage extends Component {
 	}
 
 	async componentDidMount() {
+		const response = await fetchKPMTCompetitors()
+
+		if (response.status === 200) {
+			const data = await response.json()
+
+			this.setState({ individuals: data })
+		} else {
+			window.location.href = '/login'
+			return
+		}
+
 		SocketEventHandlers.subscribeToCompetitorsChange(data => {
 			switch (data.type) {
 				case 'add':
@@ -96,14 +107,6 @@ export default class KPMTBlockEntryPage extends Component {
 					break
 			}
 		})
-
-		const response = await fetchKPMTCompetitors()
-
-		if (response.status === 200) {
-			const data = await response.json()
-
-			this.setState({ individuals: data })
-		}
 	}
 
 	onSuggestionsFetchRequested = value => {
@@ -311,9 +314,8 @@ export default class KPMTBlockEntryPage extends Component {
 								<br />
 								<h2>Scores</h2>
 								<h3>
-									Individual: {selectedIndividual.scores.individual}/{
-										selectedIndividual.scores.individualLast
-									}
+									Individual: {selectedIndividual.scores.individual}/
+									{selectedIndividual.scores.individualLast}
 								</h3>
 								<h3>Block: {selectedIndividual.scores.block}</h3>
 								<h3>Mental: {selectedIndividual.scores.mental}</h3>

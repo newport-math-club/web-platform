@@ -102,7 +102,7 @@ export default class KPMTDashboardPage extends Component {
 		const response = await fetchSchoolProfile()
 
 		if (response.status !== 200) {
-			window.location.href = '/login'
+			window.location.href = '/kpmt/login'
 			return
 		}
 
