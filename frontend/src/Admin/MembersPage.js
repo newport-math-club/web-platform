@@ -165,7 +165,6 @@ export default class MembersPage extends Component {
 			this.closeNewMemberModal()
 		} else {
 			if (response.status === 401) window.location.href = '/login'
-			// TODO: else this.setState({ error: response.status })
 		}
 	}
 
@@ -211,7 +210,6 @@ export default class MembersPage extends Component {
 			this.closeEditMemberModal()
 		} else {
 			if (response.status === 401) window.location.href = '/login'
-			// TODO: else this.setState({ error: response.status })
 		}
 	}
 
