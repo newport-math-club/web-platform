@@ -57,6 +57,16 @@ export default class KPMTSchoolsPage extends Component {
 	}
 
 	async componentDidMount() {
+		const schoolsResponse = await fetchKPMTSchools()
+		if (schoolsResponse.status === 200) {
+			const data = await schoolsResponse.json()
+
+			this.setState({ schools: data })
+		} else {
+			window.location.href = '/login'
+			return
+		}
+
 		SocketEventHandlers.subscribeToSchoolsChange(data => {
 			console.log('received school change: ')
 			console.log(data)
@@ -118,13 +128,6 @@ export default class KPMTSchoolsPage extends Component {
 					break
 			}
 		})
-
-		const schoolsResponse = await fetchKPMTSchools()
-		if (schoolsResponse.status === 200) {
-			const data = await schoolsResponse.json()
-
-			this.setState({ schools: data })
-		}
 	}
 
 	openSchoolModal = schoolId => {

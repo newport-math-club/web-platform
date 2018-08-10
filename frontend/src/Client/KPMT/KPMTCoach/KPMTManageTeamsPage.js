@@ -73,6 +73,8 @@ export default class KPMTManageTeamsPage extends Component {
 			const data = await profileResponse.json()
 
 			this.setState({ teams: data.teams })
+		} else {
+			window.location.href = '/kpmt/login'
 		}
 	}
 

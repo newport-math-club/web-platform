@@ -83,6 +83,8 @@ export default class KPMTManageIndividualsPage extends Component {
 			})
 
 			this.setState({ indivs: competitors })
+		} else {
+			window.location.href = '/kpmt/login'
 		}
 	}
 

@@ -66,6 +66,27 @@ export default class MeetingsPage extends Component {
 	}
 
 	async componentDidMount() {
+		const membersResponse = await fetchMembers()
+		if (membersResponse.status === 200) {
+			const data = await membersResponse.json()
+
+			this.setState({ members: data })
+		} else {
+			window.location.href = '/login'
+			return
+		}
+
+		const meetingsResponse = await fetchMeetings()
+
+		if (meetingsResponse.status === 200) {
+			const data = await meetingsResponse.json()
+
+			this.setState({ meetings: data })
+		} else {
+			window.location.href = '/login'
+			return
+		}
+
 		SocketEventHandlers.subscribeToMeetingsChange(data => {
 			switch (data.type) {
 				case 'add':
@@ -99,21 +120,6 @@ export default class MeetingsPage extends Component {
 					console.log(data)
 			}
 		})
-
-		const membersResponse = await fetchMembers()
-		if (membersResponse.status === 200) {
-			const data = await membersResponse.json()
-
-			this.setState({ members: data })
-		}
-
-		const meetingsResponse = await fetchMeetings()
-
-		if (meetingsResponse.status === 200) {
-			const data = await meetingsResponse.json()
-
-			this.setState({ meetings: data })
-		}
 	}
 
 	openNewMeetingModal = () => {

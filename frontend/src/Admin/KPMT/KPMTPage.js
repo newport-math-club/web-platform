@@ -60,6 +60,9 @@ export default class KPMTPage extends Component {
 			const data = await response.json()
 
 			fileDownload(JSON.stringify(data), 'export-' + Date.now() + '.json')
+		} else {
+			window.location.href = '/login'
+			return
 		}
 	}
 

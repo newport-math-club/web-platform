@@ -54,6 +54,9 @@ export default class MembersPage extends Component {
 			const data = await response.json()
 
 			this.setState({ members: data })
+		} else {
+			window.location.href = '/login'
+			return
 		}
 
 		SocketEventHandlers.subscribeToMembersChange(data => {
@@ -160,6 +163,9 @@ export default class MembersPage extends Component {
 
 		if (response.status === 200) {
 			this.closeNewMemberModal()
+		} else {
+			if (response.status === 401) window.location.href = '/login'
+			// TODO: else this.setState({ error: response.status })
 		}
 	}
 
@@ -203,6 +209,9 @@ export default class MembersPage extends Component {
 
 		if (response.status === 200) {
 			this.closeEditMemberModal()
+		} else {
+			if (response.status === 401) window.location.href = '/login'
+			// TODO: else this.setState({ error: response.status })
 		}
 	}
 

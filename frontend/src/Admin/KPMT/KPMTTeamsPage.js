@@ -48,6 +48,16 @@ export default class KPMTTeamsPage extends Component {
 	}
 
 	async componentDidMount() {
+		const teamsResponse = await fetchKPMTTeams()
+		if (teamsResponse.status === 200) {
+			const data = await teamsResponse.json()
+
+			this.setState({ teams: data })
+		} else {
+			window.location.href = '/login'
+			return
+		}
+
 		SocketEventHandlers.subscribeToTeamsChange(data => {
 			switch (data.type) {
 				case 'add':
@@ -105,13 +115,6 @@ export default class KPMTTeamsPage extends Component {
 					break
 			}
 		})
-
-		const teamsResponse = await fetchKPMTTeams()
-		if (teamsResponse.status === 200) {
-			const data = await teamsResponse.json()
-
-			this.setState({ teams: data })
-		}
 	}
 
 	openTeamModal = teamId => {
