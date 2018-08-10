@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Nav, getNavItems, Link, Textbox, Button } from '../../Components'
+import { Nav, getNavItems, Textbox, Button } from '../../Components'
 import { registerKPMT } from '../../nmc-api'
 
 export default class KPMTRegistrationPage extends Component {
@@ -45,7 +45,7 @@ export default class KPMTRegistrationPage extends Component {
 
 		const response = await registerKPMT(school, name, email, password)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			this.setState({ error: -1 })
 			this.nameTextbox.current.clear()
 			this.schoolTextbox.current.clear()
@@ -73,6 +73,7 @@ export default class KPMTRegistrationPage extends Component {
 						overflowY: 'auto'
 					}}>
 					<img
+						alt="kpmt-banner"
 						style={{ width: '100%' }}
 						src="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmtbanner.png"
 					/>
@@ -133,27 +134,27 @@ export default class KPMTRegistrationPage extends Component {
 								placeholder="password again"
 							/>
 							<div style={{ textAlign: 'center' }}>
-								{(this.state.error == 1 || this.state.error == 400) && (
+								{(this.state.error === 1 || this.state.error === 400) && (
 									<h5 style={{ marginTop: '8px' }}>
 										invalid inputs, please fill out the form
 									</h5>
 								)}
-								{this.state.error == 2 && (
+								{this.state.error === 2 && (
 									<h5 style={{ marginTop: '8px' }}>
 										invalid inputs, passwords dont match
 									</h5>
 								)}
-								{this.state.error == 403 && (
+								{this.state.error === 403 && (
 									<h5 style={{ marginTop: '8px' }}>
 										sorry, registration is closed at this time :(
 									</h5>
 								)}
-								{this.state.error == 500 && (
+								{this.state.error === 500 && (
 									<h5 style={{ marginTop: '8px' }}>
 										something happened, please try again later :(
 									</h5>
 								)}
-								{this.state.error == -1 && (
+								{this.state.error === -1 && (
 									<h5 style={{ marginTop: '8px', color: '#31CE73' }}>
 										registration successful, please wait for your account to be
 										activated :)

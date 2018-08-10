@@ -1,21 +1,6 @@
 import React, { Component } from 'react'
-import {
-	Nav,
-	Textbox,
-	Link,
-	getAdminNavItems,
-	Button,
-	ToggleButton
-} from '../../../Components'
-import {
-	exportData,
-	getLockStatus,
-	coachLock,
-	regLock,
-	wipeKPMT,
-	fetchKPMTCompetitors,
-	scoreIndiv
-} from '../../../nmc-api'
+import { Nav, Textbox, Link, getAdminNavItems } from '../../../Components'
+import { fetchKPMTCompetitors, scoreIndiv } from '../../../nmc-api'
 import Autosuggest from 'react-autosuggest'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 import 'react-notifications/lib/notifications.css'
@@ -114,7 +99,7 @@ export default class KPMTIndividualEntryPage extends Component {
 
 		const response = await fetchKPMTCompetitors()
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			const data = await response.json()
 
 			this.setState({ individuals: data })
@@ -188,7 +173,7 @@ export default class KPMTIndividualEntryPage extends Component {
 			last
 		)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			NotificationManager.success(
 				'Score entered: ' +
 					score +

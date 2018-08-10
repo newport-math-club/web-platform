@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { Nav, getNavItems, Textbox, Button } from '../../../Components'
+import { Nav, getNavItems } from '../../../Components'
 import { logout } from '../../../nmc-api'
 
 export default class KPMTLogoutPage extends Component {
 	async componentDidMount() {
-		const response = await logout()
+		await logout()
 		window.location.href = '/kpmt/login'
 	}
 

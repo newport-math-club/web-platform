@@ -4,13 +4,11 @@ import {
 	getAdminNavItems,
 	FilterBar,
 	Button,
-	Textbox,
-	Table,
-	ToggleButton
+	Table
 } from '../../Components'
 import Modal from 'react-modal'
 import SocketEventHandlers from '../../Sockets'
-import { fetchKPMTSchools, fetchKPMTTeams } from '../../nmc-api'
+import { fetchKPMTTeams } from '../../nmc-api'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 
 Modal.setAppElement('#root')
@@ -109,7 +107,7 @@ export default class KPMTTeamsPage extends Component {
 		})
 
 		const teamsResponse = await fetchKPMTTeams()
-		if (teamsResponse.status == 200) {
+		if (teamsResponse.status === 200) {
 			const data = await teamsResponse.json()
 
 			this.setState({ teams: data })

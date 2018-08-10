@@ -120,7 +120,7 @@ export class CoachNav extends Component {
 	async componentDidMount() {
 		const profileResponse = await fetchSchoolProfile()
 
-		if (profileResponse.status == 200) {
+		if (profileResponse.status === 200) {
 			const data = await profileResponse.json()
 
 			this.setState({ name: data.coachName.split(' ')[0] })
@@ -198,7 +198,7 @@ export class Nav extends Component {
 	async componentDidMount() {
 		const profileResponse = await fetchProfile()
 
-		if (profileResponse.status == 200) {
+		if (profileResponse.status === 200) {
 			const data = await profileResponse.json()
 
 			this.setState({ name: data.name.split(' ')[0] })
@@ -263,8 +263,9 @@ class NavItem extends Component {
 
 	render() {
 		// check if there are subitems
+		var item
 		if (this.props.item instanceof Array) {
-			var item = this.props.item.slice()
+			item = this.props.item.slice()
 			var mainItem = item.splice(0, 1)[0]
 			var subItems = item.map(subItem => {
 				return (
@@ -311,7 +312,7 @@ class NavItem extends Component {
 				</div>
 			)
 		} else {
-			var item = this.props.item
+			item = this.props.item
 			var style = {}
 
 			if (item.end) {
@@ -571,8 +572,8 @@ export class Table extends Component {
 			const sortDirection = this.state.sortDirection
 			if (
 				data.length > 0 &&
-				sortIndex != null &&
-				sortDirection != null &&
+				sortIndex !== null &&
+				sortDirection !== null &&
 				!isNaN(sortIndex) &&
 				!isNaN(sortDirection) &&
 				sortIndex >= 0 &&
@@ -616,8 +617,8 @@ export class Table extends Component {
 			const sortDirection = this.state.sortDirection
 			if (
 				data.length > 0 &&
-				sortIndex != null &&
-				sortDirection != null &&
+				sortIndex !== null &&
+				sortDirection !== null &&
 				!isNaN(sortIndex) &&
 				!isNaN(sortDirection) &&
 				sortIndex >= 0 &&

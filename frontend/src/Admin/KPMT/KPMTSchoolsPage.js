@@ -4,7 +4,6 @@ import {
 	getAdminNavItems,
 	FilterBar,
 	Button,
-	Textbox,
 	Table,
 	ToggleButton
 } from '../../Components'
@@ -121,7 +120,7 @@ export default class KPMTSchoolsPage extends Component {
 		})
 
 		const schoolsResponse = await fetchKPMTSchools()
-		if (schoolsResponse.status == 200) {
+		if (schoolsResponse.status === 200) {
 			const data = await schoolsResponse.json()
 
 			this.setState({ schools: data })
@@ -149,7 +148,7 @@ export default class KPMTSchoolsPage extends Component {
 		const response = await deleteKPMTSchool(
 			this.state.selectedSchool._id.toString()
 		)
-		if (response.status == 200) {
+		if (response.status === 200) {
 			this.closeSchoolModal()
 		}
 	}
@@ -166,7 +165,7 @@ export default class KPMTSchoolsPage extends Component {
 				this.state.selectedSchool._id.toString()
 			)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			this.selectedSchoolActiveToggleButton.current.setEnabled(active)
 		}
 	}

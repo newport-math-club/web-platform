@@ -56,7 +56,7 @@ export default class KPMTPage extends Component {
 	exportData = async () => {
 		const response = await exportData()
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			const data = await response.json()
 
 			fileDownload(JSON.stringify(data), 'export-' + Date.now() + '.json')
@@ -94,7 +94,7 @@ export default class KPMTPage extends Component {
 	async componentDidMount() {
 		const response = await getLockStatus()
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			const data = await response.json()
 
 			this.setState({ locks: data })
@@ -112,7 +112,7 @@ export default class KPMTPage extends Component {
 	coachLockKPMT = async () => {
 		const response = await coachLock(!this.state.locks.coachLock)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			var newLocks = { ...this.state.locks }
 			newLocks.coachLock = !newLocks.coachLock
 			this.setState({ locks: newLocks })
@@ -123,7 +123,7 @@ export default class KPMTPage extends Component {
 	regLockKPMT = async () => {
 		const response = await regLock(!this.state.locks.regLock)
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			var newLocks = { ...this.state.locks }
 			newLocks.regLock = !newLocks.regLock
 			this.setState({ locks: newLocks })
@@ -136,7 +136,7 @@ export default class KPMTPage extends Component {
 
 		const response = await wipeKPMT()
 
-		if (response.status == 200) {
+		if (response.status === 200) {
 			this.setState({ kpmtWipeDialogOpen: false })
 		}
 	}
