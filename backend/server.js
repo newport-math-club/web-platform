@@ -105,7 +105,11 @@ app.use(
 )
 app.use(bodyParser.json())
 app.use((req, res, next) => {
-	var allowedOrigins = ['http://165.227.54.2:5000', 'http://localhost:3000']
+	var allowedOrigins = [
+		'http://localhost:3000',
+		'https://newportmathclub.org',
+		'https://www.newportmathclub.org'
+	]
 	var origin = req.headers.origin
 
 	if (allowedOrigins.indexOf(origin) > -1) {
