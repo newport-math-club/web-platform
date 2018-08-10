@@ -228,12 +228,12 @@ export class Nav extends Component {
 		})
 
 		const title = this.props.admin ? (
-			<h4 onClick={this.gotoHome} className="title">
+			<h4 onClick={this.gotoAdminHome} className="title">
 				<red>newportmathclub</red>
 				<gold>admin</gold>
 			</h4>
 		) : (
-			<h4 onClick={this.gotoAdminHome} className="title">
+			<h4 onClick={this.gotoHome} className="title">
 				<red>newportmathclub</red>
 			</h4>
 		)
