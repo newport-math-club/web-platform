@@ -1,6 +1,4 @@
-// TODO: use the domain after migration to cloudflare
-
-const BASE_URL = 'http://165.227.54.2:3000'
+const BASE_URL = 'https://api.newportmathclub.org'
 
 exports.BASE_URL = BASE_URL
 
