@@ -280,18 +280,13 @@ class NavItem extends Component {
 				)
 			})
 
-			var paddingAmount = this.props.item.length * 2.2 - 2.2 + 0.5
-			var style = {}
-			if (this.state.hover || this.state.contentHover) {
-				style.paddingTop = paddingAmount + 'em'
-			}
 			if (mainItem.end) {
 				style.marginLeft = 'auto'
 				style.textAlign = 'right'
 			}
 
 			return (
-				<div style={style}>
+				<div className="navbar-item" style={style}>
 					<h4
 						className={'navItem' + (mainItem.highlight ? ' _highlight' : '')}
 						onClick={() => this.gotoPath(mainItem.path)}
