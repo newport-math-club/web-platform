@@ -264,6 +264,7 @@ class NavItem extends Component {
 	render() {
 		// check if there are subitems
 		var item
+		var style = {}
 		if (this.props.item instanceof Array) {
 			item = this.props.item.slice()
 			var mainItem = item.splice(0, 1)[0]
