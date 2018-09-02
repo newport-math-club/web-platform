@@ -48,8 +48,8 @@ export default class KPMTAboutPage extends Component {
 					</p>
 
 					<h3>Fees and Deadlines</h3>
-					<p>Normal Registration: $40/team, closes December 8th, 2018</p>
-					<p>Late Registration: $54/team, closes December 15th, 2018</p>
+					<p>Normal Registration: $40/team, closes January 5th, 2019</p>
+					<p>Late Registration: $54/team, closes February 1st, 2019</p>
 
 					<a href="/kpmt/registration">
 						<h3>Register your school</h3>
