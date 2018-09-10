@@ -35,7 +35,11 @@ export default class PracticePage extends Component {
 		]
 
 		var links = linksData.map(linkData => {
-			return <Link href={linkData.href} name={linkData.name} />
+			return (
+				<div>
+					<Link href={linkData.href} name={linkData.name} />
+				</div>
+			)
 		})
 
 		return (

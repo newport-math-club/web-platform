@@ -16,8 +16,8 @@ export default class ArticlesPage extends Component {
 						paddingRight: '4em',
 						overflowY: 'auto'
 					}}>
-					{/* <h2>Articles</h2> */}
-					<p>Not much to see here. Sorry!</p>
+					<h2>Articles</h2>
+					<p>Not much to see here (yet). Come back later :)</p>
 				</div>
 			</div>
 		)
