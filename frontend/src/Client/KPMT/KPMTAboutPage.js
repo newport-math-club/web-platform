@@ -34,8 +34,26 @@ export default class KPMTAboutPage extends Component {
 					</p>
 
 					<p>
-						<b>Planned 2018-2019 KPMT Date: Saturday January 12th, 2019</b>
+						<b>2019 KPMT Date: Saturday January 12th, 2019</b>
 					</p>
+
+					<a href="/kpmt/regpay">
+						<h3>Detailed registration and payment instructions</h3>
+					</a>
+
+					<br />
+
+					<a href="/kpmt/schedule">
+						<h3>Tentative schedule and scoring specifications</h3>
+					</a>
+
+					<br />
+
+					<a href="/kpmt/faq">
+						<h3>Frequently asked questions</h3>
+					</a>
+
+					<br />
 
 					<h2>Registration</h2>
 					<p>
@@ -55,6 +73,11 @@ export default class KPMTAboutPage extends Component {
 						<h3>Register your school</h3>
 					</a>
 					<h2 style={{ paddingTop: '1em' }}>History</h2>
+
+					<a href="/kpmt/past">
+						<h3>Past test archives</h3>
+					</a>
+
 					<p>
 						The tenth annual KPMT Tournament was held on Saturday, March 17,
 						2018. The test was identical to the 9th KPMT, complete with a Pi
