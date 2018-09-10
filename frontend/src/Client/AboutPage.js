@@ -66,7 +66,7 @@ export default class AboutPage extends Component {
 					<Bio
 						name="Axel Li"
 						title="Shadow Officer"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/default-profile.png"
+						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/axel.png"
 						row={9}
 						column={1}
 					/>
