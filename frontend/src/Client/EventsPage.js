@@ -1,38 +1,45 @@
 import React, { Component } from 'react'
-import { Nav, getNavItems } from '../Components'
+import { Nav, getNavItems, Link } from '../Components'
 
 export default class EventsPage extends Component {
 	render() {
-		// var linksData = [
-		//   {
-		//     href: 'https://artofproblemsolving.com/community/c13_contests',
-		//     name: 'American Mathematics Competition'
-		//   },
-		//   {
-		//     href: 'https://artofproblemsolving.com/community/c13_contests',
-		//     name: 'United States of America Mathematical Olympiad'
-		//   },
-		//   {
-		//     href: 'http://www.wamath.net/contests/MathisCool/samples/high.html',
-		//     name: 'Math is Cool'
-		//   },
-		//   {
-		//     href: 'http://wamath.net/hs/contests/fallclassic/samples.html',
-		//     name: 'Mu Alpha Theta Fall Classic'
-		//   },
-		//   {
-		//     href: 'http://wamath.net/hs/contests/wastate/state08/index.html',
-		//     name: 'Mu Alpha Theta State'
-		//   },
-		//   {
-		//     href: 'http://www.wsmc.net/contests/',
-		//     name: 'Washington State Mathematics Council Mathematics Contest'
-		//   },
-		//   {
-		//     href: 'http://wamath.net/hs/contests/sigma/samples.html',
-		//     name: 'Skyview Math Contest'
-		//   }
-		// ]
+		var linksData = [
+			{
+				href: 'https://www.maa.org/math-competitions/amc-1012',
+				name: 'American Mathematics Competition (AMC) 10/12',
+				subtext:
+					'We host the AMC 10/12 tests at Newport High Schools on February 7 (A) and February 13 (B).'
+			},
+			{
+				href: 'https://www.maa.org/math-competitions/invitational-competitions',
+				name: 'American Invitational Math Examination',
+				subtext:
+					'Those who score exceptionally on the AMC will be invited to take the AIME on '
+			},
+			{
+				href: 'http://www.academicsarecool.com/#/competitions',
+				name: 'Math is Cool',
+				subtext:
+					'MIC is a math contest for grade levels 4-12. Competitors compete at a local level for a chance to go to state.'
+			},
+			{
+				href: 'http://wamath.net/hs/contests/fallclassic/samples.html',
+				name: 'Mu Alpha Theta Fall Classic'
+			},
+			{
+				href: 'http://wamath.net/hs/contests/wastate/state08/index.html',
+				name: 'Mu Alpha Theta State'
+			}
+		]
+
+		var links = linksData.map(linkData => {
+			return (
+				<div>
+					<Link href={linkData.href} name={linkData.name} />
+					<p style={{ marginTop: 0 }}>{linkData.subtext}</p>
+				</div>
+			)
+		})
 
 		return (
 			<div className="fullheight">
@@ -48,8 +55,11 @@ export default class EventsPage extends Component {
 						overflowY: 'auto'
 					}}>
 					<h2>Events & Competitions</h2>
-					<p>Not much to see here (yet). Come back later :)</p>
-					{/* {events} */}
+					<p>
+						We participate in many events and competitions in our region. We
+						also host KPMT; more details in the KPMT tab.
+					</p>
+					{links}
 				</div>
 			</div>
 		)
