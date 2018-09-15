@@ -240,6 +240,13 @@ export class Nav extends Component {
 
 		return (
 			<div className="nav">
+				<i
+					className="material-icons menu"
+					onClick={() => {
+						this.setState({ open: !this.state.open })
+					}}>
+					menu
+				</i>
 				{title}
 				{navItems}
 			</div>
