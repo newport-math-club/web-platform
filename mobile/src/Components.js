@@ -32,7 +32,7 @@ export const getNavItems = (itemIndex, subItemIndex) => {
 			{ name: 'contact', path: '/kpmt/contact' },
 			{ name: 'coach login', path: '/kpmt/login' }
 		],
-		{ name: 'member login', path: '/login', end: true }
+		{ name: 'member login', path: '/login;' }
 	]
 
 	if (itemIndex < 0) return base
@@ -184,7 +184,9 @@ export class Nav extends Component {
 	constructor(props) {
 		super(props)
 
-		this.state = {}
+		this.state = {
+			open: false
+		}
 	}
 
 	gotoHome = () => {
@@ -248,7 +250,9 @@ export class Nav extends Component {
 					menu
 				</i>
 				{title}
-				{navItems}
+				<div class={'navPane' + (this.state.open ? ' visible' : '')}>
+					{navItems}
+				</div>
 			</div>
 		)
 	}

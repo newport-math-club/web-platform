@@ -48,14 +48,39 @@ body {
 
 .nav {
   padding-left: 2em;
+  padding-right: 2em;
   height: 4em;
-  overflow-x: auto;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: center;
   align-content: center;
+}
+.nav .navPane {
+  position: absolute;
+  top: 4em;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 4em);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  background: #fff;
+  opacity: 0;
+  transition: 0.3s opacity;
+  pointer-events: none;
+}
+.nav .navPane.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.menu {
+  font-size: 2em;
+  cursor: pointer;
+  margin-right: 1em;
 }
 
 .navItem {
