@@ -47,12 +47,11 @@ export default class EventsPage extends Component {
 				<div
 					style={{
 						float: 'left',
-						marginLeft: '20%',
-						width: 'calc(60% - 8em)',
+						width: '',
 						height: 'calc(100% - 12em)',
-						paddingLeft: '4em',
-						paddingRight: '4em',
-						overflowY: 'auto'
+						paddingTop: '2em',
+						paddingLeft: '2em',
+						paddingRight: '2em'
 					}}>
 					<h2>Events & Competitions</h2>
 					<p>

@@ -341,7 +341,7 @@ export class OfficerPane extends Component {
 	render() {
 		return (
 			<div style={{ paddingTop: '2em' }}>
-				<h2 style={{ textAlign: 'center' }}>{this.props.header}</h2>
+				<h2 style={{ paddingLeft: '1em' }}>{this.props.header}</h2>
 				<div
 					style={{
 						display: 'grid',
