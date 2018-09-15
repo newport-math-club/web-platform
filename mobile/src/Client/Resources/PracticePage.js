@@ -47,12 +47,9 @@ export default class PracticePage extends Component {
 				<Nav admin={false} items={getNavItems(2, 2)} />
 				<div
 					style={{
-						float: 'left',
-						marginLeft: '20%',
-						width: 'calc(60% - 8em)',
-						height: 'calc(100% - 12em)',
-						paddingLeft: '4em',
-						paddingRight: '4em',
+						paddingTop: '2em',
+						paddingLeft: '2em',
+						paddingRight: '2em',
 						overflowY: 'auto'
 					}}>
 					<h2>Practice</h2>
