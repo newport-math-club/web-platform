@@ -292,11 +292,6 @@ class NavItem extends Component {
 				)
 			})
 
-			if (mainItem.end) {
-				style.marginLeft = 'auto'
-				style.textAlign = 'right'
-			}
-
 			return (
 				<div className="navbar-item" style={style}>
 					<h4
@@ -307,13 +302,11 @@ class NavItem extends Component {
 						{mainItem.name}
 					</h4>
 					<div
-						onMouseEnter={() => this.setState({ contentHover: true })}
-						onMouseLeave={() => this.setState({ contentHover: false })}
-						className={
-							'dropdown-contents' +
-							(this.state.hover || this.state.contentHover ? ' _show' : '')
-						}
-						style={{ paddingTop: '0.2em' }}>
+						style={{
+							paddingTop: '0.2em',
+							paddingLeft: '9em',
+							fontSize: '0.7em'
+						}}>
 						{subItems}
 					</div>
 				</div>
