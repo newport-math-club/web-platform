@@ -32,7 +32,7 @@ export const getNavItems = (itemIndex, subItemIndex) => {
 			{ name: 'contact', path: '/kpmt/contact' },
 			{ name: 'coach login', path: '/kpmt/login' }
 		],
-		{ name: 'member login', path: '/login;' }
+		{ name: 'member login', path: '/login' }
 	]
 
 	if (itemIndex < 0) return base

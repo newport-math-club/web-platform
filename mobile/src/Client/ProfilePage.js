@@ -164,30 +164,26 @@ export default class ProfilePage extends Component {
 				<Nav admin={false} items={getNavItems(4, 0, firstName)} />
 				<div
 					style={{
-						float: 'left',
-						marginLeft: '20%',
-						width: 'calc(60% - 8em)',
-						height: 'calc(100% - 12em)',
-						paddingLeft: '4em',
-						paddingRight: '4em',
+						paddingTop: '2em',
+						paddingLeft: '2em',
+						paddingRight: '2em',
 						overflowY: 'auto'
 					}}>
 					<h2>{this.state.name}</h2>
 					<h5>email: {this.state.email}</h5>
 					<h5>year of graduation: {this.state.year}</h5>
+					<br />
 					<h5>
-						click <a onClick={this.openChangePasswordModal}>here</a> to change
-						your password
+						<a onClick={this.openChangePasswordModal}>change password</a>
 					</h5>
 					{this.state.admin && (
 						<h5>
-							you are an admin; click <a href="/admin/meetings">here</a> to
-							access the admin dashboard
+							<a href="/admin/meetings">admin dashboard</a>
 						</h5>
 					)}
 
 					<br />
-					<h2>you have {this.state.piPoints} pi points</h2>
+					<h3>you have {this.state.piPoints} pi points</h3>
 				</div>
 			</div>
 		)
