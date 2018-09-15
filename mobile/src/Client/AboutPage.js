@@ -76,11 +76,10 @@ export default class AboutPage extends Component {
 				<div
 					style={{
 						float: 'left',
-						width: 'calc(66% - 8em)',
+						width: '',
 						height: 'calc(100% - 12em)',
-						paddingLeft: '4em',
-						paddingRight: '4em',
-						overflowY: 'auto'
+						paddingLeft: '2em',
+						paddingRight: '2em'
 					}}>
 					<h2>Mission</h2>
 					<p>

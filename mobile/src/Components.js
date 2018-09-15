@@ -340,8 +340,8 @@ class NavItem extends Component {
 export class OfficerPane extends Component {
 	render() {
 		return (
-			<div className="leftpane">
-				<h2 style={{ paddingLeft: '2em' }}>{this.props.header}</h2>
+			<div style={{ paddingTop: '2em' }}>
+				<h2 style={{ textAlign: 'center' }}>{this.props.header}</h2>
 				<div
 					style={{
 						display: 'grid',
@@ -370,11 +370,11 @@ export class OfficerPane extends Component {
 export class Bio extends Component {
 	render() {
 		return (
-			<div style={{ height: '5em', paddingLeft: '3em' }}>
+			<div style={{ height: '5em' }}>
 				<img src={this.props.image} style={{ height: '90%', float: 'left' }} />
 				<div
 					style={{
-						paddingLeft: '2em',
+						paddingLeft: '1em',
 						height: '90%',
 						display: 'flex',
 						flexDirection: 'column',
