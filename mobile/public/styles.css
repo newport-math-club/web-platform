@@ -47,9 +47,9 @@ body {
 }
 
 .nav {
-  padding-left: 4em;
-  padding-right: 4em;
-  height: 8em;
+  padding-left: 2em;
+  height: 4em;
+  overflow-x: auto;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -73,28 +73,28 @@ body {
 }
 
 h1 {
-  font-size: 6em;
+  font-size: 4em;
   margin: 0;
 }
 
 h2 {
-  font-size: 5em;
-  margin: 0;
-}
-
-h3 {
   font-size: 3.5em;
   margin: 0;
 }
 
-h4 {
+h3 {
   font-size: 3em;
+  margin: 0;
+}
+
+h4 {
+  font-size: 2em;
   cursor: pointer;
   margin: 0;
 }
 
 h5 {
-  font-size: 3em;
+  font-size: 2em;
   color: #888;
   margin: 0;
 }
@@ -127,9 +127,9 @@ h5 {
 }
 
 .fill-nav-remainder {
-  padding-left: 8em;
-  width: 100%;
-  height: 100%;
+  padding-left: 4em;
+  width: calc(100% - 4em);
+  height: calc(100% - 4em);
   /* account for the nav bar at the top (8em) */
 }
 
