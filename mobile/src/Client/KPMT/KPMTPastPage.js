@@ -73,20 +73,12 @@ export default class KPMTPastPage extends Component {
 
 				<div
 					style={{
-						float: 'left',
-						marginLeft: '20%',
-						width: 'calc(60% - 8em)',
-						height: 'calc(100% - 12em)',
-						paddingLeft: '4em',
-						paddingRight: '4em',
+						paddingTop: '2em',
+						paddingLeft: '2em',
+						paddingRight: '2em',
 						overflowY: 'auto'
 					}}>
-					<img
-						alt="kpmt-banner"
-						style={{ width: '100%' }}
-						src="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmtbanner.png"
-					/>
-					<h2 style={{ paddingTop: '1em' }}>Past Papers</h2>
+					<h2>Past Papers</h2>
 					<p>
 						You can find archives of previous tests here. Every year has a
 						downloadable compressed .zip folder containing every test from that

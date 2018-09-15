@@ -57,6 +57,9 @@ body {
   align-items: center;
   align-content: center;
 }
+.nav .title {
+  margin: 0 auto;
+}
 .nav .navPane {
   position: absolute;
   top: 4em;
@@ -78,9 +81,9 @@ body {
 }
 
 .menu {
+  position: absolute;
   font-size: 2em;
   cursor: pointer;
-  margin-right: 1em;
 }
 
 .navItem {
