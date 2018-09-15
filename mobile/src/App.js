@@ -16,25 +16,12 @@ import KPMTContactPage from './Client/KPMT/KPMTContactPage'
 import LoginPage from './Client/LoginPage'
 import ProfilePage from './Client/ProfilePage'
 import LogoutPage from './Client/LogoutPage'
-import MeetingsPage from './Admin/MeetingsPage'
-import MembersPage from './Admin/MembersPage'
-import KPMTPage from './Admin/KPMT/KPMTPage'
-import KPMTSchoolsPage from './Admin/KPMT/KPMTSchoolsPage'
-import KPMTTeamsPage from './Admin/KPMT/KPMTTeamsPage'
-import KPMTCompetitorsPage from './Admin/KPMT/KPMTCompetitorsPage'
 import KPMTLoginPage from './Client/KPMT/KPMTLoginPage'
 import KPMTRegistrationPage from './Client/KPMT/KPMTRegistrationPage'
 import KPMTDashboardPage from './Client/KPMT/KPMTCoach/KPMTDashboardPage'
 import KPMTLogoutPage from './Client/KPMT/KPMTCoach/KPMTLogoutPage'
 import KPMTManageTeamsPage from './Client/KPMT/KPMTCoach/KPMTManageTeamsPage'
 import KPMTManageIndividualsPage from './Client/KPMT/KPMTCoach/KPMTManageIndividualsPage'
-import KPMTDataEntryPage from './Admin/KPMT/KPMTDataEntry/KPMTDataEntryPage'
-import KPMTIndividualEntryPage from './Admin/KPMT/KPMTDataEntry/KPMTIndividualEntryPage'
-import KPMTBlockEntryPage from './Admin/KPMT/KPMTDataEntry/KPMTBlockEntryPage'
-import KPMTMentalEntryPage from './Admin/KPMT/KPMTDataEntry/KPMTMentalEntryPage'
-import KPMTAlgebraEntryPage from './Admin/KPMT/KPMTDataEntry/KPMTAlgebraEntryPage'
-import KPMTGeometryEntryPage from './Admin/KPMT/KPMTDataEntry/KPMTGeometryEntryPage'
-import KPMTPPEntryPage from './Admin/KPMT/KPMTDataEntry/KPMTPPEntryPage'
 
 String.prototype.isValidEmail = function() {
 	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -88,48 +75,6 @@ export default class App extends React.Component {
 					<Route exact path="/profile" component={ProfilePage} />
 					<Route exact path="/logout" component={LogoutPage} />
 
-					<Route exact path="/admin/meetings" component={MeetingsPage} />
-					<Route exact path="/admin/members" component={MembersPage} />
-
-					<Route exact path="/admin/kpmt" component={KPMTPage} />
-					<Route exact path="/admin/kpmt/schools" component={KPMTSchoolsPage} />
-					<Route exact path="/admin/kpmt/teams" component={KPMTTeamsPage} />
-					<Route
-						exact
-						path="/admin/kpmt/competitors"
-						component={KPMTCompetitorsPage}
-					/>
-					<Route exact path="/admin/kpmt/entry" component={KPMTDataEntryPage} />
-					<Route
-						exact
-						path="/admin/kpmt/entry/individual"
-						component={KPMTIndividualEntryPage}
-					/>
-					<Route
-						exact
-						path="/admin/kpmt/entry/block"
-						component={KPMTBlockEntryPage}
-					/>
-					<Route
-						exact
-						path="/admin/kpmt/entry/mental"
-						component={KPMTMentalEntryPage}
-					/>
-					<Route
-						exact
-						path="/admin/kpmt/entry/algebra"
-						component={KPMTAlgebraEntryPage}
-					/>
-					<Route
-						exact
-						path="/admin/kpmt/entry/geometry"
-						component={KPMTGeometryEntryPage}
-					/>
-					<Route
-						exact
-						path="/admin/kpmt/entry/pp"
-						component={KPMTPPEntryPage}
-					/>
 					<Route component={LostPage} />
 				</Switch>
 			</Router>

@@ -10,11 +10,12 @@ const customStyles = {
 	content: {
 		top: '50%',
 		left: '50%',
-		width: '30em',
+		width: '20em',
 		right: 'auto',
 		bottom: 'auto',
 		paddingBottom: '6em',
 		paddingLeft: '2em',
+		paddingRight: '2em',
 		paddingTop: '2em',
 		marginRight: '-50%',
 		transform: 'translate(-50%, -50%)',
@@ -176,10 +177,9 @@ export default class ProfilePage extends Component {
 					<h5>
 						<a onClick={this.openChangePasswordModal}>change password</a>
 					</h5>
+					<br />
 					{this.state.admin && (
-						<h5>
-							<a href="/admin/meetings">admin dashboard</a>
-						</h5>
+						<h5>use desktop site to access admin dashboard</h5>
 					)}
 
 					<br />

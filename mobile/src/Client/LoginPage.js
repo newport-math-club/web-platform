@@ -48,7 +48,7 @@ export default class LoginPage extends Component {
 						overflowY: 'auto',
 						textAlign: 'center'
 					}}>
-					<h1>member login</h1>
+					<h2>member login</h2>
 					<Textbox
 						onEnter={this.handleLogin}
 						ref={this.emailTextBox}

@@ -54,36 +54,12 @@ export default class KPMTLoginPage extends Component {
 						school must be activated by our team prior to logging in!
 					</p>
 
-					<Textbox
-						onEnter={this.handleLogin}
-						ref={this.emailTextBox}
-						type="text"
-						placeholder="coach email"
-					/>
-					<Textbox
-						onEnter={this.handleLogin}
-						ref={this.passwordTextBox}
-						type="password"
-						placeholder="password"
-					/>
-					<div style={{ textAlign: 'center' }}>
-						{(this.state.error === 1 || this.state.error === 400) && (
-							<h5 style={{ marginTop: '8px' }}>
-								invalid inputs, please try again
-							</h5>
-						)}
-						{this.state.error === 403 && (
-							<h5 style={{ marginTop: '8px' }}>
-								your account has not been activated yet!
-							</h5>
-						)}
-						{(this.state.error === 404 || this.state.error === 401) && (
-							<h5 style={{ marginTop: '8px' }}>invalid credentials</h5>
-						)}
-					</div>
-					<div style={{ textAlign: 'center' }}>
-						<Button onClick={this.handleLogin} text="login" />
-					</div>
+					<p>
+						The functions of the coach dashboard are complex and powerful. It
+						would be difficult to use with a mobile device.
+					</p>
+
+					<h3>Please use our desktop site to login :)</h3>
 				</div>
 			</div>
 		)
