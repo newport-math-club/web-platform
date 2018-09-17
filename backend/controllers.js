@@ -1079,6 +1079,29 @@ exports.removeSchoolKPMT = async (req, res) => {
 	}
 }
 
+exports.setSchoolAmountPaid = async (req, res) => {
+	var id = req.body.id
+	var amount = req.body.amount
+
+	if (!validateInput(id, amount)) return res.status(400).end()
+
+	try {
+		await Schools.updateOne({_id: id}, {$set: {amountPaid: amount}}).exec()
+
+		sockets.onSchoolsChange('edit', {
+			_id: id,
+			data: [
+				{ field: 'amountPaid', value: amount }
+			]
+		})
+
+		res.status(200).end()
+	} catch (e) {
+		console.log(e)
+		res.status(500).end()
+	}
+}
+
 exports.getLockStatus = (req, res) => {
 	res.status(200).json({ coachLock: kpmtLock, regLock: registrationLock })
 }

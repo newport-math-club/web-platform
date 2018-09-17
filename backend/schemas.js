@@ -128,6 +128,10 @@ var SchoolSchema = new Schema(
 		},
 		coachEmail: String,
 		passHashed: String,
+		amountPaid: {
+			type: Number,
+			default: 0
+		},
 		registrationDate: Date,
 		active: Boolean,
 		teams: [
