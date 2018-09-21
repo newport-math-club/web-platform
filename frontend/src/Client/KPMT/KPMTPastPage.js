@@ -62,7 +62,6 @@ export default class KPMTPastPage extends Component {
 
 		const nothingMsg = (
 			<div>
-				{/* TODO: populate this page */}
 				<p>Nothing to see here yet; coming soon!</p>
 			</div>
 		)

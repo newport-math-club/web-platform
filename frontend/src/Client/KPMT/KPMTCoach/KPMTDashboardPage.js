@@ -114,6 +114,13 @@ export default class KPMTDashboardPage extends Component {
 	}
 
 	render() {
+		const numTeams = this.state.profile.teams.length
+		const numIndivs =
+			this.state.profile.competitors.length -
+			this.state.profile.teams
+				.slice()
+				.map(t => t.members)
+				.reduce((a, b) => a + b.length, 0)
 		return (
 			<div className="fullheight">
 				<Modal
@@ -178,20 +185,11 @@ export default class KPMTDashboardPage extends Component {
 							', ' +
 							this.state.profile.coachEmail}
 					</h3>
-					<h3>
-						{this.state.profile.teams.length +
-							' team(s), ' +
-							(this.state.profile.competitors.length -
-								this.state.profile.teams
-									.slice()
-									.map(t => t.members)
-									.reduce((a, b) => a + b.length, 0)) +
-							' individual(s)'}
-					</h3>
+					<h3>{numTeams + ' team(s), ' + numIndivs + ' individual(s)'}</h3>
 					<h3>
 						{this.state.profile.competitors.length} total student competitors
 					</h3>
-					{/* TODO: add cost calculation here */}
+					<h3>Total Cost: ${numTeams * 40 + numIndivs * 15}</h3>
 
 					<a onClick={this.openChangePasswordModal}>
 						<h3>Change your password</h3>

@@ -70,7 +70,6 @@ export default class AboutPage extends Component {
 						row={9}
 						column={1}
 					/>
-					{/* TODO: put everyone here, get photos and such */}
 				</OfficerPane>
 
 				<div

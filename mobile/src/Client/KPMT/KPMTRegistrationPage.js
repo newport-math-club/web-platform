@@ -94,7 +94,6 @@ export default class KPMTRegistrationPage extends Component {
 							you login, you can add teams and individuals to represent your
 							school. It will also display the cost of registering the given
 							number of students and teams, but you cannot pay online.
-							{/* TODO: something about how to pay here */}
 						</p>
 					</div>
 
