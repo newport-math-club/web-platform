@@ -110,6 +110,9 @@ exports.verifyCoachSession = async (req, res, next) => {
 			.exec()
 
 		res.locals.user = school
+
+		if (!school.active) return res.status(403).end()
+
 		next()
 	} catch (err) {
 		console.log(err)
