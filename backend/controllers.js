@@ -1084,15 +1084,17 @@ exports.setSchoolAmountPaid = async (req, res) => {
 	var amount = req.body.amount
 
 	if (!validateInput(id, amount)) return res.status(400).end()
+	if (isNaN(amount)) return res.status(400).end()
 
 	try {
-		await Schools.updateOne({_id: id}, {$set: {amountPaid: amount}}).exec()
+		await Schools.updateOne(
+			{ _id: id },
+			{ $set: { amountPaid: amount } }
+		).exec()
 
 		sockets.onSchoolsChange('edit', {
 			_id: id,
-			data: [
-				{ field: 'amountPaid', value: amount }
-			]
+			data: [{ field: 'amountPaid', value: amount }]
 		})
 
 		res.status(200).end()

@@ -142,6 +142,11 @@ module.exports = app => {
 		.post(nmcController.removeSchoolKPMT)
 
 	app
+		.route('/api/kpmt/setSchoolAmountPaid')
+		.post(nmcMiddleware.verifyAdminSession)
+		.post(nmcController.setSchoolAmountPaid)
+
+	app
 		.route('/api/kpmt/getLocks/')
 		.get(nmcMiddleware.verifyAdminSession)
 		.get(nmcController.getLockStatus)

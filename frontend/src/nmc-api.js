@@ -216,6 +216,21 @@ exports.deleteKPMTSchool = id => {
 	})
 }
 
+exports.kpmtSetAmountPaid = (id, amount) => {
+	return fetch(BASE_URL + '/api/kpmt/setSchoolAmountPaid', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id: id,
+			amount: amount
+		}),
+		credentials: 'include'
+	})
+}
+
 exports.activateSchool = id => {
 	return fetch(BASE_URL + '/api/kpmt/approveSchool', {
 		method: 'POST',

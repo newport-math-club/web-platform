@@ -5,7 +5,8 @@ import {
 	FilterBar,
 	Button,
 	Table,
-	ToggleButton
+	ToggleButton,
+	Textbox
 } from '../../Components'
 import Modal from 'react-modal'
 import SocketEventHandlers from '../../Sockets'
@@ -13,7 +14,8 @@ import {
 	fetchKPMTSchools,
 	deleteKPMTSchool,
 	activateSchool,
-	deactivateSchool
+	deactivateSchool,
+	kpmtSetAmountPaid
 } from '../../nmc-api'
 import moment from 'moment'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
@@ -50,6 +52,7 @@ export default class KPMTSchoolsPage extends Component {
 		}
 
 		this.selectedSchoolActiveToggleButton = React.createRef()
+		this.amountPaidTextbox = React.createRef()
 	}
 
 	componentWillUnmount() {
@@ -112,7 +115,9 @@ export default class KPMTSchoolsPage extends Component {
 								newSchools[i]._id.toString() ===
 									this.state.selectedSchool._id.toString()
 							) {
-								var newSelectedSchool = { ...this.state.selectedSchool }
+								var newSelectedSchool = {
+									...this.state.selectedSchool
+								}
 								data.payload.data.forEach(change => {
 									newSelectedSchool[change.field] = change.value
 								})
@@ -124,7 +129,9 @@ export default class KPMTSchoolsPage extends Component {
 							break
 						}
 					}
-					this.setState({ schools: newSchools })
+					this.setState({
+						schools: newSchools
+					})
 					break
 			}
 		})
@@ -156,6 +163,13 @@ export default class KPMTSchoolsPage extends Component {
 		}
 	}
 
+	setSchoolAmtPaid = async () => {
+		const response = await kpmtSetAmountPaid(
+			this.state.selectedSchool._id.toString(),
+			this.amountPaidTextbox.current.getText().toString()
+		)
+	}
+
 	handleSchoolActiveToggle = async () => {
 		// handle school activate deactivate, use ref to set enabled/disabled by response code
 		const active = !this.selectedSchoolActiveToggleButton.current.isEnabled()
@@ -178,6 +192,7 @@ export default class KPMTSchoolsPage extends Component {
 			teams: [],
 			competitors: []
 		}
+
 		return (
 			<div className="fullheight">
 				<Modal
@@ -198,6 +213,40 @@ export default class KPMTSchoolsPage extends Component {
 						{selectedSchool.competitors.length -
 							selectedSchool.teams.reduce((a, b) => a + b.members.length, 0)}
 					</h3>
+					<h3>
+						Amount Due/Amount Paid:
+						{' $'}
+						{selectedSchool.teams.length * 40 +
+							15 *
+								(selectedSchool.competitors.length -
+									selectedSchool.teams.reduce(
+										(a, b) => a + b.members.length,
+										0
+									))}
+						{'/$'}
+						{selectedSchool.amountPaid}
+					</h3>
+					<h3>
+						Amount Remaining:
+						{' $'}
+						{selectedSchool.teams.length * 40 +
+							15 *
+								(selectedSchool.competitors.length -
+									selectedSchool.teams.reduce(
+										(a, b) => a + b.members.length,
+										0
+									)) -
+							selectedSchool.amountPaid}
+					</h3>
+					<div>
+						<Textbox
+							ref={this.amountPaidTextbox}
+							style={{ display: 'inline-block' }}
+							placeholder="set amount paid"
+							type="number"
+						/>
+						<Button onClick={this.setSchoolAmtPaid} text="set amt. paid" />
+					</div>
 					<div
 						style={{
 							display: 'flex',
