@@ -500,8 +500,9 @@ exports.addTeam = (req, res) => {
 	for (var i = 0; i < team.length; i++) {
 		if (!team[i].name || !team[i].grade) return res.status(400).end()
 
-		if (team[i].name.isOnlyWhitespace() || isNaN(team[i].grade))
-			return res.status(400).end()
+		if (team[i].name.isOnlyWhitespace() || isNaN(team[i].grade)) return res.status(400).end()
+
+		if (team[i].grade > 8) return res.status(400).end()
 	}
 
 	var calls = []
@@ -548,6 +549,8 @@ exports.addTeam = (req, res) => {
 		competitors.forEach(competitor => {
 			if (competitor.grade > maxGrade) maxGrade = competitor.grade
 		})
+
+		if (maxGrade < 5) maxGrade = 5
 
 		const existingTeams = await Teams.find({}).exec()
 
@@ -861,7 +864,9 @@ exports.addIndiv = (req, res) => {
 	var name = req.body.name
 	var grade = req.body.grade
 
-	if (!validateInput(name, grade)) return res.status(400).end()
+	if (!validateInput(name, grade) || isNaN(grade) || grade > 8) return res.status(400).end()
+
+	if (grade < 5) grade = 5
 
 	var newCompetitor = new Competitors({
 		name: name,
