@@ -35,8 +35,20 @@ export default class KPMTAboutPage extends Component {
 
 					<br />
 
+					<a href="/kpmt/rules">
+						<h3>Detailed competition rules and guidelines</h3>
+					</a>
+
+					<br />
+
+					<a href="/kpmt/scoring">
+						<h3>Test format and scoring specifications</h3>
+					</a>
+
+					<br />
+
 					<a href="/kpmt/schedule">
-						<h3>Tentative schedule and scoring specifications</h3>
+						<h3>Tentative schedule of events</h3>
 					</a>
 
 					<br />
