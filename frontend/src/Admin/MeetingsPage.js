@@ -499,6 +499,7 @@ export default class MeetingsPage extends Component {
 						overflowY: 'auto'
 					}}>
 					<h2>Meetings</h2>
+					<h4>{this.state.meetings.length} meetings(s)</h4>
 					<div>
 						<FilterBar
 							placeholder="filter"

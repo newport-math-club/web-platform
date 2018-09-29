@@ -286,6 +286,7 @@ export default class KPMTSchoolsPage extends Component {
 						overflowY: 'auto'
 					}}>
 					<h2>KPMT Schools</h2>
+					<h4>{this.state.schools.length} school(s)</h4>
 					<div>
 						<FilterBar
 							placeholder="filter"

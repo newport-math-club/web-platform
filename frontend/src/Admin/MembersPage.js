@@ -313,6 +313,7 @@ export default class MembersPage extends Component {
 						overflowY: 'auto'
 					}}>
 					<h2>Members</h2>
+					<h4>{this.state.members.length} members(s)</h4>
 					<div>
 						<FilterBar
 							placeholder="filter"

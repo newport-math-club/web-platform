@@ -185,6 +185,7 @@ export default class KPMTCompetitorsPage extends Component {
 						overflowY: 'auto'
 					}}>
 					<h2>KPMT Competitors</h2>
+					<h4>{this.state.competitors.length} competitor(s)</h4>
 					<div>
 						<FilterBar
 							placeholder="filter"

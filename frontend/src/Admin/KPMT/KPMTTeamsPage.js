@@ -177,6 +177,7 @@ export default class KPMTTeamsPage extends Component {
 						overflowY: 'auto'
 					}}>
 					<h2>KPMT Teams</h2>
+					<h4>{this.state.teams.length} team(s)</h4>
 					<div>
 						<FilterBar
 							placeholder="filter"
