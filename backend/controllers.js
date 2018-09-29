@@ -190,7 +190,7 @@ exports.editMeeting = async (req, res) => {
 	})
 
 	await Members.updateMany(
-		{ _id: { $in: oldMeeting.members } },
+		{ _id: { $in: memberIds } },
 		{ $inc: { piPoints: piPoints } }
 	).exec()
 
@@ -500,7 +500,8 @@ exports.addTeam = (req, res) => {
 	for (var i = 0; i < team.length; i++) {
 		if (!team[i].name || !team[i].grade) return res.status(400).end()
 
-		if (team[i].name.isOnlyWhitespace() || isNaN(team[i].grade)) return res.status(400).end()
+		if (team[i].name.isOnlyWhitespace() || isNaN(team[i].grade))
+			return res.status(400).end()
 
 		if (team[i].grade > 8) return res.status(400).end()
 	}
@@ -864,7 +865,8 @@ exports.addIndiv = (req, res) => {
 	var name = req.body.name
 	var grade = req.body.grade
 
-	if (!validateInput(name, grade) || isNaN(grade) || grade > 8) return res.status(400).end()
+	if (!validateInput(name, grade) || isNaN(grade) || grade > 8)
+		return res.status(400).end()
 
 	if (grade < 5) grade = 5
 
