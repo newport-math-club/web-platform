@@ -231,6 +231,85 @@ exports.deleteKPMTTeam = (id, schoolId) => {
 	})
 }
 
+exports.addKPMTTeam = (members, schoolId) => {
+	return fetch(BASE_URL + '/api/kpmt/addTeam', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			members: members,
+			schoolId: schoolId
+		}),
+		credentials: 'include'
+	})
+}
+
+exports.editKPMTTeam = (id, members, schoolId) => {
+	return fetch(BASE_URL + '/api/kpmt/editTeam', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id: id,
+			members: members,
+			schoolId: schoolId
+		}),
+		credentials: 'include'
+	})
+}
+
+exports.deleteKPMTIndiv = (id, schoolId) => {
+	return fetch(BASE_URL + '/api/kpmt/removeIndiv', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id: id,
+			schoolId: schoolId
+		}),
+		credentials: 'include'
+	})
+}
+
+exports.addKPMTIndiv = (name, grade, schoolId) => {
+	return fetch(BASE_URL + '/api/kpmt/addIndiv', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			name: name,
+			grade: grade,
+			schoolId: schoolId
+		}),
+		credentials: 'include'
+	})
+}
+
+exports.editKPMTIndiv = (id, name, grade, schoolId) => {
+	return fetch(BASE_URL + '/api/kpmt/editIndiv', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id: id,
+			name: name,
+			grade: grade,
+			schoolId: schoolId
+		}),
+		credentials: 'include'
+	})
+}
+
 exports.kpmtSetAmountPaid = (id, amount) => {
 	return fetch(BASE_URL + '/api/kpmt/setSchoolAmountPaid', {
 		method: 'POST',

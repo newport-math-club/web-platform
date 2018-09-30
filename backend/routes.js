@@ -149,6 +149,36 @@ module.exports = app => {
 		.post(nmcController.removeTeam)
 
 	app
+		.route('/api/kpmt/addTeam')
+		.post(nmcMiddleware.verifyAdminSession)
+		.post(nmcMiddleware.mockSchoolSession)
+		.post(nmcController.addTeam)
+
+	app
+		.route('/api/kpmt/editTeam')
+		.post(nmcMiddleware.verifyAdminSession)
+		.post(nmcMiddleware.mockSchoolSession)
+		.post(nmcController.editTeam)
+
+	app
+		.route('/api/kpmt/removeIndiv')
+		.post(nmcMiddleware.verifyAdminSession)
+		.post(nmcMiddleware.mockSchoolSession)
+		.post(nmcController.removeIndiv)
+
+	app
+		.route('/api/kpmt/addIndiv')
+		.post(nmcMiddleware.verifyAdminSession)
+		.post(nmcMiddleware.mockSchoolSession)
+		.post(nmcController.addIndiv)
+
+	app
+		.route('/api/kpmt/editIndiv')
+		.post(nmcMiddleware.verifyAdminSession)
+		.post(nmcMiddleware.mockSchoolSession)
+		.post(nmcController.editIndiv)
+
+	app
 		.route('/api/kpmt/setSchoolAmountPaid')
 		.post(nmcMiddleware.verifyAdminSession)
 		.post(nmcController.setSchoolAmountPaid)

@@ -490,7 +490,7 @@ exports.changeSchoolPassword = (req, res) => {
 }
 
 exports.addTeam = (req, res) => {
-	if (kpmtLock) return res.status(403).end()
+	if (kpmtLock && !res.locals.elevated) return res.status(403).end()
 	var school = res.locals.user
 	var team = req.body.team
 
@@ -623,7 +623,7 @@ exports.addTeam = (req, res) => {
 }
 
 exports.editTeam = async (req, res) => {
-	if (kpmtLock) return res.status(403).end()
+	if (kpmtLock && !res.locals.elevated) return res.status(403).end()
 	const id = req.body.id
 	const newMembers = req.body.members
 	const school = res.locals.user
@@ -860,7 +860,7 @@ exports.removeTeam = async (req, res) => {
 }
 
 exports.addIndiv = (req, res) => {
-	if (kpmtLock) return res.status(403).end()
+	if (kpmtLock && !res.locals.elevated) return res.status(403).end()
 	var school = res.locals.user
 	var name = req.body.name
 	var grade = req.body.grade
@@ -915,7 +915,7 @@ exports.addIndiv = (req, res) => {
 }
 
 exports.editIndiv = async (req, res) => {
-	if (kpmtLock) return res.status(403).end()
+	if (kpmtLock && !res.locals.elevated) return res.status(403).end()
 	var school = res.locals.user
 	var id = req.body.id
 	var name = req.body.name
@@ -947,7 +947,7 @@ exports.editIndiv = async (req, res) => {
 }
 
 exports.removeIndiv = async (req, res) => {
-	if (kpmtLock) return res.status(403).end()
+	if (kpmtLock && !res.locals.elevated) return res.status(403).end()
 	const school = res.locals.user
 	var id = req.body.id
 
