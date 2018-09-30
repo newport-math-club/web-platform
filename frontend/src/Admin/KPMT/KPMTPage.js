@@ -144,6 +144,8 @@ export default class KPMTPage extends Component {
 		}
 	}
 
+	generateRoomAssignments = async () => {}
+
 	render() {
 		var linksData = [
 			{ href: '/admin/kpmt/schools', name: 'Schools' },
@@ -279,6 +281,13 @@ export default class KPMTPage extends Component {
 					{links}
 					<h3 style={{ marginTop: '1em' }}>KPMT Master Controls</h3>
 
+					<div>
+						<Link
+							onClick={this.generateRoomAssignments}
+							name={'Generate Room Assignments'}
+						/>
+						<p>Generates room in CSV format</p>
+					</div>
 					<div>
 						<Link onClick={this.exportData} name={'Export Data'} />
 						<p>
