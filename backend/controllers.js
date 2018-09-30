@@ -656,14 +656,14 @@ exports.editTeam = async (req, res) => {
 		}).exec()
 
 		// socket delete these competitors
-		targetTeam.members.forEach(async memberId => {
+		for (var i = 0; i < targetTeam.members.length; i++) {
 			await Schools.updateOne(
 				{ _id: targetTeam.school },
-				{ $pull: { competitors: { _id: memberId } } }
+				{ $pull: { competitors: targetTeam.members[i] } }
 			).exec()
 
-			sockets.onCompetitorsChange('remove', memberId.toString())
-		})
+			sockets.onCompetitorsChange('remove', targetTeam.members[i].toString())
+		}
 
 		// create the new members
 
