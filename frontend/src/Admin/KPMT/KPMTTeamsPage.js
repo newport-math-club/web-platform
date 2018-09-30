@@ -134,7 +134,7 @@ export default class KPMTTeamsPage extends Component {
 		})
 	}
 
-	deleteSchool = async () => {
+	deleteTeam = async () => {
 		const response = await deleteKPMTTeam(
 			this.state.selectedTeam._id.toString(),
 			this.state.selectedTeam.school._id.toString()

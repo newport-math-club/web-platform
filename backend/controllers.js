@@ -764,7 +764,7 @@ exports.editTeam = async (req, res) => {
 }
 
 exports.removeTeam = async (req, res) => {
-	if (kpmtLock) return res.status(403).end()
+	if (kpmtLock && !res.locals.elevated) return res.status(403).end()
 	var id = req.body.id
 	const school = res.locals.user
 

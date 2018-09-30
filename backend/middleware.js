@@ -89,6 +89,9 @@ exports.mockSchoolSession = async (req, res, next) => {
 			.populate({ path: 'competitors', populate: { path: 'team' } })
 			.exec()
 
+		// sets elevated permissions to override all locks
+		res.locals.elevated = true
+
 		next()
 	} catch (error) {
 		console.log(error)
