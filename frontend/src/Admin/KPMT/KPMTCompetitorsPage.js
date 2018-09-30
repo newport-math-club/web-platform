@@ -8,7 +8,7 @@ import {
 } from '../../Components'
 import Modal from 'react-modal'
 import SocketEventHandlers from '../../Sockets'
-import { fetchKPMTCompetitors } from '../../nmc-api'
+import { fetchKPMTCompetitors, deleteKPMTIndiv } from '../../nmc-api'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 
 Modal.setAppElement('#root')
@@ -137,6 +137,16 @@ export default class KPMTCompetitorsPage extends Component {
 		})
 	}
 
+	deleteIndividual = async () => {
+		const response = await deleteKPMTIndiv(
+			this.state.selectedCompetitor._id.toString(),
+			this.state.selectedCompetitor.school._id.toString()
+		)
+		if (response.status === 200) {
+			this.closeCompetitorModal()
+		}
+	}
+
 	render() {
 		const selectedCompetitor = this.state.selectedCompetitor || {
 			school: {},
@@ -167,7 +177,11 @@ export default class KPMTCompetitorsPage extends Component {
 					<h3 style={{ color: '#527aff' }}>
 						Weighted: {selectedCompetitor.scores.weighted}
 					</h3>
-
+					{!selectedCompetitor.team && (
+						<div style={{ bottom: '1em', left: '1em', position: 'absolute' }}>
+							<Button onClick={this.deleteIndividual} text="delete" />
+						</div>
+					)}
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeCompetitorModal} text="close" />
 					</div>
