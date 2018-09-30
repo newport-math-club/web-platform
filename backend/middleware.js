@@ -84,11 +84,16 @@ exports.verifyAdminSession = (req, res, next) => {
 exports.mockSchoolSession = async (req, res, next) => {
 	var schoolId = req.body.schoolId
 	try {
-		res.locals.user = await Schools.findOne({ _id: schoolId })
+		const school = await Schools.findOne({ _id: schoolId })
 			.populate({ path: 'teams', populate: { path: 'members' } })
 			.populate({ path: 'competitors', populate: { path: 'team' } })
 			.exec()
 
+		if (!school) {
+			return res.status(404).end()
+		}
+
+		res.locals.user = school
 		// sets elevated permissions to override all locks
 		res.locals.elevated = true
 
