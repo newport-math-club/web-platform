@@ -239,7 +239,7 @@ exports.addKPMTTeam = (members, schoolId) => {
 			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({
-			members: members,
+			team: members,
 			schoolId: schoolId
 		}),
 		credentials: 'include'

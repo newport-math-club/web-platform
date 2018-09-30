@@ -4,11 +4,18 @@ import {
 	getAdminNavItems,
 	FilterBar,
 	Button,
-	Table
+	Table,
+	Textbox
 } from '../../Components'
 import Modal from 'react-modal'
 import SocketEventHandlers from '../../Sockets'
-import { fetchKPMTCompetitors, deleteKPMTIndiv } from '../../nmc-api'
+import Autosuggest from 'react-autosuggest'
+import {
+	fetchKPMTCompetitors,
+	fetchKPMTSchools,
+	deleteKPMTIndiv,
+	addKPMTIndiv
+} from '../../nmc-api'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 
 Modal.setAppElement('#root')
@@ -31,6 +38,10 @@ const customStyles = {
 	}
 }
 
+const renderSuggestion = suggestion => (
+	<div style={{ display: 'inline', cursor: 'pointer' }}>{suggestion.name}</div>
+)
+
 export default class KPMTCompetitorsPage extends Component {
 	constructor(props) {
 		super(props)
@@ -38,13 +49,36 @@ export default class KPMTCompetitorsPage extends Component {
 		this.state = {
 			filter: '',
 			competitorDialogIsOpen: false,
+			newIndivDialogIsOpen: false,
 			competitors: [],
+			schools: [],
+			selectedSchool: null,
+			schoolSuggestions: [],
+			suggestionValue: '',
 			selectedCompetitor: null
 		}
+
+		this.newGradeRef = React.createRef()
+		this.newNameRef = React.createRef()
+		this.editGradeRef = React.createRef()
+		this.editNameRef = React.createRef()
+	}
+
+	openNewIndivModal = () => {
+		this.setState({ newIndivDialogIsOpen: true })
+	}
+
+	closeNewIndivModal = () => {
+		this.setState({
+			newIndivDialogIsOpen: false,
+			selectedSchool: null,
+			suggestionValue: ''
+		})
 	}
 
 	componentWillUnmount() {
 		SocketEventHandlers.unsubscribeCompetitorsChange()
+		SocketEventHandlers.unsubscribeSchoolsChange()
 	}
 
 	async componentDidMount() {
@@ -57,6 +91,52 @@ export default class KPMTCompetitorsPage extends Component {
 			window.location.href = '/login'
 			return
 		}
+
+		const schoolsResponse = await fetchKPMTSchools()
+		if (schoolsResponse.status === 200) {
+			const data = await schoolsResponse.json()
+
+			this.setState({ schools: data })
+		} else {
+			window.location.href = '/login'
+			return
+		}
+
+		SocketEventHandlers.subscribeToSchoolsChange(data => {
+			console.log('received school change: ')
+			console.log(data)
+			switch (data.type) {
+				case 'add':
+					this.setState({
+						schools: this.state.schools.slice().concat(data.payload)
+					})
+					break
+				case 'remove':
+					this.setState({
+						schools: this.state.schools
+							.slice()
+							.filter(s => s._id.toString() !== data.payload.toString())
+					})
+
+					break
+				case 'edit':
+					var newSchools = this.state.schools.slice()
+
+					for (var i = 0; i < newSchools.length; i++) {
+						if (newSchools[i]._id.toString() === data.payload._id.toString()) {
+							data.payload.data.forEach(change => {
+								newSchools[i][change.field] = change.value
+							})
+
+							break
+						}
+					}
+					this.setState({
+						schools: newSchools
+					})
+					break
+			}
+		})
 
 		SocketEventHandlers.subscribeToCompetitorsChange(data => {
 			switch (data.type) {
@@ -147,14 +227,124 @@ export default class KPMTCompetitorsPage extends Component {
 		}
 	}
 
+	saveIndiv = async () => {
+		const name = this.newNameRef.current.getText()
+		const grade = this.newGradeRef.current.getText()
+
+		if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace()) {
+			this.setState({ error: 1 })
+			return
+		}
+
+		const response = await addKPMTIndiv(
+			name,
+			grade,
+			this.state.selectedSchool._id.toString()
+		)
+
+		if (response.status === 200) {
+			this.closeNewIndivModal()
+		} else {
+			this.setState({ error: response.status })
+		}
+	}
+
+	getSchoolSuggestions = value => {
+		const input = value.trim().toLowerCase()
+
+		return input.length === 0
+			? []
+			: this.state.schools
+					.slice()
+					.filter(s => s.name.toLowerCase().includes(input))
+	}
+
+	onSuggestionsFetchRequested = value => {
+		this.setState({
+			schoolSuggestions: this.getSchoolSuggestions(value.value)
+		})
+	}
+
+	// Autosuggest will call this function every time you need to clear suggestions.
+	onSuggestionsClearRequested = () => {
+		this.setState({ schoolSuggestions: [] })
+	}
+
+	onSuggestionInputChange = (event, { newValue }) => {
+		this.setState({ suggestionValue: newValue })
+	}
+
+	onSuggestionSelected = (_, item) => {
+		const suggestion = item.suggestion
+		this.setState({
+			suggestionValue: suggestion.name,
+			selectedSchool: suggestion
+		})
+	}
+
 	render() {
 		const selectedCompetitor = this.state.selectedCompetitor || {
 			school: {},
 			team: {},
 			scores: {}
 		}
+
+		const inputProps = {
+			placeholder: 'select school',
+			value: this.state.suggestionValue,
+			onChange: this.onSuggestionInputChange,
+			style: {
+				width: '70%',
+				display: 'inline-block'
+			}
+		}
+
+		const newMemberTextboxes = (
+			<div>
+				<Textbox
+					style={{ display: 'inline', width: '16em' }}
+					ref={this.newNameRef}
+					placeholder="full name"
+				/>
+				<Textbox
+					style={{ display: 'inline', width: '4em', marginLeft: '1em' }}
+					ref={this.newGradeRef}
+					placeholder="grade"
+				/>
+			</div>
+		)
+
 		return (
 			<div className="fullheight">
+				<Modal
+					isOpen={this.state.newIndivDialogIsOpen}
+					style={customStyles}
+					contentLabel="New Individual">
+					<h2>New Individual</h2>
+
+					<div style={{ marginTop: '2em' }}>{newMemberTextboxes}</div>
+					<Autosuggest
+						suggestions={this.state.schoolSuggestions}
+						onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+						onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+						getSuggestionValue={suggestion => suggestion.name}
+						onSuggestionSelected={this.onSuggestionSelected}
+						renderSuggestion={renderSuggestion}
+						inputProps={inputProps}
+					/>
+					<div style={{ textAlign: 'center' }}>
+						{(this.state.error === 1 || this.state.error === 400) && (
+							<h5 style={{ marginTop: '8px' }}>
+								invalid inputs, please try again
+							</h5>
+						)}
+					</div>
+
+					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
+						<Button onClick={this.closeNewIndivModal} text="close" />
+						<Button onClick={this.saveIndiv} text="save" />
+					</div>
+				</Modal>
 				<Modal
 					isOpen={this.state.competitorDialogIsOpen}
 					style={customStyles}
@@ -205,6 +395,7 @@ export default class KPMTCompetitorsPage extends Component {
 							placeholder="filter"
 							onTextChange={text => this.setState({ filter: text })}
 						/>
+						<Button text="new individual" onClick={this.openNewIndivModal} />
 					</div>
 					<Table
 						headers={['Grade', 'Name', 'School', 'Score']}

@@ -4,11 +4,18 @@ import {
 	getAdminNavItems,
 	FilterBar,
 	Button,
-	Table
+	Table,
+	Textbox
 } from '../../Components'
 import Modal from 'react-modal'
 import SocketEventHandlers from '../../Sockets'
-import { fetchKPMTTeams, deleteKPMTTeam } from '../../nmc-api'
+import Autosuggest from 'react-autosuggest'
+import {
+	fetchKPMTTeams,
+	fetchKPMTSchools,
+	deleteKPMTTeam,
+	addKPMTTeam
+} from '../../nmc-api'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 
 Modal.setAppElement('#root')
@@ -31,6 +38,10 @@ const customStyles = {
 	}
 }
 
+const renderSuggestion = suggestion => (
+	<div style={{ display: 'inline', cursor: 'pointer' }}>{suggestion.name}</div>
+)
+
 export default class KPMTTeamsPage extends Component {
 	constructor(props) {
 		super(props)
@@ -38,13 +49,42 @@ export default class KPMTTeamsPage extends Component {
 		this.state = {
 			filter: '',
 			teamDialogIsOpen: false,
+			newTeamDialogIsOpen: false,
 			teams: [],
+			schools: [],
+			selectedSchool: null,
+			schoolSuggestions: [],
+			suggestionValue: '',
 			selectedTeam: null
 		}
+
+		this.newGradeRefs = []
+		this.newNameRefs = []
+		this.editGradeRefs = []
+		this.editNameRefs = []
+		;[0, 1, 2, 3].forEach(() => {
+			this.newGradeRefs.push(React.createRef())
+			this.newNameRefs.push(React.createRef())
+			this.editGradeRefs.push(React.createRef())
+			this.editNameRefs.push(React.createRef())
+		})
+	}
+
+	openNewTeamModal = () => {
+		this.setState({ newTeamDialogIsOpen: true })
+	}
+
+	closeNewTeamModal = () => {
+		this.setState({
+			newTeamDialogIsOpen: false,
+			selectedSchool: null,
+			suggestionValue: ''
+		})
 	}
 
 	componentWillUnmount() {
 		SocketEventHandlers.unsubscribeTeamsChange()
+		SocketEventHandlers.unsubscribeSchoolsChange()
 	}
 
 	async componentDidMount() {
@@ -57,6 +97,52 @@ export default class KPMTTeamsPage extends Component {
 			window.location.href = '/login'
 			return
 		}
+
+		const schoolsResponse = await fetchKPMTSchools()
+		if (schoolsResponse.status === 200) {
+			const data = await schoolsResponse.json()
+
+			this.setState({ schools: data })
+		} else {
+			window.location.href = '/login'
+			return
+		}
+
+		SocketEventHandlers.subscribeToSchoolsChange(data => {
+			console.log('received school change: ')
+			console.log(data)
+			switch (data.type) {
+				case 'add':
+					this.setState({
+						schools: this.state.schools.slice().concat(data.payload)
+					})
+					break
+				case 'remove':
+					this.setState({
+						schools: this.state.schools
+							.slice()
+							.filter(s => s._id.toString() !== data.payload.toString())
+					})
+
+					break
+				case 'edit':
+					var newSchools = this.state.schools.slice()
+
+					for (var i = 0; i < newSchools.length; i++) {
+						if (newSchools[i]._id.toString() === data.payload._id.toString()) {
+							data.payload.data.forEach(change => {
+								newSchools[i][change.field] = change.value
+							})
+
+							break
+						}
+					}
+					this.setState({
+						schools: newSchools
+					})
+					break
+			}
+		})
 
 		SocketEventHandlers.subscribeToTeamsChange(data => {
 			switch (data.type) {
@@ -144,14 +230,149 @@ export default class KPMTTeamsPage extends Component {
 		}
 	}
 
+	saveTeam = async () => {
+		var team = []
+		;[0, 1, 2, 3].forEach(index => {
+			const name = this.newNameRefs[index].current.getText()
+			const grade = this.newGradeRefs[index].current.getText()
+
+			if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace())
+				return
+
+			team.push({
+				name: name,
+				grade: parseInt(grade, 10)
+			})
+		})
+
+		if (team.length < 3) {
+			this.setState({ error: 1 })
+			return
+		}
+
+		if (!this.state.selectedSchool) {
+			this.setState({ error: 1 })
+			return
+		}
+
+		const response = await addKPMTTeam(
+			team,
+			this.state.selectedSchool._id.toString()
+		)
+
+		if (response.status === 200) {
+			this.closeNewTeamModal()
+		} else {
+			this.setState({ error: response.status })
+		}
+	}
+
+	getSchoolSuggestions = value => {
+		const input = value.trim().toLowerCase()
+
+		return input.length === 0
+			? []
+			: this.state.schools
+					.slice()
+					.filter(s => s.name.toLowerCase().includes(input))
+	}
+
+	onSuggestionsFetchRequested = value => {
+		this.setState({
+			schoolSuggestions: this.getSchoolSuggestions(value.value)
+		})
+	}
+
+	// Autosuggest will call this function every time you need to clear suggestions.
+	onSuggestionsClearRequested = () => {
+		this.setState({ schoolSuggestions: [] })
+	}
+
+	onSuggestionInputChange = (event, { newValue }) => {
+		this.setState({ suggestionValue: newValue })
+	}
+
+	onSuggestionSelected = (_, item) => {
+		const suggestion = item.suggestion
+		this.setState({
+			suggestionValue: suggestion.name,
+			selectedSchool: suggestion
+		})
+	}
+
 	render() {
 		const selectedTeam = this.state.selectedTeam || {
 			members: [],
 			school: {},
 			scores: {}
 		}
+
+		const inputProps = {
+			placeholder: 'select school',
+			value: this.state.suggestionValue,
+			onChange: this.onSuggestionInputChange,
+			style: {
+				width: '70%',
+				display: 'inline-block'
+			}
+		}
+
+		const newMemberTextboxes = [0, 1, 2, 3].map(index => {
+			return (
+				<div>
+					<Textbox
+						style={{
+							display: 'inline',
+							width: '16em'
+						}}
+						ref={this.newNameRefs[index]}
+						placeholder="full name"
+					/>
+					<Textbox
+						style={{
+							display: 'inline',
+							width: '4em',
+							marginLeft: '1em'
+						}}
+						ref={this.newGradeRefs[index]}
+						placeholder="grade"
+					/>
+				</div>
+			)
+		})
 		return (
 			<div className="fullheight">
+				<Modal
+					isOpen={this.state.newTeamDialogIsOpen}
+					style={customStyles}
+					contentLabel="New Team">
+					<h2>New Team</h2>
+					<h5>
+						Every team must have 3-4 members; leave the last line completely
+						blank to have 3 members
+					</h5>
+					<div style={{ marginTop: '2em' }}>{newMemberTextboxes}</div>
+					<Autosuggest
+						suggestions={this.state.schoolSuggestions}
+						onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+						onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+						getSuggestionValue={suggestion => suggestion.name}
+						onSuggestionSelected={this.onSuggestionSelected}
+						renderSuggestion={renderSuggestion}
+						inputProps={inputProps}
+					/>
+					<div style={{ textAlign: 'center' }}>
+						{(this.state.error === 1 || this.state.error === 400) && (
+							<h5 style={{ marginTop: '8px' }}>
+								invalid inputs, please try again
+							</h5>
+						)}
+					</div>
+					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
+						<Button onClick={this.closeNewTeamModal} text="close" />
+						<Button onClick={this.saveTeam} text="save" />
+					</div>
+				</Modal>
 				<Modal
 					isOpen={this.state.teamDialogIsOpen}
 					style={customStyles}
@@ -196,6 +417,7 @@ export default class KPMTTeamsPage extends Component {
 							placeholder="filter"
 							onTextChange={text => this.setState({ filter: text })}
 						/>
+						<Button text="new team" onClick={this.openNewTeamModal} />
 					</div>
 					<Table
 						headers={['Number', 'School', 'Members', 'Score']}
