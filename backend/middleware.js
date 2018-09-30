@@ -81,6 +81,21 @@ exports.verifyAdminSession = (req, res, next) => {
 	)
 }
 
+exports.mockSchoolSession = async (req, res, next) => {
+	var schoolId = req.body.schoolId
+	try {
+		res.locals.user = await Schools.findOne({ _id: schoolId })
+			.populate({ path: 'teams', populate: { path: 'members' } })
+			.populate({ path: 'competitors', populate: { path: 'team' } })
+			.exec()
+
+		next()
+	} catch (error) {
+		console.log(error)
+		res.status(500).end()
+	}
+}
+
 exports.verifySession = (req, res, next) => {
 	var id = req.session._id
 

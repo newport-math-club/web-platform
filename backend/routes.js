@@ -141,6 +141,13 @@ module.exports = app => {
 		.post(nmcMiddleware.verifyAdminSession)
 		.post(nmcController.removeSchoolKPMT)
 
+	/* ADMIN MOCKING COACH SESSIONS */
+	app
+		.route('/api/kpmt/removeTeam')
+		.post(nmcMiddleware.verifyAdminSession)
+		.post(nmcMiddleware.mockSchoolSession)
+		.post(nmcController.removeTeam)
+
 	app
 		.route('/api/kpmt/setSchoolAmountPaid')
 		.post(nmcMiddleware.verifyAdminSession)

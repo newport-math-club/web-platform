@@ -8,7 +8,7 @@ import {
 } from '../../Components'
 import Modal from 'react-modal'
 import SocketEventHandlers from '../../Sockets'
-import { fetchKPMTTeams } from '../../nmc-api'
+import { fetchKPMTTeams, deleteKPMTTeam } from '../../nmc-api'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 
 Modal.setAppElement('#root')
@@ -134,6 +134,16 @@ export default class KPMTTeamsPage extends Component {
 		})
 	}
 
+	deleteSchool = async () => {
+		const response = await deleteKPMTTeam(
+			this.state.selectedTeam._id.toString(),
+			this.state.selectedTeam.school._id.toString()
+		)
+		if (response.status === 200) {
+			this.closeTeamModal()
+		}
+	}
+
 	render() {
 		const selectedTeam = this.state.selectedTeam || {
 			members: [],
@@ -160,6 +170,9 @@ export default class KPMTTeamsPage extends Component {
 					<h3>P&P: {selectedTeam.scores.probability}</h3>
 					<h3>Weighted: {selectedTeam.scores.weighted}</h3>
 
+					<div style={{ bottom: '1em', left: '1em', position: 'absolute' }}>
+						<Button onClick={this.deleteTeam} text="delete" />
+					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeTeamModal} text="close" />
 					</div>
