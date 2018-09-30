@@ -14,7 +14,8 @@ import {
 	fetchKPMTTeams,
 	fetchKPMTSchools,
 	deleteKPMTTeam,
-	addKPMTTeam
+	addKPMTTeam,
+	editKPMTTeam
 } from '../../nmc-api'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 
@@ -230,6 +231,41 @@ export default class KPMTTeamsPage extends Component {
 		}
 	}
 
+	saveEditTeam = async () => {
+		var team = []
+		;[0, 1, 2, 3].forEach(index => {
+			const name = this.editNameRefs[index].current.getText()
+			const grade = this.editGradeRefs[index].current.getText().toString()
+
+			if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace())
+				return
+
+			team.push({
+				name: name,
+				grade: parseInt(grade, 10)
+			})
+		})
+
+		console.log(team)
+		if (team.length < 3) {
+			this.setState({ error: 1 })
+			return
+		}
+
+		const response = await editKPMTTeam(
+			this.state.selectedTeam._id.toString(),
+			team,
+			this.state.selectedTeam.school._id.toString()
+		)
+
+		console.log(response)
+		if (response.status === 200) {
+			this.closeTeamModal()
+		} else {
+			this.setState({ error: response.status })
+		}
+	}
+
 	saveTeam = async () => {
 		var team = []
 		;[0, 1, 2, 3].forEach(index => {
@@ -317,6 +353,56 @@ export default class KPMTTeamsPage extends Component {
 			}
 		}
 
+		const memberTextboxes = [0, 1, 2, 3].map(index => {
+			if (selectedTeam.members.length > index) {
+				const member = selectedTeam.members[index]
+				return (
+					<div>
+						<Textbox
+							ref={this.editNameRefs[index]}
+							style={{
+								display: 'inline',
+								width: '16em'
+							}}
+							text={member.name}
+							placeholder="name"
+						/>
+						<Textbox
+							style={{
+								display: 'inline',
+								width: '4em',
+								marginLeft: '1em'
+							}}
+							ref={this.editGradeRefs[index]}
+							text={member.grade}
+							placeholder="grade"
+						/>
+					</div>
+				)
+			}
+			return (
+				<div>
+					<Textbox
+						style={{
+							display: 'inline',
+							width: '16em'
+						}}
+						ref={this.editNameRefs[index]}
+						placeholder="full name"
+					/>
+					<Textbox
+						style={{
+							display: 'inline',
+							width: '4em',
+							marginLeft: '1em'
+						}}
+						ref={this.editGradeRefs[index]}
+						placeholder="grade"
+					/>
+				</div>
+			)
+		})
+
 		const newMemberTextboxes = [0, 1, 2, 3].map(index => {
 			return (
 				<div>
@@ -377,25 +463,28 @@ export default class KPMTTeamsPage extends Component {
 					isOpen={this.state.teamDialogIsOpen}
 					style={customStyles}
 					contentLabel="View Team">
-					<h2>View Team</h2>
-					<h3>Team #: {selectedTeam.number}</h3>
-					<h3>
-						Members:{' '}
-						{selectedTeam.members
-							.reduce((a, b) => a + ', ' + b.name, '')
-							.substring(2)}
-					</h3>
-					<h3>School: {selectedTeam.school.name}</h3>
-					<h3>Algebra: {selectedTeam.scores.algebra}</h3>
-					<h3>Geometry: {selectedTeam.scores.geometry}</h3>
-					<h3>P&P: {selectedTeam.scores.probability}</h3>
-					<h3>Weighted: {selectedTeam.scores.weighted}</h3>
+					<h2>Team {selectedTeam.number}</h2>
+					<h4>{selectedTeam.school.name}</h4>
+					<h4>
+						Scores (A/G/P/W): {selectedTeam.scores.algebra}/
+						{selectedTeam.scores.geometry}/{selectedTeam.scores.probability}/
+						{selectedTeam.scores.weighted}
+					</h4>
+					<div style={{ marginTop: '2em' }}>{memberTextboxes}</div>
+					<div style={{ textAlign: 'center' }}>
+						{(this.state.error === 1 || this.state.error === 400) && (
+							<h5 style={{ marginTop: '8px' }}>
+								invalid inputs, please try again
+							</h5>
+						)}
+					</div>
 
 					<div style={{ bottom: '1em', left: '1em', position: 'absolute' }}>
 						<Button onClick={this.deleteTeam} text="delete" />
 					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeTeamModal} text="close" />
+						<Button onClick={this.saveEditTeam} text="save" />
 					</div>
 				</Modal>
 

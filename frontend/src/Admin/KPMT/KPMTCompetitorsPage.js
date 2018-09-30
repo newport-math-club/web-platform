@@ -14,7 +14,8 @@ import {
 	fetchKPMTCompetitors,
 	fetchKPMTSchools,
 	deleteKPMTIndiv,
-	addKPMTIndiv
+	addKPMTIndiv,
+	editKPMTIndiv
 } from '../../nmc-api'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 
@@ -249,6 +250,29 @@ export default class KPMTCompetitorsPage extends Component {
 		}
 	}
 
+	saveEditIndiv = async () => {
+		const name = this.editNameRef.current.getText()
+		const grade = this.editGradeRef.current.getText().toString()
+
+		if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace()) {
+			this.setState({ error: 1 })
+			return
+		}
+
+		const response = await editKPMTIndiv(
+			this.state.selectedCompetitor._id.toString(),
+			name,
+			grade,
+			this.state.selectedCompetitor.school._id.toString()
+		)
+
+		if (response.status === 200) {
+			this.closeCompetitorModal()
+		} else {
+			this.setState({ error: response.status })
+		}
+	}
+
 	getSchoolSuggestions = value => {
 		const input = value.trim().toLowerCase()
 
@@ -314,6 +338,23 @@ export default class KPMTCompetitorsPage extends Component {
 			</div>
 		)
 
+		const memberTextboxes = (
+			<div>
+				<Textbox
+					text={selectedCompetitor.name}
+					style={{ display: 'inline', width: '16em' }}
+					ref={this.editNameRef}
+					placeholder="full name"
+				/>
+				<Textbox
+					text={selectedCompetitor.grade}
+					style={{ display: 'inline', width: '4em', marginLeft: '1em' }}
+					ref={this.editGradeRef}
+					placeholder="grade"
+				/>
+			</div>
+		)
+
 		return (
 			<div className="fullheight">
 				<Modal
@@ -350,23 +391,28 @@ export default class KPMTCompetitorsPage extends Component {
 					style={customStyles}
 					contentLabel="View Competitor">
 					<h2>View Competitor</h2>
-					<h3>Name: {selectedCompetitor.name}</h3>
-					<h3>Grade: {selectedCompetitor.grade}</h3>
-					<h3>School: {selectedCompetitor.school.name}</h3>
+					{/* <h3>Name: {selectedCompetitor.name}</h3>
+					<h3>Grade: {selectedCompetitor.grade}</h3> */}
+					<h4>School: {selectedCompetitor.school.name}</h4>
 					{selectedCompetitor.team && (
-						<h3>Team: {selectedCompetitor.team.number}</h3>
+						<h4>Team: {selectedCompetitor.team.number}</h4>
 					)}
-					<h3>
-						Individual:{' '}
-						{selectedCompetitor.scores.individual +
-							'/' +
-							selectedCompetitor.scores.individualLast}
-					</h3>
-					<h3>Block: {selectedCompetitor.scores.block}</h3>
-					<h3>Mental: {selectedCompetitor.scores.mental}</h3>
-					<h3 style={{ color: '#527aff' }}>
-						Weighted: {selectedCompetitor.scores.weighted}
-					</h3>
+					<h4>
+						Scores (I/IL/B/M/W): {selectedCompetitor.scores.individual}/
+						{selectedCompetitor.scores.individualLast}/
+						{selectedCompetitor.scores.block}/{selectedCompetitor.scores.mental}
+						/{selectedCompetitor.scores.weighted}
+					</h4>
+
+					<div style={{ marginTop: '2em' }}>{memberTextboxes}</div>
+					<div style={{ textAlign: 'center' }}>
+						{(this.state.error === 1 || this.state.error === 400) && (
+							<h5 style={{ marginTop: '8px' }}>
+								invalid inputs, please try again
+							</h5>
+						)}
+					</div>
+
 					{!selectedCompetitor.team && (
 						<div style={{ bottom: '1em', left: '1em', position: 'absolute' }}>
 							<Button onClick={this.deleteIndividual} text="delete" />
@@ -374,6 +420,9 @@ export default class KPMTCompetitorsPage extends Component {
 					)}
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeCompetitorModal} text="close" />
+						{!selectedCompetitor.team && (
+							<Button onClick={this.saveEditIndiv} text="save" />
+						)}
 					</div>
 				</Modal>
 
