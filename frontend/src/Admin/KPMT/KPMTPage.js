@@ -324,6 +324,7 @@ export default class KPMTPage extends Component {
 			roomIndex++
 			if (roomIndex - startingRoomIndex >= teams78NumRooms)
 				roomIndex = startingRoomIndex
+		}
 
 		// TODO: then download a csv/json file as done below w/ the export kek
 
