@@ -258,7 +258,12 @@ export default class KPMTManageTeamsPage extends Component {
 					<h2>New Team</h2>
 					<h5>
 						Every team must have 3-4 members; leave the last line completely
-						blank to have 3 members
+						blank to have 3 members.
+					</h5>
+
+					<h5>
+						Students must be 8th grade or below. Students below 5th grade will
+						be automatically changed to 5th grade for KPMT's purposes.
 					</h5>
 					<div style={{ marginTop: '2em' }}>{newMemberTextboxes}</div>
 					<div style={{ textAlign: 'center' }}>
@@ -287,6 +292,10 @@ export default class KPMTManageTeamsPage extends Component {
 					<h5>
 						Every team must have 3-4 members; leave the last line completely
 						blank to have 3 members
+					</h5>
+					<h5>
+						Students must be 8th grade or below. Students below 5th grade will
+						be automatically changed to 5th grade for KPMT's purposes.
 					</h5>
 					<div style={{ marginTop: '2em' }}>{memberTextboxes}</div>
 					<div style={{ textAlign: 'center' }}>

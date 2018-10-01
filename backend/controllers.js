@@ -504,6 +504,7 @@ exports.addTeam = (req, res) => {
 			return res.status(400).end()
 
 		if (team[i].grade > 8) return res.status(400).end()
+		if (team[i].grade < 5) team[i].grade = 5
 	}
 
 	var calls = []
