@@ -282,7 +282,48 @@ export default class KPMTPage extends Component {
 				roomIndex = startingRoomIndex
 		}
 
-		// TODO: start here on autoassigning 5/6 and 7/8 teams
+		// 5/6 team  rooms
+		startingRoomIndex += individuals78NumRooms
+		roomIndex = startingRoomIndex
+
+		for (
+			var i = startingRoomIndex;
+			i < startingRoomIndex + teams56NumRooms;
+			i++
+		) {
+			rooms[i].type = 'team'
+			rooms[i].category = '5/6'
+		}
+
+		while (teams56.length > 0) {
+			rooms[roomIndex].constituents.push(teams56.splice(0, 1)[0])
+
+			// switch to next room or go back to first room allocated
+			roomIndex++
+			if (roomIndex - startingRoomIndex >= teams56NumRooms)
+				roomIndex = startingRoomIndex
+		}
+
+		// 7/8 team  rooms
+		startingRoomIndex += teams56NumRooms
+		roomIndex = startingRoomIndex
+
+		for (
+			var i = startingRoomIndex;
+			i < startingRoomIndex + teams78NumRooms;
+			i++
+		) {
+			rooms[i].type = 'team'
+			rooms[i].category = '7/8'
+		}
+
+		while (teams78.length > 0) {
+			rooms[roomIndex].constituents.push(teams78.splice(0, 1)[0])
+
+			// switch to next room or go back to first room allocated
+			roomIndex++
+			if (roomIndex - startingRoomIndex >= teams78NumRooms)
+				roomIndex = startingRoomIndex
 
 		// TODO: then download a csv/json file as done below w/ the export kek
 
