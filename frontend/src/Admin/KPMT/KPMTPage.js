@@ -158,36 +158,16 @@ export default class KPMTPage extends Component {
 		const teams = await teamsResponse.json()
 		var individuals = await competitorsResponse.json()
 
-		// TODO: populate this with actual newport room numbers, in order of filling priority
-		const roomNumbers = [
-			1101,
-			1102,
-			1103,
-			1104,
-			1105,
-			1106,
-			1107,
-			1108,
-			2101,
-			2102,
-			2103,
-			2104,
-			2105,
-			2106,
-			2107,
-			2108,
-			2109,
-			2110,
-			2111,
-			2112,
-			2113,
-			2114,
-			2115,
-			2116,
-			2117,
-			2118,
-			2119
-		]
+		const roomNumbers = []
+
+		// these two loops populate the first 2 floors in the north wings
+		for (var i = 1101; i <= 1114; i++) {
+			roomNumbers.push(i)
+		}
+
+		for (var i = 2101; i <= 2124; i++) {
+			roomNumbers.push(i)
+		}
 
 		const maxPeoplePerRoom = 20
 		const maxTeamsPerRoom = 5
