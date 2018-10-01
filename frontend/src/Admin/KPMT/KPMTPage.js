@@ -12,7 +12,9 @@ import {
 	getLockStatus,
 	coachLock,
 	regLock,
-	wipeKPMT
+	wipeKPMT,
+	fetchKPMTTeams,
+	fetchKPMTCompetitors
 } from '../../nmc-api'
 import moment from 'moment'
 import Modal from 'react-modal'
@@ -144,7 +146,148 @@ export default class KPMTPage extends Component {
 		}
 	}
 
-	generateRoomAssignments = async () => {}
+	generateRoomAssignments = async () => {
+		const teamsResponse = await fetchKPMTTeams()
+		const competitorsResponse = await fetchKPMTCompetitors()
+
+		if (teamsResponse.status !== 200 || competitorsResponse.status !== 200) {
+			window.location.href = '/login'
+			return
+		}
+
+		const teams = await teamsResponse.json()
+		var individuals = await competitorsResponse.json()
+
+		// TODO: populate this with actual newport room numbers, in order of filling priority
+		const roomNumbers = [
+			1101,
+			1102,
+			1103,
+			1104,
+			1105,
+			1106,
+			1107,
+			1108,
+			2101,
+			2102,
+			2103,
+			2104,
+			2105,
+			2106,
+			2107,
+			2108,
+			2109,
+			2110,
+			2111,
+			2112,
+			2113,
+			2114,
+			2115,
+			2116,
+			2117,
+			2118,
+			2119
+		]
+
+		const maxPeoplePerRoom = 20
+		const maxTeamsPerRoom = 5
+
+		// find the individuals by filtering team competitors out of all competitors
+		teams.forEach(team => {
+			team.members.forEach(m => {
+				individuals = individuals.filter(
+					i => i._id.toString() !== m._id.toString()
+				)
+			})
+		})
+
+		function compare(a, b) {
+			return a < b ? -1 : a > b ? 1 : 0
+		}
+
+		// split teams and individuals by 5/6 and 7/8
+		var teams56 = teams.filter(t => t.grade <= 6).sort((t1, t2) => {
+			return compare(t1.school.name, t2.school.name)
+		})
+		var teams78 = teams.filter(t => t.grade >= 7).sort((t1, t2) => {
+			return compare(t1.school.name, t2.school.name)
+		})
+		var individuals56 = individuals.filter(i => i.grade <= 6).sort((i1, i2) => {
+			return compare(i1.school.name, i2.school.name)
+		})
+		var individuals78 = individuals.filter(i => i.grade >= 7).sort((i1, i2) => {
+			return compare(i1.school.name, i2.school.name)
+		})
+
+		// delegate as many rooms as needed for each category, up to 20 indivs per room or 5 teams per room
+		var individuals56NumRooms = Math.ceil(
+			individuals56.length / maxPeoplePerRoom
+		)
+		var individuals78NumRooms = Math.ceil(
+			individuals78.length / maxPeoplePerRoom
+		)
+		var teams56NumRooms = Math.ceil(teams56.length / maxTeamsPerRoom)
+		var teams78NumRooms = Math.ceil(teams78.length / maxTeamsPerRoom)
+
+		var rooms = roomNumbers.map(n => {
+			return {
+				room: n,
+				type: null,
+				category: null,
+				constituents: []
+			}
+		})
+
+		// 5/6 individual room
+		var startingRoomIndex = 0
+		var roomIndex = startingRoomIndex
+
+		for (
+			var i = startingRoomIndex;
+			i < startingRoomIndex + individuals56NumRooms;
+			i++
+		) {
+			rooms[i].type = 'indiv'
+			rooms[i].category = '5/6'
+		}
+
+		while (individuals56.length > 0) {
+			rooms[roomIndex].constituents.push(individuals56.splice(0, 1)[0])
+
+			// switch to next room or go back to first room allocated
+			roomIndex++
+			if (roomIndex - startingRoomIndex >= individuals56NumRooms)
+				roomIndex = startingRoomIndex
+		}
+
+		// 7/8 individual room
+		startingRoomIndex += individuals56NumRooms
+		roomIndex = startingRoomIndex
+
+		for (
+			var i = startingRoomIndex;
+			i < startingRoomIndex + individuals78NumRooms;
+			i++
+		) {
+			rooms[i].type = 'indiv'
+			rooms[i].category = '7/8'
+		}
+
+		while (individuals78.length > 0) {
+			rooms[roomIndex].constituents.push(individuals78.splice(0, 1)[0])
+
+			// switch to next room or go back to first room allocated
+			roomIndex++
+			if (roomIndex - startingRoomIndex >= individuals78NumRooms)
+				roomIndex = startingRoomIndex
+		}
+
+		// TODO: start here on autoassigning 5/6 and 7/8 teams
+
+		// TODO: then download a csv/json file as done below w/ the export kek
+
+		console.log(rooms)
+	}
 
 	render() {
 		var linksData = [
