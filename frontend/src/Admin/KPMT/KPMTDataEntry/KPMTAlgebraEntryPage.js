@@ -30,9 +30,9 @@ export default class KPMTAlgebraEntryPage extends Component {
 	}
 
 	componentWillUnmount() {
-		SocketEventHandlers.unsubscribeToCompetitorsChange()
+		SocketEventHandlers.unsubscribeCompetitorsChange()
 
-		SocketEventHandlers.unsubscribeToTeamsChange()
+		SocketEventHandlers.unsubscribeTeamsChange()
 	}
 
 	async componentDidMount() {
@@ -141,6 +141,7 @@ export default class KPMTAlgebraEntryPage extends Component {
 	}
 
 	onSuggestionHighlighted = ({ suggestion }) => {
+		console.log('HERE')
 		this.setState({ highlightedSuggestion: suggestion })
 	}
 
@@ -254,7 +255,7 @@ export default class KPMTAlgebraEntryPage extends Component {
 								onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
 								onSuggestionsClearRequested={this.onSuggestionsClearRequested}
 								onSuggestionHighlighted={this.onSuggestionHighlighted}
-								getSuggestionValue={suggestion => suggestion.number}
+								getSuggestionValue={suggestion => suggestion.number.toString()}
 								onSuggestionSelected={this.onSuggestionSelected}
 								highlightFirstSuggestion={true}
 								renderSuggestion={renderSuggestion}

@@ -30,9 +30,9 @@ export default class KPMTGeometryEntryPage extends Component {
 	}
 
 	componentWillUnmount() {
-		SocketEventHandlers.unsubscribeToCompetitorsChange()
+		SocketEventHandlers.unsubscribeCompetitorsChange()
 
-		SocketEventHandlers.unsubscribeToTeamsChange()
+		SocketEventHandlers.unsubscribeTeamsChange()
 	}
 
 	async componentDidMount() {
@@ -254,7 +254,7 @@ export default class KPMTGeometryEntryPage extends Component {
 								onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
 								onSuggestionsClearRequested={this.onSuggestionsClearRequested}
 								onSuggestionHighlighted={this.onSuggestionHighlighted}
-								getSuggestionValue={suggestion => suggestion.number}
+								getSuggestionValue={suggestion => suggestion.number.toString()}
 								onSuggestionSelected={this.onSuggestionSelected}
 								highlightFirstSuggestion={true}
 								renderSuggestion={renderSuggestion}
