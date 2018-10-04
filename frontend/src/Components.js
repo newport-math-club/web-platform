@@ -576,10 +576,13 @@ export class Table extends Component {
 				sortIndex < data[0].fields.length
 			) {
 				data.sort((a, b) => {
-					return (
-						sortDirection *
-						a.fields[sortIndex].toString().localeCompare(b.fields[sortIndex])
-					)
+					var aValue = a.fields[sortIndex]
+					var bValue = b.fields[sortIndex]
+
+					if (isNaN(aValue) || isNaN(bValue)) {
+						return sortDirection * aValue.toString().localeCompare(bValue)
+					}
+					return sortDirection * (aValue - bValue)
 				})
 			}
 
@@ -621,11 +624,13 @@ export class Table extends Component {
 				sortIndex < data[0].fields.length
 			) {
 				data.sort((a, b) => {
-					if (!a.fields[sortIndex]) return 1
-					return (
-						sortDirection *
-						a.fields[sortIndex].toString().localeCompare(b.fields[sortIndex])
-					)
+					var aValue = a.fields[sortIndex]
+					var bValue = b.fields[sortIndex]
+
+					if (isNaN(aValue) || isNaN(bValue)) {
+						return sortDirection * aValue.toString().localeCompare(bValue)
+					}
+					return sortDirection * (aValue - bValue)
 				})
 			}
 
