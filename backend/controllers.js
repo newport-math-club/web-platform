@@ -1345,7 +1345,7 @@ exports.scoreIndividual = async (req, res) => {
 	var score = req.body.score
 	var last = req.body.last
 
-	if (!validateInput(id, score, last)) return res.status(400).end()
+	if (!id || !last || (!score && score !== 0)) return res.status(400).end()
 
 	const targetIndiv = await Competitors.findOne({ _id: id }).exec()
 
@@ -1380,7 +1380,7 @@ exports.scoreBlock = async (req, res) => {
 	var id = req.body.id
 	var score = req.body.score
 
-	if (!id || !score) return res.status(400).end()
+	if (!id || (!score && score !== 0)) return res.status(400).end()
 
 	const targetIndiv = await Competitors.findOne({ _id: id }).exec()
 
@@ -1414,7 +1414,7 @@ exports.scoreMentalMath = async (req, res) => {
 	var id = req.body.id
 	var score = req.body.score
 
-	if (!id || !score) return res.status(400).end()
+	if (!id || (!score && score !== 0)) return res.status(400).end()
 
 	const targetIndiv = await Competitors.findOne({ _id: id }).exec()
 
@@ -1459,7 +1459,7 @@ exports.scoreTeam = (req, res) => {
 	var id = req.body.id
 	var score = req.body.score
 
-	if (!id || !score) return res.status(400).end()
+	if (!id || (!score && score !== 0)) return res.status(400).end()
 
 	var fieldString = 'scores.' + type
 

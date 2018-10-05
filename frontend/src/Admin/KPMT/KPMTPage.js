@@ -306,9 +306,41 @@ export default class KPMTPage extends Component {
 				roomIndex = startingRoomIndex
 		}
 
-		// TODO: then download a csv/json file as done below w/ the export kek
+		// trim the data
+		rooms.forEach(room => {
+			if (room.type == 'indiv') {
+				room.constituents.forEach(indiv => {
+					indiv.school = indiv.school.name
+					delete indiv.scores
+				})
+			} else {
+				room.constituents.forEach(team => {
+					team.school = team.school.name
+					delete team.scores
+					delete team.members
+				})
+			}
+		})
 
-		console.log(rooms)
+		// TODO: then download a csv/json file as done below w/ the export kek
+		// fileDownload(JSON.stringify(rooms), 'roomassignment-' + Date.now() + '.csv')
+
+		// let csvContent = 'data:text/csv;charset=utf-8,'
+		// rooms.forEach(function(room) {
+		// 	let row = room.room + ',' + room.type + ',' + room.category + ','
+
+		// 	if (room.type == 'indiv') {
+		// 		for (var i = 0; i < 20; i++) {
+		// 			if (room.constituents.length > i) {
+		// 				row += room.constituents[i]
+		// 			}
+		// 			row += ','
+		// 		}
+		// 	} else {
+		// 	}
+
+		// 	csvContent += row + '\r\n'
+		// })
 	}
 
 	render() {
