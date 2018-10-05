@@ -134,7 +134,7 @@ export class CoachNav extends Component {
 			items[items.length - 1] = [
 				{
 					name: this.state.name,
-					path: '/kpmt/coach/profile',
+					path: '/kpmt/coach/dashboard',
 					end: true,
 					highlight: true
 				},
