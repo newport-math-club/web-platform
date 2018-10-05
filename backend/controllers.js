@@ -646,6 +646,9 @@ exports.editTeam = async (req, res) => {
 
 		if (newMembers[i].name.isOnlyWhitespace() || isNaN(newMembers[i].grade))
 			return res.status(400).end()
+
+		if (newMembers[i].grade > 8) return res.status(400).end()
+		if (newMembers[i].grade < 5) newMembers[i].grade = 5
 	}
 
 	try {
@@ -922,7 +925,10 @@ exports.editIndiv = async (req, res) => {
 	var name = req.body.name
 	var grade = req.body.grade
 
-	if (!validateInput(name, grade)) return res.status(400).end()
+	if (!validateInput(name, grade) || isNaN(grade) || grade > 8)
+		return res.status(400).end()
+
+	if (grade < 5) grade = 5
 
 	try {
 		const targetIndiv = await Competitors.findOne({ _id: id }).exec()
