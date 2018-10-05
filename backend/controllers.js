@@ -1345,7 +1345,8 @@ exports.scoreIndividual = async (req, res) => {
 	var score = req.body.score
 	var last = req.body.last
 
-	if (!id || !last || (!score && score !== 0)) return res.status(400).end()
+	if (!id || (!last && last !== 0) || (!score && score !== 0))
+		return res.status(400).end()
 
 	const targetIndiv = await Competitors.findOne({ _id: id }).exec()
 
