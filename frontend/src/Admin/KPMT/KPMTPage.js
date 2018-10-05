@@ -93,7 +93,7 @@ export default class KPMTPage extends Component {
 	}
 
 	closeKPMTWipe = () => {
-		this.setState({ kpmtWipeDialogOpen: false })
+		this.setState({ kpmtWipeDialogOpen: false, wipeActivated: false })
 	}
 
 	async componentDidMount() {
