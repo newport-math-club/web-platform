@@ -646,6 +646,9 @@ exports.editTeam = async (req, res) => {
 
 		if (newMembers[i].name.isOnlyWhitespace() || isNaN(newMembers[i].grade))
 			return res.status(400).end()
+
+		if (newMembers[i].grade > 8) return res.status(400).end()
+		if (newMembers[i].grade < 5) newMembers[i].grade = 5
 	}
 
 	try {
@@ -922,7 +925,10 @@ exports.editIndiv = async (req, res) => {
 	var name = req.body.name
 	var grade = req.body.grade
 
-	if (!validateInput(name, grade)) return res.status(400).end()
+	if (!validateInput(name, grade) || isNaN(grade) || grade > 8)
+		return res.status(400).end()
+
+	if (grade < 5) grade = 5
 
 	try {
 		const targetIndiv = await Competitors.findOne({ _id: id }).exec()
@@ -1345,7 +1351,8 @@ exports.scoreIndividual = async (req, res) => {
 	var score = req.body.score
 	var last = req.body.last
 
-	if (!validateInput(id, score, last)) return res.status(400).end()
+	if (!id || (!last && last !== 0) || (!score && score !== 0))
+		return res.status(400).end()
 
 	const targetIndiv = await Competitors.findOne({ _id: id }).exec()
 
@@ -1380,7 +1387,7 @@ exports.scoreBlock = async (req, res) => {
 	var id = req.body.id
 	var score = req.body.score
 
-	if (!id || !score) return res.status(400).end()
+	if (!id || (!score && score !== 0)) return res.status(400).end()
 
 	const targetIndiv = await Competitors.findOne({ _id: id }).exec()
 
@@ -1414,7 +1421,7 @@ exports.scoreMentalMath = async (req, res) => {
 	var id = req.body.id
 	var score = req.body.score
 
-	if (!id || !score) return res.status(400).end()
+	if (!id || (!score && score !== 0)) return res.status(400).end()
 
 	const targetIndiv = await Competitors.findOne({ _id: id }).exec()
 
@@ -1459,7 +1466,7 @@ exports.scoreTeam = (req, res) => {
 	var id = req.body.id
 	var score = req.body.score
 
-	if (!id || !score) return res.status(400).end()
+	if (!id || (!score && score !== 0)) return res.status(400).end()
 
 	var fieldString = 'scores.' + type
 

@@ -93,7 +93,7 @@ export default class KPMTPage extends Component {
 	}
 
 	closeKPMTWipe = () => {
-		this.setState({ kpmtWipeDialogOpen: false })
+		this.setState({ kpmtWipeDialogOpen: false, wipeActivated: false })
 	}
 
 	async componentDidMount() {
@@ -306,9 +306,171 @@ export default class KPMTPage extends Component {
 				roomIndex = startingRoomIndex
 		}
 
-		// TODO: then download a csv/json file as done below w/ the export kek
+		// trim the data
+		rooms.forEach(room => {
+			if (room.type == 'indiv') {
+				room.constituents.forEach(indiv => {
+					indiv.school = indiv.school.name
+					delete indiv.scores
+				})
+			} else {
+				room.constituents.forEach(team => {
+					team.school = team.school.name
+					delete team.scores
+					delete team.members
+				})
+			}
+		})
 
-		console.log(rooms)
+		// TODO: then download a csv/json file as done below w/ the export kek
+		// fileDownload(JSON.stringify(rooms), 'roomassignment-' + Date.now() + '.csv')
+
+		var csvContent = ''
+
+		rooms.forEach(function(room) {
+			if (room.category) room.category = room.category.replace('/', '')
+
+			let row = room.room + ',' + room.type + ',' + room.category + ','
+
+			if (room.type == 'indiv') {
+				for (var i = 0; i < 20; i++) {
+					if (room.constituents.length > i) {
+						row += room.constituents[i].name
+					}
+					row += ','
+				}
+			} else {
+				for (var i = 0; i < 5; i++) {
+					if (room.constituents.length > i) {
+						row += room.constituents[i].number
+					}
+					row += ','
+				}
+			}
+
+			row = row.substring(0, row.length - 1)
+
+			csvContent += row + '\r\n'
+		})
+
+		fileDownload(csvContent, 'roomassignment-' + Date.now() + '.csv')
+	}
+
+	generateScoreReport = async () => {
+		const teamsResponse = await fetchKPMTTeams()
+		const competitorsResponse = await fetchKPMTCompetitors()
+
+		if (teamsResponse.status === 200) {
+			var teams = await teamsResponse.json()
+
+			var teams5 = teams
+				.filter(t => t.grade === 5)
+				.sort((a, b) => {
+					return b.scores.weighted - a.scores.weighted
+				})
+				.slice(0, 9)
+
+			var teams6 = teams
+				.filter(t => t.grade === 6)
+				.sort((a, b) => {
+					return b.scores.weighted - a.scores.weighted
+				})
+				.slice(0, 9)
+
+			var teams7 = teams
+				.filter(t => t.grade === 7)
+				.sort((a, b) => {
+					return b.scores.weighted - a.scores.weighted
+				})
+				.slice(0, 9)
+
+			var teams8 = teams
+				.filter(t => t.grade === 8)
+				.sort((a, b) => {
+					return b.scores.weighted - a.scores.weighted
+				})
+				.slice(0, 9)
+
+			teams5.forEach(t => {
+				t.school = t.school.name
+				delete t.members
+			})
+
+			teams6.forEach(t => {
+				t.school = t.school.name
+				delete t.members
+			})
+			teams7.forEach(t => {
+				t.school = t.school.name
+				delete t.members
+			})
+			teams8.forEach(t => {
+				t.school = t.school.name
+				delete t.members
+			})
+		}
+
+		if (competitorsResponse.status === 200) {
+			var competitors = await competitorsResponse.json()
+
+			var competitors5 = competitors
+				.filter(c => c.grade === 5)
+				.sort((a, b) => {
+					return b.scores.weighted - a.scores.weighted
+				})
+				.slice(0, 9)
+
+			var competitors6 = competitors
+				.filter(c => c.grade === 6)
+				.sort((a, b) => {
+					return b.scores.weighted - a.scores.weighted
+				})
+				.slice(0, 9)
+
+			var competitors7 = competitors
+				.filter(c => c.grade === 7)
+				.sort((a, b) => {
+					return b.scores.weighted - a.scores.weighted
+				})
+				.slice(0, 9)
+
+			var competitors8 = competitors
+				.filter(c => c.grade === 8)
+				.sort((a, b) => {
+					return b.scores.weighted - a.scores.weighted
+				})
+				.slice(0, 9)
+
+			competitors5.forEach(c => {
+				c.school = c.school.name
+				c.team = c.team.number
+			})
+			competitors6.forEach(c => {
+				c.school = c.school.name
+				c.team = c.team.number
+			})
+			competitors7.forEach(c => {
+				c.school = c.school.name
+				c.team = c.team.number
+			})
+			competitors8.forEach(c => {
+				c.school = c.school.name
+				c.team = c.team.number
+			})
+		}
+
+		const final = {
+			teams5: teams5,
+			teams6: teams6,
+			teams7: teams7,
+			teams8: teams8,
+			competitors5: competitors5,
+			competitors6: competitors6,
+			competitors7: competitors7,
+			competitors8: competitors8
+		}
+
+		fileDownload(JSON.stringify(final), 'scorereport-' + Date.now() + '.json')
 	}
 
 	render() {
@@ -452,6 +614,13 @@ export default class KPMTPage extends Component {
 							name={'Generate Room Assignments'}
 						/>
 						<p>Generates room in CSV format</p>
+					</div>
+					<div>
+						<Link
+							onClick={this.generateScoreReport}
+							name={'Generate Score Report'}
+						/>
+						<p>Generates a score report in JSON format</p>
 					</div>
 					<div>
 						<Link onClick={this.exportData} name={'Export Data'} />
