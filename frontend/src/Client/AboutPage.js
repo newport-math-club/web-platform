@@ -98,11 +98,11 @@ export default class AboutPage extends Component {
 						class. For this reason, members are strongly encouraged to take math
 						classes all four years of high school and challenge themselves by
 						taking Advanced Placement classes such as AP Calculus and AP
-						Statistics. Members are also encouraged to meet with their replica
-						watches teachers during tutorial after school to reinforce concepts
-						they learned in class. Since we build on knowledge gained in high
-						school-level math classes, it is critical that members make sure
-						they understand basic math concepts that they have been taught.
+						Statistics. Members are also encouraged to meet with their teachers
+						during tutorial after school to reinforce concepts they learned in
+						class. Since we build on knowledge gained in high school-level math
+						classes, it is critical that members make sure they understand basic
+						math concepts that they have been taught.
 					</p>
 
 					<h2 style={{ paddingTop: '1em' }}>Attendance & Communication</h2>
