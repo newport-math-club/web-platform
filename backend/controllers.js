@@ -1,6 +1,7 @@
 'use strict'
 
 // dependencies
+require('dotenv').config()
 const mongoose = require('mongoose')
 const async = require('async')
 const schemas = require('./schemas')
@@ -15,13 +16,6 @@ const Members = schemas.Member
 const Schools = schemas.School
 const Competitors = schemas.Competitor
 const Teams = schemas.Team
-
-// sendgrid options
-const sendgridOptions = {
-	auth: {
-		api_key: process.env.SENDGRID
-	}
-}
 
 // helper function
 const validateInput = (...parameters) => {
