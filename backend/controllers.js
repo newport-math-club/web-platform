@@ -8,6 +8,7 @@ const sockets = require('./sockets')
 const auth = require('./auth')
 const nodemailer = require('nodemailer')
 const sgTransport = require('nodemailer-sendgrid-transport')
+const helper = require('sendgrid').mail
 const defaultPassword = 'newportmathclub'
 
 // mongoose models
@@ -89,6 +90,7 @@ exports.changePassword = (req, res) => {
 exports.forgotPass = async (req, res) => {
 	var email = req.body.email
 
+	console.log('API KEY: ' + process.env.SENDGRID)
 	if (!email) return res.status(400).end()
 
 	const user = await Members.findOne({ email: email }).exec()
@@ -107,24 +109,30 @@ exports.forgotPass = async (req, res) => {
 	).exec()
 
 	// send email
-	var email = {
-		to: [user.email],
-		from: 'newportmathclub@gmail.com',
-		subject: 'Newport Math Club Password Reset',
-		text: '',
-		html:
-			'<b>Your password reset link: https://newportmathclub.org/reset?token=' +
-			token +
-			'</b>'
-	}
+	var fromEmail = new helper.Email('newportmathclub@gmail.com')
+	var toEmail = new helper.Email(user.email)
+	var subject = 'Newport Math Club Password Reset'
+	var content = new helper.Content(
+		'text/plain',
+		'Here is your password reset link: https://newportmathclub.org/reset?token=' +
+			token
+	)
+	var mail = new helper.Mail(fromEmail, subject, toEmail, content)
 
-	mailer.sendMail(email, function(err, response) {
-		if (err) {
-			console.log(err)
-			res.status(500).end()
+	var sg = require('sendgrid')(process.env.SENDGRID)
+	var request = sg.emptyRequest({
+		method: 'POST',
+		path: '/v3/mail/send',
+		body: mail.toJSON()
+	})
+
+	sg.API(request, function(error, response) {
+		if (error) {
+			console.log('Error response received')
 		}
-		console.log('sent')
-		res.status(200).end()
+		console.log(response.statusCode)
+		console.log(response.body)
+		console.log(response.headers)
 	})
 }
 
