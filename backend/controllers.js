@@ -106,7 +106,8 @@ exports.forgotPass = async (req, res) => {
 	var content = new helper.Content(
 		'text/plain',
 		'Here is your password reset link: https://newportmathclub.org/reset?token=' +
-			token
+			token +
+			'\n\n If you did not request for a password reset, please ignore this email.'
 	)
 	var mail = new helper.Mail(fromEmail, subject, toEmail, content)
 
@@ -119,11 +120,10 @@ exports.forgotPass = async (req, res) => {
 
 	sg.API(request, function(error, response) {
 		if (error) {
-			console.log('Error response received')
+			console.log('SendGrid error: ' + error)
+			res.status(500).end()
 		}
-		console.log(response.statusCode)
-		console.log(response.body)
-		console.log(response.headers)
+		res.status(200).end()
 	})
 }
 
