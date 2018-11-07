@@ -28,6 +28,8 @@ module.exports = app => {
 		.post(nmcMiddleware.authenticateMember)
 		.post(nmcController.changePassword)
 
+	app.route('/api/members/forgot-pass').post(nmcController.forgotPass)
+
 	// admin math club routes; all routes work
 	app
 		.route('/api/meetings/')

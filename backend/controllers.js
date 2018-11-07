@@ -6,6 +6,8 @@ const async = require('async')
 const schemas = require('./schemas')
 const sockets = require('./sockets')
 const auth = require('./auth')
+const nodemailer = require('nodemailer')
+const sgTransport = require('nodemailer-sendgrid-transport')
 const defaultPassword = 'newportmathclub'
 
 // mongoose models
@@ -15,12 +17,30 @@ const Schools = schemas.School
 const Competitors = schemas.Competitor
 const Teams = schemas.Team
 
+// sendgrid options
+const sendgridOptions = {
+	auth: {
+		api_key: process.env.SENDGRID
+	}
+}
+const mailer = nodemailer.createTransport(sgTransport(sendgridOptions))
+
 // helper function
 const validateInput = (...parameters) => {
 	for (var i = 0; i < parameters.length; i++) {
 		if (!parameters[i]) return false
 	}
 	return true
+}
+
+const hat = (length = 32) => {
+	var text = ''
+	var possible = 'abcdef0123456789'
+
+	for (var i = 0; i < length; i++)
+		text += possible.charAt(Math.floor(Math.random() * possible.length))
+
+	return text
 }
 
 // route controllers
@@ -63,6 +83,55 @@ exports.changePassword = (req, res) => {
 				else res.status(200).end()
 			}
 		)
+	})
+}
+
+exports.forgotPass = async (req, res) => {
+	var email = req.body.email
+
+	if (!email) return res.status(400).end()
+
+	const user = await Members.findOne({ email: email }).exec()
+
+	console.log(user)
+
+	if (!user) {
+		return res.status(404).end()
+	}
+
+	// token consists of a random token as well as timestamp converted to hex
+	const token = hat() + '-' + Date.now().toString(16)
+
+	console.log(token)
+	// save token to user
+	await Members.updateOne(
+		{ _id: user._id },
+		{ $set: { passResetToken: token } }
+	).exec()
+
+	console.log('here')
+
+	// send email
+	var email = {
+		to: [user.email],
+		from: 'newportmathclub@gmail.com',
+		subject: 'Newport Math Club Password Reset',
+		text: '',
+		html:
+			'<b>Your password reset link: https://newportmathclub.org/reset?token=' +
+			token +
+			'</b>'
+	}
+
+	console.log(email)
+
+	mailer.sendMail(email, function(err, res) {
+		if (err) {
+			console.log(err)
+			res.status(500).end()
+		}
+		console.log('sent')
+		res.status(200).end()
 	})
 }
 

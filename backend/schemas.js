@@ -10,7 +10,8 @@ var MemberSchema = new Schema(
 		piPoints: Number,
 		email: String,
 		passHashed: String,
-		admin: Boolean
+		admin: Boolean,
+		passResetToken: String
 	},
 	{
 		collection: 'members'
