@@ -93,8 +93,6 @@ exports.forgotPass = async (req, res) => {
 
 	const user = await Members.findOne({ email: email }).exec()
 
-	console.log(user)
-
 	if (!user) {
 		return res.status(404).end()
 	}
@@ -102,14 +100,11 @@ exports.forgotPass = async (req, res) => {
 	// token consists of a random token as well as timestamp converted to hex
 	const token = hat() + '-' + Date.now().toString(16)
 
-	console.log(token)
 	// save token to user
 	await Members.updateOne(
 		{ _id: user._id },
 		{ $set: { passResetToken: token } }
 	).exec()
-
-	console.log('here')
 
 	// send email
 	var email = {
@@ -123,9 +118,7 @@ exports.forgotPass = async (req, res) => {
 			'</b>'
 	}
 
-	console.log(email)
-
-	mailer.sendMail(email, function(err, res) {
+	mailer.sendMail(email, function(err, response) {
 		if (err) {
 			console.log(err)
 			res.status(500).end()
