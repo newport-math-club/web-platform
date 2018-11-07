@@ -6,8 +6,6 @@ const async = require('async')
 const schemas = require('./schemas')
 const sockets = require('./sockets')
 const auth = require('./auth')
-const nodemailer = require('nodemailer')
-const sgTransport = require('nodemailer-sendgrid-transport')
 const helper = require('sendgrid').mail
 const defaultPassword = 'newportmathclub'
 
@@ -24,7 +22,6 @@ const sendgridOptions = {
 		api_key: process.env.SENDGRID
 	}
 }
-const mailer = nodemailer.createTransport(sgTransport(sendgridOptions))
 
 // helper function
 const validateInput = (...parameters) => {
