@@ -146,7 +146,8 @@ var SchoolSchema = new Schema(
 				type: Schema.Types.ObjectId,
 				ref: 'Competitor'
 			}
-		]
+		],
+		passResetToken: String
 	},
 	{ collection: 'schools' }
 )

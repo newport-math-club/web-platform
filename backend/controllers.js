@@ -159,6 +159,87 @@ exports.resetForgotPass = async (req, res) => {
 	})
 }
 
+exports.forgotKPMTPass = async (req, res) => {
+	var email = req.body.email
+
+	console.log('API KEY: ' + process.env.SENDGRID)
+	if (!email) return res.status(400).end()
+
+	const user = await Schools.findOne({ coachEmail: email }).exec()
+
+	if (!user) {
+		return res.status(404).end()
+	}
+
+	// token consists of a random token as well as timestamp converted to hex
+	const token = hat(64) + '-' + Date.now().toString(16)
+
+	// save token to user
+	await Schools.updateOne(
+		{ _id: user._id },
+		{ $set: { passResetToken: token } }
+	).exec()
+
+	// send email
+	var fromEmail = new helper.Email('newportmathclub@gmail.com')
+	var toEmail = new helper.Email(user.email)
+	var subject = 'KPMT Password Reset'
+	var content = new helper.Content(
+		'text/plain',
+		'Here is your password reset link: https://newportmathclub.org/kpmt/reset?token=' +
+			token +
+			'\n\n If you did not request for a password reset, please ignore this email.'
+	)
+	var mail = new helper.Mail(fromEmail, subject, toEmail, content)
+
+	var sg = require('sendgrid')(process.env.SENDGRID)
+	var request = sg.emptyRequest({
+		method: 'POST',
+		path: '/v3/mail/send',
+		body: mail.toJSON()
+	})
+
+	sg.API(request, function(error, response) {
+		if (error) {
+			console.log('SendGrid error: ' + error)
+			res.status(500).end()
+		}
+		res.status(200).end()
+	})
+}
+
+exports.resetKPMTForgotPass = async (req, res) => {
+	const token = req.body.token
+	const newPass = req.body.newPass
+
+	if (!validateInput(token, newPass)) return res.status(400).end()
+
+	const user = await Schools.findOne({ passResetToken: token }).exec()
+
+	if (!user) return res.status(404).end()
+
+	// parse token to check timestamp
+	const tokenTime = parseInt(token.split('-')[1], 16)
+	if (Date.now() - tokenTime > 1000 * 60 * 20) return res.status(403).end()
+
+	// by this point, the token is good, timestamp is good, change password and wipe token
+	auth.hash(newPass, async hash => {
+		await Schools.updateOne(
+			{
+				_id: user._id
+			},
+			{
+				$set: {
+					passHashed: hash,
+					passResetToken: null
+				}
+			}
+		).exec()
+
+		res.status(200).end()
+	})
+}
+
 exports.newMeeting = async (req, res) => {
 	var piPoints = req.body.piPoints || 1
 	var date = req.body.date || Date.now()
