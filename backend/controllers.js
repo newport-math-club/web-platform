@@ -91,7 +91,7 @@ exports.forgotPass = async (req, res) => {
 	}
 
 	// token consists of a random token as well as timestamp converted to hex
-	const token = hat() + '-' + Date.now().toString(16)
+	const token = hat(64) + '-' + Date.now().toString(16)
 
 	// save token to user
 	await Members.updateOne(
@@ -123,6 +123,38 @@ exports.forgotPass = async (req, res) => {
 			console.log('SendGrid error: ' + error)
 			res.status(500).end()
 		}
+		res.status(200).end()
+	})
+}
+
+exports.resetForgotPass = async (req, res) => {
+	const token = req.body.token
+	const newPass = req.body.newPass
+
+	if (!validateInput(token, newPass)) return res.status(400).end()
+
+	const user = await Members.findOne({ passResetToken: token }).exec()
+
+	if (!user) return res.status(404).end()
+
+	// parse token to check timestamp
+	const tokenTime = parseInt(token.split('-')[1], 16)
+	if (Date.now() - tokenTime > 1000 * 60 * 20) return res.status(403).end()
+
+	// by this point, the token is good, timestamp is good, change password and wipe token
+	auth.hash(newPass, async hash => {
+		await Members.updateOne(
+			{
+				_id: user._id
+			},
+			{
+				$set: {
+					passHashed: hash,
+					passResetToken: null
+				}
+			}
+		).exec()
+
 		res.status(200).end()
 	})
 }
