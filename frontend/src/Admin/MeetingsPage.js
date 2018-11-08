@@ -192,7 +192,6 @@ export default class MeetingsPage extends Component {
 		var piPoints = this.piPointTextbox.current.getText()
 		var description = this.descriptionTextbox.current.getText()
 
-		console.log(this.state.editId)
 		if (!piPoints || isNaN(piPoints)) {
 			this.setState({ error: 1 })
 		}

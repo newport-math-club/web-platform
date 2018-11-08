@@ -109,7 +109,6 @@ export default class KPMTMentalEntryPage extends Component {
 	}
 
 	onSuggestionsFetchRequested = value => {
-		console.log(value)
 		this.setState({
 			suggestions: this.state.individuals
 				.slice()

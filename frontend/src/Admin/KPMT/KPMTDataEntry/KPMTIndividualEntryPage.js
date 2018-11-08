@@ -110,7 +110,6 @@ export default class KPMTIndividualEntryPage extends Component {
 	}
 
 	onSuggestionsFetchRequested = value => {
-		console.log(value)
 		this.setState({
 			suggestions: this.state.individuals
 				.slice()

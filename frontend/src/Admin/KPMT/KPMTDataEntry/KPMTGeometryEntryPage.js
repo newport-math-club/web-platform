@@ -48,8 +48,6 @@ export default class KPMTGeometryEntryPage extends Component {
 		}
 
 		SocketEventHandlers.subscribeToTeamsChange(data => {
-			console.log('team edit received: ')
-			console.log(data)
 			switch (data.type) {
 				case 'add':
 					this.setState({

@@ -60,8 +60,6 @@ export default class MembersPage extends Component {
 		}
 
 		SocketEventHandlers.subscribeToMembersChange(data => {
-			console.log('received member change data')
-			console.log(data)
 			switch (data.type) {
 				case 'add':
 					this.setState({

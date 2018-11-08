@@ -52,7 +52,6 @@ db.once('open', async () => {
 			// no rootAdmin, create one
 			console.log(rootAdminPass)
 			auth.hash(rootAdminPass, async hash => {
-				console.log(hash)
 				var newRootAdmin = new Members({
 					name: 'Admin Math Club',
 					email: 'officers@newportmathclub.org',

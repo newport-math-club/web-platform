@@ -71,8 +71,6 @@ export default class KPMTSchoolsPage extends Component {
 		}
 
 		SocketEventHandlers.subscribeToSchoolsChange(data => {
-			console.log('received school change: ')
-			console.log(data)
 			switch (data.type) {
 				case 'add':
 					this.setState({

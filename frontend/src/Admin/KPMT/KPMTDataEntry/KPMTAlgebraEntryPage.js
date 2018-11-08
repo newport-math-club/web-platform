@@ -48,8 +48,6 @@ export default class KPMTAlgebraEntryPage extends Component {
 		}
 
 		SocketEventHandlers.subscribeToTeamsChange(data => {
-			console.log('team edit received: ')
-			console.log(data)
 			switch (data.type) {
 				case 'add':
 					this.setState({
@@ -141,7 +139,6 @@ export default class KPMTAlgebraEntryPage extends Component {
 	}
 
 	onSuggestionHighlighted = ({ suggestion }) => {
-		console.log('HERE')
 		this.setState({ highlightedSuggestion: suggestion })
 	}
 

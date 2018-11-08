@@ -110,8 +110,6 @@ export default class KPMTTeamsPage extends Component {
 		}
 
 		SocketEventHandlers.subscribeToSchoolsChange(data => {
-			console.log('received school change: ')
-			console.log(data)
 			switch (data.type) {
 				case 'add':
 					this.setState({
@@ -246,7 +244,6 @@ export default class KPMTTeamsPage extends Component {
 			})
 		})
 
-		console.log(team)
 		if (team.length < 3) {
 			this.setState({ error: 1 })
 			return
@@ -258,7 +255,6 @@ export default class KPMTTeamsPage extends Component {
 			this.state.selectedTeam.school._id.toString()
 		)
 
-		console.log(response)
 		if (response.status === 200) {
 			this.closeTeamModal()
 		} else {

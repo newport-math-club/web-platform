@@ -141,7 +141,6 @@ export default class KPMTManageTeamsPage extends Component {
 			})
 		})
 
-		console.log(team)
 		if (team.length < 3) {
 			this.setState({ error: 1 })
 			return
@@ -152,7 +151,6 @@ export default class KPMTManageTeamsPage extends Component {
 			team
 		)
 
-		console.log(response)
 		if (response.status === 200) {
 			// too lazy to use sockets to insert the new team
 			// just refresh the page lmao hacky but works
@@ -164,7 +162,6 @@ export default class KPMTManageTeamsPage extends Component {
 
 	deleteTeam = async () => {
 		const response = await removeTeam(this.state.selectedTeam._id.toString())
-		console.log(response)
 		if (response.status === 200) {
 			window.location.href = '/kpmt/coach/teams'
 		} else {
