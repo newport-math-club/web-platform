@@ -81,7 +81,6 @@ exports.changePassword = (req, res) => {
 exports.forgotPass = async (req, res) => {
 	var email = req.body.email
 
-	console.log('API KEY: ' + process.env.SENDGRID)
 	if (!email) return res.status(400).end()
 
 	const user = await Members.findOne({ email: email }).exec()
@@ -162,7 +161,6 @@ exports.resetForgotPass = async (req, res) => {
 exports.forgotKPMTPass = async (req, res) => {
 	var email = req.body.email
 
-	console.log('API KEY: ' + process.env.SENDGRID)
 	if (!email) return res.status(400).end()
 
 	const user = await Schools.findOne({ coachEmail: email }).exec()
@@ -182,7 +180,7 @@ exports.forgotKPMTPass = async (req, res) => {
 
 	// send email
 	var fromEmail = new helper.Email('newportmathclub@gmail.com')
-	var toEmail = new helper.Email(user.email)
+	var toEmail = new helper.Email(user.coachEmail)
 	var subject = 'KPMT Password Reset'
 	var content = new helper.Content(
 		'text/plain',

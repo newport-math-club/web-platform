@@ -71,8 +71,8 @@ db.once('open', async () => {
 	}
 })
 
-global.kpmtLock = true
-global.registrationLock = true
+global.kpmtLock = false
+global.registrationLock = false
 
 // sessions
 const cookieExpire = 1000 * 60 * 60 * 24 * 7 // 1 week
