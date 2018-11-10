@@ -91,6 +91,11 @@ export default class KPMTLoginPage extends Component {
 					</div>
 					<div style={{ textAlign: 'center' }}>
 						<Button onClick={this.handleLogin} text="login" />
+						<a
+							href="/kpmt/forgot"
+							style={{ fontSize: '1.2em', marginLeft: '1em' }}>
+							forgot password
+						</a>
 					</div>
 				</div>
 			</div>

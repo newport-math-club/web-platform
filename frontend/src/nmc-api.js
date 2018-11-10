@@ -17,6 +17,20 @@ exports.login = (email, password) => {
 	})
 }
 
+exports.forgotPass = email => {
+	return fetch(BASE_URL + '/api/members/forgot-pass', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			email
+		}),
+		credentials: 'include'
+	})
+}
+
 exports.fetchProfile = () => {
 	return fetch(BASE_URL + '/api/members/profile', {
 		method: 'GET',
@@ -380,6 +394,20 @@ exports.loginKPMT = (email, password) => {
 		body: JSON.stringify({
 			email: email,
 			password: password
+		}),
+		credentials: 'include'
+	})
+}
+
+exports.forgotKPMTPass = email => {
+	return fetch(BASE_URL + '/api/kpmt/forgot-pass', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			email
 		}),
 		credentials: 'include'
 	})

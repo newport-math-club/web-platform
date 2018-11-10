@@ -65,6 +65,9 @@ export default class LoginPage extends Component {
 						<h5 style={{ marginTop: '8px' }}>login failed, please try again</h5>
 					)}
 					<Button onClick={this.handleLogin} text="login" />
+					<a href="/forgot" style={{ fontSize: '1.2em', marginLeft: '1em' }}>
+						forgot password
+					</a>
 				</div>
 			</div>
 		)
