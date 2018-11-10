@@ -37,6 +37,8 @@ import KPMTGeometryEntryPage from './Admin/KPMT/KPMTDataEntry/KPMTGeometryEntryP
 import KPMTPPEntryPage from './Admin/KPMT/KPMTDataEntry/KPMTPPEntryPage'
 import ForgotPage from './Client/ForgotPage'
 import KPMTForgotPage from './Client/KPMT/KPMTForgotPage'
+import ResetPage from './Client/ResetPage'
+import KPMTResetPage from './Client/KPMT/KPMTResetPage'
 
 String.prototype.isValidEmail = function() {
 	var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -70,6 +72,7 @@ export default class App extends React.Component {
 					/>
 					<Route exact path="/kpmt/login" component={KPMTLoginPage} />
 					<Route exact path="/kpmt/forgot" component={KPMTForgotPage} />
+					<Route exact path="/kpmt/reset" component={KPMTResetPage} />
 					<Route
 						exact
 						path="/kpmt/coach/dashboard"
@@ -89,6 +92,7 @@ export default class App extends React.Component {
 
 					<Route exact path="/login" component={LoginPage} />
 					<Route exact path="/forgot" component={ForgotPage} />
+					<Route exact path="/reset" component={ResetPage} />
 					<Route exact path="/profile" component={ProfilePage} />
 					<Route exact path="/logout" component={LogoutPage} />
 
