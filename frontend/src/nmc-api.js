@@ -110,7 +110,7 @@ exports.editMeeting = (id, piPoints, memberIds, description, date) => {
 		body: JSON.stringify({
 			id: id,
 			piPoints: piPoints,
-			date: date,
+			// date: date,
 			memberIds: memberIds,
 			description: description
 		}),
