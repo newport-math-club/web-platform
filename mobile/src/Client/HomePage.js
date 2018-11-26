@@ -11,6 +11,11 @@ export default class HomePage extends Component {
 						<h1>Fridays</h1>
 						<h1>3:40-4:30</h1>
 						<h5>Room 1106</h5>
+						<br />
+						<br />
+						<a href="https://goo.gl/forms/MWA7WKePoe5Adsze2">
+							<h3>KPMT Volunteers</h3>
+						</a>
 					</div>
 				</div>
 			</div>
