@@ -29,31 +29,31 @@ export default class KPMTAboutPage extends Component {
 						<b>2019 KPMT Date: Saturday February 9th, 2019</b>
 					</p>
 
-					<a href="https://mobile.newportmathclub.org/kpmt/regpay">
+					<a href="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/regpay.pdf">
 						<h3>Detailed registration and payment instructions</h3>
 					</a>
 
 					<br />
 
-					<a href="https://mobile.newportmathclub.org/kpmt/rules">
+					<a href="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/rules.pdf">
 						<h3>Detailed competition rules and guidelines</h3>
 					</a>
 
 					<br />
 
-					<a href="https://mobile.newportmathclub.org/kpmt/scoring">
+					<a href="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/scoring.pdf">
 						<h3>Test format and scoring specifications</h3>
 					</a>
 
 					<br />
 
-					<a href="https://mobile.newportmathclub.org/kpmt/schedule">
+					<a href="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/schedule.pdf">
 						<h3>Tentative schedule of events</h3>
 					</a>
 
 					<br />
 
-					<a href="https://mobile.newportmathclub.org/kpmt/faq">
+					<a href="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/faq.pdf">
 						<h3>Frequently asked questions</h3>
 					</a>
 
