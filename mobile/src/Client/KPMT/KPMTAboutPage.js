@@ -78,6 +78,23 @@ export default class KPMTAboutPage extends Component {
 					<a href="/kpmt/registration">
 						<h3>Register your school</h3>
 					</a>
+
+					<h2 style={{ paddingTop: '1em' }}>Sponsor</h2>
+					<a href="https://bellevue.aopsacademy.org/">
+						<img
+							style={{ width: '100%', marginTop: '1em' }}
+							src="https://bellevue.aopsacademy.org/assets/images/logos/aops-academy-bellevue.svg"
+						/>
+					</a>
+					<p>
+						We are honored to be sponsored by{' '}
+						<a href="https://bellevue.aopsacademy.org/">
+							AoPS Academy Bellevue
+						</a>{' '}
+						this year! A representative will be speaking during KPMT, and they
+						will set up a booth to talk to interested parents and students.
+					</p>
+
 					<h2 style={{ paddingTop: '1em' }}>History</h2>
 
 					<a href="/kpmt/past">

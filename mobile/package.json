@@ -1,23 +1,29 @@
 {
-	"name": "nmc-mobile",
-	"version": "0.0.1",
-	"dependencies": {
-		"js-file-download": "^0.4.1",
-		"moment": "^2.22.2",
-		"react": "^16.4.0",
-		"react-autosuggest": "^9.3.4",
-		"react-dom": "^16.4.0",
-		"react-modal": "^3.5.1",
-		"react-notifications": "^1.4.3",
-		"react-router-dom": "^4.2.2",
-		"react-scripts": "^2.1.1",
-		"socket.io-client": "^2.1.1"
-	},
-	"scripts": {
-		"start": "react-scripts start",
-		"build": "react-scripts build",
-		"serve": "pm2 serve build 5001 --watch --name nmc-mobile",
-		"test": "react-scripts test --env=jsdom",
-		"eject": "react-scripts eject"
-	}
+  "name": "nmc-mobile",
+  "version": "0.0.1",
+  "dependencies": {
+    "js-file-download": "^0.4.1",
+    "moment": "^2.22.2",
+    "react": "^16.4.0",
+    "react-autosuggest": "^9.3.4",
+    "react-dom": "^16.4.0",
+    "react-modal": "^3.5.1",
+    "react-notifications": "^1.4.3",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "^2.1.1",
+    "socket.io-client": "^2.1.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "serve": "pm2 serve build 5001 --watch --name nmc-mobile",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
