@@ -186,18 +186,26 @@ export default class KPMTPage extends Component {
 		}
 
 		// split teams and individuals by 5/6 and 7/8
-		var teams56 = teams.filter(t => t.grade <= 6).sort((t1, t2) => {
-			return compare(t1.school.name, t2.school.name)
-		})
-		var teams78 = teams.filter(t => t.grade >= 7).sort((t1, t2) => {
-			return compare(t1.school.name, t2.school.name)
-		})
-		var individuals56 = individuals.filter(i => i.grade <= 6).sort((i1, i2) => {
-			return compare(i1.school.name, i2.school.name)
-		})
-		var individuals78 = individuals.filter(i => i.grade >= 7).sort((i1, i2) => {
-			return compare(i1.school.name, i2.school.name)
-		})
+		var teams56 = teams
+			.filter(t => t.grade <= 6)
+			.sort((t1, t2) => {
+				return compare(t1.school.name, t2.school.name)
+			})
+		var teams78 = teams
+			.filter(t => t.grade >= 7)
+			.sort((t1, t2) => {
+				return compare(t1.school.name, t2.school.name)
+			})
+		var individuals56 = individuals
+			.filter(i => i.grade <= 6)
+			.sort((i1, i2) => {
+				return compare(i1.school.name, i2.school.name)
+			})
+		var individuals78 = individuals
+			.filter(i => i.grade >= 7)
+			.sort((i1, i2) => {
+				return compare(i1.school.name, i2.school.name)
+			})
 
 		// delegate as many rooms as needed for each category, up to 20 indivs per room or 5 teams per room
 		var individuals56NumRooms = Math.ceil(
@@ -443,19 +451,19 @@ export default class KPMTPage extends Component {
 
 			competitors5.forEach(c => {
 				c.school = c.school.name
-				c.team = c.team.number
+				c.team = c.team ? c.team.number : null
 			})
 			competitors6.forEach(c => {
 				c.school = c.school.name
-				c.team = c.team.number
+				c.team = c.team ? c.team.number : null
 			})
 			competitors7.forEach(c => {
 				c.school = c.school.name
-				c.team = c.team.number
+				c.team = c.team ? c.team.number : null
 			})
 			competitors8.forEach(c => {
 				c.school = c.school.name
-				c.team = c.team.number
+				c.team = c.team ? c.team.number : null
 			})
 		}
 
