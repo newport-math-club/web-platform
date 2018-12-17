@@ -116,8 +116,6 @@ export default class MeetingsPage extends Component {
 					this.setState({ meetings: newMeetings })
 					break
 				default:
-					console.log('erroneous socket data: ')
-					console.log(data)
 			}
 		})
 	}

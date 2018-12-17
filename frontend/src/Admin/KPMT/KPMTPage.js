@@ -24,7 +24,6 @@ const pdfMake = require('pdfmake/build/pdfmake')
 pdfMake.vfs = require('pdfmake/build/vfs_fonts').pdfMake.vfs
 
 const fileDownload = require('js-file-download')
-// console.log(imageString)
 Modal.setAppElement('#root')
 
 const customStyles = {
@@ -154,8 +153,6 @@ export default class KPMTPage extends Component {
 		const teamsResponse = await fetchKPMTTeams()
 		const competitorsResponse = await fetchKPMTCompetitors()
 		const schoolsResponse = await fetchKPMTSchools()
-
-		// console.log(teamsResponse, competitorsResponse, schoolsResponse)
 
 		if (
 			teamsResponse.status !== 200 ||
@@ -766,7 +763,7 @@ export default class KPMTPage extends Component {
 					<div>
 						<Link
 							onClick={this.generateAssignments}
-							name={'Generate Room Assignments'}
+							name={'Generate All Assignments'}
 						/>
 						<p>Generates room in CSV format</p>
 					</div>
