@@ -14,7 +14,8 @@ import {
 	regLock,
 	wipeKPMT,
 	fetchKPMTTeams,
-	fetchKPMTCompetitors
+	fetchKPMTCompetitors,
+	fetchKPMTSchools
 } from '../../nmc-api'
 import moment from 'moment'
 import Modal from 'react-modal'
@@ -154,12 +155,18 @@ export default class KPMTPage extends Component {
 		const competitorsResponse = await fetchKPMTCompetitors()
 		const schoolsResponse = await fetchKPMTSchools()
 
-		if (teamsResponse.status !== 200 || competitorsResponse.status !== 200|| schoolsResponse !== 200) {
+		// console.log(teamsResponse, competitorsResponse, schoolsResponse)
+
+		if (
+			teamsResponse.status !== 200 ||
+			competitorsResponse.status !== 200 ||
+			schoolsResponse.status !== 200
+		) {
 			window.location.href = '/login'
 			return
 		}
 
-		const teams = await teamsResponse.json()
+		let teams = await teamsResponse.json()
 		let individuals = await competitorsResponse.json()
 		let schools = await schoolsResponse.json()
 
@@ -440,6 +447,8 @@ export default class KPMTPage extends Component {
 		pdfMake.createPdf(dd).download()
 
 		// generate pdfs for team assignments
+		let freshTeamsResponse = await fetchKPMTTeams()
+		let freshTeams = await freshTeamsResponse.json()
 		dd = {
 			pageOrientation: 'portrait',
 			content: [],
@@ -460,36 +469,46 @@ export default class KPMTPage extends Component {
 				}
 			}
 		}
-		
+
 		const generateSchoolAssignment = school => {
-			let res = [
-		    {text: s.name, style: 'header'},
-		    {text: '\n', style: 'header'},
-		    [
-		        {text: 'Team Number -> Team Room', style: 'subheader'},
-		        {text: 'Member 1', style:'content'},
-		        {text: 'Member 1', style:'content'},
-		        {text: 'Member 1', style:'content'},
-		        {text: 'Member 1', style:'content'},
-		        {text: '\n', style:'content'}
-	      ]
+			let schoolRes = [
+				{ text: school.name, style: 'header' },
+				{ text: '\n', style: 'header' }
 			]
-			let teams = s.teams
+			let teamIDs = school.teams.map(t => t._id.toString())
 
-			teams.forEach(t => {
+			teamIDs.forEach(tID => {
+				let t = freshTeams.filter(t => t._id.toString() === tID)[0]
 
-				let teamRoom = rooms.filter()
+				let teamRoom = rooms.filter(r => {
+					return (
+						r.type === 'team' &&
+						r.constituents.filter(c => c._id.toString() === tID).length > 0
+					)
+				})[0].room
+
 				let res = [
-					{text: t.number + ' -> Room ' + teamRoom, style: 'subheader'},
+					{ text: t.number + ' -> Room ' + teamRoom, style: 'subheader' }
 				]
 
-				// let member = competitors.filter(c => )
+				t.members.forEach(m => {
+					res.push({ text: m.name, style: 'content' })
+				})
+
+				res.push({ text: '\n' })
+				schoolRes.push(res)
 			})
+
+			schoolRes.push({ text: '\n', pageBreak: 'after' })
+
+			return schoolRes
 		}
 
 		schools.forEach(s => {
 			dd.content.push(generateSchoolAssignment(s))
 		})
+
+		pdfMake.createPdf(dd).download()
 	}
 
 	generateScoreReport = async () => {
