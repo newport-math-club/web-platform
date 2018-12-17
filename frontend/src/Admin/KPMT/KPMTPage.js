@@ -18,9 +18,12 @@ import {
 } from '../../nmc-api'
 import moment from 'moment'
 import Modal from 'react-modal'
+import imageString from './KPMTImage'
+const pdfMake = require('pdfmake/build/pdfmake')
+pdfMake.vfs = require('pdfmake/build/vfs_fonts').pdfMake.vfs
 
 const fileDownload = require('js-file-download')
-
+// console.log(imageString)
 Modal.setAppElement('#root')
 
 const customStyles = {
@@ -330,8 +333,7 @@ export default class KPMTPage extends Component {
 			}
 		})
 
-		// TODO: then download a csv/json file as done below w/ the export kek
-		// fileDownload(JSON.stringify(rooms), 'roomassignment-' + Date.now() + '.csv')
+		rooms = rooms.filter(r => r.constituents.length > 0)
 
 		var csvContent = ''
 
@@ -362,6 +364,78 @@ export default class KPMTPage extends Component {
 		})
 
 		fileDownload(csvContent, 'roomassignment-' + Date.now() + '.csv')
+
+		// generate pdf for room signs
+		let dd = {
+			pageOrientation: 'landscape',
+			content: [],
+			styles: {
+				header: {
+					fontSize: 48,
+					bold: true,
+					alignment: 'center'
+				},
+				content: {
+					fontSize: 18,
+					margin: [100, 0, 100, 0],
+					alignment: 'center'
+				}
+			}
+		}
+
+		const generateTeamPage = (rN, teams) => {
+			let res = [
+				{ image: imageString, width: 300, alignment: 'center' },
+				{ text: '\n', fontSize: 8 },
+				{ text: 'Room ' + rN, style: 'header' },
+				{ text: '\n', fontSize: 16 },
+				{
+					table: {
+						headerRows: 1,
+						widths: ['auto', '*'],
+						body: [
+							[
+								{ text: 'Team #', bold: true },
+								{ text: 'School Name', bold: true }
+							]
+						]
+					},
+					style: 'content'
+				},
+				{ text: '\n', fontSize: 8, pageBreak: 'after' }
+			]
+
+			teams.forEach(t => {
+				res[4].table.body.push([t.number.toString(), t.school])
+			})
+			return res
+		}
+
+		const generateIndivPage = (rN, i) => {
+			let res = [
+				{ image: imageString, width: 300, alignment: 'center' },
+				{ text: '\n', fontSize: 8 },
+				{ text: 'Room ' + rN, style: 'header' },
+				{ text: '\n', fontSize: 16 },
+				{ text: 'Individuals Room ' + i, style: 'header' },
+				{ text: '\n', fontSize: 8, pageBreak: 'after' }
+			]
+
+			return res
+		}
+
+		rooms
+			.filter(r => r.type === 'team')
+			.forEach(r => {
+				dd.content.push(generateTeamPage(r.room, r.constituents))
+			})
+		rooms
+			.filter(r => r.type === 'indiv')
+			.forEach((r, i) => {
+				dd.content.push(generateIndivPage(r.room, i + 1))
+			})
+
+		pdfMake.createPdf(dd).download()
 	}
 
 	generateScoreReport = async () => {

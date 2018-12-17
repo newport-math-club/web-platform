@@ -4,6 +4,7 @@
   "dependencies": {
     "js-file-download": "^0.4.1",
     "moment": "^2.22.2",
+    "pdfmake": "^0.1.39",
     "react": "^16.4.0",
     "react-autosuggest": "^9.3.4",
     "react-dom": "^16.4.0",
