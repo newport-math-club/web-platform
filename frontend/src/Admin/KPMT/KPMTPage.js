@@ -149,7 +149,7 @@ export default class KPMTPage extends Component {
 		}
 	}
 
-	generateRoomAssignments = async () => {
+	generateAssignments = async () => {
 		const teamsResponse = await fetchKPMTTeams()
 		const competitorsResponse = await fetchKPMTCompetitors()
 
@@ -436,6 +436,28 @@ export default class KPMTPage extends Component {
 			})
 
 		pdfMake.createPdf(dd).download()
+
+		// generate pdfs for team assignments
+		dd = {
+			pageOrientation: 'portrait',
+			content: [],
+			styles: {
+				header: {
+					fontSize: 24,
+					bold: true,
+					alignment: 'left'
+				},
+				subheader: {
+					fontSize: 16,
+					bold: true,
+					alignment: 'left'
+				},
+				content: {
+					fontSize: 14,
+					alignment: 'left'
+				}
+			}
+		}
 	}
 
 	generateScoreReport = async () => {
@@ -692,7 +714,7 @@ export default class KPMTPage extends Component {
 
 					<div>
 						<Link
-							onClick={this.generateRoomAssignments}
+							onClick={this.generateAssignments}
 							name={'Generate Room Assignments'}
 						/>
 						<p>Generates room in CSV format</p>
