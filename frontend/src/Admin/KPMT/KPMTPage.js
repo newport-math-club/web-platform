@@ -152,14 +152,16 @@ export default class KPMTPage extends Component {
 	generateAssignments = async () => {
 		const teamsResponse = await fetchKPMTTeams()
 		const competitorsResponse = await fetchKPMTCompetitors()
+		const schoolsResponse = await fetchKPMTSchools()
 
-		if (teamsResponse.status !== 200 || competitorsResponse.status !== 200) {
+		if (teamsResponse.status !== 200 || competitorsResponse.status !== 200|| schoolsResponse !== 200) {
 			window.location.href = '/login'
 			return
 		}
 
 		const teams = await teamsResponse.json()
-		var individuals = await competitorsResponse.json()
+		let individuals = await competitorsResponse.json()
+		let schools = await schoolsResponse.json()
 
 		const roomNumbers = []
 
@@ -458,6 +460,36 @@ export default class KPMTPage extends Component {
 				}
 			}
 		}
+		
+		const generateSchoolAssignment = school => {
+			let res = [
+		    {text: s.name, style: 'header'},
+		    {text: '\n', style: 'header'},
+		    [
+		        {text: 'Team Number -> Team Room', style: 'subheader'},
+		        {text: 'Member 1', style:'content'},
+		        {text: 'Member 1', style:'content'},
+		        {text: 'Member 1', style:'content'},
+		        {text: 'Member 1', style:'content'},
+		        {text: '\n', style:'content'}
+	      ]
+			]
+			let teams = s.teams
+
+			teams.forEach(t => {
+
+				let teamRoom = rooms.filter()
+				let res = [
+					{text: t.number + ' -> Room ' + teamRoom, style: 'subheader'},
+				]
+
+				// let member = competitors.filter(c => )
+			})
+		}
+
+		schools.forEach(s => {
+			dd.content.push(generateSchoolAssignment(s))
+		})
 	}
 
 	generateScoreReport = async () => {
