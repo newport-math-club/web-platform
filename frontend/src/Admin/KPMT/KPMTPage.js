@@ -190,6 +190,8 @@ export default class KPMTPage extends Component {
 			})
 		})
 
+		let freshIndividuals = JSON.parse(JSON.stringify(individuals))
+
 		function compare(a, b) {
 			return a < b ? -1 : a > b ? 1 : 0
 		}
@@ -441,7 +443,7 @@ export default class KPMTPage extends Component {
 				dd.content.push(generateIndivPage(r.room, i + 1))
 			})
 
-		pdfMake.createPdf(dd).download()
+		pdfMake.createPdf(dd).download('room-signs.pdf')
 
 		// generate pdfs for team assignments
 		let freshTeamsResponse = await fetchKPMTTeams()
@@ -499,6 +501,38 @@ export default class KPMTPage extends Component {
 				schoolRes.push(res)
 			})
 
+			let individuals = freshIndividuals.filter(i => {
+				return i.school._id.toString() === school._id.toString()
+			})
+
+			rooms
+				.filter(r => r.type === 'indiv')
+				.forEach((r, i) => {
+					let res = [
+						{
+							text: 'Individuals Room ' + (i + 1) + ' -> Room ' + r.room,
+							style: 'subheader'
+						}
+					]
+
+					console.log(school.name, individuals, r)
+
+					let indivsInRoom = individuals.filter(i => {
+						return r.constituents
+							.map(c => c._id.toString())
+							.includes(i._id.toString())
+					})
+
+					if (indivsInRoom.length === 0) return
+
+					indivsInRoom.forEach(i =>
+						res.push({ text: i.name, style: 'content' })
+					)
+
+					res.push({ text: '\n' })
+					schoolRes.push(res)
+				})
+
 			schoolRes.push({ text: '\n', pageBreak: 'after' })
 
 			return schoolRes
@@ -508,7 +542,7 @@ export default class KPMTPage extends Component {
 			dd.content.push(generateSchoolAssignment(s))
 		})
 
-		pdfMake.createPdf(dd).download()
+		pdfMake.createPdf(dd).download('school-assignments.pdf')
 	}
 
 	generateScoreReport = async () => {

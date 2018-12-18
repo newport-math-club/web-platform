@@ -1474,15 +1474,21 @@ const calculateWeightedScoreTeam = async teamId => {
 	var geometry = team.scores.geometry
 	var probability = team.scores.probability
 
-	var mentalScores = team.members.map(m => m.scores.mental).sort((a, b) => {
-		return b - a
-	})
-	var indivScores = team.members.map(m => m.scores.individual).sort((a, b) => {
-		return b - a
-	})
-	var blockScores = team.members.map(m => m.scores.block).sort((a, b) => {
-		return b - a
-	})
+	var mentalScores = team.members
+		.map(m => m.scores.mental)
+		.sort((a, b) => {
+			return b - a
+		})
+	var indivScores = team.members
+		.map(m => m.scores.individual)
+		.sort((a, b) => {
+			return b - a
+		})
+	var blockScores = team.members
+		.map(m => m.scores.block)
+		.sort((a, b) => {
+			return b - a
+		})
 	var topThreeMental = mentalScores.slice(0, 3).reduce((total, num) => {
 		return total + num
 	})
