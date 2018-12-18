@@ -96,7 +96,7 @@ export default class KPMTManageTeamsPage extends Component {
 	}
 
 	saveTeam = async () => {
-		var team = []
+		let team = []
 		;[0, 1, 2, 3].forEach(index => {
 			const name = this.newNameRefs[index].current.getText()
 			const grade = this.newGradeRefs[index].current.getText()
@@ -127,7 +127,7 @@ export default class KPMTManageTeamsPage extends Component {
 	}
 
 	saveEditTeam = async () => {
-		var team = []
+		let team = []
 		;[0, 1, 2, 3].forEach(index => {
 			const name = this.editNameRefs[index].current.getText()
 			const grade = this.editGradeRefs[index].current.getText().toString()

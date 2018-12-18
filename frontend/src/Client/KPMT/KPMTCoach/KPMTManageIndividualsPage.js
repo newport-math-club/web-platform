@@ -70,7 +70,7 @@ export default class KPMTManageIndividualsPage extends Component {
 		if (profileResponse.status === 200) {
 			const data = await profileResponse.json()
 
-			var competitors = data.competitors
+			let competitors = data.competitors
 
 			// get rid of all the competitors that are in teams
 			data.teams.forEach(team => {

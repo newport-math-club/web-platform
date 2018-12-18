@@ -3,7 +3,7 @@ import { Nav, getNavItems, Link } from '../../Components'
 
 export default class ArticlesPage extends Component {
 	render() {
-		var linksData = [
+		let linksData = [
 			{
 				href: 'https://usamo.wordpress.com/2016/04/17/against-perfect-scores/',
 				name: 'USAMO: Against Perfect Scores',
@@ -21,7 +21,7 @@ export default class ArticlesPage extends Component {
 			}
 		]
 
-		var links = linksData.map(linkData => {
+		let links = linksData.map(linkData => {
 			return (
 				<div>
 					<Link href={linkData.href} name={linkData.name} />

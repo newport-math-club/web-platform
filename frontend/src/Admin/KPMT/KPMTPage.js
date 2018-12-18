@@ -110,7 +110,7 @@ export default class KPMTPage extends Component {
 	}
 
 	handleWipeInputTextChange = text => {
-		var activated = moment(new Date()).format('MM/DD/YYYY') === text
+		let activated = moment(new Date()).format('MM/DD/YYYY') === text
 		this.setState({
 			wipeText: text,
 			wipeActivated: activated
@@ -121,7 +121,7 @@ export default class KPMTPage extends Component {
 		const response = await coachLock(!this.state.locks.coachLock)
 
 		if (response.status === 200) {
-			var newLocks = { ...this.state.locks }
+			let newLocks = { ...this.state.locks }
 			newLocks.coachLock = !newLocks.coachLock
 			this.setState({ locks: newLocks })
 			this.coachLockToggleButton.current.setEnabled(newLocks.coachLock)
@@ -132,7 +132,7 @@ export default class KPMTPage extends Component {
 		const response = await regLock(!this.state.locks.regLock)
 
 		if (response.status === 200) {
-			var newLocks = { ...this.state.locks }
+			let newLocks = { ...this.state.locks }
 			newLocks.regLock = !newLocks.regLock
 			this.setState({ locks: newLocks })
 			this.regLockToggleButton.current.setEnabled(newLocks.regLock)
@@ -170,11 +170,11 @@ export default class KPMTPage extends Component {
 		const roomNumbers = []
 
 		// these two loops populate the first 2 floors in the north wings
-		for (var i = 1101; i <= 1114; i++) {
+		for (let i = 1101; i <= 1114; i++) {
 			roomNumbers.push(i)
 		}
 
-		for (var i = 2101; i <= 2124; i++) {
+		for (let i = 2101; i <= 2124; i++) {
 			roomNumbers.push(i)
 		}
 
@@ -195,38 +195,38 @@ export default class KPMTPage extends Component {
 		}
 
 		// split teams and individuals by 5/6 and 7/8
-		var teams56 = teams
+		let teams56 = teams
 			.filter(t => t.grade <= 6)
 			.sort((t1, t2) => {
 				return compare(t1.school.name, t2.school.name)
 			})
-		var teams78 = teams
+		let teams78 = teams
 			.filter(t => t.grade >= 7)
 			.sort((t1, t2) => {
 				return compare(t1.school.name, t2.school.name)
 			})
-		var individuals56 = individuals
+		let individuals56 = individuals
 			.filter(i => i.grade <= 6)
 			.sort((i1, i2) => {
 				return compare(i1.school.name, i2.school.name)
 			})
-		var individuals78 = individuals
+		let individuals78 = individuals
 			.filter(i => i.grade >= 7)
 			.sort((i1, i2) => {
 				return compare(i1.school.name, i2.school.name)
 			})
 
 		// delegate as many rooms as needed for each category, up to 20 indivs per room or 5 teams per room
-		var individuals56NumRooms = Math.ceil(
+		let individuals56NumRooms = Math.ceil(
 			individuals56.length / maxPeoplePerRoom
 		)
-		var individuals78NumRooms = Math.ceil(
+		let individuals78NumRooms = Math.ceil(
 			individuals78.length / maxPeoplePerRoom
 		)
-		var teams56NumRooms = Math.ceil(teams56.length / maxTeamsPerRoom)
-		var teams78NumRooms = Math.ceil(teams78.length / maxTeamsPerRoom)
+		let teams56NumRooms = Math.ceil(teams56.length / maxTeamsPerRoom)
+		let teams78NumRooms = Math.ceil(teams78.length / maxTeamsPerRoom)
 
-		var rooms = roomNumbers.map(n => {
+		let rooms = roomNumbers.map(n => {
 			return {
 				room: n,
 				type: null,
@@ -236,11 +236,11 @@ export default class KPMTPage extends Component {
 		})
 
 		// 5/6 individual room
-		var startingRoomIndex = 0
-		var roomIndex = startingRoomIndex
+		let startingRoomIndex = 0
+		let roomIndex = startingRoomIndex
 
 		for (
-			var i = startingRoomIndex;
+			let i = startingRoomIndex;
 			i < startingRoomIndex + individuals56NumRooms;
 			i++
 		) {
@@ -262,7 +262,7 @@ export default class KPMTPage extends Component {
 		roomIndex = startingRoomIndex
 
 		for (
-			var i = startingRoomIndex;
+			let i = startingRoomIndex;
 			i < startingRoomIndex + individuals78NumRooms;
 			i++
 		) {
@@ -284,7 +284,7 @@ export default class KPMTPage extends Component {
 		roomIndex = startingRoomIndex
 
 		for (
-			var i = startingRoomIndex;
+			let i = startingRoomIndex;
 			i < startingRoomIndex + teams56NumRooms;
 			i++
 		) {
@@ -306,7 +306,7 @@ export default class KPMTPage extends Component {
 		roomIndex = startingRoomIndex
 
 		for (
-			var i = startingRoomIndex;
+			let i = startingRoomIndex;
 			i < startingRoomIndex + teams78NumRooms;
 			i++
 		) {
@@ -341,7 +341,7 @@ export default class KPMTPage extends Component {
 
 		rooms = rooms.filter(r => r.constituents.length > 0)
 
-		var csvContent = ''
+		let csvContent = ''
 
 		rooms.forEach(function(room) {
 			if (room.category) room.category = room.category.replace('/', '')
@@ -349,14 +349,14 @@ export default class KPMTPage extends Component {
 			let row = room.room + ',' + room.type + ',' + room.category + ','
 
 			if (room.type == 'indiv') {
-				for (var i = 0; i < 20; i++) {
+				for (let i = 0; i < 20; i++) {
 					if (room.constituents.length > i) {
 						row += room.constituents[i].name
 					}
 					row += ','
 				}
 			} else {
-				for (var i = 0; i < 5; i++) {
+				for (let i = 0; i < 5; i++) {
 					if (room.constituents.length > i) {
 						row += room.constituents[i].number
 					}
@@ -485,7 +485,10 @@ export default class KPMTPage extends Component {
 				})[0].room
 
 				let res = [
-					{ text: t.number + ' -> Room ' + teamRoom, style: 'subheader' }
+					{
+						text: 'Team ' + t.number + ' -> Room ' + teamRoom,
+						style: 'subheader'
+					}
 				]
 
 				t.members.forEach(m => {
@@ -512,31 +515,31 @@ export default class KPMTPage extends Component {
 		const teamsResponse = await fetchKPMTTeams()
 		const competitorsResponse = await fetchKPMTCompetitors()
 
-		if (teamsResponse.status === 200) {
-			var teams = await teamsResponse.json()
+		if (teamsResponse.status === 200 && competitorsResponse.status === 200) {
+			let teams = await teamsResponse.json()
 
-			var teams5 = teams
+			let teams5 = teams
 				.filter(t => t.grade === 5)
 				.sort((a, b) => {
 					return b.scores.weighted - a.scores.weighted
 				})
 				.slice(0, 9)
 
-			var teams6 = teams
+			let teams6 = teams
 				.filter(t => t.grade === 6)
 				.sort((a, b) => {
 					return b.scores.weighted - a.scores.weighted
 				})
 				.slice(0, 9)
 
-			var teams7 = teams
+			let teams7 = teams
 				.filter(t => t.grade === 7)
 				.sort((a, b) => {
 					return b.scores.weighted - a.scores.weighted
 				})
 				.slice(0, 9)
 
-			var teams8 = teams
+			let teams8 = teams
 				.filter(t => t.grade === 8)
 				.sort((a, b) => {
 					return b.scores.weighted - a.scores.weighted
@@ -560,33 +563,31 @@ export default class KPMTPage extends Component {
 				t.school = t.school.name
 				delete t.members
 			})
-		}
 
-		if (competitorsResponse.status === 200) {
-			var competitors = await competitorsResponse.json()
+			let competitors = await competitorsResponse.json()
 
-			var competitors5 = competitors
+			let competitors5 = competitors
 				.filter(c => c.grade === 5)
 				.sort((a, b) => {
 					return b.scores.weighted - a.scores.weighted
 				})
 				.slice(0, 9)
 
-			var competitors6 = competitors
+			let competitors6 = competitors
 				.filter(c => c.grade === 6)
 				.sort((a, b) => {
 					return b.scores.weighted - a.scores.weighted
 				})
 				.slice(0, 9)
 
-			var competitors7 = competitors
+			let competitors7 = competitors
 				.filter(c => c.grade === 7)
 				.sort((a, b) => {
 					return b.scores.weighted - a.scores.weighted
 				})
 				.slice(0, 9)
 
-			var competitors8 = competitors
+			let competitors8 = competitors
 				.filter(c => c.grade === 8)
 				.sort((a, b) => {
 					return b.scores.weighted - a.scores.weighted
@@ -609,31 +610,31 @@ export default class KPMTPage extends Component {
 				c.school = c.school.name
 				c.team = c.team ? c.team.number : null
 			})
-		}
 
-		const final = {
-			teams5: teams5,
-			teams6: teams6,
-			teams7: teams7,
-			teams8: teams8,
-			competitors5: competitors5,
-			competitors6: competitors6,
-			competitors7: competitors7,
-			competitors8: competitors8
-		}
+			const final = {
+				teams5: teams5,
+				teams6: teams6,
+				teams7: teams7,
+				teams8: teams8,
+				competitors5: competitors5,
+				competitors6: competitors6,
+				competitors7: competitors7,
+				competitors8: competitors8
+			}
 
-		fileDownload(JSON.stringify(final), 'scorereport-' + Date.now() + '.json')
+			fileDownload(JSON.stringify(final), 'scorereport-' + Date.now() + '.json')
+		}
 	}
 
 	render() {
-		var linksData = [
+		let linksData = [
 			{ href: '/admin/kpmt/schools', name: 'Schools' },
 			{ href: '/admin/kpmt/teams', name: 'Teams' },
 			{ href: '/admin/kpmt/competitors', name: 'Individuals' },
 			{ href: '/admin/kpmt/entry', name: 'Data Entry' }
 		]
 
-		var links = linksData.map(linkData => {
+		let links = linksData.map(linkData => {
 			return (
 				<div>
 					<Link href={linkData.href} name={linkData.name} />

@@ -15,7 +15,7 @@ import { fetchProfile, fetchSchoolProfile } from './nmc-api'
  * @param {*} subItemIndex
  */
 export const getNavItems = (itemIndex, subItemIndex) => {
-	var base = [
+	let base = [
 		{ name: 'about', path: '/about' },
 		{ name: 'events', path: '/events' },
 		[
@@ -37,7 +37,7 @@ export const getNavItems = (itemIndex, subItemIndex) => {
 
 	if (itemIndex < 0) return base
 
-	var item = base[itemIndex]
+	let item = base[itemIndex]
 	if (item instanceof Array) {
 		item[0].highlight = true
 		item[subItemIndex].highlight = true
@@ -49,7 +49,7 @@ export const getNavItems = (itemIndex, subItemIndex) => {
 }
 
 export const getAdminNavItems = (itemIndex, subItemIndex) => {
-	var base = [
+	let base = [
 		{ name: 'meetings', path: '/admin/meetings' },
 		{ name: 'members', path: '/admin/members' },
 		[
@@ -64,7 +64,7 @@ export const getAdminNavItems = (itemIndex, subItemIndex) => {
 
 	if (itemIndex < 0) return base
 
-	var item = base[itemIndex]
+	let item = base[itemIndex]
 	if (item instanceof Array) {
 		item[0].highlight = true
 		item[subItemIndex].highlight = true
@@ -76,7 +76,7 @@ export const getAdminNavItems = (itemIndex, subItemIndex) => {
 }
 
 export const getCoachNavItems = (itemIndex, subItemIndex) => {
-	var base = [
+	let base = [
 		{ name: 'dashboard', path: '/kpmt/coach/dashboard' },
 		{ name: 'teams', path: '/kpmt/coach/teams' },
 		{ name: 'individuals', path: '/kpmt/coach/individuals' },
@@ -85,7 +85,7 @@ export const getCoachNavItems = (itemIndex, subItemIndex) => {
 
 	if (itemIndex < 0) return base
 
-	var item = base[itemIndex]
+	let item = base[itemIndex]
 	if (item instanceof Array) {
 		item[0].highlight = true
 		item[subItemIndex].highlight = true
@@ -128,7 +128,7 @@ export class CoachNav extends Component {
 	}
 
 	render() {
-		var items = this.props.items.slice()
+		let items = this.props.items.slice()
 		if (this.state.name) {
 			// base[4] = { name: profileName, path: '/profile', end: true }
 			items[items.length - 1] = [
@@ -208,7 +208,7 @@ export class Nav extends Component {
 	}
 
 	render() {
-		var items = this.props.items.slice()
+		let items = this.props.items.slice()
 		if (this.state.name) {
 			// base[4] = { name: profileName, path: '/profile', end: true }
 			items[items.length - 1] = [
@@ -274,12 +274,12 @@ class NavItem extends Component {
 
 	render() {
 		// check if there are subitems
-		var item
-		var style = {}
+		let item
+		let style = {}
 		if (this.props.item instanceof Array) {
 			item = this.props.item.slice()
-			var mainItem = item.splice(0, 1)[0]
-			var subItems = item.map(subItem => {
+			let mainItem = item.splice(0, 1)[0]
+			let subItems = item.map(subItem => {
 				return (
 					<h4
 						key={subItem.name}
@@ -313,7 +313,7 @@ class NavItem extends Component {
 			)
 		} else {
 			item = this.props.item
-			var style = {}
+			let style = {}
 
 			if (item.end) {
 				style.marginLeft = 'auto'
@@ -465,7 +465,7 @@ export class Textbox extends Component {
 	}
 
 	render() {
-		var style = { ...this.props.style }
+		let style = { ...this.props.style }
 		if (this.state.errored) style.border = '2px solid #eb5757'
 
 		return (
@@ -540,31 +540,29 @@ export class Table extends Component {
 	}
 
 	render() {
-		var headers = this.props.headers.map((header, index) => {
+		let headers = this.props.headers.map((header, index) => {
 			return (
 				<th key={header} onClick={() => this.toggleSortByIndex(index)}>
 					{header}
-					{this.state.sortIndex === index &&
-						this.state.sortDirection === 1 && (
-							<i
-								className="material-icons"
-								style={{ color: '#000', position: 'relative', top: '8%' }}>
-								arrow_drop_down
-							</i>
-						)}
-					{this.state.sortIndex === index &&
-						this.state.sortDirection === -1 && (
-							<i
-								className="material-icons"
-								style={{ color: '#000', position: 'relative', top: '8%' }}>
-								arrow_drop_up
-							</i>
-						)}
+					{this.state.sortIndex === index && this.state.sortDirection === 1 && (
+						<i
+							className="material-icons"
+							style={{ color: '#000', position: 'relative', top: '8%' }}>
+							arrow_drop_down
+						</i>
+					)}
+					{this.state.sortIndex === index && this.state.sortDirection === -1 && (
+						<i
+							className="material-icons"
+							style={{ color: '#000', position: 'relative', top: '8%' }}>
+							arrow_drop_up
+						</i>
+					)}
 				</th>
 			)
 		})
 
-		var rows
+		let rows
 		if (this.props.filter.length > 0) {
 			const data = this.props.data.slice()
 
@@ -588,7 +586,7 @@ export class Table extends Component {
 			}
 
 			rows = data.slice().map(row => {
-				for (var i = 0; i < row.fields.length; i++) {
+				for (let i = 0; i < row.fields.length; i++) {
 					if (!row.fields[i]) continue
 					if (
 						row.fields[i]

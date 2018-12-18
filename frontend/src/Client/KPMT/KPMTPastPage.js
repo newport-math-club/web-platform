@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Nav, getNavItems, Link } from '../../Components'
+import { Nav, getNavItems } from '../../Components'
 
 export default class KPMTPastPage extends Component {
 	render() {
-		var pastTestsData = [
+		let pastTestsData = [
 			{
 				href:
 					'https://newport-math-club.nyc3.digitaloceanspaces.com/past-kpmt/kpmt2017-18.zip',
@@ -50,7 +50,7 @@ export default class KPMTPastPage extends Component {
 				name: 'KPMT 2009-10'
 			}
 		]
-		var pastTests = pastTestsData.map(pastTest => {
+		let pastTests = pastTestsData.map(pastTest => {
 			return (
 				<div>
 					<a href={pastTest.href}>

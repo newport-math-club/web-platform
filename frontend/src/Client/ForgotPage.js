@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Nav, getNavItems, Textbox, Button } from '../Components'
-import { login, forgotPass } from '../nmc-api'
+import { forgotPass } from '../nmc-api'
 
 export default class ForgotPage extends Component {
 	constructor(props) {

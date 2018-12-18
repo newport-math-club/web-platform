@@ -3,7 +3,7 @@ import { Nav, getNavItems, Link } from '../../Components'
 
 export default class LinksPage extends Component {
 	render() {
-		var linksData = [
+		let linksData = [
 			{
 				href: 'http://www.wastudentmath.org/',
 				name: 'WSMA',
@@ -39,7 +39,7 @@ export default class LinksPage extends Component {
 			}
 		]
 
-		var links = linksData.map(linkData => {
+		let links = linksData.map(linkData => {
 			return (
 				<div>
 					<Link href={linkData.href} name={linkData.name} />

@@ -3,7 +3,7 @@ import { Nav, getNavItems, Link } from '../Components'
 
 export default class EventsPage extends Component {
 	render() {
-		var linksData = [
+		let linksData = [
 			{
 				href: 'https://www.maa.org/math-competitions/amc-1012',
 				name: 'American Mathematics Competition (AMC) 10/12',
@@ -32,7 +32,7 @@ export default class EventsPage extends Component {
 			}
 		]
 
-		var links = linksData.map(linkData => {
+		let links = linksData.map(linkData => {
 			return (
 				<div>
 					<Link href={linkData.href} name={linkData.name} />

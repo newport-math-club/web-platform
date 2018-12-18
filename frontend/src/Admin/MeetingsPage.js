@@ -102,9 +102,9 @@ export default class MeetingsPage extends Component {
 					})
 					break
 				case 'edit':
-					var newMeetings = this.state.meetings.slice()
+					let newMeetings = this.state.meetings.slice()
 
-					for (var i = 0; i < newMeetings.length; i++) {
+					for (let i = 0; i < newMeetings.length; i++) {
 						if (newMeetings[i]._id.toString() === data.payload._id.toString()) {
 							data.payload.data.forEach(change => {
 								newMeetings[i][change.field] = change.value
@@ -153,8 +153,8 @@ export default class MeetingsPage extends Component {
 	}
 
 	saveMeeting = async () => {
-		var piPoints = this.piPointTextbox.current.getText()
-		var description = this.descriptionTextbox.current.getText()
+		let piPoints = this.piPointTextbox.current.getText()
+		let description = this.descriptionTextbox.current.getText()
 
 		if (!piPoints || piPoints.isOnlyWhitespace() || isNaN(piPoints)) {
 			this.setState({ error: 1 })
@@ -187,8 +187,8 @@ export default class MeetingsPage extends Component {
 	}
 
 	saveEditMeeting = async () => {
-		var piPoints = this.piPointTextbox.current.getText()
-		var description = this.descriptionTextbox.current.getText()
+		let piPoints = this.piPointTextbox.current.getText()
+		let description = this.descriptionTextbox.current.getText()
 
 		if (!piPoints || isNaN(piPoints)) {
 			this.setState({ error: 1 })
@@ -233,7 +233,7 @@ export default class MeetingsPage extends Component {
 	}
 
 	removeMember = index => {
-		var copy = this.state.addedMembers.slice()
+		let copy = this.state.addedMembers.slice()
 		copy.splice(index, 1)
 		this.setState({ addedMembers: copy })
 	}
@@ -285,7 +285,7 @@ export default class MeetingsPage extends Component {
 
 	render() {
 		const date = moment()
-		var dateString = date.format('MM/DD/YYYY')
+		let dateString = date.format('MM/DD/YYYY')
 
 		const inputProps = {
 			placeholder: 'add member',

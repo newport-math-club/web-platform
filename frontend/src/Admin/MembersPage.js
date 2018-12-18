@@ -74,9 +74,9 @@ export default class MembersPage extends Component {
 					})
 					break
 				case 'edit':
-					var newMembers = this.state.members.slice()
+					let newMembers = this.state.members.slice()
 
-					for (var i = 0; i < newMembers.length; i++) {
+					for (let i = 0; i < newMembers.length; i++) {
 						if (newMembers[i]._id.toString() === data.payload._id.toString()) {
 							data.payload.data.forEach(change => {
 								if (change.field === 'piPoints')
@@ -89,6 +89,7 @@ export default class MembersPage extends Component {
 					}
 					this.setState({ members: newMembers })
 					break
+				default:
 			}
 		})
 	}
@@ -133,7 +134,7 @@ export default class MembersPage extends Component {
 		const year = this.yearTextbox.current.getText()
 		const admin = this.adminTogglebutton.current.isEnabled()
 
-		var error = false
+		let error = false
 		if (!name || name.isOnlyWhitespace()) {
 			this.nameTextbox.current.error()
 			error = true
@@ -172,7 +173,7 @@ export default class MembersPage extends Component {
 		const year = this.yearTextbox.current.getText()
 		const admin = this.adminTogglebutton.current.isEnabled()
 
-		var error = false
+		let error = false
 		if (!name || name.isOnlyWhitespace()) {
 			this.nameTextbox.current.error()
 			error = true

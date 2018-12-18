@@ -119,9 +119,9 @@ export default class KPMTCompetitorsPage extends Component {
 
 					break
 				case 'edit':
-					var newSchools = this.state.schools.slice()
+					let newSchools = this.state.schools.slice()
 
-					for (var i = 0; i < newSchools.length; i++) {
+					for (let i = 0; i < newSchools.length; i++) {
 						if (newSchools[i]._id.toString() === data.payload._id.toString()) {
 							data.payload.data.forEach(change => {
 								newSchools[i][change.field] = change.value
@@ -167,9 +167,9 @@ export default class KPMTCompetitorsPage extends Component {
 					}
 					break
 				case 'edit':
-					var newCompetitors = this.state.competitors.slice()
+					let newCompetitors = this.state.competitors.slice()
 
-					for (var i = 0; i < newCompetitors.length; i++) {
+					for (let i = 0; i < newCompetitors.length; i++) {
 						if (
 							newCompetitors[i]._id.toString() === data.payload._id.toString()
 						) {
@@ -182,7 +182,7 @@ export default class KPMTCompetitorsPage extends Component {
 								newCompetitors[i]._id.toString() ===
 									this.state.selectedCompetitor._id.toString()
 							) {
-								var newSelectedCompetitor = { ...this.state.selectedCompetitor }
+								let newSelectedCompetitor = { ...this.state.selectedCompetitor }
 								data.payload.data.forEach(change => {
 									newSelectedCompetitor[change.field] = change.value
 								})

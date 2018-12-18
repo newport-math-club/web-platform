@@ -3,7 +3,7 @@ import { Nav, getNavItems, Link } from '../../Components'
 
 export default class PracticePage extends Component {
 	render() {
-		var linksData = [
+		let linksData = [
 			{
 				href: 'https://artofproblemsolving.com/community/c13_contests',
 				name: 'American Mathematics Competition'
@@ -34,7 +34,7 @@ export default class PracticePage extends Component {
 			}
 		]
 
-		var links = linksData.map(linkData => {
+		let links = linksData.map(linkData => {
 			return (
 				<div>
 					<Link href={linkData.href} name={linkData.name} />

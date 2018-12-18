@@ -100,9 +100,9 @@ export default class KPMTSchoolsPage extends Component {
 					}
 					break
 				case 'edit':
-					var newSchools = this.state.schools.slice()
+					let newSchools = this.state.schools.slice()
 
-					for (var i = 0; i < newSchools.length; i++) {
+					for (let i = 0; i < newSchools.length; i++) {
 						if (newSchools[i]._id.toString() === data.payload._id.toString()) {
 							data.payload.data.forEach(change => {
 								newSchools[i][change.field] = change.value
@@ -113,7 +113,7 @@ export default class KPMTSchoolsPage extends Component {
 								newSchools[i]._id.toString() ===
 									this.state.selectedSchool._id.toString()
 							) {
-								var newSelectedSchool = {
+								let newSelectedSchool = {
 									...this.state.selectedSchool
 								}
 								data.payload.data.forEach(change => {
@@ -131,6 +131,7 @@ export default class KPMTSchoolsPage extends Component {
 						schools: newSchools
 					})
 					break
+				default:
 			}
 		})
 	}
@@ -172,7 +173,7 @@ export default class KPMTSchoolsPage extends Component {
 		// handle school activate deactivate, use ref to set enabled/disabled by response code
 		const active = !this.selectedSchoolActiveToggleButton.current.isEnabled()
 
-		var response
+		let response
 		if (active)
 			response = await activateSchool(this.state.selectedSchool._id.toString())
 		else

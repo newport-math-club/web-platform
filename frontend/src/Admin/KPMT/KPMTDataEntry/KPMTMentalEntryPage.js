@@ -75,9 +75,9 @@ export default class KPMTMentalEntryPage extends Component {
 					}
 					break
 				case 'edit':
-					var newIndividuals = this.state.individuals.slice()
+					let newIndividuals = this.state.individuals.slice()
 
-					for (var i = 0; i < newIndividuals.length; i++) {
+					for (let i = 0; i < newIndividuals.length; i++) {
 						if (
 							newIndividuals[i]._id.toString() === data.payload._id.toString()
 						) {
@@ -90,7 +90,7 @@ export default class KPMTMentalEntryPage extends Component {
 								newIndividuals[i]._id.toString() ===
 									this.state.selectedIndividual._id.toString()
 							) {
-								var newSelectedIndividual = { ...this.state.selectedIndividual }
+								let newSelectedIndividual = { ...this.state.selectedIndividual }
 								data.payload.data.forEach(change => {
 									newSelectedIndividual[change.field] = change.value
 								})
@@ -104,6 +104,7 @@ export default class KPMTMentalEntryPage extends Component {
 					}
 					this.setState({ individuals: newIndividuals })
 					break
+				default:
 			}
 		})
 	}
@@ -147,7 +148,7 @@ export default class KPMTMentalEntryPage extends Component {
 			return
 		}
 
-		var score = this.scoreTextbox.current.getText().toString()
+		let score = this.scoreTextbox.current.getText().toString()
 
 		if (score.isOnlyWhitespace() || isNaN(score)) {
 			NotificationManager.error('Invalid score inputs', 'Error')

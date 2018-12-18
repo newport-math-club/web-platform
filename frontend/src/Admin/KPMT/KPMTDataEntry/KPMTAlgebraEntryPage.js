@@ -78,9 +78,9 @@ export default class KPMTAlgebraEntryPage extends Component {
 					}
 					break
 				case 'edit':
-					var newTeams = this.state.teams.slice()
+					let newTeams = this.state.teams.slice()
 
-					for (var i = 0; i < newTeams.length; i++) {
+					for (let i = 0; i < newTeams.length; i++) {
 						if (newTeams[i]._id.toString() === data.payload._id.toString()) {
 							data.payload.data.forEach(change => {
 								newTeams[i][change.field] = change.value
@@ -91,7 +91,7 @@ export default class KPMTAlgebraEntryPage extends Component {
 								newTeams[i]._id.toString() ===
 									this.state.selectedTeam._id.toString()
 							) {
-								var newSelectedTeam = { ...this.state.selectedTeam }
+								let newSelectedTeam = { ...this.state.selectedTeam }
 								data.payload.data.forEach(change => {
 									newSelectedTeam[change.field] = change.value
 								})
@@ -105,6 +105,7 @@ export default class KPMTAlgebraEntryPage extends Component {
 					}
 					this.setState({ teams: newTeams })
 					break
+				default:
 			}
 		})
 	}
@@ -148,7 +149,7 @@ export default class KPMTAlgebraEntryPage extends Component {
 			return
 		}
 
-		var score = this.scoreTextbox.current.getText().toString()
+		let score = this.scoreTextbox.current.getText().toString()
 
 		if (score.isOnlyWhitespace() || isNaN(score)) {
 			NotificationManager.error('Invalid score inputs', 'Error')

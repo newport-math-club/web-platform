@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Nav, getNavItems, Textbox, Button } from '../../Components'
-import { loginKPMT, resetKPMTForgotPass } from '../../nmc-api'
+import { resetKPMTForgotPass } from '../../nmc-api'
 
 export default class KPMTResetPage extends Component {
 	constructor(props) {

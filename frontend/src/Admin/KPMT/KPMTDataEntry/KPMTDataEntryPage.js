@@ -1,13 +1,6 @@
 import React, { Component } from 'react'
 import { Nav, Link, getAdminNavItems } from '../../../Components'
-import {
-	exportData,
-	getLockStatus,
-	coachLock,
-	regLock,
-	wipeKPMT,
-	fetchKPMTCompetitors
-} from '../../../nmc-api'
+import { fetchKPMTCompetitors } from '../../../nmc-api'
 
 const individualLinksData = [
 	{ href: '/admin/kpmt/entry/individual', name: 'Individual Test' },

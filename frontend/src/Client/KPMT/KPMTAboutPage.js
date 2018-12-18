@@ -92,6 +92,7 @@ export default class KPMTAboutPage extends Component {
 						<img
 							style={{ width: '100%', marginTop: '1em' }}
 							src="https://bellevue.aopsacademy.org/assets/images/logos/aops-academy-bellevue.svg"
+							alt="kpmt-banner"
 						/>
 					</a>
 					<p>
