@@ -612,7 +612,7 @@ export class Table extends Component {
 								this.props.onItemClick(row._id)
 							}}>
 							{row.fields.map((item, index) => {
-								return <td hey={index}>{item}</td>
+								return <td key={index}>{item}</td>
 							})}
 						</tr>
 					)
@@ -718,11 +718,11 @@ export class ToggleButton extends Component {
 
 	render() {
 		return (
-			<label class="switch">
+			<label className="switch">
 				<input
 					type="checkbox"
 					checked={this.state.enabled}
-					onClick={() => {
+					onChange={(e, i) => {
 						if (this.props.onClick) {
 							const shouldAutoToggle = this.props.onClick()
 							if (shouldAutoToggle)
@@ -732,7 +732,7 @@ export class ToggleButton extends Component {
 						}
 					}}
 				/>
-				<span class="slider round" />
+				<span className="slider round" />
 			</label>
 		)
 	}

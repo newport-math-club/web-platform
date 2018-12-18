@@ -250,7 +250,7 @@ export class Nav extends Component {
 					menu
 				</i>
 				{title}
-				<div class={'navPane' + (this.state.open ? ' visible' : '')}>
+				<div className={'navPane' + (this.state.open ? ' visible' : '')}>
 					{navItems}
 				</div>
 			</div>
@@ -707,11 +707,11 @@ export class ToggleButton extends Component {
 
 	render() {
 		return (
-			<label class="switch">
+			<label className="switch">
 				<input
 					type="checkbox"
 					checked={this.state.enabled}
-					onClick={() => {
+					onChange={() => {
 						if (this.props.onClick) {
 							const shouldAutoToggle = this.props.onClick()
 							if (shouldAutoToggle)
@@ -721,7 +721,7 @@ export class ToggleButton extends Component {
 						}
 					}}
 				/>
-				<span class="slider round" />
+				<span className="slider round" />
 			</label>
 		)
 	}

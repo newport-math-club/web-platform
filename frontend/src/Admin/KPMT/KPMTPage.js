@@ -636,7 +636,7 @@ export default class KPMTPage extends Component {
 
 		let links = linksData.map(linkData => {
 			return (
-				<div>
+				<div key={linkData.name}>
 					<Link href={linkData.href} name={linkData.name} />
 				</div>
 			)

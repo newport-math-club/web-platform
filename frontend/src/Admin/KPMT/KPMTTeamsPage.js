@@ -355,7 +355,7 @@ export default class KPMTTeamsPage extends Component {
 			if (selectedTeam.members.length > index) {
 				const member = selectedTeam.members[index]
 				return (
-					<div>
+					<div key={index}>
 						<Textbox
 							ref={this.editNameRefs[index]}
 							style={{
@@ -379,7 +379,7 @@ export default class KPMTTeamsPage extends Component {
 				)
 			}
 			return (
-				<div>
+				<div key={index}>
 					<Textbox
 						style={{
 							display: 'inline',
@@ -403,7 +403,7 @@ export default class KPMTTeamsPage extends Component {
 
 		const newMemberTextboxes = [0, 1, 2, 3].map(index => {
 			return (
-				<div>
+				<div key={index}>
 					<Textbox
 						style={{
 							display: 'inline',
