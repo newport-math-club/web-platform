@@ -176,7 +176,7 @@ export default class ProfilePage extends Component {
 					<h5>email: {this.state.email}</h5>
 					<h5>year of graduation: {this.state.year}</h5>
 					<h5>
-						click{' '}
+						click {/* eslint-disable-next-line */}
 						<a href="#" onClick={this.openChangePasswordModal}>
 							here
 						</a>{' '}

@@ -588,29 +588,35 @@ export class Table extends Component {
 				})
 			}
 
-			rows = data.slice().map(row => {
-				for (let i = 0; i < row.fields.length; i++) {
-					if (!row.fields[i]) continue
-					if (
-						row.fields[i]
-							.toString()
-							.toLowerCase()
-							.includes(this.props.filter.toLowerCase())
-					) {
-						return (
-							<tr
-								key={row._id}
-								onClick={() => {
-									this.props.onItemClick(row._id)
-								}}>
-								{row.fields.map((item, index) => {
-									return <td hey={index}>{item}</td>
-								})}
-							</tr>
+			rows = data
+				.slice()
+				.filter(row => {
+					let includes = false
+					for (let field of row.fields) {
+						if (!field) return false
+						if (
+							field
+								.toString()
+								.toLowerCase()
+								.includes(this.props.filter.toLowerCase())
 						)
+							includes = true
 					}
-				}
-			})
+					return includes
+				})
+				.map(row => {
+					return (
+						<tr
+							key={row._id}
+							onClick={() => {
+								this.props.onItemClick(row._id)
+							}}>
+							{row.fields.map((item, index) => {
+								return <td hey={index}>{item}</td>
+							})}
+						</tr>
+					)
+				})
 		} else {
 			const data = this.props.data.slice()
 
