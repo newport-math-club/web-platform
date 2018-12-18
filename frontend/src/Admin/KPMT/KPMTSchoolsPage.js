@@ -163,7 +163,7 @@ export default class KPMTSchoolsPage extends Component {
 	}
 
 	setSchoolAmtPaid = async () => {
-		const response = await kpmtSetAmountPaid(
+		await kpmtSetAmountPaid(
 			this.state.selectedSchool._id.toString(),
 			this.amountPaidTextbox.current.getText().toString()
 		)

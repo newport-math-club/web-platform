@@ -134,6 +134,7 @@ export default class KPMTCompetitorsPage extends Component {
 						schools: newSchools
 					})
 					break
+				default:
 			}
 		})
 
@@ -195,6 +196,7 @@ export default class KPMTCompetitorsPage extends Component {
 					}
 					this.setState({ competitors: newCompetitors })
 					break
+				default:
 			}
 		})
 	}

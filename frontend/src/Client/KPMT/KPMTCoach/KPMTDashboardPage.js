@@ -191,7 +191,7 @@ export default class KPMTDashboardPage extends Component {
 					</h3>
 					<h3>Total Cost: ${numTeams * 40 + numIndivs * 15}</h3>
 
-					<a onClick={this.openChangePasswordModal}>
+					<a href="#" onClick={this.openChangePasswordModal}>
 						<h3>Change your password</h3>
 					</a>
 				</div>

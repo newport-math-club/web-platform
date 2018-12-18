@@ -325,7 +325,7 @@ export default class KPMTPage extends Component {
 
 		// trim the data
 		rooms.forEach(room => {
-			if (room.type == 'indiv') {
+			if (room.type === 'indiv') {
 				room.constituents.forEach(indiv => {
 					indiv.school = indiv.school.name
 					delete indiv.scores
@@ -348,7 +348,7 @@ export default class KPMTPage extends Component {
 
 			let row = room.room + ',' + room.type + ',' + room.category + ','
 
-			if (room.type == 'indiv') {
+			if (room.type === 'indiv') {
 				for (let i = 0; i < 20; i++) {
 					if (room.constituents.length > i) {
 						row += room.constituents[i].name

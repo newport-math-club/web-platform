@@ -176,8 +176,11 @@ export default class ProfilePage extends Component {
 					<h5>email: {this.state.email}</h5>
 					<h5>year of graduation: {this.state.year}</h5>
 					<h5>
-						click <a onClick={this.openChangePasswordModal}>here</a> to change
-						your password
+						click{' '}
+						<a href="#" onClick={this.openChangePasswordModal}>
+							here
+						</a>{' '}
+						to change your password
 					</h5>
 					{this.state.admin && (
 						<h5>

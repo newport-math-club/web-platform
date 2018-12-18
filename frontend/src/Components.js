@@ -367,7 +367,11 @@ export class Bio extends Component {
 	render() {
 		return (
 			<div style={{ height: '5em', paddingLeft: '3em' }}>
-				<img src={this.props.image} style={{ height: '90%', float: 'left' }} />
+				<img
+					src={this.props.image}
+					style={{ height: '90%', float: 'left' }}
+					alt={this.props.name}
+				/>
 				<div
 					style={{
 						paddingLeft: '2em',

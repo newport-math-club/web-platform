@@ -140,6 +140,7 @@ export default class KPMTTeamsPage extends Component {
 						schools: newSchools
 					})
 					break
+				default:
 			}
 		})
 
@@ -198,6 +199,7 @@ export default class KPMTTeamsPage extends Component {
 					}
 					this.setState({ teams: newTeams })
 					break
+				default:
 			}
 		})
 	}
