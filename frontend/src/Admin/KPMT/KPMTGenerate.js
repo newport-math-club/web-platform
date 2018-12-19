@@ -25,7 +25,7 @@ const generateScoreReport = () => {
       // Take the top 5...
       gT = gT.slice(0, 5)
 
-      // And sanitize the obejtcs
+      // And sanitize the obtest
       gT = gT.map(t => {
         t.school = t.school.name
         delete t.members 
@@ -49,12 +49,25 @@ const generateScoreReport = () => {
     })
 
     let final = {
-      
- teams: teamsByGrade,
-      competitors: competitorsByGrade   }
- 
 
-    // TODO: turn into CSV and PDF
-   res(final)
+        s: teamsByGrade,
+      competitors: competitorsByGrade   }
+    }    // TODO: turn into CSV and PDF
+  
+    let csv = ''
+
+    final.teams.forEach((gT, i) => {
+      csv.push(i + 5 + 'th grade,team')
+      gT.forEach((t, i) => {
+
+      })
+    })
+
+    final.competitors.forEach(gC => {
+      gC.forEach(c => {
+
+      })
+    })
+    final)
   })
 }
