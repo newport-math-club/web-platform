@@ -20,6 +20,7 @@ import {
 import moment from 'moment'
 import Modal from 'react-modal'
 import imageString from './KPMTImage'
+import { generateScoreReport } from './KPMTGenerate'
 const pdfMake = require('pdfmake/build/pdfmake')
 pdfMake.vfs = require('pdfmake/build/vfs_fonts').pdfMake.vfs
 
@@ -546,118 +547,106 @@ export default class KPMTPage extends Component {
 	}
 
 	generateScoreReport = async () => {
-		const teamsResponse = await fetchKPMTTeams()
-		const competitorsResponse = await fetchKPMTCompetitors()
+		let dd = await generateScoreReport()
 
-		if (teamsResponse.status === 200 && competitorsResponse.status === 200) {
-			let teams = await teamsResponse.json()
-
-			let teams5 = teams
-				.filter(t => t.grade === 5)
-				.sort((a, b) => {
-					return b.scores.weighted - a.scores.weighted
-				})
-				.slice(0, 9)
-
-			let teams6 = teams
-				.filter(t => t.grade === 6)
-				.sort((a, b) => {
-					return b.scores.weighted - a.scores.weighted
-				})
-				.slice(0, 9)
-
-			let teams7 = teams
-				.filter(t => t.grade === 7)
-				.sort((a, b) => {
-					return b.scores.weighted - a.scores.weighted
-				})
-				.slice(0, 9)
-
-			let teams8 = teams
-				.filter(t => t.grade === 8)
-				.sort((a, b) => {
-					return b.scores.weighted - a.scores.weighted
-				})
-				.slice(0, 9)
-
-			teams5.forEach(t => {
-				t.school = t.school.name
-				delete t.members
-			})
-
-			teams6.forEach(t => {
-				t.school = t.school.name
-				delete t.members
-			})
-			teams7.forEach(t => {
-				t.school = t.school.name
-				delete t.members
-			})
-			teams8.forEach(t => {
-				t.school = t.school.name
-				delete t.members
-			})
-
-			let competitors = await competitorsResponse.json()
-
-			let competitors5 = competitors
-				.filter(c => c.grade === 5)
-				.sort((a, b) => {
-					return b.scores.weighted - a.scores.weighted
-				})
-				.slice(0, 9)
-
-			let competitors6 = competitors
-				.filter(c => c.grade === 6)
-				.sort((a, b) => {
-					return b.scores.weighted - a.scores.weighted
-				})
-				.slice(0, 9)
-
-			let competitors7 = competitors
-				.filter(c => c.grade === 7)
-				.sort((a, b) => {
-					return b.scores.weighted - a.scores.weighted
-				})
-				.slice(0, 9)
-
-			let competitors8 = competitors
-				.filter(c => c.grade === 8)
-				.sort((a, b) => {
-					return b.scores.weighted - a.scores.weighted
-				})
-				.slice(0, 9)
-
-			competitors5.forEach(c => {
-				c.school = c.school.name
-				c.team = c.team ? c.team.number : null
-			})
-			competitors6.forEach(c => {
-				c.school = c.school.name
-				c.team = c.team ? c.team.number : null
-			})
-			competitors7.forEach(c => {
-				c.school = c.school.name
-				c.team = c.team ? c.team.number : null
-			})
-			competitors8.forEach(c => {
-				c.school = c.school.name
-				c.team = c.team ? c.team.number : null
-			})
-
-			const final = {
-				teams5: teams5,
-				teams6: teams6,
-				teams7: teams7,
-				teams8: teams8,
-				competitors5: competitors5,
-				competitors6: competitors6,
-				competitors7: competitors7,
-				competitors8: competitors8
-			}
-
-			fileDownload(JSON.stringify(final), 'scorereport-' + Date.now() + '.json')
-		}
+		pdfMake.createPdf(dd).download('score-report.pdf')
+		// const teamsResponse = await fetchKPMTTeams()
+		// const competitorsResponse = await fetchKPMTCompetitors()
+		// if (teamsResponse.status === 200 && competitorsResponse.status === 200) {
+		// 	let teams = await teamsResponse.json()
+		// 	let teams5 = teams
+		// 		.filter(t => t.grade === 5)
+		// 		.sort((a, b) => {
+		// 			return b.scores.weighted - a.scores.weighted
+		// 		})
+		// 		.slice(0, 9)
+		// 	let teams6 = teams
+		// 		.filter(t => t.grade === 6)
+		// 		.sort((a, b) => {
+		// 			return b.scores.weighted - a.scores.weighted
+		// 		})
+		// 		.slice(0, 9)
+		// 	let teams7 = teams
+		// 		.filter(t => t.grade === 7)
+		// 		.sort((a, b) => {
+		// 			return b.scores.weighted - a.scores.weighted
+		// 		})
+		// 		.slice(0, 9)
+		// 	let teams8 = teams
+		// 		.filter(t => t.grade === 8)
+		// 		.sort((a, b) => {
+		// 			return b.scores.weighted - a.scores.weighted
+		// 		})
+		// 		.slice(0, 9)
+		// 	teams5.forEach(t => {
+		// 		t.school = t.school.name
+		// 		delete t.members
+		// 	})
+		// 	teams6.forEach(t => {
+		// 		t.school = t.school.name
+		// 		delete t.members
+		// 	})
+		// 	teams7.forEach(t => {
+		// 		t.school = t.school.name
+		// 		delete t.members
+		// 	})
+		// 	teams8.forEach(t => {
+		// 		t.school = t.school.name
+		// 		delete t.members
+		// 	})
+		// 	let competitors = await competitorsResponse.json()
+		// 	let competitors5 = competitors
+		// 		.filter(c => c.grade === 5)
+		// 		.sort((a, b) => {
+		// 			return b.scores.weighted - a.scores.weighted
+		// 		})
+		// 		.slice(0, 9)
+		// 	let competitors6 = competitors
+		// 		.filter(c => c.grade === 6)
+		// 		.sort((a, b) => {
+		// 			return b.scores.weighted - a.scores.weighted
+		// 		})
+		// 		.slice(0, 9)
+		// 	let competitors7 = competitors
+		// 		.filter(c => c.grade === 7)
+		// 		.sort((a, b) => {
+		// 			return b.scores.weighted - a.scores.weighted
+		// 		})
+		// 		.slice(0, 9)
+		// 	let competitors8 = competitors
+		// 		.filter(c => c.grade === 8)
+		// 		.sort((a, b) => {
+		// 			return b.scores.weighted - a.scores.weighted
+		// 		})
+		// 		.slice(0, 9)
+		// 	competitors5.forEach(c => {
+		// 		c.school = c.school.name
+		// 		c.team = c.team ? c.team.number : null
+		// 	})
+		// 	competitors6.forEach(c => {
+		// 		c.school = c.school.name
+		// 		c.team = c.team ? c.team.number : null
+		// 	})
+		// 	competitors7.forEach(c => {
+		// 		c.school = c.school.name
+		// 		c.team = c.team ? c.team.number : null
+		// 	})
+		// 	competitors8.forEach(c => {
+		// 		c.school = c.school.name
+		// 		c.team = c.team ? c.team.number : null
+		// 	})
+		// 	const final = {
+		// 		teams5: teams5,
+		// 		teams6: teams6,
+		// 		teams7: teams7,
+		// 		teams8: teams8,
+		// 		competitors5: competitors5,
+		// 		competitors6: competitors6,
+		// 		competitors7: competitors7,
+		// 		competitors8: competitors8
+		// 	}
+		// 	fileDownload(JSON.stringify(final), 'scorereport-' + Date.now() + '.json')
+		// }
 	}
 
 	render() {
