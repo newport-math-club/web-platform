@@ -601,6 +601,7 @@ export class Table extends Component {
 						)
 							return true
 					}
+					return false
 				})
 				.map(row => {
 					return (
