@@ -591,18 +591,16 @@ export class Table extends Component {
 			rows = data
 				.slice()
 				.filter(row => {
-					let includes = false
 					for (let field of row.fields) {
-						if (!field) return false
 						if (
+							field &&
 							field
 								.toString()
 								.toLowerCase()
 								.includes(this.props.filter.toLowerCase())
 						)
-							includes = true
+							return true
 					}
-					return includes
 				})
 				.map(row => {
 					return (
