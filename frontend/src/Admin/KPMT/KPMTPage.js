@@ -337,7 +337,7 @@ export default class KPMTPage extends Component {
 				room.constituents.forEach(team => {
 					team.school = team.school.name
 					delete team.scores
-					delete team.members
+					// delete team.members
 				})
 			}
 		})
@@ -347,11 +347,13 @@ export default class KPMTPage extends Component {
 		let csvContent = ''
 
 		rooms.forEach(function(room) {
-			if (room.category) room.category = room.category.replace('/', '')
+			if (room.category) room.category = room.category.replace('/', '-')
 
-			let row = room.room + ',' + room.type + ',' + room.category + ','
+			let type = room.type === 'indiv' ? 'Indiv' : 'Team'
+			let row = room.room + ',' + type + ',' + room.category + ','
 
 			if (room.type === 'indiv') {
+				row += room.constituents.length + ',0,'
 				for (let i = 0; i < 20; i++) {
 					if (room.constituents.length > i) {
 						row += room.constituents[i].name
@@ -359,6 +361,11 @@ export default class KPMTPage extends Component {
 					row += ','
 				}
 			} else {
+				row +=
+					room.constituents.reduce((a, c) => a + c.members.length, 0) +
+					',' +
+					room.constituents.length +
+					','
 				for (let i = 0; i < 5; i++) {
 					if (room.constituents.length > i) {
 						row += room.constituents[i].number
