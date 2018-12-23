@@ -387,7 +387,11 @@ export default class MeetingsPage extends Component {
 						)}
 					</div>
 					<div style={{ bottom: '1em', left: '1em', position: 'absolute' }}>
-						<Button onClick={this.deleteMeeting} text="delete" />
+						<Button
+							onClick={this.deleteMeeting}
+							text="delete"
+							style={{ background: '#eb5757' }}
+						/>
 					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeEditMeetingModal} text="close" />

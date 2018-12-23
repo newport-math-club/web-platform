@@ -266,7 +266,11 @@ export default class KPMTSchoolsPage extends Component {
 					</div>
 
 					<div style={{ bottom: '1em', left: '1em', position: 'absolute' }}>
-						<Button onClick={this.deleteSchool} text="delete" />
+						<Button
+							onClick={this.deleteSchool}
+							text="delete"
+							style={{ background: '#eb5757' }}
+						/>
 					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeSchoolModal} text="close" />

@@ -415,7 +415,11 @@ export default class KPMTCompetitorsPage extends Component {
 
 					{!selectedCompetitor.team && (
 						<div style={{ bottom: '1em', left: '1em', position: 'absolute' }}>
-							<Button onClick={this.deleteIndividual} text="delete" />
+							<Button
+								onClick={this.deleteIndividual}
+								text="delete"
+								style={{ background: '#eb5757' }}
+							/>
 						</div>
 					)}
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>

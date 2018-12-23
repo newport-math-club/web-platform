@@ -263,7 +263,11 @@ export default class MembersPage extends Component {
 					</div>
 
 					<div style={{ bottom: '1em', left: '1em', position: 'absolute' }}>
-						<Button onClick={this.deleteMember} text="delete" />
+						<Button
+							onClick={this.deleteMember}
+							text="delete"
+							style={{ background: '#eb5757' }}
+						/>
 					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeEditMemberModal} text="close" />
