@@ -1635,16 +1635,13 @@ exports.scoreTeam = (req, res) => {
 	var score = req.body.score
 
 	if (
-		!validateInput(id, type, score) ||
+		!validateInput(id, type) ||
+		score === null ||
+		score === undefined ||
 		(type != 'algebra' && type != 'geometry' && type != 'probability')
 	) {
 		return res.status(400).end()
 	}
-
-	var id = req.body.id
-	var score = req.body.score
-
-	if (!id || (!score && score !== 0)) return res.status(400).end()
 
 	var fieldString = 'scores.' + type
 
