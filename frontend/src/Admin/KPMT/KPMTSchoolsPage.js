@@ -192,6 +192,13 @@ export default class KPMTSchoolsPage extends Component {
 			competitors: []
 		}
 
+		const amtRemaining =
+			selectedSchool.teams.length * 40 +
+			15 *
+				(selectedSchool.competitors.length -
+					selectedSchool.teams.reduce((a, b) => a + b.members.length, 0)) -
+			selectedSchool.amountPaid
+
 		return (
 			<div className="fullheight">
 				<Modal
@@ -225,17 +232,10 @@ export default class KPMTSchoolsPage extends Component {
 						{'/$'}
 						{selectedSchool.amountPaid}
 					</h3>
-					<h3>
+					<h3 style={{ color: amtRemaining > 0 ? '#eb5757' : '#12eb9d' }}>
 						Amount Remaining:
 						{' $'}
-						{selectedSchool.teams.length * 40 +
-							15 *
-								(selectedSchool.competitors.length -
-									selectedSchool.teams.reduce(
-										(a, b) => a + b.members.length,
-										0
-									)) -
-							selectedSchool.amountPaid}
+						{amtRemaining}
 					</h3>
 					<div>
 						<Textbox
