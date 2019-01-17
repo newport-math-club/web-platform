@@ -79,7 +79,8 @@ export default class KPMTTeamsPage extends Component {
 		this.setState({
 			newTeamDialogIsOpen: false,
 			selectedSchool: null,
-			suggestionValue: ''
+			suggestionValue: '',
+			error: undefined
 		})
 	}
 
@@ -217,7 +218,8 @@ export default class KPMTTeamsPage extends Component {
 	closeTeamModal = () => {
 		this.setState({
 			teamDialogIsOpen: false,
-			selectedTeam: null
+			selectedTeam: null,
+			error: undefined
 		})
 	}
 

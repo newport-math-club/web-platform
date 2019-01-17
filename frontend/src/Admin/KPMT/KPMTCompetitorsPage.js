@@ -73,7 +73,8 @@ export default class KPMTCompetitorsPage extends Component {
 		this.setState({
 			newIndivDialogIsOpen: false,
 			selectedSchool: null,
-			suggestionValue: ''
+			suggestionValue: '',
+			error: undefined
 		})
 	}
 
@@ -214,7 +215,8 @@ export default class KPMTCompetitorsPage extends Component {
 	closeCompetitorModal = () => {
 		this.setState({
 			competitorDialogIsOpen: false,
-			selectedCompetitor: null
+			selectedCompetitor: null,
+			error: undefined
 		})
 	}
 
