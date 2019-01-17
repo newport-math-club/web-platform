@@ -61,7 +61,8 @@ export default class KPMTManageIndividualsPage extends Component {
 
 	closeNewIndivModal = () => {
 		this.setState({
-			newIndivDialogIsOpen: false
+			newIndivDialogIsOpen: false,
+			error: undefined
 		})
 	}
 
@@ -100,7 +101,8 @@ export default class KPMTManageIndividualsPage extends Component {
 	closeIndivModal = () => {
 		this.setState({
 			indivDialogIsOpen: false,
-			selectedIndiv: null
+			selectedIndiv: null,
+			error: undefined
 		})
 	}
 

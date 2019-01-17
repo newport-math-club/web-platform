@@ -64,7 +64,7 @@ export default class KPMTManageTeamsPage extends Component {
 	}
 
 	closeNewTeamModal = () => {
-		this.setState({ newTeamDialogIsOpen: false })
+		this.setState({ newTeamDialogIsOpen: false, error: undefined })
 	}
 
 	async componentDidMount() {
@@ -91,7 +91,8 @@ export default class KPMTManageTeamsPage extends Component {
 	closeTeamModal = () => {
 		this.setState({
 			teamDialogIsOpen: false,
-			selectedTeam: null
+			selectedTeam: null,
+			error: undefined
 		})
 	}
 
