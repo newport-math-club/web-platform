@@ -194,6 +194,7 @@ const generateAssignments = () => {
 			})
 
 		// delegate as many rooms as needed for each category, up to 20 indivs per room or 5 teams per room
+		// TODO: modify these if want to enforce a higher than necessary room count (for volunteer assignment ease)
 		let individuals56NumRooms = Math.ceil(
 			individuals56.length / maxPeoplePerRoom
 		)
