@@ -56,7 +56,7 @@ export default class KPMTAboutPage extends Component {
 					<br />
 
 					<a href="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/schedule.pdf">
-						<h3>Tentative schedule of events</h3>
+						<h3>Official schedule of events</h3>
 					</a>
 
 					<br />
