@@ -49,6 +49,10 @@ export default class LoginPage extends Component {
 						textAlign: 'center'
 					}}>
 					<h1>member login</h1>
+					<h5>
+						If you are a KPMT coach, click <a href="/kpmt/login">here</a> to go
+						to the KPMT login page.
+					</h5>
 					<Textbox
 						onEnter={this.handleLogin}
 						ref={this.emailTextBox}
