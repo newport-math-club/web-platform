@@ -79,8 +79,15 @@ export default class KPMTAboutPage extends Component {
 
 					<h3>Fees and Deadlines</h3>
 					<p>
-						Registration Fee: $40/team, $15/individual, closes February 8th,
-						2019 (day before KPMT)
+						<b>Registration Fee: $40/team, $15/individual</b>
+					</p>
+					<p>
+						<b>
+							Registration and modifications close February 4th, 2019 at 8 PM.
+						</b>{' '}
+						We allow competitors to switch teams at the registration table on
+						the day of, but no new teams or individuals may be added after this
+						deadline.
 					</p>
 
 					<a href="/kpmt/registration">
