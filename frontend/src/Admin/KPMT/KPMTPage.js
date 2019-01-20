@@ -16,7 +16,11 @@ import {
 } from '../../nmc-api'
 import moment from 'moment'
 import Modal from 'react-modal'
-import { generateScoreReport, generateAssignments } from './KPMTGenerate'
+import {
+	generateScoreReport,
+	generateAssignments,
+	generateSalesReport
+} from './KPMTGenerate'
 const pdfMake = require('pdfmake/build/pdfmake')
 pdfMake.vfs = require('pdfmake/build/vfs_fonts').pdfMake.vfs
 
@@ -148,7 +152,6 @@ export default class KPMTPage extends Component {
 
 	generateAssignments = async () => {
 		let timestamp = moment().format('YYYY-MM-DD')
-		console.log(timestamp)
 		let assignments = await generateAssignments()
 
 		fileDownload(
@@ -168,6 +171,13 @@ export default class KPMTPage extends Component {
 		let dd = await generateScoreReport()
 
 		pdfMake.createPdf(dd).download(`score-report-${timestamp}.pdf`)
+	}
+
+	generateSalesReport = async () => {
+		let timestamp = moment().format('YYYY-MM-DD')
+		let dd = await generateSalesReport()
+
+		pdfMake.createPdf(dd).download(`sales-report-${timestamp}.pdf`)
 	}
 
 	render() {
@@ -318,6 +328,13 @@ export default class KPMTPage extends Component {
 							name={'Generate Score Report'}
 						/>
 						<p>Generates a PDF score report</p>
+					</div>
+					<div>
+						<Link
+							onClick={this.generateSalesReport}
+							name={'Generate Sales Report'}
+						/>
+						<p>Generates a PDF sales report</p>
 					</div>
 					<div>
 						<Link onClick={this.exportData} name={'Export Data'} />

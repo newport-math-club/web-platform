@@ -536,4 +536,98 @@ const generateAssignments = () => {
 	})
 }
 
-export { generateScoreReport, generateAssignments }
+const generateSalesReport = () => {
+	return new Promise(async (res, rej) => {
+		const schoolsResponse = await fetchKPMTSchools()
+
+		if (schoolsResponse.status !== 200) {
+			rej('Cannot fetch data')
+		}
+
+		let schools = await schoolsResponse.json()
+
+		let dd = {
+			content: [
+				{ text: 'KPMT Sales Report', style: 'header' },
+				{ text: '\n', style: 'header' },
+				{
+					layout: 'lightHorizontalLines', // optional
+					table: {
+						// headers are automatically repeated if the table spans over multiple pages
+						// you can declare how many rows should be treated as headers
+						headerRows: 1,
+						widths: ['*', 'auto', 'auto', 'auto', 'auto'],
+
+						body: [
+							[
+								{ bold: true, text: 'School' },
+								{ bold: true, text: 'Teams' },
+								{ bold: true, text: 'Individuals' },
+								{ bold: true, text: 'Amt. Due' },
+								{ bold: true, text: 'Amt. Paid' }
+							]
+							// ,[
+							// 	'Somerset Elementary',
+							// 	'Value 2',
+							// 	'Value 3',
+							// 	'Value 4',
+							// 	'Value 5'
+							// ]
+						]
+					}
+				}
+			],
+			styles: {
+				header: {
+					fontSize: 24,
+					bold: true,
+					alignment: 'left'
+				},
+				subheader: {
+					fontSize: 16,
+					bold: true,
+					alignment: 'left'
+				},
+				content: {
+					fontSize: 14,
+					alignment: 'left'
+				}
+			}
+		}
+
+		let rows = dd.content[2].table.body
+
+		let totalTeams = 0
+		let totalIndivs = 0
+		let totalDue = 0
+		let totalPaid = 0
+
+		schools.forEach(s => {
+			let numTeams = s.teams.length
+			let numIndividuals =
+				s.competitors.length - s.teams.reduce((a, c) => a + c.members.length, 0)
+
+			let amountDue = numTeams * 40 + numIndividuals * 15
+			let amountPaid = s.amountPaid
+
+			rows.push([s.name, numTeams, numIndividuals, amountDue, amountPaid])
+
+			totalTeams += numTeams
+			totalIndivs += numIndividuals
+			totalDue += amountDue
+			totalPaid += amountPaid
+		})
+
+		rows.push([
+			{ bold: true, text: 'TOTAL' },
+			{ bold: true, text: totalTeams },
+			{ bold: true, text: totalIndivs },
+			{ bold: true, text: totalDue },
+			{ bold: true, text: totalPaid }
+		])
+
+		res(dd)
+	})
+}
+
+export { generateScoreReport, generateAssignments, generateSalesReport }
