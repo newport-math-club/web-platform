@@ -317,7 +317,7 @@ export default class KPMTPage extends Component {
 							onClick={this.generateScoreReport}
 							name={'Generate Score Report'}
 						/>
-						<p>Generates a score report in JSON format</p>
+						<p>Generates a PDF score report</p>
 					</div>
 					<div>
 						<Link onClick={this.exportData} name={'Export Data'} />

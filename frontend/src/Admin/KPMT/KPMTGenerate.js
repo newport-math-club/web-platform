@@ -37,6 +37,9 @@ const generateScoreReport = () => {
 				delete t.members
 				return t
 			})
+
+			// reverse the teams
+			arr[i].reverse()
 		})
 
 		// PARSE COMPETITORS
@@ -56,6 +59,7 @@ const generateScoreReport = () => {
 				c.team = c.team ? c.team.number : null
 				return c
 			})
+			arr[i].reverse()
 		})
 
 		let final = {
@@ -90,7 +94,7 @@ const generateScoreReport = () => {
 			dd.content.push({ text: i + 5 + 'th Grade Teams', style: 'subheader' })
 			gT.forEach((t, i) => {
 				dd.content.push({
-					text: i + 1 + ':\t' + t.number + '\t' + t.scores.weighted,
+					text: gT.length - i + ':\t' + t.number + '\t' + t.scores.weighted,
 					style: 'content'
 				})
 			})
@@ -111,7 +115,7 @@ const generateScoreReport = () => {
 			})
 			gC.forEach((c, i) => {
 				assignedColumn.push({
-					text: i + 1 + ':\t' + c.name + '\t' + c.scores.weighted,
+					text: gC.length - i + ':\t' + c.name + '\t' + c.scores.weighted,
 					style: 'content'
 				})
 			})
