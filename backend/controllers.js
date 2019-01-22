@@ -626,6 +626,25 @@ exports.registerKPMT = (req, res) => {
 				.exec()
 			sockets.onSchoolsChange('add', populatedSchool)
 			res.status(200).end()
+
+			// send email
+			var fromEmail = new helper.Email('newportmathclub@gmail.com')
+			var toEmail = new helper.Email('newportmathclub@gmail.com')
+			var subject = `Notification: ${school} has registered for KPMT`
+			var content = new helper.Content(
+				'text/plain',
+				`${school} has registered for KPMT.`
+			)
+			var mail = new helper.Mail(fromEmail, subject, toEmail, content)
+
+			var sg = require('sendgrid')(process.env.SENDGRID)
+			var request = sg.emptyRequest({
+				method: 'POST',
+				path: '/v3/mail/send',
+				body: mail.toJSON()
+			})
+
+			sg.API(request, function(error, response) {})
 		} catch (err) {
 			console.log(err)
 			res.status(500).end()
