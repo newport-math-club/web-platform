@@ -34,7 +34,6 @@ const generateScoreReport = () => {
 			// And sanitize the obtest
 			arr[i] = arr[i].map(t => {
 				t.school = t.school.name
-				delete t.members
 				return t
 			})
 
@@ -93,8 +92,19 @@ const generateScoreReport = () => {
 		final.teams.forEach((gT, i) => {
 			dd.content.push({ text: i + 5 + 'th Grade Teams', style: 'subheader' })
 			gT.forEach((t, i) => {
+				let members = t.members
+					.reduce((a, c) => a + ', ' + c.name, '')
+					.substring(2)
 				dd.content.push({
-					text: gT.length - i + ':\t' + t.number + '\t' + t.scores.weighted,
+					text:
+						gT.length -
+						i +
+						':\t' +
+						t.number +
+						'\t' +
+						members +
+						'\t' +
+						t.scores.weighted,
 					style: 'content'
 				})
 			})
