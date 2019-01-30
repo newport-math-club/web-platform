@@ -17,6 +17,7 @@ export default class HomePage extends Component {
 						<a href="/kpmt/registration">
 							<h3>KPMT Registration</h3>
 						</a>
+						<h5>Deadline: February 4th 8PM</h5>
 					</div>
 				</div>
 			</div>
