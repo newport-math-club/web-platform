@@ -14,12 +14,8 @@ export default class HomePage extends Component {
 						<h5>contact@newportmathclub.org</h5>
 						<br />
 						<br />
-						<a href="https://goo.gl/forms/MWA7WKePoe5Adsze2">
-							<h3>KPMT Volunteers Here!</h3>
-						</a>
-						<br />
-						<a href="https://goo.gl/forms/rm7AfAYkt7Z8FxqF2">
-							<h3>AMC Registration Here!</h3>
+						<a href="/kpmt/registration">
+							<h3>KPMT Registration</h3>
 						</a>
 					</div>
 				</div>
