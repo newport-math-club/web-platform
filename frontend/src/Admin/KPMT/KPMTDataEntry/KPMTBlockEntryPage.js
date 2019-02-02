@@ -222,7 +222,8 @@ export default class KPMTBlockEntryPage extends Component {
 				this.setState({ suggestionValue: selected.name })
 			},
 			style: {
-				width: '70%',
+				width: 'calc(100% - 2em - 4px)',
+				maxWidth: '20em',
 				display: 'inline-block'
 			}
 		}
@@ -243,10 +244,11 @@ export default class KPMTBlockEntryPage extends Component {
 					}}>
 					<div
 						style={{
-							width: '49%',
+							width: 'calc(49% - 2em)',
 							float: 'left',
 							borderRight: '2px solid #cccccc',
-							height: '100%'
+							height: '100%',
+							paddingRight: '2em'
 						}}>
 						<div>
 							<Link
@@ -282,13 +284,22 @@ export default class KPMTBlockEntryPage extends Component {
 						<div style={{ marginTop: '1em' }}>
 							<Textbox
 								placeholder={'raw score'}
-								style={{ display: 'inline-block' }}
+								style={{
+									display: 'inline-block',
+									width: 'calc(50% - 2.5em - 5px)',
+									maxWidth: 'calc(8.5em - 2px)'
+								}}
 								onEnter={this.submitScore}
 								ref={this.scoreTextbox}
 							/>
 							<Textbox
 								placeholder={'block level (0-5)'}
-								style={{ display: 'inline-block', marginLeft: '1em' }}
+								style={{
+									display: 'inline-block',
+									width: 'calc(50% - 2.5em - 5px)',
+									marginLeft: '1em',
+									maxWidth: 'calc(8.5em - 2px)'
+								}}
 								onEnter={this.submitScore}
 								ref={this.levelTextbox}
 							/>
