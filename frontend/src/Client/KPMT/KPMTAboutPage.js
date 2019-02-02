@@ -35,6 +35,8 @@ export default class KPMTAboutPage extends Component {
 
 					<p>
 						<b>2019 KPMT Date: Saturday February 9th, 2019</b>
+						<br />
+						<b>Registration Deadline: February 4th, 8 PM</b>
 					</p>
 
 					<a href="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/regpay.pdf">

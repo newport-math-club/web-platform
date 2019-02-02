@@ -157,16 +157,47 @@ const generateAssignments = () => {
 		let individuals = await competitorsResponse.json()
 		let schools = await schoolsResponse.json()
 
-		const roomNumbers = []
-
-		// these two loops populate the first 2 floors in the north wings
-		for (let i = 1101; i <= 1114; i++) {
-			roomNumbers.push(i)
-		}
-
-		for (let i = 2101; i <= 2124; i++) {
-			roomNumbers.push(i)
-		}
+		// rooms are populated by order of distance from the library
+		const roomNumbers = [
+			2124,
+			2123,
+			2122,
+			2121,
+			2120,
+			2119,
+			2101,
+			2102,
+			2103,
+			2104,
+			2105,
+			2118,
+			2117,
+			2116,
+			1114,
+			1113,
+			1112,
+			1101,
+			1102,
+			1111,
+			1110,
+			1109,
+			1103,
+			1104,
+			1105,
+			1108,
+			1107,
+			1106,
+			2106,
+			2107,
+			2108,
+			2115,
+			2114,
+			2113,
+			2109,
+			2110,
+			2112,
+			2111
+		]
 
 		const maxPeoplePerRoom = 20
 		const maxTeamsPerRoom = 5
