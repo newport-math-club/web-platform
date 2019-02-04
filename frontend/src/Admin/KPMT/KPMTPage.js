@@ -331,7 +331,7 @@ export default class KPMTPage extends Component {
 					<div>
 						<Textbox
 							ref={this.teamsPerRoomInput}
-							placeholder="max teams/rm (16)"
+							placeholder="max teams/rm (4)"
 						/>
 					</div>
 					<div>
