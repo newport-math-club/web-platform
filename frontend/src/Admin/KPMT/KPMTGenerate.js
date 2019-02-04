@@ -4,6 +4,7 @@ import {
 	fetchKPMTSchools
 } from '../../nmc-api'
 import imageString from './KPMTImage'
+import { max } from 'moment'
 
 const generateScoreReport = () => {
 	return new Promise(async (res, rej) => {
@@ -138,7 +139,8 @@ const generateScoreReport = () => {
 	})
 }
 
-const generateAssignments = () => {
+const generateAssignments = (maxPeoplePerRoom = 16, maxTeamsPerRoom = 4) => {
+	console.log(maxPeoplePerRoom, maxTeamsPerRoom)
 	return new Promise(async (res, rej) => {
 		let assignments = {}
 		const teamsResponse = await fetchKPMTTeams()
@@ -199,8 +201,8 @@ const generateAssignments = () => {
 			2111
 		]
 
-		const maxPeoplePerRoom = 20
-		const maxTeamsPerRoom = 5
+		// const maxPeoplePerRoom = 16
+		// const maxTeamsPerRoom = 4
 
 		teams.forEach(team => {
 			team.members.forEach(m => {

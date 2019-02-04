@@ -57,6 +57,8 @@ export default class KPMTPage extends Component {
 		this.regLockToggleButton = React.createRef()
 		this.wipeButton = React.createRef()
 		this.wipeInput = React.createRef()
+		this.teamsPerRoomInput = React.createRef()
+		this.indivsPerRoomInput = React.createRef()
 	}
 
 	exportData = async () => {
@@ -70,6 +72,14 @@ export default class KPMTPage extends Component {
 			window.location.href = '/login'
 			return
 		}
+	}
+
+	openGenerateAssignments = () => {
+		this.setState({ assignmentsDialogOpen: true })
+	}
+
+	closeGenerateAssignments = () => {
+		this.setState({ assignmentsDialogOpen: false })
 	}
 
 	openModifyKPMTLock = () => {
@@ -151,8 +161,17 @@ export default class KPMTPage extends Component {
 	}
 
 	generateAssignments = async () => {
+		let TPR = this.teamsPerRoomInput.current.getText()
+		let IPR = this.indivsPerRoomInput.current.getText()
+
 		let timestamp = moment().format('YYYY-MM-DD')
-		let assignments = await generateAssignments()
+
+		let assignments
+		if (!TPR || !IPR || isNaN(TPR) || isNaN(IPR) || TPR < 1 || IPR < 1)
+			assignments = await generateAssignments()
+		else {
+			assignments = await generateAssignments(IPR, TPR)
+		}
 
 		fileDownload(
 			assignments.roomAssignments,
@@ -299,6 +318,33 @@ export default class KPMTPage extends Component {
 						/>
 					</div>
 				</Modal>
+				<Modal
+					isOpen={this.state.assignmentsDialogOpen}
+					style={customStyles}
+					contentLabel="Room Assignments">
+					<h2 style={{ color: '#eb5757' }}>Room Assignments</h2>
+					<h5>
+						This generates room assignments and downloads 3 files: a CSV of the
+						assignments, all room signs, and all school assignments for the
+						registration table.
+					</h5>
+					<div>
+						<Textbox
+							ref={this.teamsPerRoomInput}
+							placeholder="max teams/rm (16)"
+						/>
+					</div>
+					<div>
+						<Textbox
+							ref={this.indivsPerRoomInput}
+							placeholder="max indivs/rm (16)"
+						/>
+					</div>
+					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
+						<Button onClick={this.closeGenerateAssignments} text="close" />
+						<Button onClick={this.generateAssignments} text="generate" />
+					</div>
+				</Modal>
 				<Nav admin={true} items={getAdminNavItems(2, 0)} />
 				<div
 					style={{
@@ -317,10 +363,12 @@ export default class KPMTPage extends Component {
 
 					<div>
 						<Link
-							onClick={this.generateAssignments}
+							onClick={this.openGenerateAssignments}
 							name={'Generate All Assignments'}
 						/>
-						<p>Generates room in CSV format</p>
+						<p>
+							Generates room assignments, room signs, and school assignments
+						</p>
 					</div>
 					<div>
 						<Link
