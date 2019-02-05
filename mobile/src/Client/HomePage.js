@@ -14,10 +14,6 @@ export default class HomePage extends Component {
 						<h5>contact@newportmathclub.org</h5>
 						<br />
 						<br />
-						<a href="/kpmt/registration">
-							<h3>KPMT Registration</h3>
-						</a>
-						<h5>Deadline: February 4th 8PM</h5>
 					</div>
 				</div>
 			</div>
