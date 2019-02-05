@@ -103,9 +103,10 @@ const generateScoreReport = () => {
 						':\t' +
 						t.number +
 						'\t' +
+						t.school +
+						'\n' +
 						members +
-						'\t' +
-						t.scores.weighted,
+						'\n\n',
 					style: 'content'
 				})
 			})
@@ -115,25 +116,21 @@ const generateScoreReport = () => {
 		dd.content.push({ text: '\n', pageBreak: 'after' })
 		dd.content.push({ text: 'Score Report: Individuals', style: 'header' })
 		dd.content.push({ text: '\n', style: 'header' })
-		let left = []
-		let right = []
 
 		final.competitors.forEach((gC, i) => {
-			let assignedColumn = i <= 6 ? left : right
-			assignedColumn.push({
+			// let assignedColumn = i <= 6 ? left : right
+			dd.content.push({
 				text: i + 5 + 'th Grade Individuals',
 				style: 'subheader'
 			})
 			gC.forEach((c, i) => {
-				assignedColumn.push({
-					text: gC.length - i + ':\t' + c.name + '\t' + c.scores.weighted,
+				dd.content.push({
+					text: gC.length - i + ':\t' + c.school + '\t' + c.name,
 					style: 'content'
 				})
 			})
-			assignedColumn.push({ text: '\n', style: 'content' })
+			dd.content.push({ text: '\n', style: 'content' })
 		})
-
-		dd.content.push({ columns: [left, right] })
 
 		res(dd)
 	})
