@@ -544,14 +544,14 @@ export class Table extends Component {
 			return (
 				<th key={header} onClick={() => this.toggleSortByIndex(index)}>
 					{header}
-					{this.state.sortIndex === index && this.state.sortDirection === 1 && (
+					{this.state.sortIndex === index && this.state.sortDirection === -1 && (
 						<i
 							className="material-icons"
 							style={{ color: '#000', position: 'relative', top: '8%' }}>
 							arrow_drop_down
 						</i>
 					)}
-					{this.state.sortIndex === index && this.state.sortDirection === -1 && (
+					{this.state.sortIndex === index && this.state.sortDirection === 1 && (
 						<i
 							className="material-icons"
 							style={{ color: '#000', position: 'relative', top: '8%' }}>
