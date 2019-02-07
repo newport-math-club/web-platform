@@ -34,9 +34,9 @@ export default class KPMTAboutPage extends Component {
 					</p>
 
 					<p>
-						<b>2019 KPMT Date: Saturday February 9th, 2019</b>
+						<b>2019 KPMT Date: Saturday March 2nd, 2019</b>
 						<br />
-						<b>Registration Deadline: February 4th, 8 PM</b>
+						<b>Registration Deadline: February 25th, 8 PM</b>
 					</p>
 
 					<a href="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/regpay.pdf">
@@ -85,7 +85,7 @@ export default class KPMTAboutPage extends Component {
 					</p>
 					<p>
 						<b>
-							Registration and modifications close February 4th, 2019 at 8 PM.
+							Registration and modifications close February 25th, 2019 at 8 PM.
 						</b>{' '}
 						We allow competitors to switch teams at the registration table on
 						the day of, but no new teams or individuals may be added after this

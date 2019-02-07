@@ -15,6 +15,10 @@ export default class HomePage extends Component {
 						<h5>contact@newportmathclub.org</h5>
 						<br />
 						<br />
+						<h3>
+							<red>Alert: KPMT postponed to March 2nd</red>
+						</h3>
+						<h5>Due to inclement weather</h5>
 					</div>
 				</div>
 			</div>
