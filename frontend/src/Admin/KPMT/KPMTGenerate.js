@@ -179,7 +179,7 @@ const generateAssignments = (maxPeoplePerRoom = 16, maxTeamsPerRoom = 4) => {
 			1102,
 			1111,
 			1110,
-			1109,
+			// 1109, do not use room 1109, janitor will get mad
 			1103,
 			1104,
 			1105,
