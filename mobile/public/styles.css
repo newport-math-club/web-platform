@@ -101,28 +101,28 @@ body {
 }
 
 h1 {
-  font-size: 3em;
+  font-size: 2.25em;
   margin: 0;
 }
 
 h2 {
-  font-size: 2.5em;
+  font-size: 2em;
   margin: 0;
 }
 
 h3 {
-  font-size: 1.7em;
+  font-size: 1.5em;
   margin: 0;
 }
 
 h4 {
-  font-size: 1.5em;
+  font-size: 1.3em;
   cursor: pointer;
   margin: 0;
 }
 
 h5 {
-  font-size: 1.2em;
+  font-size: 1.1em;
   color: #888;
   margin: 0;
 }
@@ -155,7 +155,7 @@ h5 {
 }
 
 .fill-nav-remainder {
-  padding-left: 4em;
+  padding-left: 3em;
   width: calc(100% - 4em);
   height: calc(100% - 4em);
   /* account for the nav bar at the top (8em) */
