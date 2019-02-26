@@ -15,13 +15,8 @@ export default class HomePage extends Component {
 						<h5>contact@newportmathclub.org</h5>
 						<br />
 						<br />
-						<h2>Knights of Pi Math Tournament: March 2nd</h2>
-						<h5>Registration and Volunteer Deadline: February 25th, 2019</h5>
-						<a href="/kpmt/registration">
-							<h4>KPMT Registration</h4>
-						</a>
-						<a href="https://goo.gl/forms/FecuWxzBtmZpMnt22">
-							<h4>KPMT Volunteer Registration</h4>
+						<a href="/kpmt">
+							<h4>Knights of Pi Math Tournament: March 2nd</h4>
 						</a>
 					</div>
 				</div>
