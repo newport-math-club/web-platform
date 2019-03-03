@@ -6,6 +6,10 @@ export default class KPMTPastPage extends Component {
 		let pastTestsData = [
 			{
 				href:
+					'https://newport-math-club.nyc3.digitaloceanspaces.com/past-kpmt/kpmt2018-19.zip',
+				name: 'KPMT 2018-19'
+			},{
+				href:
 					'https://newport-math-club.nyc3.digitaloceanspaces.com/past-kpmt/kpmt2017-18.zip',
 				name: 'KPMT 2017-18'
 			},
