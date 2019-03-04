@@ -33,8 +33,12 @@ const generateScoreReport = () => {
 			arr[i] = arr[i].slice(0, 5)
 
 			// And sanitize the obtest
-			arr[i] = arr[i].map(t => {
+			arr[i] = arr[i].map((t, k) => {
 				t.school = t.school.name
+				t.place = k + 1
+				if (k > 0 && t.scores.weighted === arr[i][k - 1].scores.weighted) {
+					t.place = arr[i][k - 1].place
+				}
 				return t
 			})
 
@@ -54,9 +58,13 @@ const generateScoreReport = () => {
 		competitorsByGrade.forEach((_, i, arr) => {
 			arr[i].sort((a, b) => b.scores.weighted - a.scores.weighted)
 			arr[i] = arr[i].slice(0, 10)
-			arr[i] = arr[i].map(c => {
+			arr[i] = arr[i].map((c, k) => {
 				c.school = c.school.name
 				c.team = c.team ? c.team.number : null
+				c.place = k + 1
+				if (k > 0 && c.scores.weighted === arr[i][k - 1].scores.weighted) {
+					c.place = arr[i][k - 1].place
+				}
 				return c
 			})
 			arr[i].reverse()
@@ -125,7 +133,7 @@ const generateScoreReport = () => {
 			})
 			gC.forEach((c, i) => {
 				dd.content.push({
-					text: gC.length - i + ':\t' + c.school + '\t' + c.name,
+					text: c.place + ':\t' + c.school + '\t' + c.name,
 					style: 'content'
 				})
 			})
