@@ -144,6 +144,108 @@ const generateScoreReport = () => {
 	})
 }
 
+const generateSchoolScoreReport = school => {
+	return new Promise(async (res, rej) => {
+		const competitorResponse = await fetchKPMTCompetitors()
+		const teamResponse = await fetchKPMTTeams()
+
+		if (teamResponse.status !== 200 || competitorResponse.status !== 200) {
+			rej('Cannot fetch data')
+		}
+
+		let schoolCompetitors = await competitorResponse.json()
+		let schoolTeams = await teamResponse.json()
+
+		schoolCompetitors = schoolCompetitors.filter(
+			c => c.school._id === school._id
+		)
+
+		schoolTeams = schoolTeams.filter(t => t.school._id === school._id)
+
+		let dd = {
+			content: [
+				{ text: `KPMT Score Report: ${school.name}`, style: 'header' },
+				{ text: '\n' },
+				{ text: 'Individual Scores\n\n', style: 'subheader' },
+				{
+					layout: 'lightHorizontalLines', // optional
+					table: {
+						// headers are automatically repeated if the table spans over multiple pages
+						// you can declare how many rows should be treated as headers
+						headerRows: 1,
+						widths: ['*', 'auto', 'auto', 'auto', 'auto', 'auto'],
+						body: [
+							[
+								{ bold: true, text: 'Competitor' },
+								'Individual',
+								'Indiv. Last',
+								'Block',
+								'MM',
+								'Weighted'
+							]
+						].concat(
+							schoolCompetitors.map(c => [
+								c.name,
+								c.scores.individual,
+								c.scores.individualLast,
+								c.scores.block,
+								c.scores.mental,
+								c.scores.weighted
+							])
+						)
+					},
+					pageBreak: 'after'
+				},
+				{ text: 'Team Scores\n\n', style: 'subheader' },
+				{
+					layout: 'lightHorizontalLines', // optional
+					table: {
+						// headers are automatically repeated if the table spans over multiple pages
+						// you can declare how many rows should be treated as headers
+						headerRows: 1,
+						widths: ['*', 'auto', 'auto', 'auto', 'auto'],
+						body: [
+							[
+								{ bold: true, text: 'Team' },
+								'Algebra',
+								'Geometry',
+								'PP',
+								'Weighted'
+							]
+						].concat(
+							schoolTeams.map(t => [
+								t.number,
+								t.scores.algebra,
+								t.scores.geometry,
+								t.scores.probability,
+								t.scores.weighted
+							])
+						)
+					}
+				}
+			],
+			styles: {
+				header: {
+					fontSize: 24,
+					bold: true,
+					alignment: 'left'
+				},
+				subheader: {
+					fontSize: 16,
+					bold: true,
+					alignment: 'left'
+				},
+				content: {
+					fontSize: 14,
+					alignment: 'left'
+				}
+			}
+		}
+
+		res(dd)
+	})
+}
+
 const generateAssignments = (maxPeoplePerRoom = 16, maxTeamsPerRoom = 4) => {
 	console.log(maxPeoplePerRoom, maxTeamsPerRoom)
 	return new Promise(async (res, rej) => {
@@ -374,7 +476,7 @@ const generateAssignments = (maxPeoplePerRoom = 16, maxTeamsPerRoom = 4) => {
 		let csvContent = ''
 
 		rooms.forEach(function(room) {
-			if (room.category) room.category = room.category.replace('/', '-')
+			if (room.category) room.category = room.category.replaceAll('/', '-')
 
 			let type = room.type === 'indiv' ? 'Indiv' : 'Team'
 			let row = room.room + ',' + type + ',' + room.category + ','
@@ -678,4 +780,9 @@ const generateSalesReport = () => {
 	})
 }
 
-export { generateScoreReport, generateAssignments, generateSalesReport }
+export {
+	generateScoreReport,
+	generateSchoolScoreReport,
+	generateAssignments,
+	generateSalesReport
+}

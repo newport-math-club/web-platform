@@ -17,8 +17,12 @@ import {
 	deactivateSchool,
 	kpmtSetAmountPaid
 } from '../../nmc-api'
+
+import { generateSchoolScoreReport } from './KPMTGenerate'
 import moment from 'moment'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
+const pdfMake = require('pdfmake/build/pdfmake')
+pdfMake.vfs = require('pdfmake/build/vfs_fonts').pdfMake.vfs
 
 Modal.setAppElement('#root')
 
@@ -134,6 +138,17 @@ export default class KPMTSchoolsPage extends Component {
 				default:
 			}
 		})
+	}
+
+	generateSchoolScoreReport = async () => {
+		let dd = await generateSchoolScoreReport(this.state.selectedSchool)
+		pdfMake
+			.createPdf(dd)
+			.download(
+				`score-report-${Date.now()}-${this.state.selectedSchool.name
+					.toLowerCase()
+					.replaceAll(' ', '-')}.pdf`
+			)
 	}
 
 	openSchoolModal = schoolId => {
@@ -273,6 +288,10 @@ export default class KPMTSchoolsPage extends Component {
 						/>
 					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
+						<Button
+							onClick={this.generateSchoolScoreReport}
+							text="score report"
+						/>
 						<Button onClick={this.closeSchoolModal} text="close" />
 					</div>
 				</Modal>
