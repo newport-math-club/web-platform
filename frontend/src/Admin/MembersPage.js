@@ -9,7 +9,7 @@ import {
 } from '../Components'
 import { Table } from '../Components'
 import Modal from 'react-modal'
-import { newMember, fetchMembers, editMember, deleteMember } from '../nmc-api'
+import { newMember, fetchMembers, editMember, deleteMember, exportMathClub } from '../nmc-api'
 import SocketEventHandlers from '../Sockets'
 
 Modal.setAppElement('#root')
@@ -220,6 +220,53 @@ export default class MembersPage extends Component {
 		}
 	}
 
+	exportMembers = async () => {
+		const response = await exportMathClub();
+
+		if (response.status === 200){
+			// write to a csv file and download
+			let res = await response.json();
+			let members = res.members;
+
+			const rows = [
+				["id_", "name", "email", "admin", "piPoints"]
+			];
+
+			res.members.map((person) => {
+				rows.push([person['_id'], person.name, person.email, person.admin, person.piPoints]);
+			});
+
+			rows.push(['', '', '', '', ''])
+			rows.push(["id_", "date", "description", "members", "piPoints"])
+
+			res.meetings.map((meeting) => {
+				let members = meeting.members.join(' ');
+				console.log(members);
+				rows.push([meeting['_id'], meeting.date, meeting.description, members, meeting.piPoints])
+			})
+			
+			let csvContent = "data:text/csv;charset=utf-8,";
+			
+			rows.forEach(function(rowArray) {
+				let row = rowArray.join(",");
+				csvContent += row + "\r\n";
+			});
+		
+			var encodedUri = encodeURI(csvContent);
+			var link = document.createElement("a");
+			link.setAttribute("href", encodedUri);
+			link.setAttribute("download", "my_data.csv");
+			document.body.appendChild(link); // Required for FF
+
+			link.click();
+			//let members_array = [['']];
+			//members.map((member) => {
+
+			//})
+
+		}else if (response.status === 401) window.location.href = '/login' 
+	}
+
 	render() {
 		return (
 			<div className="fullheight">
@@ -323,6 +370,7 @@ export default class MembersPage extends Component {
 							onTextChange={text => this.setState({ filter: text })}
 						/>
 						<Button text="new member" onClick={this.openNewMemberModal} />
+						<Button text="export members" onClick={this.exportMembers} />
 					</div>
 					<Table
 						headers={['Year', 'Name', 'Email', 'Pi Points']}

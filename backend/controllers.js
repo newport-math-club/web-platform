@@ -689,13 +689,16 @@ exports.addTeam = (req, res) => {
 
 	// check that the new members are valid
 	for (var i = 0; i < team.length; i++) {
-		if (!team[i].name || !team[i].grade) return res.status(400).end()
+		if (!team[i].name || !team[i].grade || !team[i].competeGrade) return res.status(400).end()
 
-		if (team[i].name.isOnlyWhitespace() || isNaN(team[i].grade))
+		if (team[i].name.isOnlyWhitespace() || isNaN(team[i].grade) || isNaN(team[i].competeGrade))
 			return res.status(400).end()
 
 		if (team[i].grade > 8) return res.status(400).end()
 		if (team[i].grade < 5) team[i].grade = 5
+
+		if (team[i].competeGrade > 8) return res.status(400).end()
+		if (team[i].competeGrade < 5) team[i].competeGrade = 5
 	}
 
 	var calls = []
@@ -706,6 +709,7 @@ exports.addTeam = (req, res) => {
 			var competitorObject = new Competitors({
 				name: competitor.name,
 				grade: competitor.grade,
+				competeGrade: competitor.competeGrade,
 				school: school._id,
 				scores: {}
 			})
@@ -832,14 +836,18 @@ exports.editTeam = async (req, res) => {
 	// check that the new members are valid
 
 	for (var i = 0; i < newMembers.length; i++) {
-		if (!newMembers[i].name || !newMembers[i].grade)
+		if (!newMembers[i].name || !newMembers[i].grade || !newMembers[i].competeGrade)
 			return res.status(400).end()
 
-		if (newMembers[i].name.isOnlyWhitespace() || isNaN(newMembers[i].grade))
+		if (newMembers[i].name.isOnlyWhitespace() || isNaN(newMembers[i].grade) || isNaN(newMembers[i].competeGrade))
 			return res.status(400).end()
 
 		if (newMembers[i].grade > 8) return res.status(400).end()
 		if (newMembers[i].grade < 5) newMembers[i].grade = 5
+
+		if (newMembers[i].competeGrade > 8) return res.status(400).end()
+		if (newMembers[i].competeGrade < 5) newMembers[i].competeGrade = 5
+
 	}
 
 	try {
@@ -868,6 +876,7 @@ exports.editTeam = async (req, res) => {
 			const newMember = new Competitors({
 				name: newMembers[i].name,
 				grade: newMembers[i].grade,
+				competeGrade: newMembers[i].competeGrade,
 				team: targetTeam._id,
 				school: school._id,
 				scores: {}

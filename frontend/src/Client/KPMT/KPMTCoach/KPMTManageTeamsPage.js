@@ -49,12 +49,16 @@ export default class KPMTManageTeamsPage extends Component {
 
 		this.newGradeRefs = []
 		this.newNameRefs = []
+		this.newCompeteGradeRefs = []
 		this.editGradeRefs = []
+		this.editCompeteGradeRefs = []
 		this.editNameRefs = []
 		;[0, 1, 2, 3].forEach(() => {
 			this.newGradeRefs.push(React.createRef())
 			this.newNameRefs.push(React.createRef())
+			this.newCompeteGradeRefs.push(React.createRef())
 			this.editGradeRefs.push(React.createRef())
+			this.editCompeteGradeRefs.push(React.createRef())
 			this.editNameRefs.push(React.createRef())
 		})
 	}
@@ -116,6 +120,8 @@ export default class KPMTManageTeamsPage extends Component {
 			return
 		}
 
+		console.log(team);
+
 		const response = await addTeam(team)
 
 		if (response.status === 200) {
@@ -132,13 +138,15 @@ export default class KPMTManageTeamsPage extends Component {
 		;[0, 1, 2, 3].forEach(index => {
 			const name = this.editNameRefs[index].current.getText()
 			const grade = this.editGradeRefs[index].current.getText().toString()
+			const competeGrade = this.editCompeteGradeRefs[index].current.getText().toString()
 
-			if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace())
+			if (isNaN(grade) || isNaN(competeGrade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace())
 				return
 
 			team.push({
 				name: name,
-				grade: parseInt(grade, 10)
+				grade: parseInt(grade, 10),
+				competeGrade: parseInt(competeGrade, 10)
 			})
 		})
 
@@ -205,7 +213,7 @@ export default class KPMTManageTeamsPage extends Component {
 					<Textbox
 						style={{
 							display: 'inline',
-							width: '16em'
+							width: '10em'
 						}}
 						ref={this.editNameRefs[index]}
 						placeholder="full name"
@@ -213,11 +221,20 @@ export default class KPMTManageTeamsPage extends Component {
 					<Textbox
 						style={{
 							display: 'inline',
-							width: '4em',
-							marginLeft: '1em'
+							width: '3em',
+							marginLeft: '0.5em'
 						}}
 						ref={this.editGradeRefs[index]}
 						placeholder="grade"
+					/>
+					<Textbox
+						style={{
+							display: 'inline',
+							width: '6em',
+							marginLeft: '0.5em'
+						}}
+						ref={this.editCompeteGradeRefs[index]}
+						placeholder="compete grade"
 					/>
 				</div>
 			)
@@ -229,7 +246,7 @@ export default class KPMTManageTeamsPage extends Component {
 					<Textbox
 						style={{
 							display: 'inline',
-							width: '16em'
+							width: '10em'
 						}}
 						ref={this.newNameRefs[index]}
 						placeholder="full name"
@@ -237,11 +254,20 @@ export default class KPMTManageTeamsPage extends Component {
 					<Textbox
 						style={{
 							display: 'inline',
-							width: '4em',
-							marginLeft: '1em'
+							width: '3em',
+							marginLeft: '0.5em'
 						}}
 						ref={this.newGradeRefs[index]}
 						placeholder="grade"
+					/>
+					<Textbox
+						style={{
+							display: 'inline',
+							width: '6em',
+							marginLeft: '0.5em'
+						}}
+						ref={this.newCompeteGradeRefs[index]}
+						placeholder="compete grade"
 					/>
 				</div>
 			)

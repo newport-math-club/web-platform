@@ -42,6 +42,7 @@ var CompetitorSchema = new Schema(
 	{
 		name: String,
 		grade: Number,
+		competeGrade: Number,
 		school: {
 			type: Schema.Types.ObjectId,
 			ref: 'School'
@@ -118,6 +119,17 @@ var TeamSchema = new Schema(
 		collection: 'teams'
 	}
 )
+
+var VolunteerSchema = new Schema({
+	name: String,
+	grade: Number,
+	email: String, 
+	school: String,
+	preferredRole: String,
+	role: String,
+
+
+})
 
 // KPMT SCHEMAS BELOW
 var SchoolSchema = new Schema(

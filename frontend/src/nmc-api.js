@@ -678,3 +678,16 @@ exports.scoreTeam = (id, score, type) => {
 		credentials: 'include'
 	})
 }
+
+
+exports.exportMathClub = () => {
+	return fetch(BASE_URL + "/api/export", {
+		method: "GET",
+		headers: {
+			Accept: "application/json",
+			"Content-Type": "application/json"
+		},
+		credentials: "include"
+	})
+}
+
