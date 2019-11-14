@@ -652,6 +652,66 @@ exports.registerKPMT = (req, res) => {
 	})
 }
 
+exports.registerVolunteerKPMT = (req, res) => {
+	if (registrationLock) return res.status(403).end()
+
+	var school = req.body.school
+	var name = req.body.name
+	var email = req.body.email
+	var preferredRole = req.body.preferredRole
+	var grade = req.body.grade 
+
+	if (!validateInput(school, name, email))
+		return res.status(400).end()
+
+	if (!school || !name || !email || !grade) {
+		return res.status(400).end()
+	}else if (isNaN(grade)){
+		return res.status(400).end()
+	}else if (preferredRole.toLowerCase() !== "proctor" && preferredRole.toLowerCase() !== "grader"){
+		return res.status(400).end()
+	}
+
+	// Generate random id for the dropout code
+	let dropoutCode = Math.random().toString(36).replace(/[^a-z]+/g, '');
+
+	var volunteerObject = new Volunteer({
+		name: name,
+		grade: grade,
+		school: school,
+		preferredRole: preferredRole,
+		email: email,
+		dropoutCode: dropoutCode
+	})
+
+	volunteerObject.save(async (err, volunteerObject) => {
+		if (err) callback(err)
+		try {
+			// send email
+			var fromEmail = new helper.Email('newportmathclub@gmail.com')
+			var toEmail = new helper.Email(email)
+			var subject = `KPMT Volunteering`
+			var content = new helper.Content(
+				'text/plain',
+				`Thank you ${name} for registering as a volunteer for KPMT! Please make sure your information is correct: NAME: ${name}, GRADE: ${grade}, SCHOOL: ${school}, PREFERRED ROLE: ${preferredRole.toLowerCase()}. If any of these are incorrect, or you no longer want to volunteer, you may cancel your registration by going to this link: https://newportmathclub.org/kpmt/volunteer/dropout?c=${dropoutCode}`
+			)
+			var mail = new helper.Mail(fromEmail, subject, toEmail, content)
+
+			var sg = require('sendgrid')(process.env.SENDGRID)
+			var request = sg.emptyRequest({
+				method: 'POST',
+				path: '/v3/mail/send',
+				body: mail.toJSON()
+			})
+
+			sg.API(request, function(error, response) {})
+		} catch (err) {
+			console.log(err)
+			res.status(500).end()
+		}
+	})
+}
+
 exports.fetchSchoolProfile = (req, res) => {
 	res.status(200).json(res.locals.user)
 }

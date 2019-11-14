@@ -127,8 +127,9 @@ var VolunteerSchema = new Schema({
 	school: String,
 	preferredRole: String,
 	role: String,
-
-
+	dropoutCode: Number
+}, {
+	collection: "volunteers"
 })
 
 // KPMT SCHEMAS BELOW
@@ -169,11 +170,13 @@ var Member = mongoose.model('Member', MemberSchema, 'members')
 var School = mongoose.model('School', SchoolSchema, 'schools')
 var Competitor = mongoose.model('Competitor', CompetitorSchema, 'competitors')
 var Team = mongoose.model('Team', TeamSchema, 'teams')
+var Volunteer = mongoose.model("Volunteer", VolunteerSchema, 'volunteers')
 
 module.exports = {
 	Meeting: Meeting,
 	Member: Member,
 	School: School,
 	Competitor: Competitor,
-	Team: Team
+	Team: Team,
+	Volunteer: Volunteer
 }
