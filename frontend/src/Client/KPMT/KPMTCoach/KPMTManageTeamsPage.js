@@ -105,13 +105,15 @@ export default class KPMTManageTeamsPage extends Component {
 		;[0, 1, 2, 3].forEach(index => {
 			const name = this.newNameRefs[index].current.getText()
 			const grade = this.newGradeRefs[index].current.getText()
+			const competeGrade = this.newCompeteGradeRefs[index].current.getText()
 
-			if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace())
+			if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace() || isNaN(competeGrade) || competeGrade.isOnlyWhitespace())
 				return
 
 			team.push({
 				name: name,
-				grade: parseInt(grade, 10)
+				grade: parseInt(grade, 10),
+				competeGrade: parseInt(competeGrade, 10)
 			})
 		})
 
@@ -190,7 +192,7 @@ export default class KPMTManageTeamsPage extends Component {
 							ref={this.editNameRefs[index]}
 							style={{
 								display: 'inline',
-								width: '16em'
+								width: '10em'
 							}}
 							text={member.name}
 							placeholder="name"
@@ -198,13 +200,23 @@ export default class KPMTManageTeamsPage extends Component {
 						<Textbox
 							style={{
 								display: 'inline',
-								width: '4em',
-								marginLeft: '1em'
+								width: '3em',
+								marginLeft: '0.5em'
 							}}
 							ref={this.editGradeRefs[index]}
 							text={member.grade}
 							placeholder="grade"
 						/>
+						<Textbox
+						style={{
+							display: 'inline',
+							width: '6em',
+							marginLeft: '0.5em'
+						}}
+						ref={this.editCompeteGradeRefs[index]}
+						text={member.competeGrade}
+						placeholder="compete grade"
+					/>
 					</div>
 				)
 			}

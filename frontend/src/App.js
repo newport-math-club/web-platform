@@ -39,6 +39,8 @@ import ForgotPage from './Client/ForgotPage'
 import KPMTForgotPage from './Client/KPMT/KPMTForgotPage'
 import ResetPage from './Client/ResetPage'
 import KPMTResetPage from './Client/KPMT/KPMTResetPage'
+import KPMTVolunteerRegistrationPage from './Client/KPMT/KPMTVolunteerRegistrationPage'
+
 // eslint-disable-next-line
 String.prototype.isValidEmail = function() {
 	let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -69,6 +71,11 @@ export default class App extends React.Component {
 						exact
 						path="/kpmt/registration"
 						component={KPMTRegistrationPage}
+					/>
+					<Route
+						exact
+						path="/kpmt/volunteer"
+						component={KPMTVolunteerRegistrationPage}
 					/>
 					<Route exact path="/kpmt/login" component={KPMTLoginPage} />
 					<Route exact path="/kpmt/forgot" component={KPMTForgotPage} />

@@ -399,6 +399,25 @@ exports.registerKPMT = (school, coachName, coachEmail, password) => {
 	})
 }
 
+exports.registerVolunteerKPMT = (school, name, email, preferredRole, grade) => {
+	return fetch(BASE_URL + '/api/kpmt/register', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			school: school,
+			name: name,
+			email: email,
+			preferredRole: preferredRole,
+			grade: grade 
+		}),
+		credentials: 'include'
+	})
+}
+
+
 exports.loginKPMT = (email, password) => {
 	return fetch(BASE_URL + '/api/kpmt/login', {
 		method: 'POST',
