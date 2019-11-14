@@ -42,7 +42,7 @@ export default class KPMTRegistrationPage extends Component {
 			return
         }
 
-		const response = await registerVolunteerKPMT(school, name, email)
+		const response = await registerVolunteerKPMT(school, name, email, pRole, grade);
 
 		if (response.status === 200) {
 			this.setState({ error: -1 })

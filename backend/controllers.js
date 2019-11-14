@@ -16,6 +16,7 @@ const Members = schemas.Member
 const Schools = schemas.School
 const Competitors = schemas.Competitor
 const Teams = schemas.Team
+const Volunteers = schemas.Volunteer
 
 // helper function
 const validateInput = (...parameters) => {
@@ -675,7 +676,7 @@ exports.registerVolunteerKPMT = (req, res) => {
 	// Generate random id for the dropout code
 	let dropoutCode = Math.random().toString(36).replace(/[^a-z]+/g, '');
 
-	var volunteerObject = new Volunteer({
+	var volunteerObject = new Volunteers({
 		name: name,
 		grade: grade,
 		school: school,
