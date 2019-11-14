@@ -686,7 +686,7 @@ exports.registerVolunteerKPMT = (req, res) => {
 	})
 
 	volunteerObject.save(async (err, volunteerObject) => {
-		if (err) {console.log(error); res.status(500).end()}
+		if (err) {console.log(err); res.status(500).end()}
 		try {
 			// send email
 			var fromEmail = new helper.Email('newportmathclub@gmail.com')
