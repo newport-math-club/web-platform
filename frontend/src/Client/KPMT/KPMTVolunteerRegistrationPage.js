@@ -102,7 +102,7 @@ export default class KPMTRegistrationPage extends Component {
 							/>
 							<Textbox
 								ref={this.gradeTextBox}
-								type="text"
+								type="number"
 								placeholder="grade"
 							/>
 							<Textbox

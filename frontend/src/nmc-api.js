@@ -400,7 +400,7 @@ exports.registerKPMT = (school, coachName, coachEmail, password) => {
 }
 
 exports.registerVolunteerKPMT = (school, name, email, preferredRole, grade) => {
-	return fetch(BASE_URL + '/api/kpmt/register', {
+	return fetch(BASE_URL + '/api/kpmt/register/volunteer', {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',

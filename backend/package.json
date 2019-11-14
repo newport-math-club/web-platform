@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "server.js",
 	"scripts": {
-		"start": "pm2 start server.js --name nmc-backend",
+		"start" : "react-scripts start",
 		"restart": "pm2 restart nmc-backend"
 	},
 	"author": "Terrance Li & Sriram Thothatri",
