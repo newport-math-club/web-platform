@@ -8,23 +8,23 @@ export default class AboutPage extends Component {
 				<Nav admin={false} items={getNavItems(0)} />
 				<OfficerPane header="Officers">
 					<Bio
-						name="Terrance Li"
+						name="Axel Li"
 						title="President"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/terrance.png"
+						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/axel.png"
 						row={1}
 						column={1}
 					/>
 					<Bio
-						name="Frank Hou"
+						name="Justin Chen"
 						title="Vice President"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/frank.png"
+						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/justin.png"
 						row={2}
 						column={1}
 					/>
 					<Bio
-						name="Alan Li"
+						name="Candace Do"
 						title="Secretary"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/alan.png"
+						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/candace.png"
 						row={3}
 						column={1}
 					/>
@@ -36,40 +36,48 @@ export default class AboutPage extends Component {
 						column={1}
 					/>
 					<Bio
-						name="Sriram Thothathri"
+						name="Nathan Yan"
 						title="Webmaster"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/sriram.png"
+						image="https://www.newportmathclub.org/assets/favicon.ico"
 						row={5}
 						column={1}
 					/>
 					<Bio
-						name="Candace Do"
+						name="Alex Niu"
 						title="Shadow Officer"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/candace.png"
+						image="https://www.newportmathclub.org/assets/favicon.ico"
 						row={6}
-						column={1}
-					/>
-					<Bio
-						name="Justin Chen"
-						title="Shadow Officer"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/justin.png"
-						row={7}
 						column={1}
 					/>
 					<Bio
 						name="Alex Liu"
 						title="Shadow Officer"
 						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/alex.png"
+						row={7}
+						column={1}
+					/>
+					<Bio
+						name="Marcelo Shen"
+						title="Shadow Officer"
+						image="https://www.newportmathclub.org/assets/favicon.ico"
 						row={8}
 						column={1}
 					/>
 					<Bio
-						name="Axel Li"
+						name="Minseok Park"
 						title="Shadow Officer"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/axel.png"
+						image="https://www.newportmathclub.org/assets/favicon.ico"
 						row={9}
 						column={1}
 					/>
+					<Bio
+						name="Kevin Nam"
+						title="Shadow Officer"
+						image="https://www.newportmathclub.org/assets/favicon.ico"
+						row={9}
+						column={1}
+					/>
+					
 				</OfficerPane>
 
 				<div
