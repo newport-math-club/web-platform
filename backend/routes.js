@@ -87,6 +87,7 @@ module.exports = app => {
 	// kpmt school/coach routes; all routes work
 	app.route('/api/kpmt/register/').post(nmcController.registerKPMT)
 	app.route('/api/kpmt/register/volunteer').post(nmcController.registerVolunteerKPMT)
+	app.route("/api/kpmt/dropout/volunteer").post(nmcController.dropoutVolunteerKPMT)
 	app
 		.route('/api/kpmt/login/')
 		.post(nmcMiddleware.authenticateCoach)

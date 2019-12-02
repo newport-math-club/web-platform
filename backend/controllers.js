@@ -653,7 +653,7 @@ exports.registerKPMT = (req, res) => {
 	})
 }
 
-exports.registerVolunteerKPMT = (req, res) => {
+exports.registerVolunteerKPMT = async (req, res) => {
 	if (registrationLock) return res.status(403).end()
 
 	var school = req.body.school
@@ -673,6 +673,15 @@ exports.registerVolunteerKPMT = (req, res) => {
 		return res.status(400).end()
 	}
 
+	// Check if someone has already registered under this email
+	var volunteerExists = await Volunteers.find({email: email});
+	if (volunteerExists.length > 0) {
+		console.log(volunteerExists);
+		res.status(400).json({
+			"error" : "email already exists"
+		}).end()
+	}
+
 	// Generate random id for the dropout code
 	let dropoutCode = Math.random().toString(36).replace(/[^a-z]+/g, '');
 
@@ -685,32 +694,53 @@ exports.registerVolunteerKPMT = (req, res) => {
 		dropoutCode: dropoutCode
 	})
 
-	volunteerObject.save(async (err, volunteerObject) => {
-		if (err) {console.log(err); res.status(500).end()}
-		try {
-			// send email
-			var fromEmail = new helper.Email('newportmathclub@gmail.com')
-			var toEmail = new helper.Email(email)
-			var subject = `KPMT Volunteering`
-			var content = new helper.Content(
-				'text/plain',
-				`Thank you ${name} for registering as a volunteer for KPMT! Please make sure your information is correct: NAME: ${name}, GRADE: ${grade}, SCHOOL: ${school}, PREFERRED ROLE: ${preferredRole.toLowerCase()}. If any of these are incorrect, or you no longer want to volunteer, you may cancel your registration by going to this link: https://newportmathclub.org/kpmt/volunteer/dropout?c=${dropoutCode}`
-			)
-			var mail = new helper.Mail(fromEmail, subject, toEmail, content)
+	try {
+		let volunteer = await volunteerObject.save()
 
-			var sg = require('sendgrid')(process.env.SENDGRID)
-			var request = sg.emptyRequest({
-				method: 'POST',
-				path: '/v3/mail/send',
-				body: mail.toJSON()
-			})
+		// send email
+		var fromEmail = new helper.Email('newportmathclub@gmail.com')
+		var toEmail = new helper.Email(email)
+		var subject = `KPMT Volunteering`
+		var content = new helper.Content(
+			'text/plain',
+			`Thank you ${name} for registering as a volunteer for KPMT! Please make sure your information is correct: NAME: ${name}, GRADE: ${grade}, SCHOOL: ${school}, PREFERRED ROLE: ${preferredRole.toLowerCase()}. If any of these are incorrect, or you no longer want to volunteer, you may cancel your registration by going to this link: https://newportmathclub.org/kpmt/volunteer/dropout?c=${dropoutCode}`
+		)
+		var mail = new helper.Mail(fromEmail, subject, toEmail, content)
 
-			sg.API(request, function(error, response) {})
-		} catch (err) {
-			console.log(err)
-			res.status(500).end()
+		var sg = require('sendgrid')(process.env.SENDGRID)
+		var request = sg.emptyRequest({
+			method: 'POST',
+			path: '/v3/mail/send',
+			body: mail.toJSON()
+		})
+
+		sg.API(request, function(error, response) {})
+	} catch (err) {
+		console.log(err)
+		res.status(500).end()
+	}
+
+	res.status(200).end()
+}
+
+exports.dropoutVolunteerKPMT = async (req, res) => {
+	let code = req.body.code;
+
+	try {
+		let volunteers = await Volunteers.find({dropoutCode : code});
+		console.log(volunteers.length);
+
+		if (volunteers.length === 0) {		// No one was deleted, this is an invalid code
+			return res.status(404).end();
+		}else{
+			await Volunteers.deleteMany({dropoutCode : code});
 		}
-	})
+	} catch (err) {
+		console.log(err);
+		return res.status(500).end()
+	}
+	
+	res.status(200).end()
 }
 
 exports.fetchSchoolProfile = (req, res) => {
@@ -804,22 +834,24 @@ exports.addTeam = (req, res) => {
 		if (err) return res.status(500).end()
 
 		var maxGrade = 0
+		var competeGrade = competitors[0].competeGrade ;
 		competitors.forEach(competitor => {
 			if (competitor.grade > maxGrade) maxGrade = competitor.grade
 		})
 
 		if (maxGrade < 5) maxGrade = 5
+		if (competeGrade < 5) competeGrade = 5;
 
 		const existingTeams = await Teams.find({}).exec()
 
 		var teamNumberDigits = 3
-		var nextNumber = 10 ** (teamNumberDigits - 1) * maxGrade
+		var nextNumber = 10 ** (teamNumberDigits - 1) * competeGrade
 		while (existingTeams.filter(t => t.number == nextNumber).length > 0) {
 			// this number of digits wont suffice, time to step it up
 			// this step is highly unlikely for the near future, but should future years need more than 100 teams for a grade, i gotchu covered :)
-			if (10 ** (teamNumberDigits - 1) * (maxGrade + 1) - 1 === nextNumber) {
+			if (10 ** (teamNumberDigits - 1) * (competeGrade + 1) - 1 === nextNumber) {
 				teamNumberDigits++
-				var nextNumber = 10 ** (teamNumberDigits - 1) * maxGrade
+				var nextNumber = 10 ** (teamNumberDigits - 1) * competeGrade
 			} else {
 				nextNumber++
 			}
@@ -828,6 +860,7 @@ exports.addTeam = (req, res) => {
 		var teamObject = new Teams({
 			members: competitors.map(c => c._id),
 			grade: maxGrade,
+			competeGrade: competeGrade,
 			number: nextNumber,
 			school: school._id,
 			scores: {}
@@ -962,25 +995,26 @@ exports.editTeam = async (req, res) => {
 			newMemberObjects.push(newMemberObject)
 		}
 
-		// recompute maxgrade
+		// recompute maxgrade and competeGrade
 		var maxGrade = 0
+		var competeGrade = newMemberObjects[0].competeGrade;
 
 		newMemberObjects.forEach(newMember => {
 			if (newMember.grade > maxGrade) maxGrade = newMember.grade
 		})
 
-		if (maxGrade !== Math.floor(targetTeam.number / 100)) {
-			// maxgrade changed, calculate new number
+		if (competeGrade !== Math.floor(targetTeam.number / 100)) {
+			// competeGrade changed, calculate new number
 			const existingTeams = await Teams.find({}).exec()
 
 			var teamNumberDigits = 3
-			var nextNumber = 10 ** (teamNumberDigits - 1) * maxGrade
+			var nextNumber = 10 ** (teamNumberDigits - 1) * competeGrade
 			while (existingTeams.filter(t => t.number == nextNumber).length > 0) {
 				// this number of digits wont suffice, time to step it up
 				// this step is highly unlikely for the near future, but should future years need more than 100 teams for a grade, i gotchu covered :)
-				if (10 ** (teamNumberDigits - 1) * (maxGrade + 1) - 1 === nextNumber) {
+				if (10 ** (teamNumberDigits - 1) * (competeGrade + 1) - 1 === nextNumber) {
 					teamNumberDigits++
-					var nextNumber = 10 ** (teamNumberDigits - 1) * maxGrade
+					var nextNumber = 10 ** (teamNumberDigits - 1) * competeGrade
 				} else {
 					nextNumber++
 				}
@@ -994,7 +1028,7 @@ exports.editTeam = async (req, res) => {
 
 		await Teams.updateOne(
 			{ _id: targetTeam._id },
-			{ $set: { grade: maxGrade, members: newMemberObjects.map(m => m._id) } }
+			{ $set: { grade: maxGrade, competeGrade: competeGrade, members: newMemberObjects.map(m => m._id) } }
 		).exec()
 
 		// socket the team edit
@@ -1008,7 +1042,8 @@ exports.editTeam = async (req, res) => {
 			data: [
 				{ field: 'number', value: populatedTeam.number },
 				{ field: 'members', value: populatedTeam.members },
-				{ field: 'grade', value: populatedTeam.grade }
+				{ field: 'grade', value: populatedTeam.grade },
+				{ field: 'competeGrade', value: populatedTeam.competeGrade}
 			]
 		})
 
@@ -1129,15 +1164,18 @@ exports.addIndiv = (req, res) => {
 	var school = res.locals.user
 	var name = req.body.name
 	var grade = req.body.grade
+	var competeGrade = req.body.competeGrade
 
-	if (!validateInput(name, grade) || isNaN(grade) || grade > 8)
+	if (!validateInput(name, grade, competeGrade) || isNaN(grade) || grade > 8 || isNaN(grade) || competeGrade > 8)
 		return res.status(400).end()
 
 	if (grade < 5) grade = 5
+	if (competeGrade < 5) competeGrade = 5 
 
 	var newCompetitor = new Competitors({
 		name: name,
 		grade: grade,
+		competeGrade: competeGrade,
 		school: school._id,
 		scores: {}
 	})
@@ -1185,11 +1223,17 @@ exports.editIndiv = async (req, res) => {
 	var id = req.body.id
 	var name = req.body.name
 	var grade = req.body.grade
+	var competeGrade =	req.body.competeGrade
 
-	if (!validateInput(name, grade) || isNaN(grade) || grade > 8)
+	// Don't need to check competeGrade now.
+	// If the competitor is an individual (not associated to a team), then we can update the competeGrade, and we need to verify it
+	// However, if the competitor isn't, no need to perform any checks.
+	// We do it this way because the form can sometimes send a non-number value for competeGrade, and we only want that to flag a 400 if it actually applies
+	if (!validateInput(name, grade) || isNaN(grade) || grade > 8 )
 		return res.status(400).end()
 
 	if (grade < 5) grade = 5
+	if (competeGrade < 5) competeGrade = 5 
 
 	try {
 		const targetIndiv = await Competitors.findOne({ _id: id }).exec()
@@ -1197,15 +1241,34 @@ exports.editIndiv = async (req, res) => {
 		if (!targetIndiv || targetIndiv.school.toString() !== school._id.toString())
 			return res.status(404).end()
 
-		await Competitors.updateOne(
-			{ _id: id },
-			{ $set: { name: name, grade: grade } }
-		).exec()
+		let isIndividual = !(targetIndiv.team);
 
-		sockets.onCompetitorsChange('edit', {
-			_id: id,
-			data: [{ field: 'name', value: name }, { field: 'grade', value: grade }]
-		})
+		if (isIndividual){
+			// Check competeGrade 
+			if (isNaN(competeGrade) || competeGrade > 8 || !validateInput(competeGrade)){
+				return res.status(400).end()
+			}
+
+			await Competitors.updateOne(
+				{ _id: id },
+				{ $set: { name: name, grade: grade, competeGrade: competeGrade } }
+			).exec()
+
+			sockets.onCompetitorsChange('edit', {
+				_id: id,
+				data: [{ field: 'name', value: name }, { field: 'grade', value: grade }, { field: 'competeGrade', value: competeGrade}]
+			})
+		}else{
+			await Competitors.updateOne(
+				{ _id: id },
+				{ $set: { name: name, grade: grade } }
+			).exec()
+
+			sockets.onCompetitorsChange('edit', {
+				_id: id,
+				data: [{ field: 'name', value: name }, { field: 'grade', value: grade }]
+			})
+		}
 
 		res.status(200).end()
 	} catch (err) {
