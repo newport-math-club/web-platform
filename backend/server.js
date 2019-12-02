@@ -40,7 +40,7 @@ mongoose.connect(
 var db = mongoose.connection
 
 db.once('open', async () => {
-	console.log('Connected to MongoDB at mo ngodb://localhost/mathclubDB')
+	console.log('Connected to MongoDB at mongodb://localhost/mathclubDB')
 
 	try {
 		const rootAdmin = await Members.findOne({
@@ -106,6 +106,7 @@ app.use(bodyParser.json())
 app.use((req, res, next) => {
 	var allowedOrigins = [
 		'http://localhost:3000',
+		'http://localhost:3001',
 		'https://newportmathclub.org',
 		'https://www.newportmathclub.org'
 	]
