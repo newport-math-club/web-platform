@@ -92,6 +92,7 @@ var TeamSchema = new Schema(
 			}
 		],
 		grade: Number,
+		competeGrade: Number,
 		school: {
 			type: Schema.Types.ObjectId,
 			ref: 'School'
