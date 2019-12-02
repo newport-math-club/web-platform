@@ -21,7 +21,7 @@ const customStyles = {
 	content: {
 		top: '50%',
 		left: '50%',
-		width: '40em',
+		width: '50em',
 		height: '40em',
 		right: 'auto',
 		bottom: 'auto',
@@ -49,16 +49,14 @@ export default class KPMTManageTeamsPage extends Component {
 
 		this.newGradeRefs = []
 		this.newNameRefs = []
-		this.newCompeteGradeRefs = []
+		this.newCompeteGradeRef = React.createRef();
 		this.editGradeRefs = []
-		this.editCompeteGradeRefs = []
+		this.editCompeteGradeRef = React.createRef();
 		this.editNameRefs = []
 		;[0, 1, 2, 3].forEach(() => {
 			this.newGradeRefs.push(React.createRef())
 			this.newNameRefs.push(React.createRef())
-			this.newCompeteGradeRefs.push(React.createRef())
 			this.editGradeRefs.push(React.createRef())
-			this.editCompeteGradeRefs.push(React.createRef())
 			this.editNameRefs.push(React.createRef())
 		})
 	}
@@ -105,7 +103,7 @@ export default class KPMTManageTeamsPage extends Component {
 		;[0, 1, 2, 3].forEach(index => {
 			const name = this.newNameRefs[index].current.getText()
 			const grade = this.newGradeRefs[index].current.getText()
-			const competeGrade = this.newCompeteGradeRefs[index].current.getText()
+			const competeGrade = this.newCompeteGradeRef.current.getText()
 
 			if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace() || isNaN(competeGrade) || competeGrade.isOnlyWhitespace())
 				return
@@ -140,7 +138,7 @@ export default class KPMTManageTeamsPage extends Component {
 		;[0, 1, 2, 3].forEach(index => {
 			const name = this.editNameRefs[index].current.getText()
 			const grade = this.editGradeRefs[index].current.getText().toString()
-			const competeGrade = this.editCompeteGradeRefs[index].current.getText().toString()
+			const competeGrade = this.editCompeteGradeRef.current.getText().toString()
 
 			if (isNaN(grade) || isNaN(competeGrade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace())
 				return
@@ -183,7 +181,19 @@ export default class KPMTManageTeamsPage extends Component {
 	render() {
 		const selectedTeam = this.state.selectedTeam || { members: [], scores: {} }
 
-		const memberTextboxes = [0, 1, 2, 3].map(index => {
+		const memberTextboxes = [0, 1, 2, 3, 4].map(index => {
+			if (index === 4) { //Render the compete team box
+				return <div>
+						<Textbox
+					style={{
+						display: 'inline',
+						width: '16em'
+					}}
+					ref={this.editCompeteGradeRef}
+					text={selectedTeam.competeGrade}
+					placeholder="compete grade"
+				/></div>
+			}
 			if (selectedTeam.members.length > index) {
 				const member = selectedTeam.members[index]
 				return (
@@ -207,16 +217,7 @@ export default class KPMTManageTeamsPage extends Component {
 							text={member.grade}
 							placeholder="grade"
 						/>
-						<Textbox
-						style={{
-							display: 'inline',
-							width: '6em',
-							marginLeft: '0.5em'
-						}}
-						ref={this.editCompeteGradeRefs[index]}
-						text={member.competeGrade}
-						placeholder="compete grade"
-					/>
+						
 					</div>
 				)
 			}
@@ -239,26 +240,19 @@ export default class KPMTManageTeamsPage extends Component {
 						ref={this.editGradeRefs[index]}
 						placeholder="grade"
 					/>
-					<Textbox
-						style={{
-							display: 'inline',
-							width: '6em',
-							marginLeft: '0.5em'
-						}}
-						ref={this.editCompeteGradeRefs[index]}
-						placeholder="compete grade"
-					/>
+					
 				</div>
 			)
 		})
 
-		const newMemberTextboxes = [0, 1, 2, 3].map(index => {
+		const newMemberTextboxes = [0, 1, 2, 3, 4].map(index => {
+			if (index != 4){
 			return (
 				<div>
 					<Textbox
 						style={{
 							display: 'inline',
-							width: '10em'
+							width: '14em'
 						}}
 						ref={this.newNameRefs[index]}
 						placeholder="full name"
@@ -266,23 +260,29 @@ export default class KPMTManageTeamsPage extends Component {
 					<Textbox
 						style={{
 							display: 'inline',
-							width: '3em',
-							marginLeft: '0.5em'
+							width: '4em',
+							marginLeft: '1em'
 						}}
 						ref={this.newGradeRefs[index]}
 						placeholder="grade"
 					/>
-					<Textbox
-						style={{
-							display: 'inline',
-							width: '6em',
-							marginLeft: '0.5em'
-						}}
-						ref={this.newCompeteGradeRefs[index]}
-						placeholder="compete grade"
-					/>
+					
 				</div>
 			)
+					}else{
+						return (
+							<div>
+							<Textbox
+						style={{
+							display: 'inline',
+							width: '16em'
+						}}
+						ref={this.newCompeteGradeRef}
+						placeholder="compete grade"
+					/></div>
+
+						)
+					}
 		})
 
 		return (
@@ -292,15 +292,18 @@ export default class KPMTManageTeamsPage extends Component {
 					style={customStyles}
 					contentLabel="New Team">
 					<h2>New Team</h2>
-					<h5>
+					<h5 style = {{fontWeight: "300"}}>
 						Every team must have 3-4 members; leave the last line completely
 						blank to have 3 members.
 					</h5>
 
-					<h5>
+					<h5 style = {{fontWeight: "300", marginTop: "10px"}}>
 						Students must be 8th grade or below. Students below 5th grade will
-						be automatically changed to 5th grade for KPMT's purposes.
+						be automatically changed to 5th grade for KPMT's purposes. </h5> 
+					<h5 style = {{fontWeight: "300", marginTop: "10px"}}>
+					The "compete grade" field is the grade you would like your students to actually participate in. For example, 5th graders wanting to take the 6th grade tests.
 					</h5>
+
 					<div style={{ marginTop: '2em' }}>{newMemberTextboxes}</div>
 					<div style={{ textAlign: 'center' }}>
 						{(this.state.error === 1 || this.state.error === 400) && (
@@ -383,6 +386,9 @@ export default class KPMTManageTeamsPage extends Component {
 						of a nickname) may result in us not being able to score the test,
 						resulting in the score being dropped.
 					</p>
+					<p>
+						The "compete grade" field indicates which grade your students would actually like to participate in. Please make sure this is the correct grade, as it will decide what tests they recieve!
+					</p>
 					<div>
 						<FilterBar
 							placeholder="filter"
@@ -391,7 +397,7 @@ export default class KPMTManageTeamsPage extends Component {
 						<Button text="new team" onClick={this.openNewTeamModal} />
 					</div>
 					<Table
-						headers={['Number', 'Members', '']}
+						headers={['Number', 'Members', '', 'Compete Grade', '']}
 						filter={this.state.filter}
 						onItemClick={this.openTeamModal}
 						data={this.state.teams.slice().map(team => {
@@ -403,7 +409,9 @@ export default class KPMTManageTeamsPage extends Component {
 										.map(m => m.name)
 										.reduce((a, b) => a + ', ' + b, '')
 										.substring(2),
-									''
+									'',
+									team.competeGrade,
+									'',
 								]
 							}
 						})}

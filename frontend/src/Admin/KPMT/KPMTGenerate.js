@@ -21,7 +21,7 @@ const generateScoreReport = () => {
 		// Separate teams by grade
 		let teamsByGrade = [[], [], [], []]
 		teams.forEach(t => {
-			teamsByGrade[t.grade - 5].push(t)
+			teamsByGrade[t.competeGrade - 5].push(t)
 		})
 
 		// For each grade...
@@ -52,7 +52,7 @@ const generateScoreReport = () => {
 		let competitorsByGrade = [[], [], [], []]
 
 		competitors.forEach(c => {
-			competitorsByGrade[c.grade - 5].push(c)
+			competitorsByGrade[c.competeGrade - 5].push(c)
 		})
 
 		competitorsByGrade.forEach((_, i, arr) => {
@@ -327,22 +327,22 @@ const generateAssignments = (maxPeoplePerRoom = 16, maxTeamsPerRoom = 4) => {
 
 		// split teams and individuals by 5/6 and 7/8
 		let teams56 = teams
-			.filter(t => t.grade <= 6)
+			.filter(t => t.competeGrade <= 6)
 			.sort((t1, t2) => {
 				return compare(t1.school.name, t2.school.name)
 			})
 		let teams78 = teams
-			.filter(t => t.grade >= 7)
+			.filter(t => t.competeGrade >= 7)
 			.sort((t1, t2) => {
 				return compare(t1.school.name, t2.school.name)
 			})
 		let individuals56 = individuals
-			.filter(i => i.grade <= 6)
+			.filter(i => i.competeGrade <= 6)
 			.sort((i1, i2) => {
 				return compare(i1.school.name, i2.school.name)
 			})
 		let individuals78 = individuals
-			.filter(i => i.grade >= 7)
+			.filter(i => i.competeGrade >= 7)
 			.sort((i1, i2) => {
 				return compare(i1.school.name, i2.school.name)
 			})

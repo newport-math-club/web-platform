@@ -63,6 +63,8 @@ export default class KPMTCompetitorsPage extends Component {
 		this.newNameRef = React.createRef()
 		this.editGradeRef = React.createRef()
 		this.editNameRef = React.createRef()
+		this.newCompeteGradeRef = React.createRef()
+		this.editCompeteGradeRef = React.createRef()
 	}
 
 	openNewIndivModal = () => {
@@ -233,8 +235,9 @@ export default class KPMTCompetitorsPage extends Component {
 	saveIndiv = async () => {
 		const name = this.newNameRef.current.getText()
 		const grade = this.newGradeRef.current.getText()
+		const competeGrade = this.newCompeteGradeRef.current.getText()
 
-		if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace()) {
+		if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace() || isNaN(competeGrade) || competeGrade.isOnlyWhitespace()) {
 			this.setState({ error: 1 })
 			return
 		}
@@ -242,6 +245,7 @@ export default class KPMTCompetitorsPage extends Component {
 		const response = await addKPMTIndiv(
 			name,
 			grade,
+			competeGrade,
 			this.state.selectedSchool._id.toString()
 		)
 
@@ -255,8 +259,14 @@ export default class KPMTCompetitorsPage extends Component {
 	saveEditIndiv = async () => {
 		const name = this.editNameRef.current.getText()
 		const grade = this.editGradeRef.current.getText().toString()
-
-		if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace()) {
+		let competeGrade;
+		if (!this.editCompeteGradeRef.current){
+			 competeGrade = null;
+		}else{
+			 competeGrade = this.editCompeteGradeRef.current.getText().toString()
+		}
+		
+		if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace() || isNaN(grade) || grade.isOnlyWhitespace()) {
 			this.setState({ error: 1 })
 			return
 		}
@@ -265,6 +275,7 @@ export default class KPMTCompetitorsPage extends Component {
 			this.state.selectedCompetitor._id.toString(),
 			name,
 			grade,
+			competeGrade, 
 			this.state.selectedCompetitor.school._id.toString()
 		)
 
@@ -337,11 +348,17 @@ export default class KPMTCompetitorsPage extends Component {
 					ref={this.newGradeRef}
 					placeholder="grade"
 				/>
+				<Textbox
+					style={{ display: 'inline', width: '20em'}}
+					ref={this.newCompeteGradeRef}
+					placeholder="compete grade"
+				/>
 			</div>
 		)
 
 		const memberTextboxes = (
 			<div>
+				<h5>Unless the competitor is an individual, you cannot change their compete grade. To do so, edit the compete grade of the team in the teams page.</h5>
 				<Textbox
 					text={selectedCompetitor.name}
 					style={{ display: 'inline', width: '16em' }}
@@ -354,6 +371,14 @@ export default class KPMTCompetitorsPage extends Component {
 					ref={this.editGradeRef}
 					placeholder="grade"
 				/>
+				
+				{selectedCompetitor.team ? "" : <Textbox
+				style={{ display: 'inline', width: '20em'}}
+				text = {selectedCompetitor.competeGrade}
+				ref={this.editCompeteGradeRef}
+				placeholder="compete grade"
+			/>}
+				
 			</div>
 		)
 
@@ -415,7 +440,7 @@ export default class KPMTCompetitorsPage extends Component {
 						)}
 					</div>
 
-					{!selectedCompetitor.team && (
+					
 						<div style={{ bottom: '1em', left: '1em', position: 'absolute' }}>
 							<Button
 								onClick={this.deleteIndividual}
@@ -423,12 +448,11 @@ export default class KPMTCompetitorsPage extends Component {
 								style={{ background: '#eb5757' }}
 							/>
 						</div>
-					)}
+					
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeCompetitorModal} text="close" />
-						{!selectedCompetitor.team && (
 							<Button onClick={this.saveEditIndiv} text="save" />
-						)}
+						
 					</div>
 				</Modal>
 
@@ -453,7 +477,7 @@ export default class KPMTCompetitorsPage extends Component {
 						<Button text="new individual" onClick={this.openNewIndivModal} />
 					</div>
 					<Table
-						headers={['Grade', 'Name', 'School', 'Score']}
+						headers={['Grade', 'Compete Grade', 'Individual', 'Name', 'School', 'Score']}
 						filter={this.state.filter}
 						onItemClick={this.openCompetitorModal}
 						data={this.state.competitors.slice().map(competitor => {
@@ -461,6 +485,8 @@ export default class KPMTCompetitorsPage extends Component {
 								_id: competitor._id,
 								fields: [
 									competitor.grade,
+									competitor.competeGrade ? competitor.competeGrade : "N/A",
+									competitor.team ? "N" : "Y",
 									competitor.name,
 									competitor.school.name,
 									competitor.scores.weighted

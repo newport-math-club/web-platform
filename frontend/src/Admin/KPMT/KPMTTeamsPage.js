@@ -63,6 +63,8 @@ export default class KPMTTeamsPage extends Component {
 		this.newNameRefs = []
 		this.editGradeRefs = []
 		this.editNameRefs = []
+		this.newCompeteGradeRef = React.createRef()
+		this.editCompeteGradeRef = React.createRef()
 		;[0, 1, 2, 3].forEach(() => {
 			this.newGradeRefs.push(React.createRef())
 			this.newNameRefs.push(React.createRef())
@@ -238,13 +240,15 @@ export default class KPMTTeamsPage extends Component {
 		;[0, 1, 2, 3].forEach(index => {
 			const name = this.editNameRefs[index].current.getText()
 			const grade = this.editGradeRefs[index].current.getText().toString()
+			const competeGrade = this.editCompeteGradeRef.current.getText().toString()
 
-			if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace())
+			if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace() || isNaN(competeGrade))
 				return
 
 			team.push({
 				name: name,
-				grade: parseInt(grade, 10)
+				grade: parseInt(grade, 10),
+				competeGrade: parseInt(competeGrade, 10)
 			})
 		})
 
@@ -271,13 +275,15 @@ export default class KPMTTeamsPage extends Component {
 		;[0, 1, 2, 3].forEach(index => {
 			const name = this.newNameRefs[index].current.getText()
 			const grade = this.newGradeRefs[index].current.getText()
+			const competeGrade = this.newCompeteGradeRef.current.getText()
 
-			if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace())
+			if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace() || isNaN(competeGrade))
 				return
 
 			team.push({
 				name: name,
-				grade: parseInt(grade, 10)
+				grade: parseInt(grade, 10),
+				competeGrade: parseInt(competeGrade, 10)
 			})
 		})
 
@@ -353,7 +359,20 @@ export default class KPMTTeamsPage extends Component {
 			}
 		}
 
-		const memberTextboxes = [0, 1, 2, 3].map(index => {
+		const memberTextboxes = [0, 1, 2, 3, 4].map(index => {
+			if (index === 4) {
+				return <div>
+						<Textbox
+					style={{
+						display: 'inline',
+						width: '16em'
+					}}
+					ref={this.editCompeteGradeRef}
+					text={selectedTeam.competeGrade}
+					placeholder="compete grade"
+				/></div>
+			}
+
 			if (selectedTeam.members.length > index) {
 				const member = selectedTeam.members[index]
 				return (
@@ -403,7 +422,19 @@ export default class KPMTTeamsPage extends Component {
 			)
 		})
 
-		const newMemberTextboxes = [0, 1, 2, 3].map(index => {
+		const newMemberTextboxes = [0, 1, 2, 3, 4].map(index => {
+			if (index === 4){
+				return <div>
+						<Textbox
+					style={{
+						display: 'inline',
+						width: '16em'
+					}}
+					ref={this.newCompeteGradeRef}
+					placeholder="compete grade"
+				/></div>
+			
+			}
 			return (
 				<div key={index}>
 					<Textbox
@@ -513,7 +544,7 @@ export default class KPMTTeamsPage extends Component {
 						<Button text="new team" onClick={this.openNewTeamModal} />
 					</div>
 					<Table
-						headers={['Number', 'School', 'Members', 'Score']}
+						headers={['Number', 'School', 'Compete Grade', 'Members', 'Score']}
 						filter={this.state.filter}
 						onItemClick={this.openTeamModal}
 						data={this.state.teams.slice().map(team => {
@@ -522,6 +553,7 @@ export default class KPMTTeamsPage extends Component {
 								fields: [
 									team.number,
 									team.school.name,
+									team.competeGrade,
 									team.members
 										.reduce((a, b) => a + ', ' + b.name, '')
 										.substring(2),

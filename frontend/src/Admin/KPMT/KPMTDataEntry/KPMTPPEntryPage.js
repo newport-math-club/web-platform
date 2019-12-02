@@ -289,6 +289,8 @@ export default class KPMTPPEntryPage extends Component {
 							<div style={{ marginTop: '4em' }}>
 								<h2>{selectedTeam.number}</h2>
 								<h3>{selectedTeam.school.name}</h3>
+								<h3>Compete grade: {selectedTeam.competeGrade}</h3>
+
 								{selectedTeam.members.map(m => (
 									<h5>{m.name}</h5>
 								))}

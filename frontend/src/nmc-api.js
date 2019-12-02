@@ -1,4 +1,5 @@
 const BASE_URL = 'https://api.newportmathclub.org'
+//const BASE_URL = 'http://localhost:3000'
 
 exports.BASE_URL = BASE_URL
 
@@ -306,7 +307,7 @@ exports.deleteKPMTIndiv = (id, schoolId) => {
 	})
 }
 
-exports.addKPMTIndiv = (name, grade, schoolId) => {
+exports.addKPMTIndiv = (name, grade, competeGrade, schoolId) => {
 	return fetch(BASE_URL + '/api/kpmt/addIndiv', {
 		method: 'POST',
 		headers: {
@@ -316,13 +317,14 @@ exports.addKPMTIndiv = (name, grade, schoolId) => {
 		body: JSON.stringify({
 			name: name,
 			grade: grade,
+			competeGrade: competeGrade,
 			schoolId: schoolId
 		}),
 		credentials: 'include'
 	})
 }
 
-exports.editKPMTIndiv = (id, name, grade, schoolId) => {
+exports.editKPMTIndiv = (id, name, grade, competeGrade, schoolId) => {
 	return fetch(BASE_URL + '/api/kpmt/editIndiv', {
 		method: 'POST',
 		headers: {
@@ -333,7 +335,8 @@ exports.editKPMTIndiv = (id, name, grade, schoolId) => {
 			id: id,
 			name: name,
 			grade: grade,
-			schoolId: schoolId
+			competeGrade: competeGrade,
+			schoolId: schoolId,
 		}),
 		credentials: 'include'
 	})
@@ -414,6 +417,20 @@ exports.registerVolunteerKPMT = (school, name, email, preferredRole, grade) => {
 			grade: grade 
 		}),
 		credentials: 'include'
+	})
+}
+
+exports.dropoutVolunteerKPMT = (code) => {
+	return fetch(BASE_URL + "/api/kpmt/dropout/volunteer", {
+		method: "POST",
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			code: code
+		}),
+		credentials: "include"
 	})
 }
 
@@ -517,7 +534,7 @@ exports.editTeam = (id, members) => {
 	})
 }
 
-exports.addIndiv = (name, grade) => {
+exports.addIndiv = (name, grade, competeGrade) => {
 	return fetch(BASE_URL + '/api/kpmt/indiv/add', {
 		method: 'POST',
 		headers: {
@@ -526,13 +543,14 @@ exports.addIndiv = (name, grade) => {
 		},
 		body: JSON.stringify({
 			name: name,
-			grade: grade
+			grade: grade,
+			competeGrade: competeGrade
 		}),
 		credentials: 'include'
 	})
 }
 
-exports.editIndiv = (id, name, grade) => {
+exports.editIndiv = (id, name, grade, competeGrade) => {
 	return fetch(BASE_URL + '/api/kpmt/indiv/edit', {
 		method: 'POST',
 		headers: {
@@ -542,7 +560,8 @@ exports.editIndiv = (id, name, grade) => {
 		body: JSON.stringify({
 			id: id,
 			name: name,
-			grade: grade
+			grade: grade,
+			competeGrade: competeGrade
 		}),
 		credentials: 'include'
 	})

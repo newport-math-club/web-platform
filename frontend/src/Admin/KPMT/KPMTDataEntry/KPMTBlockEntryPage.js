@@ -318,6 +318,7 @@ export default class KPMTBlockEntryPage extends Component {
 							<div style={{ marginTop: '4em' }}>
 								<h2>{selectedIndividual.name}</h2>
 								<h3>Grade {selectedIndividual.grade}</h3>
+								<h3>Compete grade: {selectedIndividual.competeGrade}</h3>
 								<h3>{selectedIndividual.school.name}</h3>
 								{selectedIndividual.team && (
 									<h3>Team {selectedIndividual.team.number}</h3>

@@ -29,6 +29,7 @@ export const getNavItems = (itemIndex, subItemIndex) => {
 			{ name: 'about', path: '/kpmt' },
 			{ name: 'registration', path: '/kpmt/registration' },
 			{ name: 'volunteer', path: '/kpmt/volunteer' },
+			{ name: 'volunteer dropout', path: '/kpmt/volunteer/dropout' },
 			{ name: 'past tests & results', path: '/kpmt/past' },
 			{ name: 'contact', path: '/kpmt/contact' },
 			{ name: 'coach login', path: '/kpmt/login' }

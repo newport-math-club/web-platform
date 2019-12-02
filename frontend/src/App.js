@@ -24,6 +24,8 @@ import KPMTTeamsPage from './Admin/KPMT/KPMTTeamsPage'
 import KPMTCompetitorsPage from './Admin/KPMT/KPMTCompetitorsPage'
 import KPMTLoginPage from './Client/KPMT/KPMTLoginPage'
 import KPMTRegistrationPage from './Client/KPMT/KPMTRegistrationPage'
+import KPMTVolunteerRegistrationPage from './Client/KPMT/KPMTVolunteerRegistrationPage'
+import KPMTVolunteerDropoutPage from './Client/KPMT/KPMTVolunteerDropoutPage'
 import KPMTDashboardPage from './Client/KPMT/KPMTCoach/KPMTDashboardPage'
 import KPMTLogoutPage from './Client/KPMT/KPMTCoach/KPMTLogoutPage'
 import KPMTManageTeamsPage from './Client/KPMT/KPMTCoach/KPMTManageTeamsPage'
@@ -39,7 +41,6 @@ import ForgotPage from './Client/ForgotPage'
 import KPMTForgotPage from './Client/KPMT/KPMTForgotPage'
 import ResetPage from './Client/ResetPage'
 import KPMTResetPage from './Client/KPMT/KPMTResetPage'
-import KPMTVolunteerRegistrationPage from './Client/KPMT/KPMTVolunteerRegistrationPage'
 
 // eslint-disable-next-line
 String.prototype.isValidEmail = function() {
@@ -76,6 +77,11 @@ export default class App extends React.Component {
 						exact
 						path="/kpmt/volunteer"
 						component={KPMTVolunteerRegistrationPage}
+					/>
+					<Route
+						exact
+						path="/kpmt/volunteer/dropout"
+						component={KPMTVolunteerDropoutPage}
 					/>
 					<Route exact path="/kpmt/login" component={KPMTLoginPage} />
 					<Route exact path="/kpmt/forgot" component={KPMTForgotPage} />

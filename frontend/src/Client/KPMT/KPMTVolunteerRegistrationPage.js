@@ -52,6 +52,8 @@ export default class KPMTRegistrationPage extends Component {
             this.pRoleTextBox.current.clear()
             this.gradeTextBox.current.clear()
 			
+		} else if ((await response.json()).error === "email already exists") {
+			this.setState({error : 3 })
 		} else {
 			this.setState({ error: response.status })
 		}
@@ -129,6 +131,11 @@ export default class KPMTRegistrationPage extends Component {
                                         please type "Proctor" or "Grader"
 									</h5>
 								)}
+								{this.state.error === 3 && (
+									<h5 style = {{marginTop: '8px'}}>
+										you have already registered under this email!
+									</h5>
+								)}
 								{this.state.error === 403 && (
 									<h5 style={{ marginTop: '8px' }}>
 										sorry, registration is closed at this time :(
@@ -141,8 +148,7 @@ export default class KPMTRegistrationPage extends Component {
 								)}
 								{this.state.error === -1 && (
 									<h5 style={{ marginTop: '8px', color: '#31CE73' }}>
-										registration successful, please wait for your account to be
-										activated :)
+										registration successful, we've sent an email to confirm your information :)
 									</h5>
 								)}
 							</div>

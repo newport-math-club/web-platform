@@ -51,6 +51,8 @@ export default class KPMTManageIndividualsPage extends Component {
 		this.newNameRef = React.createRef()
 		this.editGradeRef = React.createRef()
 		this.editNameRef = React.createRef()
+		this.newCompeteGradeRef = React.createRef()
+		this.editCompeteGradeRef = React.createRef()
 	}
 
 	openNewIndivModal = () => {
@@ -109,13 +111,14 @@ export default class KPMTManageIndividualsPage extends Component {
 	saveIndiv = async () => {
 		const name = this.newNameRef.current.getText()
 		const grade = this.newGradeRef.current.getText()
+		const competeGrade = this.newCompeteGradeRef.current.getText()
 
 		if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace()) {
 			this.setState({ error: 1 })
 			return
 		}
 
-		const response = await addIndiv(name, grade)
+		const response = await addIndiv(name, grade, competeGrade)
 
 		if (response.status === 200) {
 			// too lazy to use sockets to insert the new team
@@ -129,6 +132,7 @@ export default class KPMTManageIndividualsPage extends Component {
 	saveEditIndiv = async () => {
 		const name = this.editNameRef.current.getText()
 		const grade = this.editGradeRef.current.getText().toString()
+		const competeGrade = this.editCompeteGradeRef.current.getText().toString()
 
 		if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace()) {
 			this.setState({ error: 1 })
@@ -138,7 +142,8 @@ export default class KPMTManageIndividualsPage extends Component {
 		const response = await editIndiv(
 			this.state.selectedIndiv._id.toString(),
 			name,
-			grade
+			grade,
+			competeGrade 
 		)
 
 		if (response.status === 200) {
@@ -179,6 +184,12 @@ export default class KPMTManageIndividualsPage extends Component {
 					ref={this.editGradeRef}
 					placeholder="grade"
 				/>
+				<Textbox
+					style={{ display: 'inline', width: '20em'}}
+					ref={this.editCompeteGradeRef}
+					text={selectedIndiv.competeGrade}
+					placeholder="compete grade"
+				/>
 			</div>
 		)
 
@@ -194,6 +205,11 @@ export default class KPMTManageIndividualsPage extends Component {
 					ref={this.newGradeRef}
 					placeholder="grade"
 				/>
+				<Textbox
+					style={{ display: 'inline', width: '20em'}}
+					ref={this.newCompeteGradeRef}
+					placeholder="compete grade"
+				/>
 			</div>
 		)
 
@@ -208,6 +224,9 @@ export default class KPMTManageIndividualsPage extends Component {
 						Individuals are competitors without teams. You do not need to
 						register team members here! Competitors with teams are registered in
 						the <a href="/kpmt/coach/teams">teams page</a>.
+					</h5>
+					<h5 style = {{fontWeight: "300", marginTop: "10px"}}>
+					The "compete grade" field is the grade you would like your students to actually participate in. For example, 5th graders wanting to take the 6th grade test.
 					</h5>
 					<div style={{ marginTop: '2em' }}>{newMemberTextboxes}</div>
 					<div style={{ textAlign: 'center' }}>
@@ -282,6 +301,9 @@ export default class KPMTManageIndividualsPage extends Component {
 						of a nickname) may result in us not being able to score the test,
 						resulting in the score being dropped.
 					</p>
+					<p>
+						The "compete grade" field indicates which grade your student would actually like to participate in. Please make sure this is the correct grade, as it will decide what test they recieve!
+					</p>
 					<div>
 						<FilterBar
 							placeholder="filter"
@@ -290,13 +312,13 @@ export default class KPMTManageIndividualsPage extends Component {
 						<Button text="new individual" onClick={this.openNewIndivModal} />
 					</div>
 					<Table
-						headers={['Grade', 'Name', '']}
+						headers={['Grade', 'Compete Grade', 'Name', '']}
 						filter={this.state.filter}
 						onItemClick={this.openIndivModal}
 						data={this.state.indivs.slice().map(indiv => {
 							return {
 								_id: indiv._id,
-								fields: [indiv.grade, indiv.name, '']
+								fields: [indiv.grade, indiv.competeGrade, indiv.name, '']
 							}
 						})}
 					/>
