@@ -1600,7 +1600,7 @@ const calculateWeightedScore = async competitorId => {
 	var block = competitor.scores.block
 	var mental = competitor.scores.mental
 	var weightedScore =
-		indiv + block / 3.0 + last / 100.0 + block / 1000.0 + mental / 10000.0
+		indiv + block / 3.0 + last / 100.0 + indiv / 10000.0
 
 	await Competitors.updateOne(
 		{ _id: competitor._id },
@@ -1656,10 +1656,9 @@ const calculateWeightedScoreTeam = async teamId => {
 		probability +
 		2 * topThreeMental +
 		topThreeIndiv +
-		topThreeBlock +
+		topThreeBlock/3.0 +
 		indivScores[indivScores.length - 1] / 100.0 +
-		blockScores[blockScores.length - 1] / 1000.0 +
-		algebra / 10000.0
+		blockScores[blockScores.length - 1] / 10000.0
 
 	await Teams.updateOne(
 		{ _id: teamId },
