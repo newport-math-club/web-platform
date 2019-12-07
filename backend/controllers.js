@@ -790,6 +790,8 @@ exports.addTeam = (req, res) => {
 
 		if (team[i].competeGrade > 8) return res.status(400).end()
 		if (team[i].competeGrade < 5) team[i].competeGrade = 5
+
+		if (team[i].competeGrade < team[i].grade) return res.status(400).end()
 	}
 
 	var calls = []
