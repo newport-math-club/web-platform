@@ -35,6 +35,7 @@ export default class VolunteerDropout extends Component {
 	}
 
 	render() {
+		console.log(this.props.match)
 		return (
 			<div className="fullheight">
 				<Nav admin={false} items={getNavItems(-1)} />
@@ -49,9 +50,9 @@ export default class VolunteerDropout extends Component {
 						overflowY: 'auto',
 						textAlign: 'center'
 					}}>
-					<h1>we're sad to see you leave! :(</h1>
+					<h1>we're sad to see you leave! :( </h1>
                     <h5>enter the dropout code which was sent to you in your volunteer email</h5>
-					<Textbox ref={this.dropoutCodeBox} type="text" placeholder="dropout code" />
+					<Textbox ref={this.dropoutCodeBox} type="text" placeholder="dropout code" text = {this.props.match.params.dropout} />
 					<Button onClick={this.handlePassResetRequest} text="dropout" />
 					{this.state.status === 1 && (
 						<h5 style={{ color: '#31CE73' }}>

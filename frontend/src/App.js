@@ -79,7 +79,10 @@ export default class App extends React.Component {
 						component={KPMTVolunteerRegistrationPage}
 					/>
 					<Route
-						exact
+						path="/kpmt/volunteer/dropout/:dropout"
+						component={KPMTVolunteerDropoutPage}
+					/>
+					<Route
 						path="/kpmt/volunteer/dropout"
 						component={KPMTVolunteerDropoutPage}
 					/>

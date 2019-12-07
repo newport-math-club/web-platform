@@ -79,7 +79,7 @@ export default class KPMTRegistrationPage extends Component {
 						style={{ width: '100%' }}
 						src="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmtbanner.png"
 					/>
-					<h2 style={{ paddingTop: '1em' }}>School Registration</h2>
+					<h2 style={{ paddingTop: '1em' }}>Volunteer Registration/Dropout</h2>
 					<div style={{ textAlign: 'center', marginTop: '5em' }}>
 						<h3 style={{ color: '#eb5757' }}>
 							IMPORTANT: Please read the following!
@@ -87,6 +87,10 @@ export default class KPMTRegistrationPage extends Component {
 						
 						<p>
 							Thank you for volunteering! In the "preferred role" textbox, please type either "Proctor" or "Grader", exactly as shown. 
+						</p>
+						
+						<p>
+							If you no longer want to volunteer, or your incorrectly entered your information, you can drop out <a href = "/kpmt/volunteer/dropout">at this link</a>.
 						</p>
 					</div>
 
@@ -166,7 +170,9 @@ export default class KPMTRegistrationPage extends Component {
 							/>
 						</div>
 					)}
+					
 				</div>
+				
 			</div>
 		)
 	}
