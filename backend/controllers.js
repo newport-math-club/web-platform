@@ -606,6 +606,14 @@ exports.registerKPMT = (req, res) => {
 
 	if (!validateInput(school, coachName, email, password))
 		return res.status(400).end()
+	
+	const schoolEmailExists = await Schools.find({
+		email: email
+	})
+
+	if (schoolEmailExists.length > 0){
+		return res.status(400).end()
+	}
 
 	auth.hash(password, async hash => {
 		var newSchool = new Schools({
@@ -665,7 +673,7 @@ exports.registerVolunteerKPMT = async (req, res) => {
 	if (!validateInput(school, name, email))
 		return res.status(400).end()
 
-	if (!school || !name || !email || !grade) {
+	if (!school || !name || !email || !grade || grade > 12 || grade < 9) {
 		return res.status(400).end()
 	}else if (isNaN(grade)){
 		return res.status(400).end()
@@ -689,7 +697,7 @@ exports.registerVolunteerKPMT = async (req, res) => {
 		name: name,
 		grade: grade,
 		school: school,
-		preferredRole: preferredRole,
+		preferredRole: preferredRole.toLowerCase(),
 		email: email,
 		dropoutCode: dropoutCode
 	})
@@ -1327,6 +1335,74 @@ exports.removeIndiv = async (req, res) => {
 	)
 }
 
+exports.removeVolunteer = async (req, res) => {
+	if (kpmtLock && !res.locals.elevated) return res.status(403).end()
+	var id = req.body.id
+
+	if (!id) return res.status(400).end()
+
+	const target = await Competitors.findOne({ _id: id }).exec()
+
+	if (!target)
+		return res.status(404).end()
+	
+		Volunteers.remove({
+			_id: id
+		}, err => {
+			if (err) return res.status(500).end()
+		})
+}
+
+
+exports.editVolunteer = async (req, res) => {
+	if (kpmtLock && !res.locals.elevated) return res.status(403).end()
+	var school = req.body.school
+	var id = req.body.id
+	var name = req.body.name
+	var grade = req.body.grade
+	var role =	req.body.role;
+	var email = req.body.email;
+
+	// Don't need to check competeGrade now.
+	// If the competitor is an individual (not associated to a team), then we can update the competeGrade, and we need to verify it
+	// However, if the competitor isn't, no need to perform any checks.
+	// We do it this way because the form can sometimes send a non-number value for competeGrade, and we only want that to flag a 400 if it actually applies
+	if (!validateInput(name, grade, role, email) || isNaN(grade) || grade > 12 || grade < 9)
+		return res.status(400).end()
+	else if (preferredRole.toLowerCase() !== "proctor" && preferredRole.toLowerCase() !== "grader"){
+			return res.status(400).end()
+		}
+
+	try {
+		const targetvolunteer = await Volunteers.findOne({ _id: id }).exec()
+
+		if (!targetVolunteer)
+			return res.status(404).end()
+		
+		var volunteerExists = await Volunteers.find({email: email});
+		if (email != targetVolunteer.email && volunteerExists.length > 0){
+		
+			// Check if someone has already registered under this email
+			
+				console.log(volunteerExists);
+				res.status(400).json({
+					"error" : "email already exists"
+				}).end()
+		}
+
+		await Volunteers.updateOne(
+			{ _id: id },
+			{ $set: { name: name, grade: grade, role:role.toLowerCase(), email: email, school: school} }
+		).exec() 
+
+
+		res.status(200).end()
+	} catch (err) {
+		console.log(err)
+		res.status(500).end()
+	}
+}
+
 exports.approveSchoolKPMT = async (req, res) => {
 	var id = req.body.id
 
@@ -1561,6 +1637,18 @@ exports.fetchCompetitors = async (req, res) => {
 			.exec()
 
 		res.status(200).json(competitors)
+	} catch (err) {
+		console.log(err)
+		res.status(500).end()
+	}
+}
+
+exports.fetchVolunteers = async (req, res) => {
+	try {
+		const volunteers = await Volunteers.find({})
+			.exec()
+
+		res.status(200).json(volunteers)
 	} catch (err) {
 		console.log(err)
 		res.status(500).end()

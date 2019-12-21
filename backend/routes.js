@@ -228,6 +228,18 @@ module.exports = app => {
 		.get(nmcMiddleware.verifyAdminSession)
 		.get(nmcController.fetchCompetitors)
 	app
+		.route('/api/kpmt/volunteers/')
+		.get(nmcMiddleware.verifyAdminSession)
+		.get(nmcController.fetchVolunteers)
+	app 
+		.route("/api/kpmt/removeVolunteer")
+		.get(nmcMiddleware.verifyAdminSession)
+		.get(nmcController.removeVolunteer)
+	app 
+		.route("/api/kpmt/editVolunteer")
+		.get(nmcMiddleware.verifyAdminSession)
+		.get(nmcController.editVolunteer)
+	app
 		.route('/api/kpmt/teams/')
 		.get(nmcMiddleware.verifyAdminSession)
 		.get(nmcController.fetchTeams)

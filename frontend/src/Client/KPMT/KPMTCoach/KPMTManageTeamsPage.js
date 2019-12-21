@@ -319,7 +319,7 @@ export default class KPMTManageTeamsPage extends Component {
 					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeNewTeamModal} text="close" />
-						<Button onClick={this.saveTeam} text="save" />
+						<Button onClick={this.saveTeam} text="save" oneTime/>
 					</div>
 				</Modal>
 				<Modal
@@ -352,13 +352,14 @@ export default class KPMTManageTeamsPage extends Component {
 					<div style={{ bottom: '1em', left: '1em', position: 'absolute' }}>
 						<Button
 							onClick={this.deleteTeam}
+							needsConfirmation
 							text="delete"
 							style={{ background: '#eb5757' }}
 						/>
 					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeTeamModal} text="close" />
-						<Button onClick={this.saveEditTeam} text="save" />
+						<Button onClick={this.saveEditTeam} text="save" oneTime/>
 					</div>
 				</Modal>
 

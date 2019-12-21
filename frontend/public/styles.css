@@ -100,6 +100,10 @@ h5 {
 	font-weight: 300;
 }
 
+.btn:disabled {
+	background: #aaa;
+}
+
 .navbar-item {
 	position: relative;
 }
@@ -226,6 +230,34 @@ input {
 	border-radius: 2em;
 	border: none;
 }
+
+.disabled-button {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	transition: 0.1s;
+	cursor: pointer;
+	height: 1.7em;
+	padding-top: 0.3em;
+	margin-top: 0.5em;
+	display: inline-block;
+	background: #aaa;
+	color: white;
+	padding-left: 1.5em;
+	padding-right: 1.5em;
+	margin-bottom: 0.5em;
+	box-shadow: 1px 2px 8px #c4c4c4;
+	font-family: Sofia-Pro;
+	font-size: 1.5em;
+	margin-left: 0.25em;
+	margin-right: 0.25em;
+	border-radius: 2em;
+	border: none;
+}
+
 .button:hover {
 	transition: 0.1s;
 	box-shadow: 1px 3px 12px #888;

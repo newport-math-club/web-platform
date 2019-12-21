@@ -11,11 +11,13 @@ import Modal from 'react-modal'
 import SocketEventHandlers from '../../Sockets'
 import Autosuggest from 'react-autosuggest'
 import {
-	fetchKPMTCompetitors,
+	fetchKPMTVolunteers,
 	fetchKPMTSchools,
 	deleteKPMTIndiv,
 	addKPMTIndiv,
-	editKPMTIndiv
+	editKPMTVolunteer,
+	deleteVolunteer,
+	editVolunteerKPMT
 } from '../../nmc-api'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
 
@@ -43,20 +45,20 @@ const renderSuggestion = suggestion => (
 	<div style={{ display: 'inline', cursor: 'pointer' }}>{suggestion.name}</div>
 )
 
-export default class KPMTCompetitorsPage extends Component {
+export default class KPMTVolunteersPage extends Component {
 	constructor(props) {
 		super(props)
 
 		this.state = {
 			filter: '',
-			competitorDialogIsOpen: false,
+			volunteerDialogIsOpen: false,
 			newIndivDialogIsOpen: false,
-			competitors: [],
+			volunteers: [],
 			schools: [],
 			selectedSchool: null,
 			schoolSuggestions: [],
 			suggestionValue: '',
-			selectedCompetitor: null
+			selectedVolunteer: null
 		}
 
 		this.newGradeRef = React.createRef()
@@ -64,7 +66,9 @@ export default class KPMTCompetitorsPage extends Component {
 		this.editGradeRef = React.createRef()
 		this.editNameRef = React.createRef()
 		this.newCompeteGradeRef = React.createRef()
-		this.editCompeteGradeRef = React.createRef()
+		this.editSchoolRef = React.createRef()
+		this.editEmailRef = React.createRef()
+		this.editRoleRef = React.createRef()
 	}
 
 	openNewIndivModal = () => {
@@ -81,154 +85,49 @@ export default class KPMTCompetitorsPage extends Component {
 	}
 
 	componentWillUnmount() {
-		SocketEventHandlers.unsubscribeCompetitorsChange()
+		SocketEventHandlers.unsubscribeVolunteersChange()
 		SocketEventHandlers.unsubscribeSchoolsChange()
 	}
 
 	async componentDidMount() {
-		const competitorsResponse = await fetchKPMTCompetitors()
+		const volunteersResponse = await fetchKPMTVolunteers()
 
-		if (competitorsResponse.status === 200) {
-			const data = await competitorsResponse.json()
-			this.setState({ competitors: data })
+		if (volunteersResponse.status === 200) {
+			const data = await volunteersResponse.json()
+			console.log(data);
+			this.setState({ volunteers: data })
 		} else {
 			window.location.href = '/login'
 			return
 		}
 
-		const schoolsResponse = await fetchKPMTSchools()
-		if (schoolsResponse.status === 200) {
-			const data = await schoolsResponse.json()
-
-			this.setState({ schools: data })
-		} else {
-			window.location.href = '/login'
-			return
-		}
-
-		SocketEventHandlers.subscribeToSchoolsChange(data => {
-			switch (data.type) {
-				case 'add':
-					this.setState({
-						schools: this.state.schools.slice().concat(data.payload)
-					})
-					break
-				case 'remove':
-					this.setState({
-						schools: this.state.schools
-							.slice()
-							.filter(s => s._id.toString() !== data.payload.toString())
-					})
-
-					break
-				case 'edit':
-					let newSchools = this.state.schools.slice()
-
-					for (let i = 0; i < newSchools.length; i++) {
-						if (newSchools[i]._id.toString() === data.payload._id.toString()) {
-							data.payload.data.forEach(change => {
-								newSchools[i][change.field] = change.value
-							})
-
-							break
-						}
-					}
-					this.setState({
-						schools: newSchools
-					})
-					break
-				default:
-			}
-		})
-
-		SocketEventHandlers.subscribeToCompetitorsChange(data => {
-			switch (data.type) {
-				case 'add':
-					this.setState({
-						competitors: this.state.competitors.slice().concat(data.payload)
-					})
-					break
-				case 'remove':
-					this.setState({
-						competitors: this.state.competitors
-							.slice()
-							.filter(c => c._id.toString() !== data.payload.toString())
-					})
-					// if the removed competitor is currently selected, oh whale :P
-					if (
-						this.state.selectedCompetitor &&
-						this.state.selectedCompetitor._id.toString() ===
-							data.payload.toString()
-					) {
-						NotificationManager.error(
-							'Your selected competitor has been deleted',
-							'Competitor removed'
-						)
-						this.setState({
-							selectedCompetitor: null,
-							competitorDialogIsOpen: false
-						})
-					}
-					break
-				case 'edit':
-					let newCompetitors = this.state.competitors.slice()
-
-					for (let i = 0; i < newCompetitors.length; i++) {
-						if (
-							newCompetitors[i]._id.toString() === data.payload._id.toString()
-						) {
-							data.payload.data.forEach(change => {
-								newCompetitors[i][change.field] = change.value
-							})
-
-							if (
-								this.state.selectedCompetitor &&
-								newCompetitors[i]._id.toString() ===
-									this.state.selectedCompetitor._id.toString()
-							) {
-								let newSelectedCompetitor = { ...this.state.selectedCompetitor }
-								data.payload.data.forEach(change => {
-									newSelectedCompetitor[change.field] = change.value
-								})
-								this.setState({
-									selectedCompetitor: newSelectedCompetitor
-								})
-							}
-							break
-						}
-					}
-					this.setState({ competitors: newCompetitors })
-					break
-				default:
-			}
-		})
 	}
 
-	openCompetitorModal = competitorId => {
-		const selected = this.state.competitors
+	openVolunteerModal = volunteerId => {
+		const selected = this.state.volunteers
 			.slice()
-			.filter(t => t._id.toString() === competitorId.toString())[0]
+			.filter(t => t._id.toString() === volunteerId.toString())[0]
 		this.setState({
-			competitorDialogIsOpen: true,
-			selectedCompetitor: selected
+			volunteerDialogIsOpen: true,
+			selectedVolunteer: selected
 		})
 	}
 
-	closeCompetitorModal = () => {
+	closeVolunteerModal = () => {
 		this.setState({
-			competitorDialogIsOpen: false,
-			selectedCompetitor: null,
+			volunteerDialogIsOpen: false,
+			selectedVolunteer: null,
 			error: undefined
 		})
 	}
+	
 
-	deleteIndividual = async () => {
-		const response = await deleteKPMTIndiv(
-			this.state.selectedCompetitor._id.toString(),
-			this.state.selectedCompetitor.school._id.toString()
+	deleteVol = async () => {
+		const response = await deleteVolunteer(
+			this.state.selectedVolunteer._id.toString()
 		)
 		if (response.status === 200) {
-			this.closeCompetitorModal()
+			this.closeVolunteerModal()
 		}
 	}
 
@@ -259,68 +158,34 @@ export default class KPMTCompetitorsPage extends Component {
 	saveEditIndiv = async () => {
 		const name = this.editNameRef.current.getText()
 		const grade = this.editGradeRef.current.getText().toString()
-		let competeGrade;
-		if (!this.editCompeteGradeRef.current){
-			 competeGrade = null;
-		}else{
-			 competeGrade = this.editCompeteGradeRef.current.getText().toString()
-		}
+		const email = this.editEmailRef.current.getText()
+		const school = this.editSchoolRef.current.getText()
+		const role = this.editRoleRef.current.getText()
 		
-		if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace() || isNaN(grade) || grade.isOnlyWhitespace()) {
+		if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace() || isNaN(grade) || grade.isOnlyWhitespace() || grade > 12 || grade < 9 || (role.toLowerCase() !== "proctor" && role.toLowerCase() !== "grader")) {
 			this.setState({ error: 1 })
 			return
 		}
 
-		const response = await editKPMTIndiv(
-			this.state.selectedCompetitor._id.toString(),
+		const response = await editVolunteerKPMT(
+			this.state.selectedVolunteer._id.toString(),
 			name,
 			grade,
-			competeGrade, 
-			this.state.selectedCompetitor.school._id.toString()
+			school,
+			email,
+			role
 		)
 
 		if (response.status === 200) {
-			this.closeCompetitorModal()
+			this.closeVolunteerModal()
 		} else {
 			this.setState({ error: response.status })
 		}
 	}
 
-	getSchoolSuggestions = value => {
-		const input = value.trim().toLowerCase()
-
-		return input.length === 0
-			? []
-			: this.state.schools
-					.slice()
-					.filter(s => s.name.toLowerCase().includes(input))
-	}
-
-	onSuggestionsFetchRequested = value => {
-		this.setState({
-			schoolSuggestions: this.getSchoolSuggestions(value.value)
-		})
-	}
-
-	// Autosuggest will call this function every time you need to clear suggestions.
-	onSuggestionsClearRequested = () => {
-		this.setState({ schoolSuggestions: [] })
-	}
-
-	onSuggestionInputChange = (event, { newValue }) => {
-		this.setState({ suggestionValue: newValue })
-	}
-
-	onSuggestionSelected = (_, item) => {
-		const suggestion = item.suggestion
-		this.setState({
-			suggestionValue: suggestion.name,
-			selectedSchool: suggestion
-		})
-	}
 
 	render() {
-		const selectedCompetitor = this.state.selectedCompetitor || {
+		const selectedVolunteer = this.state.selectedVolunteer || {
 			school: {},
 			team: {},
 			scores: {}
@@ -336,48 +201,38 @@ export default class KPMTCompetitorsPage extends Component {
 			}
 		}
 
-		const newMemberTextboxes = (
-			<div>
-				<Textbox
-					style={{ display: 'inline', width: '16em' }}
-					ref={this.newNameRef}
-					placeholder="full name"
-				/>
-				<Textbox
-					style={{ display: 'inline', width: '4em', marginLeft: '1em' }}
-					ref={this.newGradeRef}
-					placeholder="grade"
-				/>
-				<Textbox
-					style={{ display: 'inline', width: '20em'}}
-					ref={this.newCompeteGradeRef}
-					placeholder="compete grade"
-				/>
-			</div>
-		)
+		
 
 		const memberTextboxes = (
 			<div>
-				<h5>Unless the competitor is an individual, you cannot change their compete grade. To do so, edit the compete grade of the team in the teams page.</h5>
 				<Textbox
-					text={selectedCompetitor.name}
-					style={{ display: 'inline', width: '16em' }}
+					text={selectedVolunteer.name}
+					style={{ display: 'inline', width: '14em' }}
 					ref={this.editNameRef}
 					placeholder="full name"
 				/>
 				<Textbox
-					text={selectedCompetitor.grade}
-					style={{ display: 'inline', width: '4em', marginLeft: '1em' }}
+					text={selectedVolunteer.grade}
+					style={{ display: 'inline', width: '3em', marginLeft: '1em' }}
 					ref={this.editGradeRef}
 					placeholder="grade"
 				/>
 				
-				{selectedCompetitor.team ? "" : <Textbox
+				<Textbox
 				style={{ display: 'inline', width: '20em'}}
-				text = {selectedCompetitor.competeGrade}
-				ref={this.editCompeteGradeRef}
-				placeholder="compete grade"
-			/>}
+				text = {selectedVolunteer.school}
+				ref={this.editSchoolRef}
+				placeholder="school"/>
+				<Textbox
+				style={{ display: 'inline', width: '20em'}}
+				text = {selectedVolunteer.email}
+				ref={this.editEmailRef}
+				placeholder="email"/>	
+				<Textbox
+				style={{ display: 'inline', width: '12em'}}
+				text = {selectedVolunteer.preferredRole}
+				ref={this.editRoleRef}
+				placeholder="role"/>	
 				
 			</div>
 		)
@@ -390,16 +245,7 @@ export default class KPMTCompetitorsPage extends Component {
 					contentLabel="New Individual">
 					<h2>New Individual</h2>
 
-					<div style={{ marginTop: '2em' }}>{newMemberTextboxes}</div>
-					<Autosuggest
-						suggestions={this.state.schoolSuggestions}
-						onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-						onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-						getSuggestionValue={suggestion => suggestion.name}
-						onSuggestionSelected={this.onSuggestionSelected}
-						renderSuggestion={renderSuggestion}
-						inputProps={inputProps}
-					/>
+					
 					<div style={{ textAlign: 'center' }}>
 						{(this.state.error === 1 || this.state.error === 400) && (
 							<h5 style={{ marginTop: '8px' }}>
@@ -413,23 +259,15 @@ export default class KPMTCompetitorsPage extends Component {
 						<Button onClick={this.saveIndiv} text="save" />
 					</div>
 				</Modal>
+
 				<Modal
-					isOpen={this.state.competitorDialogIsOpen}
+					isOpen={this.state.volunteerDialogIsOpen}
 					style={customStyles}
-					contentLabel="View Competitor">
-					<h2>View Competitor</h2>
-					{/* <h3>Name: {selectedCompetitor.name}</h3>
-					<h3>Grade: {selectedCompetitor.grade}</h3> */}
-					<h4>School: {selectedCompetitor.school.name}</h4>
-					{selectedCompetitor.team && (
-						<h4>Team: {selectedCompetitor.team.number}</h4>
-					)}
-					<h4>
-						Scores (I/IL/B/M/W): {selectedCompetitor.scores.individual}/
-						{selectedCompetitor.scores.individualLast}/
-						{selectedCompetitor.scores.block}/{selectedCompetitor.scores.mental}
-						/{selectedCompetitor.scores.weighted}
-					</h4>
+					contentLabel="View Volunteer">
+					<h2>View Volunteer</h2>
+					<h3>Name: {selectedVolunteer.name}</h3>
+					<h3>Grade: {selectedVolunteer.grade}</h3> 
+					<h4>School: {selectedVolunteer.school}</h4>
 
 					<div style={{ marginTop: '2em' }}>{memberTextboxes}</div>
 					<div style={{ textAlign: 'center' }}>
@@ -443,14 +281,13 @@ export default class KPMTCompetitorsPage extends Component {
 					
 						<div style={{ bottom: '1em', left: '1em', position: 'absolute' }}>
 							<Button
-								onClick={this.deleteIndividual}
 								text="delete"
 								style={{ background: '#eb5757' }}
 							/>
 						</div>
 					
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
-						<Button onClick={this.closeCompetitorModal} text="close" />
+						<Button onClick={this.closeVolunteerModal} text="close" />
 							<Button onClick={this.saveEditIndiv} text="save" />
 						
 					</div>
@@ -467,29 +304,28 @@ export default class KPMTCompetitorsPage extends Component {
 						paddingRight: '4em',
 						overflowY: 'auto'
 					}}>
-					<h2>KPMT Competitors</h2>
-					<h4>{this.state.competitors.length} competitor(s)</h4>
+					<h2>KPMT Volunteers</h2>
+					<h4>{this.state.volunteers.length} volunteer(s)</h4>
 					<div>
 						<FilterBar
 							placeholder="filter"
 							onTextChange={text => this.setState({ filter: text })}
 						/>
-						<Button text="new individual" onClick={this.openNewIndivModal} />
+						<Button text="new volunteer" onClick={() => {}} />
 					</div>
 					<Table
-						headers={['Grade', 'Compete Grade', 'Individual', 'Name', 'School', 'Score']}
+						headers={['Name', 'Grade', 'School', 'Role', 'Email']}
 						filter={this.state.filter}
-						onItemClick={this.openCompetitorModal}
-						data={this.state.competitors.slice().map(competitor => {
+						onItemClick={this.openVolunteerModal}
+						data={this.state.volunteers.slice().map(volunteer => {
 							return {
-								_id: competitor._id,
+								_id: volunteer._id,
 								fields: [
-									competitor.grade,
-									competitor.competeGrade ? competitor.competeGrade : "N/A",
-									competitor.team ? "N" : "Y",
-									competitor.name,
-									competitor.school.name,
-									competitor.scores.weighted
+									volunteer.name,
+									volunteer.grade,
+									volunteer.school,
+									volunteer.preferredRole,
+									volunteer.email,
 								]
 							}
 						})}

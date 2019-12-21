@@ -232,6 +232,16 @@ exports.fetchKPMTCompetitors = () => {
 	})
 }
 
+exports.fetchKPMTVolunteers = () => {
+	return fetch(BASE_URL + '/api/kpmt/volunteers', {
+		method: 'GET',
+		headers: {
+			Accept: 'application/json'
+		},
+		credentials: 'include'
+	})
+}
+
 exports.deleteKPMTSchool = id => {
 	return fetch(BASE_URL + '/api/kpmt/removeSchool', {
 		method: 'POST',
@@ -415,6 +425,39 @@ exports.registerVolunteerKPMT = (school, name, email, preferredRole, grade) => {
 			email: email,
 			preferredRole: preferredRole,
 			grade: grade 
+		}),
+		credentials: 'include'
+	})
+}
+
+exports.deleteVolunteerKPMT = (id) => {
+	return fetch(BASE_URL + '/api/kpmt/removeVolunteer', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id: id,
+		}),
+		credentials: 'include'
+	})
+}
+
+exports.editVolunteerKPMT = (id, name, grade, school, email, role) => {
+	return fetch(BASE_URL + '/api/kpmt/editVolunteer', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			id: id,
+			name: name,
+			grade: grade,
+			school: school,
+			email: email,
+			role: role
 		}),
 		credentials: 'include'
 	})

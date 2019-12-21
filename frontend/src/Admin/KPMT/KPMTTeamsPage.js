@@ -487,7 +487,7 @@ export default class KPMTTeamsPage extends Component {
 					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeNewTeamModal} text="close" />
-						<Button onClick={this.saveTeam} text="save" />
+						<Button onClick={this.saveTeam} text="save" oneTime/>
 					</div>
 				</Modal>
 				<Modal
@@ -514,12 +514,14 @@ export default class KPMTTeamsPage extends Component {
 						<Button
 							onClick={this.deleteTeam}
 							text="delete"
+							needsConfirmation
+							oneTime
 							style={{ background: '#eb5757' }}
 						/>
 					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeTeamModal} text="close" />
-						<Button onClick={this.saveEditTeam} text="save" />
+						<Button onClick={this.saveEditTeam} text="save" oneTime />
 					</div>
 				</Modal>
 
@@ -552,7 +554,8 @@ export default class KPMTTeamsPage extends Component {
 								_id: team._id,
 								fields: [
 									team.number,
-									team.school.name,
+									
+									team.school ? team.school.name : "N/A",
 									team.competeGrade,
 									team.members
 										.reduce((a, b) => a + ', ' + b.name, '')

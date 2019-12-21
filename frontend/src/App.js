@@ -22,6 +22,7 @@ import KPMTPage from './Admin/KPMT/KPMTPage'
 import KPMTSchoolsPage from './Admin/KPMT/KPMTSchoolsPage'
 import KPMTTeamsPage from './Admin/KPMT/KPMTTeamsPage'
 import KPMTCompetitorsPage from './Admin/KPMT/KPMTCompetitorsPage'
+import KPMTVolunteersPage from './Admin/KPMT/KPMTVolunteersPage'
 import KPMTLoginPage from './Client/KPMT/KPMTLoginPage'
 import KPMTRegistrationPage from './Client/KPMT/KPMTRegistrationPage'
 import KPMTVolunteerRegistrationPage from './Client/KPMT/KPMTVolunteerRegistrationPage'
@@ -118,6 +119,7 @@ export default class App extends React.Component {
 					<Route exact path="/admin/kpmt" component={KPMTPage} />
 					<Route exact path="/admin/kpmt/schools" component={KPMTSchoolsPage} />
 					<Route exact path="/admin/kpmt/teams" component={KPMTTeamsPage} />
+					<Route exact path="/admin/kpmt/volunteers" component={KPMTVolunteersPage} />
 					<Route
 						exact
 						path="/admin/kpmt/competitors"

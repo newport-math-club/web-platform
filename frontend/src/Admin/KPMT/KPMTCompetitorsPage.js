@@ -88,8 +88,10 @@ export default class KPMTCompetitorsPage extends Component {
 	async componentDidMount() {
 		const competitorsResponse = await fetchKPMTCompetitors()
 
+
 		if (competitorsResponse.status === 200) {
 			const data = await competitorsResponse.json()
+			
 			this.setState({ competitors: data })
 		} else {
 			window.location.href = '/login'
@@ -445,13 +447,14 @@ export default class KPMTCompetitorsPage extends Component {
 							<Button
 								onClick={this.deleteIndividual}
 								text="delete"
+								needsConfirmation
 								style={{ background: '#eb5757' }}
 							/>
 						</div>
 					
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeCompetitorModal} text="close" />
-							<Button onClick={this.saveEditIndiv} text="save" />
+							<Button onClick={this.saveEditIndiv} oneTime text="save" />
 						
 					</div>
 				</Modal>
@@ -474,7 +477,7 @@ export default class KPMTCompetitorsPage extends Component {
 							placeholder="filter"
 							onTextChange={text => this.setState({ filter: text })}
 						/>
-						<Button text="new individual" onClick={this.openNewIndivModal} />
+						<Button text="new individual" onClick={this.openNewIndivModal}/>
 					</div>
 					<Table
 						headers={['Grade', 'Compete Grade', 'Individual', 'Name', 'School', 'Score']}
@@ -488,7 +491,7 @@ export default class KPMTCompetitorsPage extends Component {
 									competitor.competeGrade ? competitor.competeGrade : "N/A",
 									competitor.team ? "N" : "Y",
 									competitor.name,
-									competitor.school.name,
+									competitor.school ? competitor.school.name : "N/A",
 									competitor.scores.weighted
 								]
 							}

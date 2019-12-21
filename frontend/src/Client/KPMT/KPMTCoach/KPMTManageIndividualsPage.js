@@ -243,7 +243,7 @@ export default class KPMTManageIndividualsPage extends Component {
 					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeNewIndivModal} text="close" />
-						<Button onClick={this.saveIndiv} text="save" />
+						<Button onClick={this.saveIndiv} text="save" oneTime />
 					</div>
 				</Modal>
 				<Modal
@@ -268,12 +268,13 @@ export default class KPMTManageIndividualsPage extends Component {
 						<Button
 							onClick={this.deleteIndiv}
 							text="delete"
+							needsConfirmation
 							style={{ background: '#eb5757' }}
 						/>
 					</div>
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeIndivModal} text="close" />
-						<Button onClick={this.saveEditIndiv} text="save" />
+						<Button onClick={this.saveEditIndiv} text="save" oneTime/>
 					</div>
 				</Modal>
 

@@ -141,7 +141,10 @@ var SchoolSchema = new Schema(
 			type: String,
 			unique: true
 		},
-		coachEmail: String,
+		coachEmail: {
+			type: String,
+			unique: true
+		},
 		passHashed: String,
 		amountPaid: {
 			type: Number,

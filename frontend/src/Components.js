@@ -683,18 +683,75 @@ export class Button extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			loading: false
+			loading: false,
+			confirm: false,
+			disabled: false
 		}
+
+
+	}
+
+	handleClick = (e) => {
+		if (this.state.disabled){
+			console.log("disabled");
+			return
+		}
+
+		if (this.props.oneTime) {
+			if (this.props.needsConfirmation && this.state.confirm){
+				this.setState({disabled: true});
+				this.props.onClick(e);
+				return
+			}else if (!this.props.needsConfirmation) {
+				this.setState({disabled: true});
+				this.props.onClick(e);
+				return
+			}
+		}
+
+		if (this.props.needsConfirmation && !this.state.confirm) {
+			this.setState({confirm: true})
+			return
+		}else if (this.props.needsConfirmation && this.state.confirm) {
+			this.props.onClick(e);
+			return
+		}
+
+		this.props.onClick(e);
 	}
 
 	render() {
+		let style = this.props.style;
+		let className = 'button';
+		if (this.state.disabled){
+			className = 'disabled-button'
+		}
+
+		let button = <div
+		style={this.props.style}
+		onClick={(e) => {this.handleClick(e)}}
+		className={className}>
+		{this.props.text}
+
+	</div>;
+
+		if (this.props.needsConfirmation) {
+			button = <div
+		style={this.props.style}
+		onClick={(e) => {this.handleClick(e)}}
+		className={className}>
+		{this.props.text}
+	</div>;
+		}
+
 		return (
-			<div
-				style={this.props.style}
-				onClick={this.props.onClick}
-				className="button">
-				{this.props.text}
-			</div>
+			this.state.confirm ? <div ref = "btn"
+			style={this.props.style}
+			onClick={(e) => {this.handleClick(e)}}
+			className={className}>
+			{"are you sure?"}
+		</div> : button
+			
 		)
 	}
 }
