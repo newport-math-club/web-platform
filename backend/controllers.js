@@ -597,7 +597,7 @@ exports.clearMathClub = async (req, res) => {
 	}
 }
 
-exports.registerKPMT = (req, res) => {
+exports.registerKPMT = async (req, res) => {
 	if (registrationLock) return res.status(403).end()
 	var school = req.body.school
 	var coachName = req.body.coachName
