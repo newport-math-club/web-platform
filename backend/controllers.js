@@ -688,6 +688,8 @@ exports.registerVolunteerKPMT = async (req, res) => {
 		res.status(400).json({
 			"error" : "email already exists"
 		}).end()
+
+		return
 	}
 
 	// Generate random id for the dropout code
