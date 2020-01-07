@@ -43,6 +43,7 @@ import KPMTForgotPage from './Client/KPMT/KPMTForgotPage'
 import ResetPage from './Client/ResetPage'
 import KPMTResetPage from './Client/KPMT/KPMTResetPage'
 
+
 // eslint-disable-next-line
 String.prototype.isValidEmail = function() {
 	let re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/

@@ -237,8 +237,8 @@ module.exports = app => {
 		.get(nmcController.removeVolunteer)
 	app 
 		.route("/api/kpmt/editVolunteer")
-		.get(nmcMiddleware.verifyAdminSession)
-		.get(nmcController.editVolunteer)
+		.post(nmcMiddleware.verifyAdminSession)
+		.post(nmcController.editVolunteer)
 	app
 		.route('/api/kpmt/teams/')
 		.get(nmcMiddleware.verifyAdminSession)

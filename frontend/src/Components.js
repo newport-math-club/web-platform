@@ -59,6 +59,7 @@ export const getAdminNavItems = (itemIndex, subItemIndex) => {
 			{ name: 'teams', path: '/admin/kpmt/teams' },
 			{ name: 'competitors', path: '/admin/kpmt/competitors' },
 			{ name: 'data entry', path: '/admin/kpmt/entry' }
+			{ name: 'volunteers', path: '/admin/kpmt/volunteers' }
 		],
 		{ name: 'logout', path: '/logout', end: true }
 	]

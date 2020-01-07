@@ -1376,8 +1376,9 @@ exports.editVolunteer = async (req, res) => {
 	try {
 		const targetvolunteer = await Volunteers.findOne({ _id: id }).exec()
 
-		if (!targetVolunteer)
+		if (!targetVolunteer){
 			return res.status(404).end()
+		}
 		
 		var volunteerExists = await Volunteers.find({email: email});
 		if (email != targetVolunteer.email && volunteerExists.length > 0){

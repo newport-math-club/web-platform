@@ -162,7 +162,7 @@ export default class KPMTVolunteersPage extends Component {
 		const school = this.editSchoolRef.current.getText()
 		const role = this.editRoleRef.current.getText()
 		
-		if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace() || isNaN(grade) || grade.isOnlyWhitespace() || grade > 12 || grade < 9 || (role.toLowerCase() !== "proctor" && role.toLowerCase() !== "grader")) {
+		if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace() || isNaN(grade) || grade.isOnlyWhitespace() || grade > 12 || grade < 9 || (role.toLowerCase() !== "proctor" && role.toLowerCase() !== "grader" && role.toLowerCase() !== "runner")) {
 			this.setState({ error: 1 })
 			return
 		}
@@ -283,6 +283,7 @@ export default class KPMTVolunteersPage extends Component {
 							<Button
 								text="delete"
 								style={{ background: '#eb5757' }}
+								onClick = {this.deleteVol}
 							/>
 						</div>
 					
@@ -311,7 +312,6 @@ export default class KPMTVolunteersPage extends Component {
 							placeholder="filter"
 							onTextChange={text => this.setState({ filter: text })}
 						/>
-						<Button text="new volunteer" onClick={() => {}} />
 					</div>
 					<Table
 						headers={['Name', 'Grade', 'School', 'Role', 'Email']}
