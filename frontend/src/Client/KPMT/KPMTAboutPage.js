@@ -34,7 +34,7 @@ export default class KPMTAboutPage extends Component {
 					</p>
 
 					<p>
-						<b>2019 KPMT Date: Saturday March 7nd, 2020</b>
+						<b>2020 KPMT Date: Saturday March 7th, 2020</b>
 						<br />
 						<b>Registration Deadline: March 6th, 6 PM</b>
 					</p>

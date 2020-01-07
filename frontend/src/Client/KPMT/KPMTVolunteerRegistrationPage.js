@@ -37,7 +37,7 @@ export default class KPMTRegistrationPage extends Component {
 			return
         }
         
-        if (pRole.toLowerCase() != "proctor" && pRole.toLowerCase() != "grader")         {
+        if (pRole.toLowerCase() != "proctor" && pRole.toLowerCase() != "grader" && pRole.toLowerCase() != "runner")         {
             this.setState({ error: 2 })
 			return
         }
@@ -86,7 +86,7 @@ export default class KPMTRegistrationPage extends Component {
 						</h3>
 						
 						<p>
-							Thank you for volunteering! In the "preferred role" textbox, please type either "Proctor" or "Grader", exactly as shown. 
+							Thank you for volunteering! In the "preferred role" textbox, please type one of "Proctor", "Grader" or "Runner", exactly as shown. 
 						</p>
 						
 						<p>
@@ -132,7 +132,7 @@ export default class KPMTRegistrationPage extends Component {
 								)}
 								{this.state.error === 2 && (
 									<h5 style={{ marginTop: '8px' }}>
-                                        please type "Proctor" or "Grader"
+                                        please type "Proctor", "Grader" or "Runner"
 									</h5>
 								)}
 								{this.state.error === 3 && (

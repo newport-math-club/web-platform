@@ -677,7 +677,7 @@ exports.registerVolunteerKPMT = async (req, res) => {
 		return res.status(400).end()
 	}else if (isNaN(grade)){
 		return res.status(400).end()
-	}else if (preferredRole.toLowerCase() !== "proctor" && preferredRole.toLowerCase() !== "grader"){
+	}else if (preferredRole.toLowerCase() !== "proctor" && preferredRole.toLowerCase() !== "grader" && preferredRole.toLowerCase() !== "runner"){
 		return res.status(400).end()
 	}
 
@@ -1369,7 +1369,7 @@ exports.editVolunteer = async (req, res) => {
 	// We do it this way because the form can sometimes send a non-number value for competeGrade, and we only want that to flag a 400 if it actually applies
 	if (!validateInput(name, grade, role, email) || isNaN(grade) || grade > 12 || grade < 9)
 		return res.status(400).end()
-	else if (preferredRole.toLowerCase() !== "proctor" && preferredRole.toLowerCase() !== "grader"){
+	else if (preferredRole.toLowerCase() !== "proctor" && preferredRole.toLowerCase() !== "grader" && preferredRole.toLowerCase() != "runner"){
 			return res.status(400).end()
 		}
 
