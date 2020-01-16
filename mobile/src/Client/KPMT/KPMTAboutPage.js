@@ -26,7 +26,7 @@ export default class KPMTAboutPage extends Component {
 					</p>
 
 					<p>
-						<b>2019 KPMT Date: Saturday March 2nd, 2019</b>
+						<b>2019 KPMT Date: Saturday March 7th, 2020</b>
 					</p>
 
 					<a href="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/regpay.pdf">
@@ -69,10 +69,9 @@ export default class KPMTAboutPage extends Component {
 						school will be removed.
 					</p>
 
-					<h3>Fees and Deadlines</h3>
+					<h3>Fees</h3>
 					<p>
-						Registration Fee: $40/team, $15/individual, closes February 25th,
-						2019 (day before KPMT)
+						Registration Fee: $40/team, $15/individual
 					</p>
 
 					<a href="/kpmt/registration">

@@ -1,4 +1,5 @@
 const BASE_URL = 'https://api.newportmathclub.org'
+//const BASE_URL = "http://localhost:3000"
 
 exports.BASE_URL = BASE_URL
 
@@ -258,6 +259,38 @@ exports.registerKPMT = (school, coachName, coachEmail, password) => {
 			password: password
 		}),
 		credentials: 'include'
+	})
+}
+
+exports.registerVolunteerKPMT = (school, name, email, preferredRole, grade) => {
+	return fetch(BASE_URL + '/api/kpmt/register/volunteer', {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			school: school,
+			name: name,
+			email: email,
+			preferredRole: preferredRole,
+			grade: grade 
+		}),
+		credentials: 'include'
+	})
+}
+
+exports.dropoutVolunteerKPMT = (code) => {
+	return fetch(BASE_URL + "/api/kpmt/dropout/volunteer", {
+		method: "POST",
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			code: code
+		}),
+		credentials: "include"
 	})
 }
 

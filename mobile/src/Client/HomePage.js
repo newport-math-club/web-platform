@@ -14,7 +14,7 @@ export default class HomePage extends Component {
 						<br />
 						<br />
 						<a href="/kpmt">
-							<h4>Knights of Pi Math Tournament: March 2nd</h4>
+							<h4>Knights of Pi Math Tournament: March 7th</h4>
 						</a>
 					</div>
 				</div>

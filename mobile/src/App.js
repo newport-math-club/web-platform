@@ -18,6 +18,8 @@ import ProfilePage from './Client/ProfilePage'
 import LogoutPage from './Client/LogoutPage'
 import KPMTLoginPage from './Client/KPMT/KPMTLoginPage'
 import KPMTRegistrationPage from './Client/KPMT/KPMTRegistrationPage'
+import KPMTVolunteerRegistration from './Client/KPMT/KPMTVolunteerRegistration'
+import KPMTVolunteerDropoutPage from './Client/KPMT/KPMTVolunteerDropoutPage.js'
 
 String.prototype.isValidEmail = function() {
 	let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -44,6 +46,8 @@ export default class App extends React.Component {
 					<Route exact path="/kpmt" component={KPMTAboutPage} />
 					<Route exact path="/kpmt/past" component={KPMTPastPage} />
 					<Route exact path="/kpmt/contact" component={KPMTContactPage} />
+					<Route exact path='/kpmt/volunteer' component={KPMTVolunteerRegistration} />
+					<Route exact path='/kpmt/volunteer/dropout' component={KPMTVolunteerDropoutPage} />
 					<Route
 						exact
 						path="/kpmt/registration"
