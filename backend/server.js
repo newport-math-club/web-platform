@@ -108,7 +108,8 @@ app.use((req, res, next) => {
 		'http://localhost:3000',
 		'http://localhost:3001',
 		'https://newportmathclub.org',
-		'https://www.newportmathclub.org'
+		'https://www.newportmathclub.org',
+		'https://mobile.newportmathclub.org'
 	]
 	var origin = req.headers.origin
 

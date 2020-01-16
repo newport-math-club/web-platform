@@ -1343,7 +1343,7 @@ exports.removeVolunteer = async (req, res) => {
 
 	if (!id) return res.status(400).end()
 
-	const target = await Competitors.findOne({ _id: id }).exec()
+	const target = await Volunteers.findOne({ _id: id }).exec()
 
 	if (!target)
 		return res.status(404).end()

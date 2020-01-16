@@ -12,11 +12,8 @@ import SocketEventHandlers from '../../Sockets'
 import Autosuggest from 'react-autosuggest'
 import {
 	fetchKPMTVolunteers,
-	fetchKPMTSchools,
-	deleteKPMTIndiv,
 	addKPMTIndiv,
-	editKPMTVolunteer,
-	deleteVolunteer,
+	deleteVolunteerKPMT,
 	editVolunteerKPMT
 } from '../../nmc-api'
 import { NotificationContainer, NotificationManager } from 'react-notifications'
@@ -85,8 +82,8 @@ export default class KPMTVolunteersPage extends Component {
 	}
 
 	componentWillUnmount() {
-		SocketEventHandlers.unsubscribeVolunteersChange()
-		SocketEventHandlers.unsubscribeSchoolsChange()
+		//SocketEventHandlers.unsubscribeVolunteersChange()
+		//SocketEventHandlers.unsubscribeSchoolsChange()
 	}
 
 	async componentDidMount() {
@@ -123,7 +120,7 @@ export default class KPMTVolunteersPage extends Component {
 	
 
 	deleteVol = async () => {
-		const response = await deleteVolunteer(
+		const response = await deleteVolunteerKPMT(
 			this.state.selectedVolunteer._id.toString()
 		)
 		if (response.status === 200) {
@@ -156,6 +153,8 @@ export default class KPMTVolunteersPage extends Component {
 	}
 
 	saveEditIndiv = async () => {
+		console.log("Saving")
+		
 		const name = this.editNameRef.current.getText()
 		const grade = this.editGradeRef.current.getText().toString()
 		const email = this.editEmailRef.current.getText()
