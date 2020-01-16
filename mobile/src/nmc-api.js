@@ -1,5 +1,5 @@
-//const BASE_URL = 'https://api.newportmathclub.org'
-const BASE_URL = "http://localhost:3000"
+const BASE_URL = 'https://api.newportmathclub.org'
+//const BASE_URL = "http://localhost:3000"
 
 exports.BASE_URL = BASE_URL
 
