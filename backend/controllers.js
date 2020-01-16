@@ -669,6 +669,7 @@ exports.registerVolunteerKPMT = async (req, res) => {
 	var email = req.body.email
 	var preferredRole = req.body.preferredRole
 	var grade = req.body.grade 
+	var partner = req.body.partner
 
 	if (!validateInput(school, name, email))
 		return res.status(400).end()
@@ -678,6 +679,8 @@ exports.registerVolunteerKPMT = async (req, res) => {
 	}else if (isNaN(grade)){
 		return res.status(400).end()
 	}else if (preferredRole.toLowerCase() !== "proctor" && preferredRole.toLowerCase() !== "grader" && preferredRole.toLowerCase() !== "runner"){
+		return res.status(400).end()
+	}else if (preferredRole.toLowerCase() === "proctor" && (!partner || !validateInput(partner) || partner.split(" ").length < 2)) {
 		return res.status(400).end()
 	}
 
@@ -701,7 +704,8 @@ exports.registerVolunteerKPMT = async (req, res) => {
 		school: school,
 		preferredRole: preferredRole.toLowerCase(),
 		email: email,
-		dropoutCode: dropoutCode
+		dropoutCode: dropoutCode,
+		partner: partner
 	})
 
 	try {
@@ -713,7 +717,7 @@ exports.registerVolunteerKPMT = async (req, res) => {
 		var subject = `KPMT Volunteering`
 		var content = new helper.Content(
 			'text/plain',
-			`Thank you ${name} for registering as a volunteer for KPMT! Please make sure your information is correct: NAME: ${name}, GRADE: ${grade}, SCHOOL: ${school}, PREFERRED ROLE: ${preferredRole.toLowerCase()}. If any of these are incorrect, or you no longer want to volunteer, you may cancel your registration by going to this link: https://newportmathclub.org/kpmt/volunteer/dropout/${dropoutCode}. If that doesn't work visit https://newportmathclub.org/kpmt/volunteer/dropout and input: ${dropoutCode} into the dropout code field.`
+			`Thank you ${name} for registering as a volunteer for KPMT! Please make sure your information is correct: NAME: ${name}, GRADE: ${grade}, SCHOOL: ${school}, PREFERRED ROLE: ${preferredRole.toLowerCase()}, PARTNER: ${partner}. If any of these are incorrect, or you no longer want to volunteer, you may cancel your registration by going to this link: https://newportmathclub.org/kpmt/volunteer/dropout/${dropoutCode}. If that doesn't work visit https://newportmathclub.org/kpmt/volunteer/dropout and input: ${dropoutCode} into the dropout code field.`
 		)
 		var mail = new helper.Mail(fromEmail, subject, toEmail, content)
 

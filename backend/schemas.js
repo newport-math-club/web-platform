@@ -128,7 +128,8 @@ var VolunteerSchema = new Schema({
 	school: String,
 	preferredRole: String,
 	role: String,
-	dropoutCode: String
+	dropoutCode: String,
+	partner: String
 }, {
 	collection: "volunteers"
 })
