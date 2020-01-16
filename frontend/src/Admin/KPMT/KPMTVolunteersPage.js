@@ -113,7 +113,6 @@ export default class KPMTVolunteersPage extends Component {
 	closeVolunteerModal = () => {
 		this.setState({
 			volunteerDialogIsOpen: false,
-			selectedVolunteer: null,
 			error: undefined
 		})
 	}
@@ -123,8 +122,11 @@ export default class KPMTVolunteersPage extends Component {
 		const response = await deleteVolunteerKPMT(
 			this.state.selectedVolunteer._id.toString()
 		)
+		console.log(response);
 		if (response.status === 200) {
 			this.closeVolunteerModal()
+			window.location.href = '/admin/kpmt/volunteers'
+
 		}
 	}
 
@@ -160,6 +162,7 @@ export default class KPMTVolunteersPage extends Component {
 		const email = this.editEmailRef.current.getText()
 		const school = this.editSchoolRef.current.getText()
 		const role = this.editRoleRef.current.getText()
+		const partner = this.editPartnerRef.current.getTExt()
 		
 		if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace() || isNaN(grade) || grade.isOnlyWhitespace() || grade > 12 || grade < 9 || (role.toLowerCase() !== "proctor" && role.toLowerCase() !== "grader" && role.toLowerCase() !== "runner")) {
 			this.setState({ error: 1 })
@@ -172,7 +175,8 @@ export default class KPMTVolunteersPage extends Component {
 			grade,
 			school,
 			email,
-			role
+			role,
+			partner
 		)
 
 		if (response.status === 200) {
@@ -238,27 +242,7 @@ export default class KPMTVolunteersPage extends Component {
 
 		return (
 			<div className="fullheight">
-				<Modal
-					isOpen={this.state.newIndivDialogIsOpen}
-					style={customStyles}
-					contentLabel="New Individual">
-					<h2>New Individual</h2>
-
-					
-					<div style={{ textAlign: 'center' }}>
-						{(this.state.error === 1 || this.state.error === 400) && (
-							<h5 style={{ marginTop: '8px' }}>
-								invalid inputs, please try again
-							</h5>
-						)}
-					</div>
-
-					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
-						<Button onClick={this.closeNewIndivModal} text="close" />
-						<Button onClick={this.saveIndiv} text="save" />
-					</div>
-				</Modal>
-
+				
 				<Modal
 					isOpen={this.state.volunteerDialogIsOpen}
 					style={customStyles}

@@ -1352,11 +1352,14 @@ exports.removeVolunteer = async (req, res) => {
 	if (!target)
 		return res.status(404).end()
 	
-		Volunteers.remove({
-			_id: id
-		}, err => {
-			if (err) return res.status(500).end()
-		})
+	Volunteers.remove({
+		_id: id
+	}, err => {
+		if (err) return res.status(500).end()
+	})
+
+	res.status(200).end()
+
 }
 
 
