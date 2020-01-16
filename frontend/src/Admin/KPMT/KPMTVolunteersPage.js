@@ -313,7 +313,7 @@ export default class KPMTVolunteersPage extends Component {
 						/>
 					</div>
 					<Table
-						headers={['Name', 'Grade', 'School', 'Role', 'Email']}
+						headers={['Name', 'Grade', 'School', 'Role', 'Email', 'Partner']}
 						filter={this.state.filter}
 						onItemClick={this.openVolunteerModal}
 						data={this.state.volunteers.slice().map(volunteer => {
@@ -325,6 +325,7 @@ export default class KPMTVolunteersPage extends Component {
 									volunteer.school,
 									volunteer.preferredRole,
 									volunteer.email,
+									volunteer.partner ? volunteer.partner : "N/A"
 								]
 							}
 						})}

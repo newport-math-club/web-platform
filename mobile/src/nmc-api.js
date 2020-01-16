@@ -262,7 +262,7 @@ exports.registerKPMT = (school, coachName, coachEmail, password) => {
 	})
 }
 
-exports.registerVolunteerKPMT = (school, name, email, preferredRole, grade) => {
+exports.registerVolunteerKPMT = (school, name, email, preferredRole, grade, partner) => {
 	return fetch(BASE_URL + '/api/kpmt/register/volunteer', {
 		method: 'POST',
 		headers: {
@@ -274,7 +274,8 @@ exports.registerVolunteerKPMT = (school, name, email, preferredRole, grade) => {
 			name: name,
 			email: email,
 			preferredRole: preferredRole,
-			grade: grade 
+			grade: grade ,
+			partner: partner
 		}),
 		credentials: 'include'
 	})

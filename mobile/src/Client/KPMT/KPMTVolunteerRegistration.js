@@ -8,14 +8,16 @@ export default class KPMTVolunteerRegistration extends Component {
 		this.state = {
 			error: null, // 1: empty/whitespace inputs, 2: passwords dont match
 			understood: false,
-			success: false
+            success: false,
+            currentRole: "",
 		}
 
 		this.nameTextbox = React.createRef()
 		this.schoolTextbox = React.createRef()
 		this.gradeTextBox = React.createRef()
 		this.emailTextBox = React.createRef()
-		this.roleTextBox = React.createRef()
+        this.roleTextBox = React.createRef()
+        this.partnerTextBox = React.createRef()
 	}
 
 	handleRegister = async () => {
@@ -25,7 +27,9 @@ export default class KPMTVolunteerRegistration extends Component {
 		const school = this.schoolTextbox.current.getText()
 		const email = this.emailTextBox.current.getText()
 		const grade = this.gradeTextBox.current.getText()
-		const role = this.roleTextBox.current.getText()
+        const role = this.roleTextBox.current.getText()
+        const partner = this.partnerTextBox.current.getText()
+
 
 		if (
 			name.isOnlyWhitespace() ||
@@ -43,8 +47,13 @@ export default class KPMTVolunteerRegistration extends Component {
             return
         }
 
+        if (role.toLowerCase() === "proctor" && (!partner || partner.split(" ").length < 2)){
+			this.setState({error : 4})
+			return
+		}
 
-        const response = await registerVolunteerKPMT(school, name, email, role, grade);
+
+        const response = await registerVolunteerKPMT(school, name, email, role, grade, partner);
 
 		if (response.status === 200) {
 			this.setState({ error: -1 })
@@ -59,7 +68,14 @@ export default class KPMTVolunteerRegistration extends Component {
 		} else {
 			this.setState({ error: response.status })
 		}
-	}
+    }
+    
+    roleChange = async(e) => {
+        console.log(e.target.value);
+        this.setState({
+            currentRole: e.target.value
+        })
+    }
 
 	render() {
 		return (
@@ -79,7 +95,7 @@ export default class KPMTVolunteerRegistration extends Component {
 							IMPORTANT: Please read the following!
 						</h3>
 						<p>
-							Thank you for volunteering! In the "preferred role" textbox, please type one of "Proctor", "Grader" or "Runner", exactly as shown. 
+                            Thank you for volunteering! In the "preferred role" textbox, please type one of "Proctor", "Grader" or "Runner" (without the quotes), exactly as shown. If you are registering as a proctor, please enter a person you would like to partner with (first AND last name).
 						</p>
 						
 						<p>
@@ -112,8 +128,16 @@ export default class KPMTVolunteerRegistration extends Component {
 							<Textbox
 								ref={this.roleTextBox}
 								type="text"
-								placeholder="preferred role"
+                                placeholder="preferred role"
+                                onChange = {this.roleChange}
 							/>
+                            <Textbox
+								ref={this.partnerTextBox}
+								type="text"
+                                placeholder="partner (first AND last name)"
+                                disabled = {this.state.currentRole.toLowerCase() !== "proctor"}
+							/>
+                            
 							<div style={{ textAlign: 'center' }}>
 								{(this.state.error === 1 || this.state.error === 400) && (
 									<h5 style={{ marginTop: '8px' }}>
@@ -131,6 +155,11 @@ export default class KPMTVolunteerRegistration extends Component {
                                         you have already registered under this email!
                                     </h5>
                                 )}
+                                {this.state.error === 4 && (
+									<h5 style = {{marginTop: '8px'}}>
+										if you are a proctor please enter your partner's first AND last name.
+									</h5>
+								)}
 								{this.state.error === 403 && (
 									<h5 style={{ marginTop: '8px' }}>
 										sorry, registration is closed at this time :(

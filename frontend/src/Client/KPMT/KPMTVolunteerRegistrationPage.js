@@ -8,7 +8,8 @@ export default class KPMTRegistrationPage extends Component {
 		this.state = {
 			error: null, // 1: empty/whitespace inputs, 2: passwords dont match
 			understood: false,
-			success: false
+			success: false,
+			currentRole: "",
 		}
 
 		this.schoolTextbox = React.createRef()
@@ -16,6 +17,7 @@ export default class KPMTRegistrationPage extends Component {
         this.emailTextBox = React.createRef()
         this.pRoleTextBox = React.createRef()
 		this.gradeTextBox = React.createRef()
+		this.partnerTextBox = React.createRef()
 	}
 
 	handleRegister = async () => {
@@ -25,7 +27,8 @@ export default class KPMTRegistrationPage extends Component {
 		const school = this.schoolTextbox.current.getText()
         const email = this.emailTextBox.current.getText()
         const pRole = this.pRoleTextBox.current.getText()
-        const grade = this.gradeTextBox.current.getText()
+		const grade = this.gradeTextBox.current.getText()
+		const partner = this.partnerTextBox.current.getText()
 		
 		if (
 			name.isOnlyWhitespace() ||
@@ -40,9 +43,14 @@ export default class KPMTRegistrationPage extends Component {
         if (pRole.toLowerCase() != "proctor" && pRole.toLowerCase() != "grader" && pRole.toLowerCase() != "runner")         {
             this.setState({ error: 2 })
 			return
-        }
+		}
+		
+		if (pRole.toLowerCase() === "proctor" && (!partner || partner.split(" ").length < 2)){
+			this.setState({error : 4})
+			return
+		}
 
-		const response = await registerVolunteerKPMT(school, name, email, pRole, grade);
+		const response = await registerVolunteerKPMT(school, name, email, pRole, grade, partner);
 
 		if (response.status === 200) {
 			this.setState({ error: -1 })
@@ -50,13 +58,20 @@ export default class KPMTRegistrationPage extends Component {
 			this.schoolTextbox.current.clear()
 			this.emailTextBox.current.clear()
             this.pRoleTextBox.current.clear()
-            this.gradeTextBox.current.clear()
+			this.gradeTextBox.current.clear()
+			this.partnerTextBox.current.clear()
 			
 		} else if ((await response.json()).error === "email already exists") {
 			this.setState({error : 3 })
 		} else {
 			this.setState({ error: response.status })
 		}
+	}
+
+	roleChange = async (e) => {
+		this.setState( {
+			currentRole: e.target.value
+		})
 	}
 
 	render() {
@@ -86,7 +101,7 @@ export default class KPMTRegistrationPage extends Component {
 						</h3>
 						
 						<p>
-							Thank you for volunteering! In the "preferred role" textbox, please type one of "Proctor", "Grader" or "Runner", exactly as shown. 
+							Thank you for volunteering! In the "preferred role" textbox, please type one of "Proctor", "Grader" or "Runner" (without the quotes), exactly as shown. If you are registering as a proctor, please enter a person you would like to partner with (first AND last name).
 						</p>
 						
 						<p>
@@ -120,6 +135,13 @@ export default class KPMTRegistrationPage extends Component {
 								ref={this.pRoleTextBox}
 								type="text"
 								placeholder="preferred role"
+								onChange = {this.roleChange}
+							/>
+							<Textbox
+								ref={this.partnerTextBox}
+								type="text"
+								placeholder="partner (first AND last name)"
+								disabled = {this.state.currentRole.toLowerCase() !== "proctor"}
 							/>
                             
 							
@@ -138,6 +160,11 @@ export default class KPMTRegistrationPage extends Component {
 								{this.state.error === 3 && (
 									<h5 style = {{marginTop: '8px'}}>
 										you have already registered under this email!
+									</h5>
+								)}
+								{this.state.error === 4 && (
+									<h5 style = {{marginTop: '8px'}}>
+										if you are a proctor please enter your partner's first AND last name.
 									</h5>
 								)}
 								{this.state.error === 403 && (

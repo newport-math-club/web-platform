@@ -479,8 +479,10 @@ export class Textbox extends Component {
 				value={this.state.text}
 				onChange={e => {
 					this.setState({ text: e.target.value })
-					if (this.props.onTextChange) this.props.onTextChange(e.target.value)
+					if (this.props.onTextChange) this.props.onTextChange(e.target.value);
+					if (this.props.onChange) this.props.onChange(e);
 				}}
+				disabled = {this.props.disabled}
 			/>
 		)
 	}
