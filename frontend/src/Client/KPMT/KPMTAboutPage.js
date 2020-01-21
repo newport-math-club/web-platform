@@ -39,6 +39,8 @@ export default class KPMTAboutPage extends Component {
 						<b>Registration Deadline: March 6th, 6 PM</b>
 					</p>
 
+					<h2 style = {{paddingTop: '1em'}}>NOTICE: Registration/payment instructions document has been updated as of Jan. 17, 2020</h2> 
+
 					<a href="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/regpay.pdf">
 						<h3>Detailed registration and payment instructions</h3>
 					</a>
