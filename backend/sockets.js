@@ -142,5 +142,25 @@ module.exports = {
 			type: type,
 			payload: payload
 		})
+	},
+	onVolunteersChange: (type, payload) => {
+		/**
+		 * type: String; 'add', 'remove', or 'edit'
+		 * payload: Object/String
+		 *    if 'add': entire competitor object
+		 *    if 'remove': competitor id to remove 
+		 *    if 'edit': {
+		 *      _id: id,
+		 *      data: [{
+		 *      field: String, e.g. 'name' or 'scores'
+		 *      value: new value OR object (in the case of scores)
+		 *      },  ...]
+		 *    }
+		 */
+
+		io.to('admin').emit('volunteersChange', {
+			type: type,
+			payload: payload
+		})
 	}
 }

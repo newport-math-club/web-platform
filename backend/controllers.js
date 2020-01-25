@@ -1358,6 +1358,8 @@ exports.removeVolunteer = async (req, res) => {
 		if (err) return res.status(500).end()
 	})
 
+	sockets.onCompetitorsChange('remove', id);
+
 	res.status(200).end()
 
 }
@@ -1371,6 +1373,7 @@ exports.editVolunteer = async (req, res) => {
 	var grade = req.body.grade
 	var role =	req.body.role;
 	var email = req.body.email;
+	var partner = req.body.partner;
 
 	// Don't need to check competeGrade now.
 	// If the competitor is an individual (not associated to a team), then we can update the competeGrade, and we need to verify it
@@ -1378,12 +1381,17 @@ exports.editVolunteer = async (req, res) => {
 	// We do it this way because the form can sometimes send a non-number value for competeGrade, and we only want that to flag a 400 if it actually applies
 	if (!validateInput(name, grade, role, email) || isNaN(grade) || grade > 12 || grade < 9)
 		return res.status(400).end()
-	else if (preferredRole.toLowerCase() !== "proctor" && preferredRole.toLowerCase() !== "grader" && preferredRole.toLowerCase() != "runner"){
+	else if (role.toLowerCase() !== "proctor" && role.toLowerCase() !== "grader" && role.toLowerCase() != "runner"){
 			return res.status(400).end()
 		}
 
+	console.log(partner);
+	if (role.toLowerCase() !== "proctor") {
+		partner = "";
+	}
+
 	try {
-		const targetvolunteer = await Volunteers.findOne({ _id: id }).exec()
+		const targetVolunteer = await Volunteers.findOne({ _id: id }).exec()
 
 		if (!targetVolunteer){
 			return res.status(404).end()
@@ -1402,7 +1410,7 @@ exports.editVolunteer = async (req, res) => {
 
 		await Volunteers.updateOne(
 			{ _id: id },
-			{ $set: { name: name, grade: grade, role:role.toLowerCase(), email: email, school: school} }
+			{ $set: { name: name, grade: grade, preferredRole:role.toLowerCase(), email: email, school: school, partner: partner} }
 		).exec() 
 
 

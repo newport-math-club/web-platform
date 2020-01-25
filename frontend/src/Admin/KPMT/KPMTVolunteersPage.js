@@ -66,6 +66,7 @@ export default class KPMTVolunteersPage extends Component {
 		this.editSchoolRef = React.createRef()
 		this.editEmailRef = React.createRef()
 		this.editRoleRef = React.createRef()
+		this.editPartnerRef = React.createRef()
 	}
 
 	openNewIndivModal = () => {
@@ -162,7 +163,7 @@ export default class KPMTVolunteersPage extends Component {
 		const email = this.editEmailRef.current.getText()
 		const school = this.editSchoolRef.current.getText()
 		const role = this.editRoleRef.current.getText()
-		const partner = this.editPartnerRef.current.getTExt()
+		const partner = this.editPartnerRef.current.getText()
 		
 		if (isNaN(grade) || grade.isOnlyWhitespace() || name.isOnlyWhitespace() || isNaN(grade) || grade.isOnlyWhitespace() || grade > 12 || grade < 9 || (role.toLowerCase() !== "proctor" && role.toLowerCase() !== "grader" && role.toLowerCase() !== "runner")) {
 			this.setState({ error: 1 })
@@ -178,6 +179,8 @@ export default class KPMTVolunteersPage extends Component {
 			role,
 			partner
 		)
+		console.log("thello");
+		console.log(response.status);
 
 		if (response.status === 200) {
 			this.closeVolunteerModal()
@@ -236,6 +239,11 @@ export default class KPMTVolunteersPage extends Component {
 				text = {selectedVolunteer.preferredRole}
 				ref={this.editRoleRef}
 				placeholder="role"/>	
+				<Textbox
+				style={{ display: 'inline', width: '12em'}}
+				text = {selectedVolunteer.partner}
+				ref={this.editPartnerRef}
+				placeholder="partner"/>	
 				
 			</div>
 		)
@@ -272,7 +280,7 @@ export default class KPMTVolunteersPage extends Component {
 					
 					<div style={{ bottom: '1em', right: '1em', position: 'absolute' }}>
 						<Button onClick={this.closeVolunteerModal} text="close" />
-							<Button onClick={this.saveEditIndiv} text="save" />
+							<Button onClick={this.saveEditIndiv} text="save _" />
 						
 					</div>
 				</Modal>

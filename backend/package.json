@@ -1,13 +1,13 @@
 {
 	"name": "nmc-server",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "",
 	"main": "server.js",
 	"scripts": {
 		"start": "react-scripts start",
 		"restart": "pm2 restart nmc-backend"
 	},
-	"author": "Terrance Li & Sriram Thothatri",
+	"author": "Terrance Li & Sriram Thothatri & Nathan Yan",
 	"dependencies": {
 		"async": "^2.6.1",
 		"bcryptjs": "^2.4.3",

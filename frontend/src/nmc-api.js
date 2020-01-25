@@ -445,7 +445,7 @@ exports.deleteVolunteerKPMT = (id) => {
 	})
 }
 
-exports.editVolunteerKPMT = (id, name, grade, school, email, role) => {
+exports.editVolunteerKPMT = (id, name, grade, school, email, role, partner) => {
 	return fetch(BASE_URL + '/api/kpmt/editVolunteer', {
 		method: 'POST',
 		headers: {
@@ -458,7 +458,8 @@ exports.editVolunteerKPMT = (id, name, grade, school, email, role) => {
 			grade: grade,
 			school: school,
 			email: email,
-			role: role
+			role: role,
+			partner: partner
 		}),
 		credentials: 'include'
 	})
