@@ -107,6 +107,10 @@ export default class KPMTRegistrationPage extends Component {
 						<p>
 							If you no longer want to volunteer, or your incorrectly entered your information, you can drop out <a href = "/kpmt/volunteer/dropout">at this link</a>.
 						</p>
+
+						<p>
+							<b>The deadline for registration is February 29, 2020.</b>
+						</p>
 					</div>
 
 					{this.state.understood ? (
