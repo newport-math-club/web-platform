@@ -109,7 +109,7 @@ export default class KPMTRegistrationPage extends Component {
 						</p>
 
 						<p>
-							HERE IS THE VOLUNTEER SCHEDULE!!!! <a href = "https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/volsched.pdf">PLEASE CLICK ON ME!!!</a>
+							Here is more information about the volunteer schedule: <a href = "https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/volsched.pdf">Schedule</a>
 						</p>
 
 						<p>
