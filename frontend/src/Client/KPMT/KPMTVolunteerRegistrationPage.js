@@ -109,6 +109,10 @@ export default class KPMTRegistrationPage extends Component {
 						</p>
 
 						<p>
+							HERE IS THE VOLUNTEER SCHEDULE!!!! <a href = "https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/volsched.pdf">PLEASE CLICK ON ME!!!</a>
+						</p>
+
+						<p>
 							<b>The deadline for registration is February 29, 2020.</b>
 						</p>
 					</div>
