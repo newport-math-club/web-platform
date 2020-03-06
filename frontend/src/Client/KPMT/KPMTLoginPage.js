@@ -57,6 +57,10 @@ export default class KPMTLoginPage extends Component {
 					/>
 					<h2 style={{ paddingTop: '1em' }}>Coach Login</h2>
 					<p>
+						<h4 style = {{color: '#eb5757'}}>Due to COVID-19, KPMT is cancelled until further notice.</h4>
+						<h5 style = {{color: "#eb5757"}}>If we decide to reschedule KPMT to a later date, registered coaches will be notified through email. Please email if you have questions.</h5>
+					</p>
+					<p>
 						Registered coaches of active schools may login here to register and
 						manage their teams/individuals competing in KPMT. Remember, your
 						school must be activated by our team prior to logging in!
