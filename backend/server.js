@@ -108,6 +108,7 @@ app.use((req, res, next) => {
 		'http://localhost:3000',
 		'http://localhost:3001',
 		'https://newportmathclub.org',
+		'http://159.89.150.152',
 		'https://www.newportmathclub.org',
 		'https://mobile.newportmathclub.org'
 	]
