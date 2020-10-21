@@ -16,7 +16,7 @@ export default class HomePage extends Component {
 						<br />
 						<br />
 						<a href="/kpmt">
-							<h4>Due to COVID-19 KPMT is cancelled until further notice.</h4>
+							<h4>Due to COVID-19, KPMT is cancelled until further notice.</h4>
 							<h5 style = {{color: "#527aff"}}>If we decide to reschedule KPMT to a later date, registered coaches will be notified through email. Please email if you have questions.</h5>
 						</a>
 					</div>
