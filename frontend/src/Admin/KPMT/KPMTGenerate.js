@@ -757,7 +757,7 @@ const generateSalesReport = () => {
 			let numIndividuals =
 				s.competitors.length - s.teams.reduce((a, c) => a + c.members.length, 0)
 
-			let amountDue = numTeams * 40 + numIndividuals * 15
+			let amountDue = numTeams * 20 + numIndividuals * 5
 			let amountPaid = s.amountPaid
 
 			rows.push([s.name, numTeams, numIndividuals, amountDue, amountPaid])
