@@ -189,7 +189,7 @@ export default class KPMTDashboardPage extends Component {
 					<h3>
 						{this.state.profile.competitors.length} total student competitors
 					</h3>
-					<h3>Total Cost: ${numTeams * 20 + numIndivs * 15}</h3>
+					<h3>Total Cost: ${numTeams * 15 + numIndivs * 5}</h3>
 					{/* eslint-disable-next-line */}
 					<a href="#" onClick={this.openChangePasswordModal}>
 						<h3>Change your password</h3>

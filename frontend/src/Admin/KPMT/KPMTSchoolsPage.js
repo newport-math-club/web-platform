@@ -208,7 +208,7 @@ export default class KPMTSchoolsPage extends Component {
 		}
 
 		const amtRemaining =
-			selectedSchool.teams.length * 20 +
+			selectedSchool.teams.length * 15 +
 			5 *
 				(selectedSchool.competitors.length -
 					selectedSchool.teams.reduce((a, b) => a + b.members.length, 0)) -
@@ -237,7 +237,7 @@ export default class KPMTSchoolsPage extends Component {
 					<h3>
 						Amount Due/Amount Paid:
 						{' $'}
-						{selectedSchool.teams.length * 20 +
+						{selectedSchool.teams.length * 15 +
 							5 *
 								(selectedSchool.competitors.length -
 									selectedSchool.teams.reduce(

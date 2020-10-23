@@ -88,7 +88,7 @@ export default class KPMTAboutPage extends Component {
 
 					<h3>Fees and Deadlines</h3>
 					<p>
-						<b>Registration Fee: $20/team, $5/individual</b>
+						<b>Registration Fee: $15/team, $5/individual</b>
 					</p>
 					<p>
 						<b>

@@ -71,7 +71,7 @@ export default class KPMTAboutPage extends Component {
 
 					<h3>Fees</h3>
 					<p>
-						Registration Fee: $20/team, $5/individual
+						Registration Fee: $15/team, $5/individual
 					</p>
 
 					<a href="/kpmt/registration">
