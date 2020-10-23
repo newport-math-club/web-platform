@@ -8,35 +8,35 @@ export default class AboutPage extends Component {
 				<Nav admin={false} items={getNavItems(0)} />
 				<OfficerPane header="Officers">
 					<Bio
-						name="Axel Li"
+						name="Justin Chen"
 						title="President"
 						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/axel.png"
 						row={1}
 						column={1}
 					/>
 					<Bio
-						name="Justin Chen"
+						name="Alex Liu"
 						title="Vice President"
 						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/justin.png"
 						row={2}
 						column={1}
 					/>
 					<Bio
-						name="Candace Do"
+						name="Kevin Nam"
 						title="Secretary"
 						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/candace.png"
 						row={3}
 						column={1}
 					/>
 					<Bio
-						name="Luke Xie"
+						name="Jerry Jin"
 						title="Treasurer"
 						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/luke.png"
 						row={4}
 						column={1}
 					/>
 					<Bio
-						name="Nathan Yan"
+						name="Marcelo Shen"
 						title="Webmaster"
 						image="https://www.newportmathclub.org/assets/favicon.ico"
 						row={5}
@@ -50,13 +50,13 @@ export default class AboutPage extends Component {
 						column={1}
 					/>
 					<Bio
-						name="Alex Liu"
+						name="Ryan Zhang"
 						title="Shadow Officer"
 						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/alex.png"
 						row={7}
 						column={1}
 					/>
-					<Bio
+					{/* <Bio
 						name="Marcelo Shen"
 						title="Shadow Officer"
 						image="https://www.newportmathclub.org/assets/favicon.ico"
@@ -76,7 +76,7 @@ export default class AboutPage extends Component {
 						image="https://www.newportmathclub.org/assets/favicon.ico"
 						row={9}
 						column={1}
-					/>
+					/> */}
 					
 				</OfficerPane>
 

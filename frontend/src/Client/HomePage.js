@@ -16,8 +16,8 @@ export default class HomePage extends Component {
 						<br />
 						<br />
 						<a href="/kpmt">
-							<h4>Due to COVID-19, KPMT is cancelled until further notice.</h4>
-							<h5 style = {{color: "#527aff"}}>If we decide to reschedule KPMT to a later date, registered coaches will be notified through email. Please email if you have questions.</h5>
+							<h4>Knight of Pi Math Tournament is on December 12th this year!</h4>
+							<h5 style = {{color: "#527aff"}}>This is likely our final decision. However, if we decide to reschedule KPMT to a later date, registered coaches will be notified through email. Please email if you have questions.</h5>
 						</a>
 					</div>
 				</div>
