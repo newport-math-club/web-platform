@@ -56,21 +56,21 @@ export default class AboutPage extends Component {
 						row={7}
 						column={1}
 					/>
-					{/* <Bio
-						name="Marcelo Shen"
+					<Bio
+						name="Jeenah Gwak"
 						title="Shadow Officer"
 						image="https://www.newportmathclub.org/assets/favicon.ico"
 						row={8}
 						column={1}
 					/>
 					<Bio
-						name="Minseok Park"
+						name="Minghan Sun"
 						title="Shadow Officer"
 						image="https://www.newportmathclub.org/assets/favicon.ico"
 						row={9}
 						column={1}
 					/>
-					<Bio
+					{/* <Bio
 						name="Kevin Nam"
 						title="Shadow Officer"
 						image="https://www.newportmathclub.org/assets/favicon.ico"
@@ -89,6 +89,7 @@ export default class AboutPage extends Component {
 						paddingRight: '4em',
 						overflowY: 'auto'
 					}}>
+					<h1>WEBSITE UNDER CONSTRUCTION! (KPMT registration is operating)</h1>
 					<h2>Mission</h2>
 					<p>
 						Our goal is to provide a positive environment to develop

@@ -41,7 +41,7 @@ export default class KPMTAboutPage extends Component {
 					<p>
 						<b>2020 KPMT Date: December 12th</b>
 						<br />
-						<b>Registration Deadline: February 29th, 6 PM</b>
+						<b>Registration Deadline: December 5th, 6 PM</b>
 					</p>
 
 					<h2 style = {{paddingTop: '1em'}}>NOTICE: Registration/payment instructions document has been updated as of Jan. 17, 2020</h2> 
@@ -92,7 +92,7 @@ export default class KPMTAboutPage extends Component {
 					</p>
 					<p>
 						<b>
-							Registration and modifications close February 29, 2020 at 6 PM.
+							Registration and modifications close December 5th, 2020 at 6 PM.
 						</b>{' '}
 						We allow competitors to switch teams at the registration table on
 						the day of, but no new teams or individuals may be added after this

@@ -113,7 +113,7 @@ export default class KPMTRegistrationPage extends Component {
 						</p>
 
 						<p>
-							<b>The deadline for registration is February 29, 2020.</b>
+							<b>The deadline for registration is December 5th, 2020.</b>
 						</p>
 					</div>
 
