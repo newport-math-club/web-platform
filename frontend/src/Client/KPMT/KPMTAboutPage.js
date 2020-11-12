@@ -45,8 +45,14 @@ export default class KPMTAboutPage extends Component {
 					</p>
 
 					<h2 style = {{paddingTop: '1em'}}>NOTICE: Registration/payment instructions document has been updated as of Jan. 17, 2020</h2> 
+					
+					<a href="https://youtu.be/WUrMGa5KeII">
+						<h3>Detailed registration instructions</h3>
+					</a>
 
-					<a href="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/regpay.pdf">
+					<br />
+
+{/* 					<a href="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/regpay.pdf">
 						<h3>Detailed registration and payment instructions</h3>
 					</a>
 
@@ -72,7 +78,7 @@ export default class KPMTAboutPage extends Component {
 
 					<a href="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/faq.pdf">
 						<h3>Frequently asked questions</h3>
-					</a>
+					</a> */}
 
 					<br />
 

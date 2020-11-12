@@ -4,7 +4,7 @@ import { Nav, getNavItems } from '../../Components'
 export default class KPMTPastPage extends Component {
 	render() {
 		let pastTestsData = [
-			{
+/* 			{
 				href:
 					'https://newport-math-club.nyc3.digitaloceanspaces.com/past-kpmt/kpmt2018-19.zip',
 				name: 'KPMT 2018-19'
@@ -52,7 +52,7 @@ export default class KPMTPastPage extends Component {
 				href:
 					'https://newport-math-club.nyc3.digitaloceanspaces.com/past-kpmt/kpmt2009-10.zip',
 				name: 'KPMT 2009-10'
-			}
+			} */
 		]
 		let pastTests = pastTestsData.map(pastTest => {
 			return (
@@ -84,16 +84,18 @@ export default class KPMTPastPage extends Component {
 						paddingRight: '4em',
 						overflowY: 'auto'
 					}}>
-					<img
+					{/* <img
 						alt="kpmt-banner"
 						style={{ width: '100%' }}
 						src="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmtbanner.png"
-					/>
+					/> */}
 					<h2 style={{ paddingTop: '1em' }}>Past Papers</h2>
 					<p>
-						You can find archives of previous tests here. Every year has a
+						{/* You can find archives of previous tests here. Every year has a
 						downloadable compressed .zip folder containing every test from that
-						year.
+						year. */}
+						A turnado has blown away all our documents! We are working on recollecting them.
+						It is going to take a while... But soon!
 					</p>
 
 					{pastTests.length > 0 ? pastTests : nothingMsg}
