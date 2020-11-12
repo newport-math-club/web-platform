@@ -50,7 +50,7 @@ export default class VolunteerDropout extends Component {
 						overflowY: 'auto',
 						textAlign: 'center'
 					}}>
-					<h1>we're sad to see you leave! :( </h1>
+{/* 					<h1>we're sad to see you leave! :( </h1>
                     <h5>enter the dropout code which was sent to you in your volunteer email</h5>
 					<Textbox ref={this.dropoutCodeBox} type="text" placeholder="dropout code" text = {this.props.match.params.dropout} />
 					<Button onClick={this.handlePassResetRequest} text="dropout" />
@@ -64,7 +64,8 @@ export default class VolunteerDropout extends Component {
 					)}
 					{this.state.status === -3 && (
 						<h5>something happened... please try again later!</h5>
-					)}
+					)} */}
+					<h2>How did you get here?</h2>
 				</div>
 			</div>
 		)

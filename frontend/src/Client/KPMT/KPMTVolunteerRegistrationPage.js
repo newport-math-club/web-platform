@@ -89,6 +89,21 @@ export default class KPMTRegistrationPage extends Component {
 						paddingRight: '4em',
 						overflowY: 'auto'
 					}}>
+
+					<h2>Volunteer Registration</h2>	
+					<div style={{ textAlign: 'center', marginTop: '5em' }}>
+						<h3 style={{ color: '#eb5757' }}>
+							IMPORTANT: Please read the following!
+						</h3>
+						<p>
+							Thank you for volunteering! Due to the new format we are employing under the quarantine, we only offer volunteering opportinunity for "Proctors".
+						</p>
+						<p>
+							Please follow the instruction here: <a href = "https://forms.office.com/Pages/ResponsePage.aspx?id=OUFKmQZ8HkmAmHkAbVdd4MAqt61CK-ZLgkSRQr3Zq89UOUFDVEZHSDlUQzJMNERGN0kySkhWS0FQRC4u">Microsoft Form</a>
+						</p>
+					</div>
+					
+						{/* 
 					<img
 						alt="kpmt-banner"
 						style={{ width: '100%' }}
@@ -204,7 +219,7 @@ export default class KPMTRegistrationPage extends Component {
 								text="understood"
 							/>
 						</div>
-					)}
+					)} */}
 					
 				</div>
 				
