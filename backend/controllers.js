@@ -99,7 +99,7 @@ exports.forgotPass = async (req, res) => {
 	).exec()
 
 	const sgMail = require('@sendgrid/mail')
-	sgMail.setApiKey(process.env.SENDGRID)
+	sgMail.setApiKey("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")
 	const msg = {
 			  to: user.email, // Change to your recipient
 			  from: 'newportmathclub@gmail.com', // Change to your verified sender
@@ -175,7 +175,7 @@ exports.forgotKPMTPass = async (req, res) => {
 	).exec()
 
 	const sgMail = require('@sendgrid/mail')
-	sgMail.setApiKey(process.env.SENDGRID)
+	sgMail.setApiKey("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")
 	const msg = {
 			  to: user.email, // Change to your recipient
 			  from: 'newportmathclub@gmail.com', // Change to your verified sender
@@ -628,7 +628,7 @@ exports.registerKPMT = async (req, res) => {
 			res.status(200).end()
 
 			const sgMail = require('@sendgrid/mail')
-			sgMail.setApiKey(process.env.SENDGRID)
+			sgMail.setApiKey("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")
 			const msg = {
 					to: "newportmathclub@gmail.com", // Change to your recipient
 					from: 'newportmathclub@gmail.com', // Change to your verified sender
@@ -706,7 +706,7 @@ exports.registerVolunteerKPMT = async (req, res) => {
 		let volunteer = await volunteerObject.save()
 
 		const sgMail = require('@sendgrid/mail')
-		sgMail.setApiKey(process.env.SENDGRID)
+		sgMail.setApiKey("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")
 		const msg = {
 				to: email, // Change to your recipient
 				from: 'newportmathclub@gmail.com', // Change to your verified sender
