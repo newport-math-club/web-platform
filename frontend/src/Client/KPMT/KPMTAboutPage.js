@@ -52,6 +52,36 @@ export default class KPMTAboutPage extends Component {
 
 					<br />
 
+					<a href="https://drive.google.com/file/d/1SpizncN3eCBj2etw5gLv1uoJmQB1o2J9/view?usp=sharing">
+						<h3>FAQ</h3>
+					</a>
+
+					<br />
+
+					<a href="https://drive.google.com/file/d/1_7V4tfMny9J1k3w0F9t6zyBFWEdcqXeP/view?usp=sharing">
+						<h3>Schedule</h3>
+					</a>
+
+					<br />
+
+					<a href="https://drive.google.com/file/d/1sgj3KzCLvrMrJlPx7t93xpmEUyZOxLhL/view?usp=sharing">
+						<h3>Registration and Payment</h3>
+					</a>
+
+					<br />
+					
+					<a href="https://drive.google.com/file/d/1GbmVIkScIuZH6fc3VdWz8Y2PfjCUx79A/view?usp=sharing">
+						<h3>Test Format, Scoring, Rules, and Guidelines</h3>
+					</a>
+
+					<br />
+
+{/* 					<a href="">
+						<h3>Schedule</h3>
+					</a>
+
+					<br /> */}
+
 {/* 					<a href="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/regpay.pdf">
 						<h3>Detailed registration and payment instructions</h3>
 					</a>
