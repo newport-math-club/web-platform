@@ -39,9 +39,9 @@ export default class KPMTAboutPage extends Component {
 					</p>
 
 					<p>
-						<b>2020 KPMT Date: December 12th</b>
+						<b>2020 KPMT Date: December 12th, 1:15 - 7:00 PM</b>
 						<br />
-						<b>Registration Deadline: December 5th, 6 PM</b>
+						<b>Registration Deadline: December 5th, 6:00 PM</b>
 					</p>
 
 					<h2 style = {{paddingTop: '1em'}}>NOTICE: Registration/payment instructions document has been updated as of Jan. 17, 2020</h2> 
