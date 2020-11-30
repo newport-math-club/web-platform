@@ -7,7 +7,6 @@ const async = require('async')
 const schemas = require('./schemas')
 const sockets = require('./sockets')
 const auth = require('./auth')
-const helper = require('sendgrid').mail
 const defaultPassword = 'newportmathclub'
 
 // mongoose models
@@ -99,32 +98,28 @@ exports.forgotPass = async (req, res) => {
 		{ $set: { passResetToken: token } }
 	).exec()
 
-	// send email
-	var fromEmail = new helper.Email('newportmathclub@gmail.com')
-	var toEmail = new helper.Email(user.email)
-	var subject = 'Newport Math Club Password Reset'
-	var content = new helper.Content(
-		'text/plain',
-		'Here is your password reset link: https://newportmathclub.org/reset?token=' +
-			token +
-			'\n\n If you did not request for a password reset, please ignore this email.'
-	)
-	var mail = new helper.Mail(fromEmail, subject, toEmail, content)
+	const sgMail = require('@sendgrid/mail')
+	sgMail.setApiKey("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")
+	const msg = {
+			  to: user.email, // Change to your recipient
+			  from: 'newportmathclub@gmail.com', // Change to your verified sender
+			  subject: 'Newport Math Club Password Reset',
+			  text: 'Here is your password reset link: https://newportmathclub.org/reset?token=' +
+			  token +
+			  '\n\n If you did not request for a password reset, please ignore this email.'
+	}
+	sgMail
+	  .send(msg)
+	  .then(() => {
+				  console.log('Email sent')
+				  res.status(200).end();
+				})
+	  .catch((error) => {
+				  console.error(error)
+				  res.status(500).end()
+				})
 
-	var sg = require('sendgrid')(process.env.SENDGRID)
-	var request = sg.emptyRequest({
-		method: 'POST',
-		path: '/v3/mail/send',
-		body: mail.toJSON()
-	})
-
-	sg.API(request, function(error, response) {
-		if (error) {
-			console.log('SendGrid error: ' + error)
-			res.status(500).end()
-		}
-		res.status(200).end()
-	})
+	
 }
 
 exports.resetForgotPass = async (req, res) => {
@@ -179,32 +174,28 @@ exports.forgotKPMTPass = async (req, res) => {
 		{ $set: { passResetToken: token } }
 	).exec()
 
-	// send email
-	var fromEmail = new helper.Email('newportmathclub@gmail.com')
-	var toEmail = new helper.Email(user.coachEmail)
-	var subject = 'KPMT Password Reset'
-	var content = new helper.Content(
-		'text/plain',
-		'Here is your password reset link: https://newportmathclub.org/kpmt/reset?token=' +
-			token +
-			'\n\n If you did not request for a password reset, please ignore this email.'
-	)
-	var mail = new helper.Mail(fromEmail, subject, toEmail, content)
+	const sgMail = require('@sendgrid/mail')
+	sgMail.setApiKey("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")
+	const msg = {
+			  to: user.email, // Change to your recipient
+			  from: 'newportmathclub@gmail.com', // Change to your verified sender
+			  subject: 'KPMT Password Reset',
+			  text: 'Here is your password reset link: https://newportmathclub.org/kpmt/reset?token=' +
+			  token +
+			  '\n\n If you did not request for a password reset, please ignore this email.'
+	}
+	sgMail
+	  .send(msg)
+	  .then(() => {
+				  console.log('Email sent')
+				  res.status(200).end();
+				})
+	  .catch((error) => {
+				  console.error(error)
+				  res.status(500).end()
+				})
 
-	var sg = require('sendgrid')(process.env.SENDGRID)
-	var request = sg.emptyRequest({
-		method: 'POST',
-		path: '/v3/mail/send',
-		body: mail.toJSON()
-	})
 
-	sg.API(request, function(error, response) {
-		if (error) {
-			console.log('SendGrid error: ' + error)
-			res.status(500).end()
-		}
-		res.status(200).end()
-	})
 }
 
 exports.resetKPMTForgotPass = async (req, res) => {
@@ -636,24 +627,27 @@ exports.registerKPMT = async (req, res) => {
 			sockets.onSchoolsChange('add', populatedSchool)
 			res.status(200).end()
 
-			// send email
-			var fromEmail = new helper.Email('newportmathclub@gmail.com')
-			var toEmail = new helper.Email('newportmathclub@gmail.com')
-			var subject = `Notification: ${school} has registered for KPMT`
-			var content = new helper.Content(
-				'text/plain',
-				`${school} has registered for KPMT.`
-			)
-			var mail = new helper.Mail(fromEmail, subject, toEmail, content)
+			const sgMail = require('@sendgrid/mail')
+			sgMail.setApiKey("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")
+			const msg = {
+					to: "newportmathclub@gmail.com", // Change to your recipient
+					from: 'newportmathclub@gmail.com', // Change to your verified sender
+					subject: `Notification: ${school} has registered for KPMT`,
+					text: `${school} has registered for KPMT`
+			}
+			sgMail
+			.send(msg)
+			.then(() => {
+						console.log('Email sent')
+						res.status(200).end();
+						})
+			.catch((error) => {
+						console.error(error)
+						res.status(500).end()
+						})
 
-			var sg = require('sendgrid')(process.env.SENDGRID)
-			var request = sg.emptyRequest({
-				method: 'POST',
-				path: '/v3/mail/send',
-				body: mail.toJSON()
-			})
 
-			sg.API(request, function(error, response) {})
+			
 		} catch (err) {
 			console.log(err)
 			res.status(500).end()
@@ -711,24 +705,27 @@ exports.registerVolunteerKPMT = async (req, res) => {
 	try {
 		let volunteer = await volunteerObject.save()
 
-		// send email
-		var fromEmail = new helper.Email('newportmathclub@gmail.com')
-		var toEmail = new helper.Email(email)
-		var subject = `KPMT Volunteering`
-		var content = new helper.Content(
-			'text/plain',
-			`Thank you ${name} for registering as a volunteer for KPMT! Please make sure your information is correct: NAME: ${name}, GRADE: ${grade}, SCHOOL: ${school}, PREFERRED ROLE: ${preferredRole.toLowerCase()}, PARTNER: ${partner}. If any of these are incorrect, or you no longer want to volunteer, you may cancel your registration by going to this link: https://newportmathclub.org/kpmt/volunteer/dropout/${dropoutCode}. If that doesn't work visit https://newportmathclub.org/kpmt/volunteer/dropout and input: ${dropoutCode} into the dropout code field.`
-		)
-		var mail = new helper.Mail(fromEmail, subject, toEmail, content)
+		const sgMail = require('@sendgrid/mail')
+		sgMail.setApiKey("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")
+		const msg = {
+				to: email, // Change to your recipient
+				from: 'newportmathclub@gmail.com', // Change to your verified sender
+				subject: 'KPMT Volunteering',
+				text: `Thank you ${name} for registering as a volunteer for KPMT! Please make sure your information is correct: NAME: ${name}, GRADE: ${grade}, SCHOOL: ${school}, PREFERRED ROLE: ${preferredRole.toLowerCase()}, PARTNER: ${partner}. If any of these are incorrect, or you no longer want to volunteer, you may cancel your registration by going to this link: https://newportmathclub.org/kpmt/volunteer/dropout/${dropoutCode}. If that doesn't work visit https://newportmathclub.org/kpmt/volunteer/dropout and input: ${dropoutCode} into the dropout code field.`
+		}
+		sgMail
+		.send(msg)
+		.then(() => {
+					console.log('Email sent')
+					res.status(200).end();
+					})
+		.catch((error) => {
+					console.error(error)
+					res.status(500).end()
+					})
 
-		var sg = require('sendgrid')(process.env.SENDGRID)
-		var request = sg.emptyRequest({
-			method: 'POST',
-			path: '/v3/mail/send',
-			body: mail.toJSON()
-		})
 
-		sg.API(request, function(error, response) {})
+		
 	} catch (err) {
 		console.log(err)
 		res.status(500).end()
