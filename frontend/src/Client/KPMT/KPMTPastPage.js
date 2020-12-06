@@ -99,8 +99,7 @@ export default class KPMTPastPage extends Component {
 						alt="kpmt-banner"
 						style={{  
 							display: 'block',
-							marginleft: 'auto',
-							marginright: 'auto',
+							marginleft: '25%',
 							width: '50%'
 						}}
 						src="https://drive.google.com/thumbnail?id=14Jqm11IYPGynrpenz9KfVolkPmjqoeNx"
