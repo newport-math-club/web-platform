@@ -97,6 +97,12 @@ export default class KPMTPastPage extends Component {
 					}}>
 					<img
 						alt="kpmt-banner"
+						style={{  
+							display: block;
+							margin-left: auto;
+							margin-right: auto;
+							width: 50%;
+						}}
 						src="https://drive.google.com/thumbnail?id=14Jqm11IYPGynrpenz9KfVolkPmjqoeNx"
 					/>
 					<h2 style={{ paddingTop: '1em' }}>Past Papers</h2>
