@@ -52,7 +52,6 @@ export default class KPMTLoginPage extends Component {
 					}}>
 					<img
 						alt="kpmt-banner"
-						style={{ width: '100%' }}
 						src="https://drive.google.com/thumbnail?id=14Jqm11IYPGynrpenz9KfVolkPmjqoeNx"
 					/>
 					<h2 style={{ paddingTop: '1em' }}>Coach Login</h2>
