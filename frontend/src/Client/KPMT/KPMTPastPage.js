@@ -97,9 +97,8 @@ export default class KPMTPastPage extends Component {
 					}}>
 					<img
 						alt="kpmt-banner"
-						style={{  
-							display: 'block',
-							marginleft: '25%',
+						style={{
+							width: '100%',
 						}}
 						src="https://drive.google.com/thumbnail?id=14Jqm11IYPGynrpenz9KfVolkPmjqoeNx"
 					/>
