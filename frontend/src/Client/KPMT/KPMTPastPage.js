@@ -4,35 +4,46 @@ import { Nav, getNavItems } from '../../Components'
 export default class KPMTPastPage extends Component {
 	render() {
 		let pastTestsData = [
-/* 			{
+			{
 				href:
-					'https://newport-math-club.nyc3.digitaloceanspaces.com/past-kpmt/kpmt2018-19.zip',
-				name: 'KPMT 2018-19'
+					'https://drive.google.com/drive/folders/1RFYUPB3WEQa5AxLhpm11EXbcfvUXYSXq?usp=sharing',
+				name: 'KPMT 2018-19 Tests'
 			},{
 				href:
-					'https://newport-math-club.nyc3.digitaloceanspaces.com/past-kpmt/kpmt2017-18.zip',
-				name: 'KPMT 2017-18'
+					'https://drive.google.com/drive/folders/1Lsg15wrUnfPlDqjs-E8jED8k6hFRTk4P?usp=sharing',
+				name: 'KPMT 2018-19 Keys'
 			},
 			{
 				href:
-					'https://newport-math-club.nyc3.digitaloceanspaces.com/past-kpmt/kpmt2016-17.zip',
-				name: 'KPMT 2016-17'
+					'https://drive.google.com/drive/folders/0Bzu8EHUvJs0xZjdXNDZ2eHJRcVE?usp=sharing',
+				name: 'KPMT 2016-17 Tests'
 			},
 			{
 				href:
-					'https://newport-math-club.nyc3.digitaloceanspaces.com/past-kpmt/kpmt2015-16.zip',
-				name: 'KPMT 2015-16'
+					'https://drive.google.com/drive/folders/0Bzu8EHUvJs0xanhHQXhJTncyalU?usp=sharing',
+				name: 'KPMT 2016-17 Keys'
 			},
 			{
 				href:
-					'https://newport-math-club.nyc3.digitaloceanspaces.com/past-kpmt/kpmt2014-15.zip',
+					'https://drive.google.com/drive/folders/0B0X3o4AqKeRPOWdvMkZiR1cyWVk?usp=sharing',
+				name: 'KPMT 2015-16 Tests'
+			},
+			{
+				href:
+					'https://drive.google.com/drive/folders/0B0X3o4AqKeRPU09pVkg3V0dRZUE?usp=sharing',
+				name: 'KPMT 2015-16 Keys'
+			},
+			{
+				href:
+					'https://drive.google.com/drive/folders/0Bzu8EHUvJs0xbjdlTkh6R25HX0E?usp=sharing',
 				name: 'KPMT 2014-15'
 			},
 			{
 				href:
-					'https://newport-math-club.nyc3.digitaloceanspaces.com/past-kpmt/kpmt2013-14.zip',
+					'https://drive.google.com/drive/folders/0Bzu8EHUvJs0xMGp2VE9WbjhlR0E?usp=sharing',
 				name: 'KPMT 2013-14'
-			},
+			}
+			/* ,
 			{
 				href:
 					'https://newport-math-club.nyc3.digitaloceanspaces.com/past-kpmt/kpmt2012-13.zip',
@@ -84,18 +95,16 @@ export default class KPMTPastPage extends Component {
 						paddingRight: '4em',
 						overflowY: 'auto'
 					}}>
-					{/* <img
+					<img
 						alt="kpmt-banner"
 						style={{ width: '100%' }}
-						src="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmtbanner.png"
-					/> */}
+						src="https://drive.google.com/thumbnail?id=14Jqm11IYPGynrpenz9KfVolkPmjqoeNx"
+					/>
 					<h2 style={{ paddingTop: '1em' }}>Past Papers</h2>
 					<p>
-						{/* You can find archives of previous tests here. Every year has a
-						downloadable compressed .zip folder containing every test from that
-						year. */}
-						A turnado has blown away all our documents! We are working on recollecting them.
-						It is going to take a while... But soon!
+						You can find archives of previous tests here. Every year has a
+						shared google drive folder containing every test from that
+						year. We are still in the process of recovering our tests.
 					</p>
 
 					{pastTests.length > 0 ? pastTests : nothingMsg}
