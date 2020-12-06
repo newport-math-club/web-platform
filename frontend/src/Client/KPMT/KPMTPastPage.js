@@ -100,7 +100,6 @@ export default class KPMTPastPage extends Component {
 						style={{  
 							display: 'block',
 							marginleft: '25%',
-							width: '50%'
 						}}
 						src="https://drive.google.com/thumbnail?id=14Jqm11IYPGynrpenz9KfVolkPmjqoeNx"
 					/>
