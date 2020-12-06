@@ -100,7 +100,7 @@ export default class KPMTPastPage extends Component {
 						style={{
 							width: '100%',
 						}}
-						src="https://drive.google.com/thumbnail?id=14Jqm11IYPGynrpenz9KfVolkPmjqoeNx"
+						src="https://drive.google.com/file/d/14Jqm11IYPGynrpenz9KfVolkPmjqoeNx/view?usp=sharing"
 					/>
 					<h2 style={{ paddingTop: '1em' }}>Past Papers</h2>
 					<p>
