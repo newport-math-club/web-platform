@@ -20,7 +20,7 @@ export default class KPMTContactPage extends Component {
 					<img
 						alt="kpmt-banner"
 						style={{ width: '100%' }}
-						src="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmtbanner.png"
+						src="https://drive.google.com/thumbnail?id=14Jqm11IYPGynrpenz9KfVolkPmjqoeNx"
 					/>
 					<h2 style={{ paddingTop: '1em' }}>Contact Us</h2>
 					<h3>Mailing Address</h3>
