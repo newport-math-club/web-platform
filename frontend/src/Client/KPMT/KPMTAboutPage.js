@@ -139,7 +139,7 @@ export default class KPMTAboutPage extends Component {
 						<h3>Register your school</h3>
 					</a>
 
-					<h2 style={{ paddingTop: '1em' }}>Sponsor</h2>
+					{/* <h2 style={{ paddingTop: '1em' }}>Sponsor</h2>
 					<a href="https://bellevue.aopsacademy.org/">
 						<img
 							style={{ width: '100%', marginTop: '1em' }}
@@ -154,7 +154,7 @@ export default class KPMTAboutPage extends Component {
 						</a>{' '}
 						this year! A representative will be speaking during KPMT, and they
 						will set up a booth to talk to interested parents and students.
-					</p>
+					</p> */}
 
 					<h2 style={{ paddingTop: '1em' }}>History</h2>
 
