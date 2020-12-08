@@ -10,28 +10,28 @@ export default class AboutPage extends Component {
 					<Bio
 						name="Justin Chen"
 						title="President"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/axel.png"
+						image="https://www.newportmathclub.org/assets/favicon.ico"
 						row={1}
 						column={1}
 					/>
 					<Bio
 						name="Alex Liu"
 						title="Vice President"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/justin.png"
+						image="https://www.newportmathclub.org/assets/favicon.ico"
 						row={2}
 						column={1}
 					/>
 					<Bio
 						name="Kevin Nam"
 						title="Secretary"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/candace.png"
+						image="https://www.newportmathclub.org/assets/favicon.ico"
 						row={3}
 						column={1}
 					/>
 					<Bio
 						name="Jerry Jin"
 						title="Treasurer"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/luke.png"
+						image="https://www.newportmathclub.org/assets/favicon.ico"
 						row={4}
 						column={1}
 					/>
@@ -52,7 +52,7 @@ export default class AboutPage extends Component {
 					<Bio
 						name="Ryan Zhang"
 						title="Shadow Officer"
-						image="https://newport-math-club.nyc3.digitaloceanspaces.com/officers/alex.png"
+						image="https://www.newportmathclub.org/assets/favicon.ico"
 						row={7}
 						column={1}
 					/>

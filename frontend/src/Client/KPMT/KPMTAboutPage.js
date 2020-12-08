@@ -28,7 +28,8 @@ export default class KPMTAboutPage extends Component {
 					<p>
 					
 						<h4 style = {{color: '#eb5757'}}>Knight of Pi Math Tournament is on December 12th this year!</h4>
-						<h5 style = {{color: "#eb5757"}}>This is likely our final decision. However, if we decide to reschedule KPMT to a later date, registered coaches will be notified through email. Please email if you have questions.</h5>
+						{/* <h5 style = {{color: "#eb5757"}}>This is likely our final decision. However, if we decide to reschedule KPMT to a later date,
+														 registered coaches will be notified through email. Please email if you have questions.</h5> */}
 					</p>
 					<p>
 						Welcome to Newport High School's Knights of Pi Math Tournament! This
@@ -46,7 +47,9 @@ export default class KPMTAboutPage extends Component {
 						<b>Registration Deadline: December 5th, 6:00 PM</b>
 					</p>
 
-					<h2 style = {{paddingTop: '1em'}}>NOTICE: Registration/payment instructions document has been updated as of Jan. 17, 2020</h2> 
+					<h2 style = {{paddingTop: '1em'}}>NOTICE: Registration/payment instructions document has been updated as of Nov. 30, 2020</h2> 
+
+					<br />
 					
 					<a href="https://youtu.be/WUrMGa5KeII">
 						<h3>Detailed registration instructions</h3>
