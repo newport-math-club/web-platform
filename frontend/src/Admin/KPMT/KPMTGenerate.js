@@ -267,7 +267,8 @@ const generateAssignments = (maxPeoplePerRoom = 16, maxTeamsPerRoom = 4) => {
 		let schools = await schoolsResponse.json()
 
 		// rooms are populated by order of distance from the library
-		const roomNumbers = [
+		// old code
+		/* const roomNumbers = [  
 			2124,
 			2123,
 			2122,
@@ -306,7 +307,7 @@ const generateAssignments = (maxPeoplePerRoom = 16, maxTeamsPerRoom = 4) => {
 			2110,
 			2112,
 			2111
-		]
+		] */
 
 		// const maxPeoplePerRoom = 16
 		// const maxTeamsPerRoom = 4
@@ -357,6 +358,22 @@ const generateAssignments = (maxPeoplePerRoom = 16, maxTeamsPerRoom = 4) => {
 		)
 		let teams56NumRooms = Math.ceil(teams56.length / maxTeamsPerRoom)
 		let teams78NumRooms = Math.ceil(teams78.length / maxTeamsPerRoom)
+
+		// new code
+		const roomNumbers = []
+		for (let i = 0; i < individuals56NumRooms; i++) {
+			roomNumbers.push("Individual 5/6, Room " + i)
+		}
+		for (let i = 0; i < individuals78NumRooms; i++) {
+			roomNumbers.push("Individual 7/8, Room " + i)
+		}
+		for (let i = 0; i < teams56NumRooms; i++) {
+			roomNumbers.push("Teams 5/6, Room " + i)
+		}
+		for (let i = 0; i < teams78NumRooms; i++) {
+			roomNumbers.push("Teams 7/8, Room " + i)
+		}
+
 
 		let rooms = roomNumbers.map(n => {
 			return {
