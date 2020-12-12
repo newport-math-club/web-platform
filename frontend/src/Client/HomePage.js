@@ -36,6 +36,12 @@ export default class HomePage extends Component {
 							</a>
 							{' '}for KPMT.
 						</h4>
+						<h4>
+							Here is the{' '}
+							<a href="https://youtu.be/tuAkEruJJF8">
+								KPMT YouTube LiveStream
+							</a>, prepare your popcorn and be ready!
+						</h4>
 					</div>
 				</div>
 			</div>
