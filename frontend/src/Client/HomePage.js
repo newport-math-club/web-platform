@@ -11,7 +11,7 @@ export default class HomePage extends Component {
 					style={{ width: 'calc(100% - 8em)' }}>
 					<div style = {{width: "50%"}}>
 						<h1>Mondays 4:00-5:00</h1>
-						<h5>Newport Math Club</h5>
+						<h5>Online at Teams</h5>
 						<h5>contact@newportmathclub.org</h5>
 						<br />
 						<br />
@@ -25,10 +25,16 @@ export default class HomePage extends Component {
 						<h4>Here is the{' '}
 							<a href="https://bit.ly/3oJW06r">
 								detailed schedule
-							</a>{' '}and the{' '}
+							</a>
+							, the{' '}
 							<a href="https://bit.ly/3oJW06r">
 								room assignment sheet
-							</a>{' '}for KPMT.
+							</a>
+							, and the{' '}
+							<a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSBol3HKDYzmJp9bTzcnd3XdVmGoDtmG1DOzkqS7227czxMY4jp6NK2kfRvbL57-QvfZlZDZcFSSJyb/pubhtml">
+								sheet of answer forms
+							</a>
+							{' '}for KPMT.
 						</h4>
 					</div>
 				</div>
