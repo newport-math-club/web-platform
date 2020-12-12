@@ -10,8 +10,8 @@ export default class HomePage extends Component {
 					className="fill-nav-remainder homepage"
 					style={{ width: 'calc(100% - 8em)' }}>
 					<div style = {{width: "50%"}}>
-						<h1>Fridays 3:35-4:30</h1>
-						<h5>Room 1106</h5>
+						<h1>Mondays 4:00-5:00</h1>
+						<h5>Newport Math Club</h5>
 						<h5>contact@newportmathclub.org</h5>
 						<br />
 						<br />
@@ -28,7 +28,7 @@ export default class HomePage extends Component {
 							</a>{' '}and the{' '}
 							<a href="https://bit.ly/3oJW06r">
 								room assignment sheet
-							</a>{' '}for today.
+							</a>{' '}for KPMT.
 						</h4>
 					</div>
 				</div>
