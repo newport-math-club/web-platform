@@ -27,7 +27,7 @@ export default class HomePage extends Component {
 								detailed schedule
 							</a>
 							, the{' '}
-							<a href="https://bit.ly/3oJW06r">
+							<a href="https://bit.ly/3a40X60">
 								room assignment sheet
 							</a>
 							, and the{' '}
