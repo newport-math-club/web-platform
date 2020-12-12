@@ -41,7 +41,7 @@ export default class HomePage extends Component {
 							Here is the{' '}
 							<a href="https://youtu.be/tuAkEruJJF8">
 								KPMT YouTube LiveStream
-							</a>, prepare your popcorn and be ready!
+							</a>, prepare your popcorn and be ready! (The link does not work with school computers)
 						</h4>
 					</div>
 				</div>
