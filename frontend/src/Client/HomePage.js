@@ -21,6 +21,15 @@ export default class HomePage extends Component {
 							However, if we decide to reschedule KPMT to a later date, registered coaches will be notified through email. 
 							Please email if you have questions.</h5> */}
 						</a>
+						<br />
+						<h4>Here is the{' '}
+							<a href="https://bit.ly/3oJW06r">
+								detailed schedule
+							</a>{' '}and the{' '}
+							<a href="https://bit.ly/3oJW06r">
+								room assignment sheet
+							</a>{' '}for today.
+						</h4>
 					</div>
 				</div>
 			</div>
