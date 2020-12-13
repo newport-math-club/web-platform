@@ -23,16 +23,12 @@ export default class HomePage extends Component {
 						</a>
 						<br />
 						<h4>Here is the{' '}
-							<a href="https://bit.ly/3oJW06r">
-								detailed schedule
+							<a href="https://forms.gle/Fp2uh41BBQ4UnSbJ9">
+								Individual Late Work Submission Form
 							</a>
-							, the{' '}
-							<a href="https://bit.ly/3a40X60">
-								room assignment sheet
-							</a>
-							, and the{' '}
-							<a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSBol3HKDYzmJp9bTzcnd3XdVmGoDtmG1DOzkqS7227czxMY4jp6NK2kfRvbL57-QvfZlZDZcFSSJyb/pubhtml">
-								sheet of answer forms
+							{' '}and the{' '}
+							<a href="https://forms.gle/MhvhPUbUyJdGru1L9">
+								Team Test Late Work Submission Form
 							</a>
 							{' '}for KPMT.
 						</h4>
@@ -40,8 +36,8 @@ export default class HomePage extends Component {
 						<h4>
 							Here is the{' '}
 							<a href="https://youtu.be/tuAkEruJJF8">
-								KPMT YouTube LiveStream
-							</a>, prepare your popcorn and be ready! (The link does not work with school computers)
+								KPMT YouTube LiveStream Playback
+							</a>! (The link does not work with school computers)
 						</h4>
 					</div>
 				</div>
