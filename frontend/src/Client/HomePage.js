@@ -16,16 +16,12 @@ export default class HomePage extends Component {
 						<br />
 						<br />
 						<a href="/kpmt">
-							<h4>Knight of Pi Math Tournament is on December 12th this year!</h4>
+							<h4>Thank you all for joining our annual math competition KPMT!</h4>
 							{/* <h5 style = {{color: "#527aff"}}>This is likely our final decision. 
 							However, if we decide to reschedule KPMT to a later date, registered coaches will be notified through email. 
 							Please email if you have questions.</h5> */}
 						</a>
 						<br />
-
-						<h3>
-							Thank you all for joining our annual math competition KPMT!
-						</h3>
 
 						<h4>Here is the{' '}
 							<a href="https://drive.google.com/drive/folders/1YL6AEdBAuWUt8PSVg3XGOchTjhE9dixE?usp=sharing">

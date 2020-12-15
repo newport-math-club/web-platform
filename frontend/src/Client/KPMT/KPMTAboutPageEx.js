@@ -28,8 +28,9 @@ export default class KPMTAboutPage extends Component {
 					<p>
 					
 						<h4 style = {{color: '#eb5757'}}>The last Knight of Pi Math Tournament was on December 12th, 2020!</h4>
+						{/* <h5 style = {{color: "#eb5757"}}>This is likely our final decision. However, if we decide to reschedule KPMT to a later date,
+														 registered coaches will be notified through email. Please email if you have questions.</h5> */}
 					</p>
-
 					<p>
 						Welcome to Newport High School's Knights of Pi Math Tournament! This
 						exciting and challenging math contest for students in grades 5-8 is
@@ -39,6 +40,127 @@ export default class KPMTAboutPage extends Component {
 						to demonstrate what they have learned throughout the year. If you
 						have any questions about the competition, feel free to let us know.
 					</p>
+
+					<p>
+						<b>2020 KPMT Date: December 12th, 1:15 - 7:00 PM</b>
+						<br />
+						<b>Registration Deadline: December 5th, 6:00 PM</b>
+					</p>
+
+					<h2 style = {{paddingTop: '1em'}}>NOTICE: Registration/payment instructions document has been updated as of Nov. 30, 2020</h2> 
+
+					<br />
+					
+					<a href="https://youtu.be/WUrMGa5KeII">
+						<h3>Detailed registration instructions</h3>
+					</a>
+
+					<br />
+
+					<a href="https://drive.google.com/file/d/1SpizncN3eCBj2etw5gLv1uoJmQB1o2J9/view?usp=sharing">
+						<h3>FAQ</h3>
+					</a>
+
+					<br />
+
+					<a href="https://drive.google.com/file/d/1_7V4tfMny9J1k3w0F9t6zyBFWEdcqXeP/view?usp=sharing">
+						<h3>Schedule</h3>
+					</a>
+
+					<br />
+
+					<a href="https://drive.google.com/file/d/1sgj3KzCLvrMrJlPx7t93xpmEUyZOxLhL/view?usp=sharing">
+						<h3>Registration and Payment</h3>
+					</a>
+
+					<br />
+					
+					<a href="https://drive.google.com/file/d/1GbmVIkScIuZH6fc3VdWz8Y2PfjCUx79A/view?usp=sharing">
+						<h3>Test Format, Scoring, Rules, and Guidelines</h3>
+					</a>
+
+					<br />
+
+{/* 					<a href="">
+						<h3>Schedule</h3>
+					</a>
+
+					<br /> */}
+
+{/* 					<a href="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/regpay.pdf">
+						<h3>Detailed registration and payment instructions</h3>
+					</a>
+
+					<br />
+
+					<a href="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/rules.pdf">
+						<h3>Detailed competition rules and guidelines</h3>
+					</a>
+
+					<br />
+
+					<a href="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/scoring.pdf">
+						<h3>Test format and scoring specifications</h3>
+					</a>
+
+					<br />
+
+					<a href="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/schedule.pdf">
+						<h3>Official schedule of events</h3>
+					</a>
+
+					<br />
+
+					<a href="https://newport-math-club.nyc3.digitaloceanspaces.com/kpmt-docs/faq.pdf">
+						<h3>Frequently asked questions</h3>
+					</a> */}
+
+					<br />
+
+					<h2>Registration</h2>
+					<p>
+						Registration is carried out <b>PER SCHOOL</b>. Please coordinate
+						with all teams in your school, and have a <b>single</b> coach
+						register the entire school. We will not approve duplicate schools.
+						Unless unique circumstances arise, we will only accept the first
+						registration of a school; other coaches that register the same
+						school will be removed.
+					</p>
+
+					<h3>Fees and Deadlines</h3>
+					<p>
+						<b>Registration Fee: $15/team, $5/individual</b>
+					</p>
+					<p>
+						<b>
+							Registration and modifications close December 5th, 2020 at 6 PM.
+						</b>{' '}
+						We allow competitors to switch teams at the registration table on
+						the day of, but no new teams or individuals may be added after this
+						deadline.
+					</p>
+
+					<a href="/kpmt/registration">
+						<h3>Register your school</h3>
+					</a>
+
+					{/* <h2 style={{ paddingTop: '1em' }}>Sponsor</h2>
+					<a href="https://bellevue.aopsacademy.org/">
+						<img
+							style={{ width: '100%', marginTop: '1em' }}
+							src="https://bellevue.aopsacademy.org/assets/images/logos/aops-academy-bellevue.svg"
+							alt="kpmt-banner"
+						/>
+					</a>
+					<p>
+						We are honored to be sponsored by{' '}
+						<a href="https://bellevue.aopsacademy.org/">
+							AoPS Academy Bellevue
+						</a>{' '}
+						this year! A representative will be speaking during KPMT, and they
+						will set up a booth to talk to interested parents and students.
+					</p> */}
+
 
 
 					<h2 style={{ paddingTop: '1em' }}>History</h2>
