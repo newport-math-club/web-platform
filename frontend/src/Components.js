@@ -26,8 +26,7 @@ export const getNavItems = (itemIndex, subItemIndex) => {
 		],
 		[
 			{ name: 'kpmt', path: '/kpmt' },
-			// { name: 'about', path: '/kpmt' },
-			// the above cause website to break 
+			{ name: 'about', path: '/kpmt' },
 			// { name: 'registration', path: '/kpmt/registration' },
 			// { name: 'volunteer', path: '/kpmt/volunteer' },
 			{ name: 'past tests & results', path: '/kpmt/past' },
@@ -43,6 +42,7 @@ export const getNavItems = (itemIndex, subItemIndex) => {
 	if (item instanceof Array) {
 		item[0].highlight = true
 		item[subItemIndex].highlight = true
+		console.log(subItemIndex)
 	} else {
 		item.highlight = true
 	}
