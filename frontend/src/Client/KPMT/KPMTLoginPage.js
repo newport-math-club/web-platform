@@ -38,7 +38,7 @@ export default class KPMTLoginPage extends Component {
 	render() {
 		return (
 			<div className="fullheight">
-				<Nav admin={false} items={getNavItems(3, 5)} />
+				<Nav admin={false} items={getNavItems(3, 4)} />
 
 				<div
 					style={{

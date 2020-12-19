@@ -5,7 +5,7 @@ export default class KPMTContactPage extends Component {
 	render() {
 		return (
 			<div className="fullheight">
-				<Nav admin={false} items={getNavItems(3, 4)} />
+				<Nav admin={false} items={getNavItems(3, 3)} />
 
 				<div
 					style={{

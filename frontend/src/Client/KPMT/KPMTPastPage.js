@@ -83,7 +83,7 @@ export default class KPMTPastPage extends Component {
 
 		return (
 			<div className="fullheight">
-				<Nav admin={false} items={getNavItems(3, 3)} />
+				<Nav admin={false} items={getNavItems(3, 2)} />
 
 				<div
 					style={{
