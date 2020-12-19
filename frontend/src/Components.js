@@ -40,7 +40,6 @@ export const getNavItems = (itemIndex, subItemIndex) => {
 	if (item instanceof Array) {
 		item[0].highlight = true
 		item[subItemIndex].highlight = true
-		console.log(subItemIndex)
 	} else {
 		item.highlight = true
 	}

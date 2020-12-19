@@ -322,7 +322,7 @@ export default class KPMTIndividualEntryPage extends Component {
 									{selectedIndividual.scores.individualLast}
 								</h3>
 								<h3>Block: {selectedIndividual.scores.block}</h3>
-								<h3>Mental: {selectedIndividual.scores.mental}</h3>
+								{/* <h3>Mental: {selectedIndividual.scores.mental}</h3> */}
 								<h3 style={{ color: '#527aff' }}>
 									Weighted: {selectedIndividual.scores.weighted}
 								</h3>
