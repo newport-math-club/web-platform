@@ -26,7 +26,8 @@ export const getNavItems = (itemIndex, subItemIndex) => {
 		],
 		[
 			{ name: 'kpmt', path: '/kpmt' },
-			{ name: 'about', path: '/kpmt' },
+			// { name: 'about', path: '/kpmt' },
+			// the above cause website to break 
 			// { name: 'registration', path: '/kpmt/registration' },
 			// { name: 'volunteer', path: '/kpmt/volunteer' },
 			{ name: 'past tests & results', path: '/kpmt/past' },

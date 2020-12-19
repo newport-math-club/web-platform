@@ -5,7 +5,7 @@ import { fetchKPMTCompetitors } from '../../../nmc-api'
 const individualLinksData = [
 	{ href: '/admin/kpmt/entry/individual', name: 'Individual Test' },
 	{ href: '/admin/kpmt/entry/block', name: 'Block Test' },
-	{ href: '/admin/kpmt/entry/mental', name: 'Mental Math Test' }
+	// { href: '/admin/kpmt/entry/mental', name: 'Mental Math Test' }
 ]
 
 const teamLinksData = [
