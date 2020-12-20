@@ -244,7 +244,7 @@ const generateScoreReportFull = () => {
 						'\t' +
 						t.school +
 						'\t' +
-						t.score +
+						t.scores +
 						'\n' +
 						members +
 						'\n\n',
@@ -266,7 +266,7 @@ const generateScoreReportFull = () => {
 			})
 			gC.forEach((c, j) => {
 				dd.content.push({
-					text: c.place + ':\t' + c.school + '\t' + c.name + '\t' + c.score,
+					text: c.place + ':\t' + c.school + '\t' + c.name + '\t' + c.scores,
 					style: 'content'
 				})
 			})
