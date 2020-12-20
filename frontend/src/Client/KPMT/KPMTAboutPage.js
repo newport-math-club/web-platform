@@ -30,10 +30,14 @@ export default class KPMTAboutPage extends Component {
 						<h4 style = {{color: '#eb5757'}}>The last Knight of Pi Math Tournament was on December 12th, 2020!</h4>
 					</p>
 
-					{/* <a href="">
-						<h3>Test Result</h3>
-					</a> */}
-
+					<a href="https://drive.google.com/file/d/1BRQDr8gy9AGcBqJ1xO6Ulpu6cyiA0rx8/view?usp=sharing">
+						<h3>Top KPMT Teams and Individuals</h3>
+					</a>
+					<br/>
+					<a href="https://drive.google.com/file/d/1air5hjttguTR3Maa8_qwjsd_oaNRTsMy/view?usp=sharing">
+						<h3>All KPMT Score</h3>
+					</a>
+					<br/>
 					<p>
 						Welcome to Newport High School's Knights of Pi Math Tournament! This
 						exciting and challenging math contest for students in grades 5-8 is
