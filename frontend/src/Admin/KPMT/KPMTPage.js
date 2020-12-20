@@ -18,6 +18,7 @@ import moment from 'moment'
 import Modal from 'react-modal'
 import {
 	generateScoreReport,
+	generateScoreReportFull,
 	generateAssignments,
 	generateSalesReport
 } from './KPMTGenerate'
@@ -188,6 +189,12 @@ export default class KPMTPage extends Component {
 	generateScoreReport = async () => {
 		let timestamp = moment().format('YYYY-MM-DD')
 		let dd = await generateScoreReport()
+
+		pdfMake.createPdf(dd).download(`score-report-${timestamp}.pdf`)
+	}
+	generateScoreReportFull = async () => {
+		let timestamp = moment().format('YYYY-MM-DD')
+		let dd = await generateScoreReportFull()
 
 		pdfMake.createPdf(dd).download(`score-report-${timestamp}.pdf`)
 	}
@@ -375,7 +382,14 @@ export default class KPMTPage extends Component {
 							onClick={this.generateScoreReport}
 							name={'Generate Score Report'}
 						/>
-						<p>Generates a PDF score report</p>
+						<p>Generates a PDF for top score report</p>
+					</div>
+					<div>
+						<Link
+							onClick={this.generateScoreReportFull}
+							name={'Generate Full Score Report'}
+						/>
+						<p>Generates a PDF for full score report</p>
 					</div>
 					<div>
 						<Link

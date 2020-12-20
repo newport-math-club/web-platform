@@ -6,6 +6,7 @@ import {
 import imageString from './KPMTImage'
 import { max } from 'moment'
 
+
 const generateScoreReport = () => {
 	return new Promise(async (res, rej) => {
 		const teamResponse = await fetchKPMTTeams()
@@ -134,6 +135,138 @@ const generateScoreReport = () => {
 			gC.forEach((c, i) => {
 				dd.content.push({
 					text: c.place + ':\t' + c.school + '\t' + c.name,
+					style: 'content'
+				})
+			})
+			dd.content.push({ text: '\n', style: 'content' })
+		})
+
+		res(dd)
+	})
+}
+
+const generateScoreReportFull = () => {
+	return new Promise(async (res, rej) => {
+		const teamResponse = await fetchKPMTTeams()
+		const competitorResponse = await fetchKPMTCompetitors()
+
+		if (teamResponse.status !== 200 || competitorResponse.status !== 200) {
+			rej('Cannot fetch data')
+		}
+
+		// PARSE TEAMS
+		let teams = await teamResponse.json()
+
+		// Separate teams by grade
+		let teamsByGrade = [[], [], [], []]
+		teams.forEach(t => {
+			teamsByGrade[t.competeGrade - 5].push(t)
+		})
+
+		// For each grade...
+		teamsByGrade.forEach((_, i, arr) => {
+			// Sort by weighted score in decreasing order...
+			arr[i].sort((a, b) => b.scores.weighted - a.scores.weighted)
+
+			// And sanitize the obtest
+			arr[i] = arr[i].map((t, k) => {
+				t.school = t.school.name
+				t.place = k + 1
+				if (k > 0 && t.scores.weighted === arr[i][k - 1].scores.weighted) {
+					t.place = arr[i][k - 1].place
+				}
+				return t
+			})
+		})
+
+		// PARSE COMPETITORS
+		let competitors = await competitorResponse.json()
+
+		let competitorsByGrade = [[], [], [], []]
+
+		competitors.forEach(c => {
+			competitorsByGrade[c.competeGrade - 5].push(c)
+		})
+
+		competitorsByGrade.forEach((_, i, arr) => {
+			arr[i].sort((a, b) => b.scores.weighted - a.scores.weighted)
+			arr[i] = arr[i].map((c, k) => {
+				c.school = c.school.name
+				c.team = c.team ? c.team.number : null
+				c.place = k + 1
+				if (k > 0 && c.scores.weighted === arr[i][k - 1].scores.weighted) {
+					c.place = arr[i][k - 1].place
+				}
+				return c
+			})
+		})
+
+		let final = {
+			teams: teamsByGrade,
+			competitors: competitorsByGrade
+		}
+
+		let dd = {
+			content: [],
+			styles: {
+				header: {
+					fontSize: 24,
+					bold: true,
+					alignment: 'left'
+				},
+				subheader: {
+					fontSize: 16,
+					bold: true,
+					alignment: 'left'
+				},
+				content: {
+					fontSize: 14,
+					alignment: 'left'
+				}
+			}
+		}
+
+		dd.content.push({ text: 'Score Report: Teams', style: 'header' })
+		dd.content.push({ text: '\n', style: 'header' })
+
+		final.teams.forEach((gT, i) => {
+			dd.content.push({ text: i + 5 + 'th Grade Teams', style: 'subheader' })
+			gT.forEach((t, j) => {
+				let members = t.members
+					.reduce((a, c) => a + ', ' + c.name, '')
+					.substring(2)
+				dd.content.push({
+					text:
+						gT.length -
+						j +
+						':\t' +
+						t.number +
+						'\t' +
+						t.school +
+						'\t' +
+						t.score +
+						'\n' +
+						members +
+						'\n\n',
+					style: 'content'
+				})
+			})
+			dd.content.push({ text: '\n', style: 'content' })
+		})
+
+		dd.content.push({ text: '\n', pageBreak: 'after' })
+		dd.content.push({ text: 'Score Report: Individuals', style: 'header' })
+		dd.content.push({ text: '\n', style: 'header' })
+
+		final.competitors.forEach((gC, i) => {
+			// let assignedColumn = i <= 6 ? left : right
+			dd.content.push({
+				text: i + 5 + 'th Grade Individuals',
+				style: 'subheader'
+			})
+			gC.forEach((c, j) => {
+				dd.content.push({
+					text: c.place + ':\t' + c.school + '\t' + c.name + '\t' + c.score,
 					style: 'content'
 				})
 			})
@@ -799,6 +932,7 @@ const generateSalesReport = () => {
 
 export {
 	generateScoreReport,
+	generateScoreReportFull,
 	generateSchoolScoreReport,
 	generateAssignments,
 	generateSalesReport
