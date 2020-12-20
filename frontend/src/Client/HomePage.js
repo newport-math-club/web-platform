@@ -27,11 +27,7 @@ export default class HomePage extends Component {
 							<a href="https://drive.google.com/drive/folders/1YL6AEdBAuWUt8PSVg3XGOchTjhE9dixE?usp=sharing">
 								Answer Keys
 							</a>
-							, the{' '}
-							<a href="https://forms.gle/sFfCgtmF1WTKCbmT8">
-								Problem Challenge Form
-							</a>
-							, and the{' '}
+							{' '}and the{' '}
 							<a href="https://forms.gle/MVV6rwLrjRYvkp6i7">
 								Coach/Parent Feedback Form
 							</a>
