@@ -238,15 +238,15 @@ const generateScoreReportFull = () => {
 					.substring(2)
 				dd.content.push({
 					text:
-						gT.length -
-						j +
+						1 + j +
 						':\t' +
 						t.number +
 						'\t' +
 						t.school +
-						'\t' +
-						raw +
 						'\n' +
+						'Score (raw & weighted): ' +
+						raw +
+						'\t' +
 						t.scores.weighted +
 						'\n' +
 						members +
@@ -270,7 +270,7 @@ const generateScoreReportFull = () => {
 			gC.forEach((c, j) => {
 				let raw = c.scores.individual + c.scores.block / 3.0
 				dd.content.push({
-					text: c.place + ':\t' + c.school + '\t' + c.name + '\t' + raw + '\t' + c.scores.weighted,
+					text: c.place + ':\t' + c.school + '\t' + c.name + '\t\n' + 'Score (raw & weighted): ' + raw + '\t' + c.scores.weighted,
 					style: 'content'
 				})
 			})
