@@ -196,7 +196,7 @@ export default class KPMTPage extends Component {
 		let timestamp = moment().format('YYYY-MM-DD')
 		let dd = await generateScoreReportFull()
 
-		pdfMake.createPdf(dd).download(`score-report-${timestamp}.pdf`)
+		pdfMake.createPdf(dd).download(`score-full-report-${timestamp}.pdf`)
 	}
 
 	generateSalesReport = async () => {

@@ -499,7 +499,7 @@ export default class KPMTTeamsPage extends Component {
 					<h4>
 						Scores (A/G/P/W): {selectedTeam.scores.algebra}/
 						{selectedTeam.scores.geometry}/{selectedTeam.scores.probability}/
-						{selectedTeam.scores.weighted}
+						{selectedTeam.scores.raw}/{selectedTeam.scores.weighted}
 					</h4>
 					<div style={{ marginTop: '2em' }}>{memberTextboxes}</div>
 					<div style={{ textAlign: 'center' }}>

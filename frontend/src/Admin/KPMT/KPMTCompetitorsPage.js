@@ -480,7 +480,7 @@ export default class KPMTCompetitorsPage extends Component {
 						<Button text="new individual" onClick={this.openNewIndivModal}/>
 					</div>
 					<Table
-						headers={['Grade', 'Compete Grade', 'Individual', 'Name', 'School', 'Score']}
+						headers={['Grade', 'Compete Grade', 'Individual', 'Name', 'School', 'Raw Score', 'Score']}
 						filter={this.state.filter}
 						onItemClick={this.openCompetitorModal}
 						data={this.state.competitors.slice().map(competitor => {
@@ -492,6 +492,7 @@ export default class KPMTCompetitorsPage extends Component {
 									competitor.team ? "N" : "Y",
 									competitor.name,
 									competitor.school ? competitor.school.name : "N/A",
+									competitor.scores.raw,
 									competitor.scores.weighted
 								]
 							}
