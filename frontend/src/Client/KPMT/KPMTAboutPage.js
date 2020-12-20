@@ -38,6 +38,18 @@ export default class KPMTAboutPage extends Component {
 						<h3>All KPMT Score</h3>
 					</a>
 					<br/>
+					<a href="https://drive.google.com/drive/folders/1YL6AEdBAuWUt8PSVg3XGOchTjhE9dixE?usp=sharing">
+						<h3>Answer Keys</h3>
+					</a>
+					<br />
+					<a href="https://forms.gle/MVV6rwLrjRYvkp6i7">
+						<h3>Coach/Parent Feedback forms</h3>
+					</a>
+					<br />
+					<a href="https://youtu.be/tuAkEruJJF8">
+						<h3>KPMT YouTube LiveStream Playback</h3>
+					</a>
+					<br/>
 					<p>
 						Welcome to Newport High School's Knights of Pi Math Tournament! This
 						exciting and challenging math contest for students in grades 5-8 is
