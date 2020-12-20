@@ -42,7 +42,7 @@ export default class KPMTAboutPage extends Component {
 						for all involved and provide the highly motivated students a chance
 						to demonstrate what they have learned throughout the year. If you
 						have any questions about the competition, feel free to let us know.
-					</a>
+					</p>
 
 
 					<h2 style={{ paddingTop: '1em' }}>History</h2>
