@@ -268,7 +268,7 @@ const generateScoreReportFull = () => {
 				style: 'subheader'
 			})
 			gC.forEach((c, j) => {
-				let raw = c.scores.individual + scores.block / 3.0
+				let raw = c.scores.individual + c.scores.block / 3.0
 				dd.content.push({
 					text: c.place + ':\t' + c.school + '\t' + c.name + '\t' + raw + '\t' + c.scores.weighted,
 					style: 'content'

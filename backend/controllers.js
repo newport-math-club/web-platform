@@ -1706,7 +1706,7 @@ const calculateWeightedScore = async competitorId => {
 	var mental = competitor.scores.mental
 	var rawScore = indiv + block / 3.0
 	var weightedScore =
-		indiv + block / 3.0 + last / 100.0 + indiv / 10000.0
+		rawScore + last / 100.0 + indiv / 10000.0
 
 	await Competitors.updateOne(
 		{ _id: competitor._id },
@@ -1757,15 +1757,6 @@ const calculateWeightedScoreTeam = async teamId => {
 	var topThreeBlock = blockScores.slice(0, 3).reduce((total, num) => {
 		return total + num
 	})
-	var weightedScore =
-		algebra +
-		geometry +
-		probability +
-		2 * topThreeMental +
-		topThreeIndiv +
-		topThreeBlock/3.0 +
-		indivScores[indivScores.length - 1] / 100.0 +
-		blockScores[blockScores.length - 1] / 10000.0
 
 	var rawScore =
 		algebra +
@@ -1774,6 +1765,11 @@ const calculateWeightedScoreTeam = async teamId => {
 		2 * topThreeMental +
 		topThreeIndiv +
 		topThreeBlock/3.0
+
+	var weightedScore =
+	rawScore +
+	indivScores[indivScores.length - 1] / 100.0 +
+	blockScores[blockScores.length - 1] / 10000.0
 
 	await Teams.updateOne(
 		{ _id: teamId },
