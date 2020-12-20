@@ -232,6 +232,7 @@ const generateScoreReportFull = () => {
 		final.teams.forEach((gT, i) => {
 			dd.content.push({ text: i + 5 + 'th Grade Teams', style: 'subheader' })
 			gT.forEach((t, j) => {
+				let raw = t.scores.algebra + t.scores.geometry + t.scores.probability
 				let members = t.members
 					.reduce((a, c) => a + ', ' + c.name, '')
 					.substring(2)
@@ -244,7 +245,9 @@ const generateScoreReportFull = () => {
 						'\t' +
 						t.school +
 						'\t' +
-						t.scores.raw +
+						raw +
+						'\n' +
+						t.scores.weighted +
 						'\n' +
 						members +
 						'\n\n',
@@ -265,8 +268,9 @@ const generateScoreReportFull = () => {
 				style: 'subheader'
 			})
 			gC.forEach((c, j) => {
+				let raw = c.scores.individual + scores.block / 3.0
 				dd.content.push({
-					text: c.place + ':\t' + c.school + '\t' + c.name + '\t' + c.scores.raw,
+					text: c.place + ':\t' + c.school + '\t' + c.name + '\t' + raw + '\t' + c.scores.weighted,
 					style: 'content'
 				})
 			})
@@ -306,14 +310,13 @@ const generateSchoolScoreReport = school => {
 						// headers are automatically repeated if the table spans over multiple pages
 						// you can declare how many rows should be treated as headers
 						headerRows: 1,
-						widths: ['*', 'auto', 'auto', 'auto', 'auto', 'auto'],
+						widths: ['*', 'auto', 'auto', 'auto', 'auto'],
 						body: [
 							[
 								{ bold: true, text: 'Competitor' },
 								'Individual',
 								'Indiv. Last',
 								'Block',
-								'Raw',
 								'Weighted'
 							]
 						].concat(
@@ -322,7 +325,6 @@ const generateSchoolScoreReport = school => {
 								c.scores.individual,
 								c.scores.individualLast,
 								c.scores.block,
-								c.scores.raw,
 								c.scores.weighted
 							])
 						)
@@ -336,14 +338,13 @@ const generateSchoolScoreReport = school => {
 						// headers are automatically repeated if the table spans over multiple pages
 						// you can declare how many rows should be treated as headers
 						headerRows: 1,
-						widths: ['*', 'auto', 'auto', 'auto', 'auto', 'auto'],
+						widths: ['*', 'auto', 'auto', 'auto', 'auto'],
 						body: [
 							[
 								{ bold: true, text: 'Team' },
 								'Algebra',
 								'Geometry',
 								'PP',
-								'Raw',
 								'Weighted'
 							]
 						].concat(
@@ -352,7 +353,6 @@ const generateSchoolScoreReport = school => {
 								t.scores.algebra,
 								t.scores.geometry,
 								t.scores.probability,
-								t.scores.raw,
 								t.scores.weighted
 							])
 						)
