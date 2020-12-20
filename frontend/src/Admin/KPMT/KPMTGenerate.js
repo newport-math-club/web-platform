@@ -244,7 +244,7 @@ const generateScoreReportFull = () => {
 						'\t' +
 						t.school +
 						'\n' +
-						'Score (raw & weighted): ' +
+						'Score (raw, weighted): ' +
 						raw +
 						'\t' +
 						t.scores.weighted +
