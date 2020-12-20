@@ -244,7 +244,7 @@ const generateScoreReportFull = () => {
 						'\t' +
 						t.school +
 						'\t' +
-						t.scores +
+						t.scores.raw +
 						'\n' +
 						members +
 						'\n\n',
@@ -266,7 +266,7 @@ const generateScoreReportFull = () => {
 			})
 			gC.forEach((c, j) => {
 				dd.content.push({
-					text: c.place + ':\t' + c.school + '\t' + c.name + '\t' + c.scores,
+					text: c.place + ':\t' + c.school + '\t' + c.name + '\t' + c.scores.raw,
 					style: 'content'
 				})
 			})
@@ -313,7 +313,7 @@ const generateSchoolScoreReport = school => {
 								'Individual',
 								'Indiv. Last',
 								'Block',
-								'MM',
+								'Raw',
 								'Weighted'
 							]
 						].concat(
@@ -322,7 +322,7 @@ const generateSchoolScoreReport = school => {
 								c.scores.individual,
 								c.scores.individualLast,
 								c.scores.block,
-								c.scores.mental,
+								c.scores.raw,
 								c.scores.weighted
 							])
 						)
@@ -336,13 +336,14 @@ const generateSchoolScoreReport = school => {
 						// headers are automatically repeated if the table spans over multiple pages
 						// you can declare how many rows should be treated as headers
 						headerRows: 1,
-						widths: ['*', 'auto', 'auto', 'auto', 'auto'],
+						widths: ['*', 'auto', 'auto', 'auto', 'auto', 'auto'],
 						body: [
 							[
 								{ bold: true, text: 'Team' },
 								'Algebra',
 								'Geometry',
 								'PP',
+								'Raw',
 								'Weighted'
 							]
 						].concat(
@@ -351,6 +352,7 @@ const generateSchoolScoreReport = school => {
 								t.scores.algebra,
 								t.scores.geometry,
 								t.scores.probability,
+								t.scores.raw,
 								t.scores.weighted
 							])
 						)

@@ -1704,12 +1704,14 @@ const calculateWeightedScore = async competitorId => {
 	var last = competitor.scores.individualLast
 	var block = competitor.scores.block
 	var mental = competitor.scores.mental
+	var rawScore = indiv + block / 3.0
 	var weightedScore =
 		indiv + block / 3.0 + last / 100.0 + indiv / 10000.0
 
 	await Competitors.updateOne(
 		{ _id: competitor._id },
-		{ $set: { 'scores.weighted': weightedScore } }
+		{ $set: { 'scores.weighted': weightedScore } },
+		{ $set: { 'scores.raw': rawScore } }
 	)
 
 	// socket competitor change
@@ -1765,9 +1767,18 @@ const calculateWeightedScoreTeam = async teamId => {
 		indivScores[indivScores.length - 1] / 100.0 +
 		blockScores[blockScores.length - 1] / 10000.0
 
+	var rawScore =
+		algebra +
+		geometry +
+		probability +
+		2 * topThreeMental +
+		topThreeIndiv +
+		topThreeBlock/3.0
+
 	await Teams.updateOne(
 		{ _id: teamId },
-		{ $set: { 'scores.weighted': weightedScore } }
+		{ $set: { 'scores.weighted': weightedScore } },
+		{ $set: { 'scores.raw': rawScore } }
 	)
 
 	// socket team change
