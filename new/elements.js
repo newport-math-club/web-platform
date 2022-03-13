@@ -1,6 +1,7 @@
 // Navbar
 let links = {
-	"Home": "index.html"
+	"Home": "index.html",
+	"About": "about.html"
 };
 class NavBar extends HTMLUListElement {
 	constructor () {
@@ -21,3 +22,27 @@ class NavBar extends HTMLUListElement {
 	}
 }
 customElements.define("nav-bar", NavBar, {extends: "ul"});
+// Officer Bios
+class OfficerBio extends HTMLElement {
+	constructor () {
+		super();
+		// Get attributes
+		let name = this.getAttribute("name");
+		let title = this.getAttribute("title");
+		let image = this.getAttribute("image");
+		// Create bio
+		let imageContainer = document.createElement("img");
+		imageContainer.src = image;
+		imageContainer.alt = name;
+		this.append(imageContainer);
+		let text = document.createElement("div");
+		let nameContainer = document.createElement("h2");
+		nameContainer.textContent = name;
+		text.append(nameContainer);
+		let titleContainer = document.createElement("p");
+		titleContainer.textContent = title;
+		text.append(titleContainer);
+		this.append(text);
+	}
+}
+customElements.define("officer-bio", OfficerBio);

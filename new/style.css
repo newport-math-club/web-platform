@@ -1,3 +1,6 @@
+* {
+	box-sizing: border-box;
+}
 :root {
 	color-scheme: light dark;
 	--background-color: white;
@@ -14,7 +17,20 @@ body {
 	font: 20px var(--font-stack);
 }
 main {
-	margin: 0 100px;
+	float: left;
+	padding: 0 100px;
+}
+aside {
+	float: left;
+	width: 25%;
+	padding: 0 50px;
+}
+aside + main {
+	width: 75%;
+	padding: 0 50px;
+}
+h2:not(:first-of-type) {
+	margin-top: 2em;
 }
 a {
 	color: var(--primary-color);
@@ -24,4 +40,21 @@ a {
 a:hover, button:hover {
 	color: var(--secondary-color);
 	transition-duration: 0.2s;
+}
+/* Officer sidebar */
+officer-bio {
+	display: flex;
+	align-items: center;
+	margin: 0.5em 0;
+	font-size: 0.8em;
+}
+officer-bio img {
+	width: 5em;
+	height: 5em;
+}
+officer-bio div {
+	margin-left: 1em;
+}
+officer-bio h2, officer-bio p {
+	margin: 0.2em 0;
 }
