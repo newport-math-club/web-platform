@@ -1,0 +1,27 @@
+:root {
+	color-scheme: light dark;
+	--background-color: white;
+	--background-color-2: hsl(0, 0%, 95%);
+	--text-color: black;
+	--primary-color: red;
+	--secondary-color: rgb(88.07% 74.16% 0%); /* Gold with less luminance */
+	--font-stack: Avenir, "Century Gothic", "URW Gothic", sans-serif;
+}
+body {
+	margin: 0;
+	background-color: var(--background-color);
+	color: var(--text-color);
+	font: 20px var(--font-stack);
+}
+main {
+	margin: 0 100px;
+}
+a {
+	color: var(--primary-color);
+	font-weight: bold;
+	text-decoration: none;
+}
+a:hover, button:hover {
+	color: var(--secondary-color);
+	transition-duration: 0.2s;
+}
