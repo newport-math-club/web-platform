@@ -2,6 +2,7 @@
 let links = {
 	"Home": "index.html",
 	"About": "about.html",
+	"Contact": "contact.html",
 	"Events": "events.html",
 	"Resources": "resources.html"
 };
