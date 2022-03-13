@@ -1,3 +1,4 @@
+// Navbar
 let links = {
 	"Home": "index.html"
 };
