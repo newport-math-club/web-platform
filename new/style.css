@@ -57,7 +57,7 @@ a {
 }
 #navbar a {
 	display: block;
-	padding: 1em;
+	padding: 1em 0;
 }
 /* Officer sidebar */
 officer-bio {
