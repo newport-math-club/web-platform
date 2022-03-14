@@ -17,6 +17,9 @@ class NavBar extends HTMLUListElement {
 			link.href = path;
 			link.textContent = title;
 			linkContainer.append(link);
+			if (path === window.location.pathname.split("/").pop()) {
+				link.classList.add("active");
+			}
 			this.append(linkContainer);
 		}
 	}

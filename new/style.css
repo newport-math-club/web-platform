@@ -37,7 +37,7 @@ a {
 	font-weight: bold;
 	text-decoration: none;
 }
-a:hover, button:hover {
+#navbar a.active, a:hover, button:hover {
 	color: var(--secondary-color);
 	transition-duration: 0.2s;
 }
@@ -52,7 +52,7 @@ a:hover, button:hover {
 }
 #navbar li {
 	display: inline-block;
-	width: 10em;
+	width: 8em;
 	text-align: center;
 }
 #navbar a {
