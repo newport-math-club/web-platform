@@ -11,10 +11,6 @@ class NavBar extends HTMLUListElement {
 	constructor () {
 		super();
 		this.id = "navbar";
-		let stylesheet = document.createElement("link");
-		stylesheet.rel = "stylesheet";
-		stylesheet.href = "navbar.css";
-		this.append(stylesheet);
 		for (const [title, path] of Object.entries(links)) {
 			let linkContainer = document.createElement("li");
 			let link = document.createElement("a");
