@@ -93,6 +93,13 @@ officer-bio h2, officer-bio p {
 		width: 100%;
 		padding: 0 50px 50px;
 	}
+	#banner {
+		display: block;
+		max-width: calc(100% + 50px);
+		height: 168px; /* Height of banner image */
+		margin: 0 -25px;
+		object-fit: none;
+	}
 }
 @media (max-width: 640px) {
 	:root {
