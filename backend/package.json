@@ -1,0 +1,10 @@
+{
+	"name": "newport-math-club-backend",
+	"version": "0.0.1",
+	"description": "Backend for Newport Math Club",
+	"main": "server.js",
+	"author": "Ryan Zhang",
+	"dependencies": {
+		"express": "^4.16.2"
+	}
+}
