@@ -4,8 +4,9 @@ let links = {
 	"About": "about.html",
 	"Contact": "contact.html",
 	"Events": "events.html",
+	"Resources": "resources.html",
 	"KPMT": "kpmt.html",
-	"Resources": "resources.html"
+	"Register": "register.html"
 };
 class NavBar extends HTMLUListElement {
 	constructor () {

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en-US">
+	<head>
+		<title>Newport Math Club</title>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<ul is="nav-bar"></ul>
+		<main>
+			<img id="banner" alt="KPMT banner" src="banner.png"/>
+			<h1>Register Team</h1>
+			<form action="/api/register" method="POST">
+				<label for="team-name">Team Name:</label>
+				<input type="text" id="team-name" name="team-name"><br>
+				<label for="email">Contact Email:</label>
+				<input type="email" id="email" name="email"><br>
+				<button type="submit">Register Team</button>
+			</form>
+		</main>
+	</body>
+	<script src="elements.js"></script>
+</html>
