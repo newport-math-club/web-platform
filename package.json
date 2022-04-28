@@ -1,9 +1,0 @@
-{
-	"name": "newport-math-club-backend",
-	"version": "0.0.1",
-	"description": "Backend for Newport Math Club",
-	"author": "Ryan Zhang",
-	"scripts": {
-		"postinstall": "npm install --prefix ./backend"
-	}
-}
