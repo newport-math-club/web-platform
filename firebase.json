@@ -3,8 +3,15 @@
 		"rules": "firestore.rules",
 		"indexes": "firestore.indexes.json"
 	},
+	"functions": {
+		"source": "backend"
+	},
 	"hosting": {
 		"public": "frontend",
+		"rewrites": [{
+			"source": "/api/**",
+			"function": "api"
+		}],
 		"ignore": [
 			"firebase.json",
 			"**/.*",
