@@ -1,27 +1,26 @@
 {
-	"name": "nmc-server",
-	"version": "0.0.2",
-	"description": "",
-	"main": "server.js",
+	"name": "newport-math-club-backend",
+	"version": "0.2.1",
+	"description": "Backend for Newport Math Club",
+	"author": "Ryan Zhang",
 	"scripts": {
-		"start": "react-scripts start",
-		"restart": "pm2 restart nmc-backend"
+		"serve": "firebase emulators:start --only functions",
+		"shell": "firebase functions:shell",
+		"start": "npm run shell",
+		"deploy": "firebase deploy --only functions",
+		"logs": "firebase functions:log"
 	},
-	"author": "Terrance Li & Sriram Thothatri & Nathan Yan",
+	"engines": {
+		"node": "16"
+	},
+	"main": "index.js",
 	"dependencies": {
-		"async": "^3.2.2",
-		"bcryptjs": "^2.4.3",
-		"body-parser": "^1.18.2",
-		"compression": "^1.7.2",
-		"connect-mongo": "^2.0.1",
-		"cors": "^2.8.4",
-		"dotenv": "^6.1.0",
 		"express": "^4.16.2",
-		"express-session": "^1.15.6",
-		"mongoose": "^5.7.5",
-		"sendgrid": "^5.2.3",
-		"request": "^2.83.0",
-		"request-promise": "^4.2.2",
-		"socket.io": "^2.4.0"
-	}
+		"firebase-admin": "^10.0.2",
+		"firebase-functions": "^3.18.0"
+	},
+	"devDependencies": {
+		"firebase-functions-test": "^0.2.0"
+	},
+	"private": true
 }

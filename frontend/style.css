@@ -1,0 +1,111 @@
+* {
+	box-sizing: border-box;
+}
+:root {
+	color-scheme: light dark;
+	--background-color: white;
+	--background-color-2: hsl(0, 0%, 95%);
+	--text-color: black;
+	--primary-color: red;
+	--secondary-color: rgb(86.92% 69.97% 0%); /* Gold with less luminance */
+	--font-stack: Avenir, "Century Gothic", "URW Gothic", sans-serif;
+}
+body {
+	margin: 0;
+	background-color: var(--background-color);
+	color: var(--text-color);
+	font: 20px var(--font-stack);
+}
+main {
+	float: left;
+	padding: 0 clamp(100px, 8%, 200px);
+}
+aside {
+	float: left;
+	width: max(25%, 320px);
+	padding: 0 clamp(50px, 4%, 100px);
+}
+aside + main {
+	width: min(75%, 100% - 320px);
+	padding: 0 clamp(50px, 4%, 100px);
+}
+h2:not(h1 + h2) {
+	margin-top: 2em;
+}
+a {
+	color: var(--primary-color);
+	font-weight: bold;
+	text-decoration: none;
+}
+#navbar a.active, a:hover, button:hover {
+	color: var(--secondary-color);
+	transition-duration: 0.2s;
+}
+/* Navbar */
+#navbar {
+	overflow: hidden;
+	width: 100%;
+	margin: 40px 0;
+	background-color: var(--background-color-2);
+	color: var(--accent-color);
+	list-style-type: none;
+}
+#navbar li {
+	display: inline-block;
+	text-align: center;
+}
+#navbar a {
+	display: block;
+	padding: 1em 2em;
+}
+/* Officer sidebar */
+officer-bio {
+	display: flex;
+	align-items: center;
+	font-size: 0.8em;
+}
+officer-bio img {
+	width: 5em;
+	height: 5em;
+	margin: 0.5em 1em 0.5em 0;
+}
+officer-bio div h2 /* div selector for higher specificity */, officer-bio p {
+	margin: 0.25em 0;
+	line-height: 1.1;
+}
+@media (prefers-color-scheme: dark) {
+	:root {
+		--background-color: hsl(30, 20%, 10%);
+		--background-color-2: hsl(30, 15%, 15%);
+		--text-color: linen;
+	}
+}
+@media (max-width: 1080px) {
+	#navbar {
+		padding: 0;
+	}
+	#navbar li {
+		text-align: left;
+	}
+}
+@media (max-width: 800px) {
+	aside, main, aside + main {
+		width: 100%;
+		padding: 0 50px 50px;
+	}
+	#banner {
+		display: block;
+		max-width: calc(100% + 50px);
+		height: 168px; /* Height of banner image */
+		margin: 0 -25px;
+		object-fit: none;
+	}
+}
+@media (max-width: 640px) {
+	:root {
+		font-size: 15px;
+	}
+	#navbar li {
+		width: 50%;
+	}
+}
