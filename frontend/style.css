@@ -6,7 +6,7 @@
 	--background-color: white;
 	--background-color-2: hsl(0, 0%, 95%);
 	--text-color: black;
-	--primary-color: red;
+	--primary-color: #c76771;
 	--secondary-color: rgb(86.92% 69.97% 0%); /* Gold with less luminance */
 	--font-stack: Avenir, "Century Gothic", "URW Gothic", sans-serif;
 }
