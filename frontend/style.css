@@ -45,7 +45,7 @@ a {
 #navbar {
 	overflow: hidden;
 	width: 100%;
-	margin: 40px 0;
+	margin: 0px 0;
 	background-color: var(--background-color-2);
 	color: var(--accent-color);
 	list-style-type: none;
