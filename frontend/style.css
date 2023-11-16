@@ -4,9 +4,9 @@
 :root {
 	color-scheme: light dark;
 	--background-color: white;
-	--background-color-2: hsl(0, 0%, 95%);
+	--background-color-2: hsl(0, 17%, 95%);
 	--text-color: black;
-	--primary-color: #c76771;
+	--primary-color: #cf5c67;
 	--secondary-color: rgb(86.92% 69.97% 0%); /* Gold with less luminance */
 	--font-stack: Avenir, "Century Gothic", "URW Gothic", sans-serif;
 }
