@@ -6,7 +6,6 @@ let links = {
 	"Events": "events.html",
 	"Resources": "resources.html",
 	"KPMT": "kpmt.html",
-	"Register": "register.html"
 };
 class NavBar extends HTMLUListElement {
 	constructor () {
